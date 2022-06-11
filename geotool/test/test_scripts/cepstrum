@@ -1,0 +1,81 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/DPRK_test.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file query="select * from wfdisc where sta='MK32' and chan='SHZ'"
+
+set i=103,302,922,1023,2345,2935,3525,3559
+
+set d=5.035065,5.247515,0.403655,4.780125,4.71639,9.029125,-1.295945,-1.210965
+setb ok=true
+foreach(i)
+    if(wave[1].seg[1].data[i] != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "cepstrum input data has changed"; return; endif
+
+select 1
+
+cepstrum.smoothing_npass=1
+cepstrum.smoothing_width=0.2
+cepstrum.low_frequency=2.0
+cepstrum.high_frequency=20.
+cepstrum.guard1=0.1
+cepstrum.average_bandwidth1=4.0
+cepstrum.tpass=1.0
+cepstrum.detrend=0
+cepstrum.pulse_delay_min=0.04
+cepstrum.pulse_delay_max=3.0
+cepstrum.guard2=0.1
+cepstrum.average_bandwidth2=0.1
+cepstrum.compute
+
+set i=42,245,413,546,782,1024,1256,1532
+
+set d=157.12,160.42,34.18,1058.94,18.67,26.66,35.16,13.73
+setb ok=true
+foreach(i)
+    sprint s cepstrum.spectrum[i](%.2f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "cepstrum test 1 OK"
+else; print "cepstrum test 1 failed"; endif
+
+set d=0.4879,0.2016,0.1247,0.8674,0.1009,0.1283,0.195,0.1293
+setb ok=true
+foreach(i)
+    sprint s cepstrum.smoothed[i](%.4f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "cepstrum test 2 OK"
+else; print "cepstrum test 2 failed"; endif
+
+set d=0.0566,0.0586,0.2264,-0.6664,0.4149,0.1351,-0.1619,-0.2416
+setb ok=true
+foreach(i)
+    sprint s cepstrum.detrended[i](%.4f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "cepstrum test 3 OK"
+else; print "cepstrum test 3 failed"; endif
+
+set i=5,17,34,45,66,93
+set d=0.21101,0.25793,0.93186,-0.07705,0.35558,-0.13029
+setb ok=true
+foreach(i)
+    sprint s cepstrum.inverse[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "cepstrum test 4 OK"
+else; print "cepstrum test 4 failed"; endif
+
+set d=0.15,0.45,0.875,1.15,1.675,2.35
+setb ok=true
+foreach(i)
+    if(cepstrum.delay[i] != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "cepstrum test 5 OK"
+else; print "cepstrum test 5 failed"; endif

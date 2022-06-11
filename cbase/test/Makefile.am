@@ -1,0 +1,18 @@
+SPLINTADD = @SPLINTFLAGS@ $(CPPFLAGS)
+
+AM_CPPFLAGS = @EXTRA_CPPFLAGS@ @STDTIME_INCLUDES@
+AM_CFLAGS = @EXTRA_CFLAGS@
+AM_LDFLAGS = @EXTRA_LDFLAGS@
+
+noinst_PROGRAMS = cbasetest
+# LIBRARY_LDADD=-static
+
+cbasetest_LDADD = @STDTIME_LIBS@
+cbasetest_DEPENDENCIES = @LIBSTDTIME@
+cbasetest_SOURCES = cbasetest.c
+
+
+noinst_HEADERS =
+
+splint:
+	splint $(SPLINTADD) -I. -I$(top_srcdir) $(SOURCES)

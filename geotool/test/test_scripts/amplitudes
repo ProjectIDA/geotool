@@ -1,0 +1,176 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/test.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file 
+
+# Set amplitude measurement parameters (these are the default values)
+alias ap = amplitude_parameters
+ap.mb_amptype          "A5/2"
+ap.mb_phases              "P"
+ap.mb_dist_min          20.0
+ap.mb_dist_max         105.0
+ap.mb_lead               0.5
+ap.mb_length             7.0
+ap.mb_taper_frac       0.050
+ap.mb_filter_margin     10.0
+ap.mb_filter_type        "BP"
+ap.mb_filter_locut      0.80
+ap.mb_filter_hicut      4.50
+ap.mb_filter_order         3
+ap.mb_filter_zp         true
+ap.mb_amp_threshold1    15.0
+ap.mb_amp_threshold2    25.0
+ap.mb_amp_threshold3    80.0
+ap.mb_amp_threshold4     2.0
+ap.mb_amp_threshold5    10.0
+ap.mb_amp_threshold6    97.0
+ap.allowed_hp_ratio      2.0
+ap.allowed_lp_ratio      1.2
+ap.mb_allow_counts     false
+ap.mb_counts_amptype "hpp_cnt"
+
+if(origin.size() > 0)
+    origins.select_all
+    origins.delete
+endif
+
+if(arrival.size() > 0)
+    arrivals.select_all
+    arrivals.delete
+endif
+
+select sta='GEA1' chan='SHZ'
+add_arrival time=1160358423.24 phase='P' sel_wave[1]
+
+deselect_all
+select sta='PD01' chan='sz'
+add_arrival time=1160358464.45 phase='P' sel_wave[1]
+
+deselect_all
+select sta='FITZ' chan='BHZ'
+add_arrival time=1160358330.01 phase='P' sel_wave[1]
+
+deselect_all
+select sta='VRAC' chan='BHZ'
+add_arrival time=1160358412.11 phase='P' sel_wave[1]
+
+if(arrival.size() != 4); print "magnitude test 1 failed";
+else; print "magnitude test 1 OK"; endif
+
+set s = 2.265,2.605,2.221,3.342
+foreach(arrival, a)
+    sprint d a.deltim(%.3f)
+    if(d != s[for_index])
+	print "computation of deltim has changed for arrival " a.sta "/" a.chan
+    endif
+endfor
+
+set s = 46.64,9.70,101.38,274.74
+foreach(arrival, a)
+    sprint d a.azimuth(%.2f)
+    if(d != s[for_index])
+	print "computation of azimuth has changed for arrival " a.sta "/" a.chan
+    endif
+endfor
+
+set s = 4.26,5.32,58.71,8.62
+foreach(arrival, a)
+    sprint d a.delaz(%.2f)
+    if(d != s[for_index])
+	print "computation of delaz has changed for arrival " a.sta "/" a.chan
+    endif
+endfor
+
+set s = 4.96,2.93,4.81,20.99
+foreach(arrival, a)
+    sprint d a.slow(%.2f)
+    if(d != s[for_index])
+	print "computation of slowness has changed for arrival " a.sta "/" a.chan
+    endif
+endfor
+
+set s = 0.369,0.272,4.714,3.155
+foreach(arrival, a)
+    sprint d a.delslo(%.3f)
+    if(d != s[for_index])
+	print "computation of delslo has changed for arrival " a.sta "/" a.chan
+    endif
+endfor
+
+set s = 1.81,1.11,1.93,0.38
+foreach(arrival, a)
+    sprint d a.snr(%.2f)
+    if(d != s[for_index])
+	print "computation of snr has changed for arrival " a.sta "/" a.chan
+    endif
+endfor
+
+print "magnitude test 2 OK"
+
+locate_event.reload
+locate_event.locate
+
+if(locate_event.status != 0)
+    print "locate_event failed"
+    return
+endif
+
+locate_event.save
+
+if(origin.size() != 1); print "location failed"; return; endif
+
+sprint s origin[1].lat(%.2f)
+if(s != 41.31); print "location lat has changed"; endif
+
+sprint s origin[1].lon(%.2f)
+if(s != 129.01); print "location lon has changed"; endif
+
+sprint s origin[1].depth(%.2f)
+if(s != 0.0); print "location depth has changed"; endif
+
+print "magnitude test 3 OK"
+
+arrivals.select_all
+
+arrivals.measure_mb
+
+if(amplitude.size() != 4); print "measure amplitudes failed"; return; endif
+
+set s = 0.56,0.77,1.16,2.2
+foreach(amplitude, a)
+    sprint d a.amp(%.2f)
+    if(d != s[for_index])
+	print "computation of amp has changed for amplitude " for_index
+    endif
+endfor
+
+set s = 0.68,0.69,0.64,0.61
+foreach(amplitude, a)
+    sprint d a.per(%.2f)
+    if(d != s[for_index])
+	print "computation of period has changed for amplitude " for_index
+    endif
+endfor
+
+arrivals.compute_magnitudes
+
+if(stamag.size() < 4); print "compute stamags failed"; return; endif
+
+set s = 3.73,3.91,3.98,4.36
+foreach(stamag, a)
+    sprint d a.magnitude(%.2f)
+    if(d != s[for_index])
+	print "computation of magnitude has changed for " a.sta
+    endif
+endfor
+
+if(netmag.size() < 1); print "compute netmag failed"; return; endif
+
+sprint mag netmag[1].magnitude(%.2f)
+if(mag == 3.99); print "magnitude test 4 OK"
+else; print "magnitude test 4 failed"; endif

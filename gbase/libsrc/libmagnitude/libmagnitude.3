@@ -1,0 +1,184 @@
+.TH libmagnitude 3 "date"
+.SH NAME
+
+libmagnitude - Provides functions for determining event magnitudes.
+
+.SH SYNOPSIS
+.nf
+.ta 8 16 24 32
+#include "libmagnitude.h"
+
+MAGNITUDE *copy_magnitudes (MAGNITUDE *in_magnitude, int num_mag_records)
+
+void free_magnitudes (MAGNITUDE *magnitude, int num_mag_records)
+
+int calc_mags (MAGNITUDE *magn_ptr, int num_mags, Origin *origin,
+Mag_Params *mag_params)
+
+MAGNITUDE *build_mag_obj (char **list_of_magtypes, int num_magtypes,
+Origin *origin, Netmag *in_netmag, int num_netmags, Stamag *in_stamag,
+int num_stamags, Amplitude *det_amplitude, int num_det_amps, Amplitude
+*ev_amplitude, int num_ev_amps, Assoc *in_assoc, int num_assocs, Parrival
+*in_parraival, int num_parrivals)
+
+int setup_mag_facilities (char *tl_model_filename, char *mdf_filename,
+char **list_of_magtypes, int num_magtypes, Site *sites, int num_sites)
+
+int setup_mc_tables (char *tl_model_filename, char *mdf_filename,
+char **list_of_magtypes, int num_magtypes, Site *sites, int num_sites)
+
+int read_mdf (char *mdf_filename, char **list_of_magtypes,
+int num_req_magtypes, Mag_Descrip **mag_descrip_ptr, int *num_md,
+Mag_Sta_TLType **mag_sta_tltype_ptr, in *num_mst, TL_PT **list_of_TLtypes)
+
+int read_tl_table (char *dir_pathway, char *TLtype, char *tl_model,
+char *phase, char *chan, TL_Table **tl_table_ptr)
+
+double station_magnitude (char *magtype, char *sta, char *phase, char *chan,
+Bool extrapolate, char *ts_region, double distance, double ev_depth,
+double amp, double per, double duration, double snr, SM_Info *sm_info)
+
+double abbrev_sta_mag (char *magtype, char *sta, char *phase, char *chan,
+double distance, double ev_depth, double amp, double per, double duration)
+
+int read_tlsf (char *tl_model_filename, TL_Pt *list_of_TLtypes,
+Site *sites, int num_sites)
+
+double interp_for_tl_value (double distance, double ev_depth, int tl_index,
+Bool extrapolate, double *tl_deriv, int *interp_code)
+
+char *TL_error_msg (int error_code)
+
+char *mag_error_msg (int error_code)
+
+int get_mag_indexes (char *magtype, char *sta, char *phase, char *chan,
+int *sta_index, int *stm_index, int *tlmd_index, int *md_index,
+int *mst_index)
+
+int get_TL_indexes (char *TLtype, char *sta, char *phase, char *chan,
+int *sta_index, int *stm_index, int *tlmd_index)
+
+Bool get_TLMD_index (char *TLtype)
+
+double get_tl_model_error (int tl_index, double delta, double depth,
+char *model)
+
+double get_meas_error (double snr)
+
+Bool valid_phase_for_TLtype (char *TLtype, char *phase)
+
+Bool valid_range_for_TLtable (char *TLtype, char *sta, char *phase,
+char *chan, double delta, double ev_depth)
+
+Bool get_TL_ts_corr (char *ts_region, char *sta, char *TLtype, int tl_index,
+double *ts_corr)
+
+int set_sta_TL_pt (Site *sites, int num_sites)
+
+Mag_Params initialize_mag_params (void)
+
+Bool get_magtype_features (char *magtype, Mag_Cntrl *mag_cntrl)
+
+int reset_amptypes (char *magtype, char *det_amptype, char *ev_amptype)
+
+int reset_algorithm (char *magtype, int algo_code)
+
+int reset_min_dist (char *magtype, double dist_min)
+
+int reset_max_dist (char *magtype, double dist_max)
+
+int reset_sd_limits (char *magtype, double sglim1, double sglim2)
+
+int reset_sd_baseline (char *magtype, double sdbase)
+
+int reset_wgt_ave_flag (char *magtype, Bool apply_wgt)
+
+int revert_amptypes (char *magtype)
+
+int revert_algorithm (char *magtype)
+
+int revert_min_dist (char *magtype)
+
+int revert_max_dist (char *magtype)
+
+int revert_sd_limits (char *magtype)
+
+int revert_sd_baseline (char *magtype)
+
+int revert_wgt_ave_flag (char *magtype)
+
+SM_Info initialize_sm_info (void)
+
+void free_tl_table (void)
+
+double get_delta_for_sta (char *sta, double ev_lat, double ev_lon)
+.fi
+
+.SH DESCRIPTION
+
+Libmagnitude provides functions for determining network-averaged and
+maximum-likelihood estimated (MLE) mb, Ms, ML and other magnitude
+types as specified in the Magnitude Description File (MDF).  The MDF
+is the primary mechanism by which all magnitude definitions
+(descriptions) are specified including valid amptypes and distance
+ranges, magnitude algorithms, weighting, and error bounding
+restrictions.  Library components compute station magnitudes
+using amplitude-distance (attenuation) correction tables.  Regionalized
+attenuation information may be specified in the MDF on a station/phase
+basis and grouped together to form a network magnitude.  Both
+detection-based and event-based amplitude measures can be grouped
+together for applicable magnitude determinations.  MLE determinations
+are most meaningful when event-based measures are available, since
+they provide upper-bound estimates for amplitudes with SNR's below
+the detection threshold.
+
+.SH RETURN VALUES
+The following values may be returned to the calling program.
+.TP 10
+SUCCESS	
+.IP 0
+Magnitude: Successful magnitude computed
+
+.TP 10
+FAILURE	
+.IP -1
+Station weights not available for computing weighted averages
+.IP 1
+MDreadErr1: Cannot open MDF
+.IP 2
+MDreadErr2: MDF incorrectly formatted
+.IP 3
+MDreadErr3: No matching TLtype found for info specified in TLSF
+.IP 4
+MDreadErr4: Error allocating memory while reading mag info
+.IP 5
+SSgetErr1: No input site table info available for Sta_Pt
+.IP 6
+SSgetErr2: Error allocating memory while trying to set Sta_Pt info
+.IP 7
+NetMagErrX: Cannot set Sta_Pt structure.  Site table likely missing
+.IP 1
+TLreadWarn1: A requested TL file was not found
+.IP 2
+TLreadErr1: Cannot open TLSF
+.IP 3
+TLreadErr2: TLSF incorrectly formatted
+.IP 4
+TLreadErr3: No TL tables could be found
+.IP 5
+TLreadErr4: TL table incorrectly formatted
+.IP 6
+TLreadErr5: TL modelling error table incorrectly formatted
+.IP 7
+TLreadErr6: TL test-site correction file incorrectly formatted
+.IP 8
+TLreadErr7: Error allocating memory while reading TL info
+
+.SH SEE ALSO
+
+.BR EvLoc (1)
+
+.SH AUTHORS
+Doug Brumbaugh and Walter Nagy, SAIC Monitoring Systems Operation,
+San Diego, CA
+.br

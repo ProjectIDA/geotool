@@ -1,0 +1,76 @@
+View.create name="Align on Phase..." type="Button"       # add a button to the View menu
+View.align_on_phase.activateCallback="align_popup.open"  # the button will open the align_popup
+
+# create a popup window of type FormDialog
+create name="align_popup" type="FormDialog" title="Align On Phase"
+
+# create a contain component
+align_popup.create name="controls" type="RowColumn" args={
+        leftAttachment:ATTACH_FORM
+        leftOffset:5
+        rightAttachment:ATTACH_FORM
+        bottomAttachment:ATTACH_FORM
+        bottomOffset:5
+        orientation:HORIZONTAL
+}
+
+# create a button that will close the window
+align_popup.controls.create name="Close" type="Button"
+align_popup.controls.Close.activateCallback="align_popup.close"
+
+# create a separator which is a horizontal line
+align_popup.create name="sep" type="Separator" args={
+        leftAttachment:ATTACH_FORM
+        rightAttachment:ATTACH_FORM
+        bottomAttachment:ATTACH_WIDGET
+        bottomWidget:controls
+}
+
+# create a Choice component (optionMenu) with two choices
+align_popup.create name="choice" type="Choice" choices="observed,predicted" args={
+        topAttachment:ATTACH_FORM
+        topOffset:5
+        leftAttachment:ATTACH_FORM
+        leftOffset:5
+        rightAttachment:ATTACH_FORM
+}
+
+# The callback for the Choice component. This script is interpreted
+# when the choice is changed.
+align_popup.choice.activateCallback={
+    if(align_popup.list.num_selected > 0)         # if a phase is selected
+        if(align_popup.choice.value == "observed")         # if the choice is "observed"
+            align_on_phase align_popup.list.get_selected
+        else                                               # else the choice is predicted
+            align_on_predicted_phase align_popup.list.get_selected
+        endif
+    endif
+}
+
+align_popup.create name="list" type="List" args={
+        topAttachment:ATTACH_WIDGET
+        topWidget:choice
+        topOffset:5
+        bottomAttachment:ATTACH_WIDGET
+        bottomWidget:sep
+        leftAttachment:ATTACH_FORM
+        leftOffset:5
+        rightAttachment:ATTACH_FORM
+        selectionPolicy:SINGLE_SELECT
+        visibleItemCount:7
+        itemCount:7
+        items:FirstP,P,Pn,Pg,S,Sn,Lg
+}
+
+# The callback for the List component. This script is interpreted
+# when a phase is selected from the List. It is the same callback
+# as the Choice callback.
+align_popup.list.singleSelectionCallback {
+    if(align_popup.list.num_selected > 0)         # if a phase is selected
+        if(align_popup.choice.value == "observed")         # if the choice is "observed"
+            align_on_phase align_popup.list.get_selected
+        else                                               # else the choice is predicted
+            align_on_predicted_phase align_popup.list.get_selected
+        endif
+    endif
+}

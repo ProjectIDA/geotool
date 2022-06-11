@@ -1,0 +1,60 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/ASAR.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file query="select * from wfdisc where sta like 'AS' and chan='SHZ'"
+select_all
+
+create_beam.slowness_units="s/deg"
+create_beam.slowness=23.3
+create_beam.azimuth=185.8
+create_beam.beam_filter="on"
+create_beam.low=1.5
+create_beam.high=4.5
+create_beam.order=3
+create_beam.type="BP"
+create_beam.constraint="causal"
+create_beam.replace=true
+create_beam.beam
+
+n = wave.size()    # the index of the beam
+
+set i=45,135,859,994,1124,1525,1623,1835
+
+set d=0.01663,0.00076,-0.10127,-0.15519,-0.05387,-0.00370,0.20826,0.08002
+setb ok=true
+foreach(i)
+    sprint s wave[n].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "create_beam test 1 OK"
+else; print "create_beam test 1 failed"; endif
+
+beam azimuth=173.2 slowdeg=6.3 low=1.0 high=4.0 order=3 type="BP" zp=false replace=true
+
+set d=-0.00105,0.16452,-0.11442,-0.14141,0.10209,-0.02389,0.00116,0.06928
+setb ok=true
+foreach(i)
+    sprint s wave[n].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "create_beam test 2 OK"
+else; print "create_beam test 2 failed"; endif
+
+beam arrival[1]
+n = wave.size()    # the index of the beam
+
+set d=0.000430,0.009510,-0.047409,-0.123010,-0.001076,-0.066943,-0.084196,-0.054791
+setb ok=true
+foreach(i)
+    sprint s wave[n].seg[1].data[i](%.6f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "create_beam test 3 OK"
+else; print "create_beam test 3 failed"; endif
+
+clear

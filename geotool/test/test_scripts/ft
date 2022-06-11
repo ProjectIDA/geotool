@@ -1,0 +1,67 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/DPRK_test.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file query="select * from wfdisc where sta='MK32' and chan='SHZ'"
+
+set i=103,302,922,1023,2345,2935,3525,3559
+
+set d=5.035065,5.247515,0.403655,4.780125,4.71639,9.029125,-1.295945,-1.210965
+setb ok=true
+foreach(i)
+    if(wave[1].seg[1].data[i] != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "ft input data has changed"; return; endif
+
+select 1
+
+ft.x_axis="freq"
+ft.y_axis="Power_Displacement_dB_rel_nm"
+ft.display_data="input_traces"
+ft.demean=true
+ft.instrument=false
+ft.windows.number=1
+ft.windows.overlap=0
+ft.windows.apply
+ft.smooth.width=0
+ft.smooth.apply
+ft.taper="Hanning"
+ft.draw_dc=false;
+ft.compute
+
+set i=103,215,345,462,563,888,1529,1853
+set d=86,741.62,957.09,151.86,6103.64,87.21,544.99,0.19
+setb ok=true
+foreach(i)
+    sprint s ft.entry[1].pow[i](%.2f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "ft test 1 OK"
+else; print "ft test 1 failed"; endif
+
+set d=-42.95,-61.59,-35.98,10.29,51.52,-48.99,116.16,23.25
+setb ok=true
+foreach(i)
+    sprint s ft.entry[1].phase[i](%.2f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "ft test 2 OK"
+else; print "ft test 2 failed"; endif
+
+ft.windows.number=70
+ft.windows.overlap=50
+ft.windows.apply
+
+set i=5,15,23,34,47,51,59,63
+set d=800.914,467.918,329.466,1115.167,698.985,444.778,1.171,0.006
+setb ok=true
+foreach(i)
+    sprint s ft.entry[1].pow[i](%.3f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "ft test 3 OK"
+else; print "ft test 3 failed"; endif

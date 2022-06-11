@@ -1,0 +1,75 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/DPRK_test.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file query="select * from wfdisc where sta='MK32'"
+
+set i=14,451,837,1314,1991,2364,2987,3958
+
+set d=0.38241,2.54940,1.52964,1.93329,2.86808,9.15659,6.77715,5.09880
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "rotation filter: input waveform 1 has changed"; return; endif
+
+set d=6.97412,6.17960,1.50076,1.94216,-6.68721,2.51598,0.04414,0.44140
+setb ok=true
+foreach(i)
+    sprint s wave[2].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "rotation filter: input waveform 2 has changed"; return; endif
+
+set d=-1.75155,-2.68008,-6.14097,-4.72707,-13.65364,-7.78701,-9.89731,-1.30839
+setb ok=true
+foreach(i)
+    sprint s wave[3].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "rotation filter: input waveform 3 has changed"; return; endif
+
+select sta='MK32'
+rotation.rotate azimuth=48.5 incidence=67.
+
+set d=-7.86948,-5.89084,-1.08918,-2.18355,9.56853,2.47506,4.48262,-2.44102
+setb ok=true
+foreach(i)
+    sprint s wave[3].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "rotation test 1 OK"
+else; print "rotation test 1 failed"; endif
+
+rotation.unrotate
+set d=6.97412,6.17960,1.50076,1.94216,-6.68721,2.51598,0.04414,0.44140
+setb ok=true
+foreach(i)
+    if(wave[2].seg[1].data[i] != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "rotation test 2 OK"
+else; print "rotation test 2 failed"; endif
+
+filter low=1.0 high=5.0
+time_window tbeg=arrival[1].time tend=arrival[1].time+1.
+rotation.maximum
+
+set d=0.01273,0.61435,-0.08334,-0.45080,0.27605,0.56576,-1.34271,-0.08491
+setb ok=true
+foreach(i)
+    sprint s wave[3].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "rotation test 3 OK"
+else; print "rotation test 3 failed"; endif
+
+if(rotation.azimuth == 81.32); print "rotation test 4 OK"
+else; print "rotation test 4 failed"; endif
+
+if(rotation.incidence == 57.09); print "rotation test 5 OK"
+else; print "rotation test 5 failed"; endif

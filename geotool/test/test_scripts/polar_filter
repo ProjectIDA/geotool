@@ -1,0 +1,56 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/DPRK_test.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file query="select * from wfdisc where sta='MK32'"
+
+set i=14,451,837,1314,1991,2364,2987,3958
+
+set d=0.38241,2.5494,1.5296,1.9333,2.8681,9.1566,6.7772,5.0988
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "polarization filter: input waveform 1 has changed"; return; endif
+
+set d=6.9741,6.1796,1.5008,1.9422,-6.6872,2.516,0.04414,0.4414
+setb ok=true
+foreach(i)
+    sprint s wave[2].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "polarization filter: input waveform 2 has changed"; return; endif
+
+set d=-1.7515,-2.6801,-6.141,-4.7271,-13.654,-7.787,-9.8973,-1.3084
+setb ok=true
+foreach(i)
+    sprint s wave[3].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "polarization filter: input waveform 3 has changed"; return; endif
+
+select_all
+polarization_filter.order=4
+polarization_filter.low_cut=2.
+polarization_filter.high_cut=5.
+polarization_filter.frequency_cycles=4
+polarization_filter.time_cycles=4
+polarization_filter.azimuth=90.
+polarization_filter.incidence=20.
+polarization_filter.aperture=2
+polarization_filter.scaling=2
+polarization_filter.apply
+
+set d=0.068953,-0.035986,0.054845,-0.321,-0.6353,0.38763,0.057557,0.28094
+setb ok=true
+foreach(i)
+    sprint s wave[4].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "polarization filter test 1 OK"
+else; print "polarization filter test 1 failed"; endif

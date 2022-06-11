@@ -1,0 +1,5086 @@
+=======================================
+Changes in 2.1.46      3 Dec 2013
+========================================
+Ivan Henson
+o) Changed Sac write (from Save As window) to write using the native byte order. Previously use big-endian order always.
+libsrc/libgio/sacWrite.cpp
+o) Changed Sac read to test the binary header for the data byte order. Previously could only read big-endian order.
+libsrc/libgx++/SacSource.cpp
+=======================================
+Changes in 2.1.45      29 Nov 2013
+========================================
+Ivan Henson
+o) Fixed problems caused when adding arrival and there is no write permission to the global lastid file.
+include/BasicSource.h
+include/DataSource.h
+include/TableQuery.h
+include/libgio.h
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgio/cssInput.cpp
+libsrc/libgx++/TQDataSource.cpp
+plugins/libgfk/FK.h
+o) Fixed bug in the Set Menu option of the Add Arrival to waveform popup (right-mouse-press on waveform)
+libsrc/libgx++/WaveformPlot.cpp
+o) Changed the OpenFile behavior to intially display the files for the directory where geotool was started.
+libsrc/libgx++/WaveformWindow.cpp
+o) Fixed parsing bug caused by insufficent array size.
+libsrc/libmotif++/AppParse.cpp
+o) Fixed bug in Locate window Remove Selected Origins option
+plugins/libglc/Locate.cpp
+o) Added Save option to Rotation and Particle Motion windows (to seleted arrival azimuth and incidence fields)
+plugins/libgpm/Motion.h
+plugins/libgpm/Motion.cpp
+plugins/libgrot/Rotate.cpp
+plugins/libgrot/Rotate.h
+o) Fixed bug in OpenFile/List option for seed files.
+include/SeedSource.h
+libsrc/libgx++/OpenFile.cpp
+libsrc/libgx++/SeeSource.cpp
+o) Added "ca" waveform format back. It is needed in RealTime display.
+include/cssio.h
+libsrc/libgio/decomp.cpp
+libsrc/libgio/readDotw.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/BasicSource.cpp
+plugins/libgrt/RTData.cpp
+o) Fixed undefined variable.
+libsrc/libgio/SeeToCss.cpp
+=====================================
+Changes in 2.1.44      20 Nov 2013
+========================================
+Ivan Henson
+o) Fixed y-axes limits in instrument response phase plot for fir responses.
+plugins/libgrsp/Resp.cpp
+=======================================
+Changes in 2.1.43      20 Nov 2013
+========================================
+Ivan Henson
+o) Fixed bug in phase computation in Response plugin. Call to removeTimeShift expecting radians.
+plugins/libgrsp/Resp.cpp
+o) Fixed bug in FAP convolve. Call to unwrap phase expecting radians.
+libsrc/libgresp++/Response.cpp
+=======================================
+Changes in 2.1.42      19 Nov 2013
+========================================
+Ivan Henson
+o) ImportSeedStation now sets the affiliation2, site2, sitechan2, etc files in the TableFiles list.
+o) OridList and Working Orid in Arivals window, etc., works when there is no Origin record, but there
+are Assoc records.
+o) Fixed bug causing crash when reading seed file measuring arrivals amplitude for Mb
+=======================================
+Changes in 2.1.41      04 Nov 2013
+========================================
+Vera Miljanovic
+o) addressed Add Stations enhancements requested by CBT:
+- Ondate and offdate (which are jdates of format YYYYDDD) should be entered as normal dates e.g. DD-MM-YYYY. These will also be used by the sensor table but as epoch time.
+- On Templates, put the title for the panel, as 'Template stations' or 'sample stations'
+- Add 3 component Broadband + 1 vertical short period in the templates
+- On Description, expand the title to "Station description"
+- On Network identifier, expand title to "Affiliation Network Identifier"
+include/AddStation.h
+libsrc/libgx++/AddStation.cpp
+o)added handling of gzFile after CBT report in Suse 12.3
+libsrc/libgx++/GseSource.cpp
+=======================================
+Changes in 2.1.40      13 Oct 2013
+========================================
+Ivan Henson
+o) new code to import station information from seed files and save in CSS formatted files:
+	affiliation, site, sitechan, sensor, instrument, and CSS-formatted response files.
+	Added "Import Seed.." button to the Open File dialog.
+	Added "Import Seed Station..." to the File menu of the file listing window that is
+	displayed by the "List Contents..." button in the Open File dialog.
+include/OpenFile.h
+include/SeedSource.h
+include/SeedToCss.h
+include/gobject++/CssTableClass.h
+include/seed/Blockettes.h
+include/seed/Seed.h
+libsrc/libgio/SeedToCss.cpp
+libsrc/libgx++/OpenFile.cpp
+libsrc/libgx++/SeedSource.cpp
+libsrc/libgx++/TableFiles.cpp
+libsrc/libidcseed/Seed2CssResp.cpp
+new files:
+include/ImportSeedStation.h
+libsrc/libgx++/ImportSeedStation.cpp
+o) new program seedtocss that converts from seed to CSS formatted files:
+	affiliation, site, sitechan, sensor, instrument, and CSS-formatted response files.
+	Also converts seed data to wfdisc and dotw files.
+new file:
+src/seedtocss/seedtocss.cpp
+
+=======================================
+Changes in 2.1.39      1 Oct 2013
+========================================
+Ivan Henson
+o) Fixed bugs in Seed response computation.
+include/ConvolveData.h
+include/Response.h
+libsrc/libgresp++/ConvolveData.cpp
+libsrc/libgresp++/Response.cpp
+libsrc/libgx++/BasicSource.cpp
+plugins/libgft/FtPlot.cpp
+plugins/libgrsp/Resp.cpp
+plugins/libgspectro/Spectro.cpp
+
+o) add new code for conversion of seed to css files
+include/SeedSource.h
+libsrc/libgx++/SeedSource.cpp
+libsrc/libgio/SeedToCss.cpp
+libsrc/libidcseed/Seed2CssResp.cpp
+include/seed/Seed2CssResp.h
+include/SeedToCss.h
+
+o) fixed test script
+test/test_scripts/fkmulti
+
+o) put tab widget in AddStation to make the window smaller
+include/AddStation.h
+libsrc/libgx++/AddStation.cpp
+
+=======================================
+Changes in 2.1.38      23 Aug 2013
+========================================
+Ivan Henson
+o) Fixed data read routines to handle big and little endian. wfdisc datatype:
+	"s4" // big-endian integer
+	"i4" // little-endian integer
+	"s3" // big-endian 3-byte integer
+	"i3" // little-endian 3-byte integer
+	"s2" // big-endian 2-byte integer
+	"i2" // little-endian 3-byte integer
+	"t4" // big-endian float
+	"f4" // little-endian 4-byte float
+Dotw data is now saved in the current machine order in cssWriteDotw().
+o) Added partial work on seed to CSS response conversion in SeedSource.cpp
+=======================================
+Changes in 2.1.37      15 Aug 2013
+========================================
+Ivan Henson
+o) Added check for SQL_DECIMAL type in libgODBC. This corresponds to type int.
+o) Added missing initialization of dynamic CssTableClasses to fix the "general" query.
+o) Fixed all compiler warnings on Redhat 6.4. A few were actually bugs.
+=======================================
+Changes in 2.1.36      14 Aug 2013
+========================================
+Ivan Henson
+o) PluginManager searches lib64/plugins (as well as lib/plugins)
+include/motif++/PlugInManager.h
+libsrc/libmotif++/PlugInManager.cpp
+o) Check for ".gz" suffix before using gzip functions (gzdopen, gzread, etc). Use standard FILE, read() if not gzipped. The gzip functions
+can read a file that is not gzipped, but the reads can be much slower for larger binary files. This is for wfdisc-dotw and gse input.
+Changed read loop in GseSource.cpp to increase speed.
+include/cssio.h
+libsrc/libgio/cssio.cpp
+libsrc/libgio/readDotw.cpp
+libsrc/libgx++/GseSource.cpp
+o) removed unused variables. added help lines to WaveformPlot::parseHelp
+libsrc/libgx++/WaveformPlot.cpp
+libsrclibgx++/TableQuery.cpp
+o) bug fixes in Ascii read
+libsrc/libgx++/AscSource.cpp
+libsrc/libgx++/BasicSource.cpp
+o) changed the test script to skip over the Make* files in the directory test/test_scripts
+test/test_geotool.input
+=======================================
+Changes in 2.1.34      18 Feb 2013
+========================================
+Vera Miljanovic
+o)changes due to new version of unixODBc, libCD 4.3.2 and update to RHEL6.4
+configure.ac
+include/libgdb.h	
+libsrc/libgdb/ODBCGetSchema.cpp
+libsrc/libgdb/ODBCGetTableCols.cpp   	
+libsrc/libgdb/ODBCInsertTables.cpp
+libsrc/libgdb/ODBCUpdateTables.cpp
+scripts/Makefile.am	
+plugins/libgrt/RTData.cpp
+	
+Remmy Phiri
+o)change for azimuth
+scripts/init/bulletin_arrivals	
+========================================
+Changes in 2.1.33      18 Feb 2013
+========================================
+Vera Miljanovic
+o) added scripts by Remmy Phiri
+scripts/init/Makefile.am
+scripts/init/bulletin_arrivals	
+scripts_init/bulletin_main
+	
+========================================
+Changes in 2.1.33      08 Feb 2013
+========================================
+Vera Miljanovic
+
+o) Fix so gregion can be accessed as a static flat file table
+libsrc/libgio/FFDatabase.cpp
+	
+o) Code cleanup
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TableViewer.cpp
+	
+========================================
+Changes in 2.1.32       31 Jan 2013
+========================================
+Vera Miljanovic
+
+o) Add Station enhanced with loading of templates support 
+Changed files:	
+libsrc/libgx++/AddStation.cpp	
+include/AddStation.h	
+
+o) Gregion table definition corrected
+Changed files:	
+libsrc/libgobject++/cssTables.cpp  
+
+o) Removed hard-coded strings in favor of constants
+Changed files:	
+libsrc/libgx++/TableViewer.cpp
+
+o)updated tutorial
+doc/GT_032013.pdf	
+doc/Makefile.am
+doc/help_key
+doc/index.html
+	
+========================================
+Changes in 2.1.32       12 Jan 2013
+========================================
+Vera Miljanovic
+o) Add Station enhanced with insert record first in table, check to prevent
+   existing station to be added, and copy station/channel parameters
+
+Changed files:
+include/TableViewer.h
+include/CSSTable.h
+include/AddStation.h
+libsrc/libgx++/CSSTable.cpp
+libsrc/libgx++/TableViewer.cpp
+libsrc/libgx++/AddStation.cpp
+
+========================================
+Changes in 2.1.32       15 Nov 2012
+========================================
+Vera Miljanovic
+
+o)added new functionality "add Local Station" 
+New files:
+libsrc/libgx++/AddStation.cpp	
+include/AddStation.h
+
+Changed files:
+libsrc/libgx++/Makefile.am
+libsrc/libgx++/TableViewer.cpp
+include/Makefile.am
+include/TableViewer.h
+include/WaveformPlot.h
+	
+
+========================================
+Changes in 2.1.32       22 Oct 2012
+========================================
+Riccardo Rubini riccardo.rubini@ctbto.org
+
+o) libsrc/libmotif++/AppParse.cpp
+    - AppParse::callFunc :
+	implemented substr function;
+    - AppParse::printCmd :
+	changes to print and printf 
+	commands to reflect requests by
+	users;
+    - AppParse::PrintCmd, ::formattedPrint :
+	added %6t format as requested by
+	users;
+o) libsrc/libmotif++/AppParse.h
+    - changed interface to AppParse::PrintCmd
+o) libsrc/libmotif++/FileDialog.cpp 
+    - enabled WRITE_FILE for saving text
+     files in the createFileDialog Window.
+o) libsrc/libgx++/WaveformPlot.cpp
+    - WaveformPlot::actionPerformed,
+      WaveformPlot::parseCmd,
+      WaveformPlot::parseVar,
+      WaveformPlot::makePopupMenu, 
+      modified to changed "Output" 
+      caption to "Save as".
+o) libsrc/libgx++/Output.cpp
+    - Output::Output:
+      changed "Output" caption to "Save as".
+o) libsrc/libgx++/WaveformWindow.cpp
+    - WaveformWindow::createInterface,
+      modified caption for output_button.
+o) libsrc/libgio/readDotw.cpp 
+    - cssioReadDotw, changes made to 
+      CD1.0/CD1.1 support code.
+
+========================================
+Changes in 2.1.31       13 March 2011
+========================================
+Vera Miljanovic
+o)changed the Mouse Buttons help keys (horizontal DOWN, UP -> LEFT, RIGHT)	libsrc/libwgets/CPlot.cpp
+o)added new Geotool tutorial	
+doc/GT_201203.pdf	
+========================================
+Changes in 2.1.30       26 May 2011
+========================================
+Vera Miljanovic
+o)changed the Open option to Save
+plugins/libglc/Details.cpp
+o)updated Makefile.am to add /doc as subdirectory
+Makefile.am
+doc/help_key
+========================================
+Changes in 2.1.30       01 April 2011
+========================================
+Vera Miljanovic
+o)fixed FK beaming after aligning
+plugins/libgfk/FK.cpp	
+========================================
+Changes in 2.1.29       01 March 2011
+========================================
+Vera Miljanovic
+o) fixed SegFaults when beaming
+plugins/libgbm/Recipes.cpp
+plugins/libgfk/FK.cpp
+libsrc/libgbeam/beam.cpp	
+o) fixed SegFault when moving the tab in the FK popup
+plugins/libgfk/FK.cpp	
+libsrc/libgbeam/FKData.cpp
+========================================
+Changes in 2.1.28       21 Feb 2011
+========================================
+Vera Miljanovic
+o)added a warning due to Seg.Fault when associating arrival with orid before locating
+plugins/libgarrival/Arrivals.cpp	
+========================================
+Changes in 2.1.27       09 Feb 2011
+========================================
+Vera Miljanovic
+o) added warning in location to constrain depth
+plugins/libglc/Locate.cpp
+o) Converted original C function from ibase/libXcss/window_management.c 
+to C++ method	
+libsrc/libmotif++/Frame.cpp
+include/motif++/Frame.h
+========================================
+Changes in 2.1.26       14 Dec 2010
+========================================
+Vera Miljanovic
+o) implemented ClearCase installation mechanism
+configure.ac
+install-sh-clearcase	
+all Makefile.am's
+========================================
+Changes in 2.1.25       02 Dec 2010
+========================================
+Vera Miljanovic
+o) allow initial calibrated period to be 0.0 in order to calculate magnitude in all cases
+plugins/libgarrival/MeasureAmpPer.cpp
+libsrc/libgx++/WaveformPlot.cpp	
+libsrc/libgx++/BasicSource.cpp
+include/gobject++/GSegment.h
+libsrc/libwgets/CPlot.cpp
+o) implement missing function and fixed bug in universal transverse mercator
+plugins/libgmap/MapWindow.cpp
+plugins/libgmap/MapPlot.cpp
+plugins/libgmap/MapPlot.h	
+========================================
+Changes in 2.1.24       02 Nov 2010
+========================================
+Vera Miljanovic
+o) fixed bug in cepstrum
+libsrc/libgmath/cepstrum.c
+o) fixed display waveforms of channels with lower case letters	
+libsrc/libgobject++/WaveformTag.cpp	
+libsrc/libmotif++/List.cpp	
+o) added warnings for FKbeam for all offending channels	
+libsrc/libgx++/WaveformPlot.cpp 	
+plugins/libgfk/FK.cpp
+o) fixed AutoDRM error in parsing
+libsrc/libgx++/GseSource.cpp	
+o) fixed a problem in RTD	
+plugins/libgrt/RTData.h 	
+=========================================
+Changes in 2.1.23       16 September 2010
+=========================================
+Vera Miljanovic
+o) fixed bug in location map
+plugins/libgmap/MapMeasureForm.cpp	
+====================================
+Changes in 2.1.22       08 September 2010
+====================================
+Vera Miljanovic
+o) fixed location bug and changed order of orids
+plugins/libglc/Locate.cpp	
+o) added warning to fkbeam
+plugins/libgfk/FK.cpp		
+====================================
+Changes in 2.1.22       01 September 2010
+====================================
+Vera Miljanovic
+o) renamed libsrc/libseed to libsrc/libidcseed due to error message/name collision when compiling with OpenSuse 11.3
+o) fixed a bug which crashes geotool when selecting FirstP arrival
+include/TravelTime.h	
+o) implemented the change for Norfy by Marian Harustak
+include/motif++/MotifComp.h		
+====================================
+Changes in 2.1.21       27 July 2010
+====================================
+Vera Miljanovic
+o) fixed large file support (seeking/reading files larger than 2 gigabytes)
+configure.ac
+libsrc/libgio/readDotw.cpp
+libsrc/libgx++/AscSource.cpp
+libsrc/libgx++/SacSource.cpp	
+include/cssio.h	
+====================================
+Changes in 2.1.20       15 July 2010
+====================================
+Vera Miljanovic	
+o) renamed CssTable.h in libgobject++ to CssTableClass.h to avoid conflict with	gbase/libgobject
+o) renamed Css classes in libgobject++ to avoid naming conflict with structures in gbase/libgobject
+o) fixed warning in FK
+o) added back classic C interface methods for libwgets	
+include/Amp.h
+include/AscSource.h
+include/BasicSource.h
+include/CSSTable.h
+include/CreateBeam.h
+include/FFDatabase.h
+include/GseSource.h
+include/MultiTable.h
+include/ResponseFile.h
+include/SacSource.h
+include/SeedSource.h
+include/TableQuery.h
+include/TableSource.h
+include/TableViewer.h
+include/TravelTime.h
+include/Waveform.h
+include/WaveformPlot.h
+include/WaveformView.h
+include/WaveformWindow.h
+include/cssio.h
+include/gobject++/CssTableClass.h
+include/gobject++/CssTables.h
+include/gobject++/DataSource.h
+include/gobject++/GSourceInfo.h
+include/gobject++/GTimeSeries.h
+include/gobject++/SegmentInfo.h
+include/gobject++/cvector.h
+include/libgdb.h
+include/libgio.h
+include/locsat.h
+include/motif++/AppParse.h
+include/motif++/Parse.h
+include/widget/CPlot.h
+include/widget/CPlotClass.h
+include/widget/CPlotP.h
+include/widget/Parser.h
+include/widget/TableAttributes.h
+include/widget/TableListener.h
+include/widget/TtPlotClass.h
+libsrc/libgdb/ODBCGeneralQuery.cpp
+libsrc/libgdb/ODBCInsertTables.cpp
+libsrc/libgdb/ODBCQueryTable.cpp
+libsrc/libgdb/ODBCRequestIds.cpp
+libsrc/libgdb/ODBCUpdateTables.cpp
+libsrc/libgdb/ODBCUtil.cpp
+libsrc/libgio/CheckWfdisc.cpp
+libsrc/libgio/FFDatabase.cpp
+libsrc/libgio/cssInput.cpp
+libsrc/libgio/cssio.cpp
+libsrc/libgio/sacWrite.cpp
+libsrc/libgmath/locsat.cpp
+libsrc/libgmethod++/Waveform.cpp
+libsrc/libgobject++/CssTable.cpp
+libsrc/libgobject++/DataSource.cpp
+libsrc/libgobject++/GSourceInfo.cpp
+libsrc/libgobject++/GTimeSeries.cpp
+libsrc/libgobject++/WaveformTag.cpp
+libsrc/libgobject++/cssTables.cpp
+libsrc/libgresp++/ConvolveData.cpp
+libsrc/libgresp++/Instruments.cpp
+libsrc/libgx++/Amp.cpp
+libsrc/libgx++/AscSource.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/CSSTable.cpp
+libsrc/libgx++/CreateBeam.cpp
+libsrc/libgx++/CssFileDialog.cpp
+libsrc/libgx++/DataValues.cpp
+libsrc/libgx++/Diff.cpp
+libsrc/libgx++/GseSource.cpp
+libsrc/libgx++/Import.cpp
+libsrc/libgx++/MultiTable.cpp
+libsrc/libgx++/OpenDB.cpp
+libsrc/libgx++/OpenFile.cpp
+libsrc/libgx++/OridList.cpp
+libsrc/libgx++/Output.cpp
+libsrc/libgx++/SacSource.cpp
+libsrc/libgx++/SeedSource.cpp
+libsrc/libgx++/TQDataSource.cpp
+libsrc/libgx++/TableFiles.cpp
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TableSource.cpp
+libsrc/libgx++/TableViewer.cpp
+libsrc/libgx++/WaveformConstraint.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libgx++/Waveforms.cpp
+libsrc/libgx++/ffdb.cpp
+libsrc/libgx++/odbc.cpp
+libsrc/libmotif++/AppParse.cpp
+libsrc/libmotif++/Parse.cpp
+libsrc/libwgets/CPlot.cpp
+libsrc/libwgets/CPlotClass.cpp
+libsrc/libwgets/Parser.cpp
+libsrc/libwgets/TableAttributes.cpp
+libsrc/libwgets/TableListener.cpp
+libsrc/libwgets/TtPlot.cpp
+plugins/libgarrival/AmpMag.cpp
+plugins/libgarrival/AmpMag.h
+plugins/libgarrival/Arrivals.cpp
+plugins/libgarrival/Arrivals.h
+plugins/libgarrival/MeasureAmpPer.cpp
+plugins/libgarrival/MeasureAmpPer.h
+plugins/libgarrival/Stassocs.cpp
+plugins/libgarrival/Stassocs.h
+plugins/libgbm/AddGroup.cpp
+plugins/libgbm/Recipes.cpp
+plugins/libgbm/Recipes.h
+plugins/libgbm/Slowness.cpp
+plugins/libgcor/Correlation.cpp
+plugins/libgcor/Correlation.h
+plugins/libgfk/FK.cpp
+plugins/libgfk/FK.h
+plugins/libgftrace/Ftrace.cpp
+plugins/libghp/PolarFilter.cpp
+plugins/libglc/Locate.cpp
+plugins/libglc/Locate.h
+plugins/libgmap/MapWindow.cpp
+plugins/libgorigin/Origins.cpp
+plugins/libgpm/MotionPlot.cpp
+plugins/libgpolar/Polarization.cpp
+plugins/libgrot/Rotate.cpp
+plugins/libgrsp/Resp.cpp
+plugins/libgrsp/Resp.h
+plugins/libgrt/RTChannels.cpp
+plugins/libgrt/RTDisplay.cpp
+plugins/libgrt/RTDisplay.h
+plugins/libgspectro/Spectro.cpp
+plugins/libgspectro/Spectro.h
+plugins/libgstlt/StaLta.cpp
+plugins/libgstlt/StaLta.h
+
+====================================
+Changes in 2.1.19       08 July 2010
+====================================
+Vera Miljanovic	
+o)fixed Amplitudes crash
+plugins/libgarrival/AmpMag.cpp
+o)fixed ftrace crash after selecting 1 waveform
+plugins/libgftrace/Ftrace.cpp
+libsrc/libgbeam/ftrace.cpp	
+====================================
+Changes in 2.1.19       18 June 2010
+====================================
+Vera Miljanovic	
+o)changes to improve FK	and saving data in CSS
+plugins/libgfk/FK.cpp
+plugins/libgfk/FK.h	
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgobject++/CssTable.cpp
+include/gobject++/CssTable.h
+libsrc/libgx++/GseSource.cpp	
+====================================
+Changes in 2.1.19       18 June 2010
+====================================
+Ivan Henson
+o) Changes to improve speed of initial data read.
+Used 'valgrind --tool=callgrind geotool' and callgrind_annotate to find
+slow routines.
+o) Fixed bug: added check for ondate,offset in getSites() and set jdate in
+SegmentList object for all formats.
+include/gobject++/CssTable.h
+include/gobject++/Gobject.h
+include/gobject++/GTimeSeries.h
+include/gobject++/gvector.h
+libsrc/libgbeam/beam.cpp
+libsrc/libgio/asciiWrite.cpp
+libsrc/libgio/decomp.cpp
+libsrc/libgio/sacWrite.cpp
+libsrc/libgmath/validData.c
+libsrc/libgmethod++/AmpData.cpp
+libsrc/libgmethod++/CalibData.cpp
+libsrc/libgmethod++/Demean.cpp
+libsrc/libgmethod++/OffsetData.cpp
+libsrc/libgmethod++/RotateData.cpp
+libsrc/libgobject++/CssTable.cpp
+libsrc/libgobject++/GObject.cpp
+libsrc/libgobject++/GSegment.cpp
+libsrc/libgobject++/GTimeSeries.cpp
+libsrc/libgx++/GseSource.cpp
+plugins/libgarrival/Arrivals.cpp
+plugins/libgcor/tsCorrelate.cpp
+plugins/libgrt/RTDisplay.cpp
+====================================
+Changes in 2.1.18       17 June 2010
+====================================
+Ivan Henson
+o) Changes for Pmcc.
+o) Changed computation of ftrace in FK to occur only with mouse-up event when
+dragging cursor after auto-compute.
+include/motif++/Component.h
+include/motif++/StatusDialog.h
+include/WaveformView.h
+include/widget/CPlotClass.h
+include/widget/TabClass.h
+include/widget/Tab.h
+include/widget/TabP.h
+libsrc/libgx++/WaveformView.cpp
+libsrc/libwgets/CPlot.cpp
+libsrc/libwgets/Tab.c
+plugins/libgfk/FK.cpp
+plugins/libgfk/FK.h
+plugins/libgfk/FkSignal.cpp
+plugins/libgpolar/Polarization.cpp
+====================================
+Changes in 2.1.17       15 June 2010
+====================================
+Vera Miljanovic
+o)fixed duplication bug
+plugins/libgarrival/Arrivals.cpp
+o)fixed FK bug
+plugins/libgfk/FK.cpp
+o)fixed readline bug
+configure.ac
+====================================
+Changes in 2.1.16	08 June 2010
+====================================
+Ivan Henson
+o) Put check to prevent multiple add arrival events from addKeyArrival.
+libsrc/libwgets/CPlotClass.cpp
+libsrc/libwgets/CPlot.cpp
+plugins/libgfk/FK.cpp
+plugins/libgspectro/Spectro.cpp
+====================================
+Changes in 2.1.15	06 June 2010
+====================================
+Ivan Henson
+o) Bug fixes and small changes
+libsrc/libgio/asciiWrite.cpp
+libsrc/libgio/cssInput.cpp
+libsrc/libgio/sacWrite.cpp
+libsrc/libgx++/CSSTable.cpp
+libsrc/libgx++/DataValues.cpp
+libsrc/libgx++/odbc.cpp
+libsrc/libgx++/OpenFile.cpp
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TQDataSource.cpp
+libsrc/libgx++/WaveformSetup.cpp
+libsrc/libmotif++/AppParse.cpp
+libsrc/libwgets/CPlotClass.cpp
+plugins/libgfk/FK.cpp
+plugins/libgmap/MapWindow.cpp
+plugins/libgmap/MapWindow.h
+plugins/libgrsp/Resp.cpp
+====================================
+Changes in 2.1.14	31 May 2010
+====================================
+Ivan Henson
+o) Added demean before all filters.
+o) Added sub-menus to Option menu
+o) Fixed response code to read all instruments responses.
+o) Bug fixes.
+include/Filter.h
+include/motif++/AppParse.h
+include/TaperWindow.h
+include/Waveform.h
+include/WaveformPlot.h
+include/WaveformWindow.h
+libsrc/libgio/FFDatabase.cpp
+libsrc/libgmethod++/TaperData.cpp
+libsrc/libgmethod++/Waveform.cpp
+libsrc/libgobject++/DataMethod.cpp
+libsrc/libgresp++/Response.cpp
+libsrc/libgresp++/ResponseFile.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/AscSource.cpp
+libsrc/libgx++/Filter.cpp
+libsrc/libgx++/GseSource.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libmotif++/Application.cpp
+libsrc/libmotif++/AppParse.cpp
+libsrc/libmotif++/PlugInManager.cpp
+libsrc/libwgets/CPlot.cpp
+libsrc/libwgets/MmTable.cpp
+plugins/libgbm/libgbm.cpp
+plugins/libgbm/Recipes.cpp
+plugins/libgcepstrum/GCepstrum.cpp
+plugins/libgcepstrum/libgcepstrum.cpp
+plugins/libgcluster/libgcluster.cpp
+plugins/libgcor/libgcor.cpp
+plugins/libgfk/FK.cpp
+plugins/libgfk/libgfk.cpp
+plugins/libgft/libgft.cpp
+plugins/libgftrace/libgftrace.cpp
+plugins/libghp/HilbertTransform.cpp
+plugins/libghp/HilbertTransform.h
+plugins/libghp/libghp.cpp
+plugins/libgmccc/libgmccc.cpp
+plugins/libgpm/libgpm.cpp
+plugins/libgpm/MotionPlot.cpp
+plugins/libgpolar/libgpolar.cpp
+plugins/libgpolar/Polarization.cpp
+plugins/libgrot/libgrot.cpp
+plugins/libgrt/libgrt.cpp
+plugins/libgrt/RTDisplay.cpp
+plugins/libgselfscan/libgselfscan.cpp
+plugins/libgspectro/libgspectro.cpp
+plugins/libgspectro/Spectro.cpp
+plugins/libgstlt/libgstlt.cpp
+plugins/libgstlt/StaLta.cpp
+test/test_scripts/beam
+test/test_scripts/filter
+test/test_scripts/polarization
+test/test_scripts/rotation
+====================================
+Changes in 2.1.13	27 May 2010
+====================================
+Ivan Henson
+o) Bug fixes.
+include/BasicSource.h
+include/gobject++/DataSource.h
+include/OridList.h
+include/TableSource.h
+libsrc/libgdb/ODBCUpdateTables.cpp
+libsrc/libgobject++/CssTable.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/OpenDB.cpp
+libsrc/libgx++/OridList.cpp
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TableSource.cpp
+libsrc/libgx++/TableViewer.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libmotif++/Frame.cpp
+libsrc/libmotif++/Info.c
+plugins/libgarrival/MeasureAmpPer.cpp
+plugins/libgarrival/MeasureAmpPer.h
+plugins/libgfk/FK.cpp
+plugins/libglc/Locate.cpp
+plugins/libgrt/RTChannels.cpp
+plugins/libgrt/RTStatus.cpp
+====================================
+Changes in 2.1.12	24 May 2010
+====================================
+Ivan Henson
+o) Fixed bug that caused database connection to fail.
+o) Fixed bug in TableQuery Review Origins
+o) Added OpenFile "Settings" popup.
+include/motif++/FileDialog.h
+include/OpenFile.h
+include/TableQuery.h
+libsrc/libgbeam/beam.cpp
+libsrc/libgdb/ODBCConnect.cpp
+libsrc/libgobject++/CssTable.cpp
+libsrc/libgx++/OpenFile.cpp
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TQDataSource.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libmotif++/FileDialog.cpp
+plugins/libgarrival/Arrivals.cpp
+plugins/libgcor/Correlation.cpp
+plugins/libgfk/FK.cpp
+plugins/libgfk/FK.h
+====================================
+Changes in 2.1.11	21 May 2010
+====================================
+Ivan Henson
+o) Fixed Ftrace so that if will use cb beam elements when only one waveform
+is selected.
+o) Fixed bugs.
+include/cssio.h
+include/OpenDB.h
+include/TableQuery.h
+include/WaveformSetup.h
+libsrc/libgio/cssio.cpp
+libsrc/libgio/FFDatabase.cpp
+libsrc/libgio/readDotw.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/odbc.cpp
+libsrc/libgx++/OpenDB.cpp
+libsrc/libgx++/SeedSource.cpp
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TableViewer.cpp
+libsrc/libgx++/TQDataSource.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformSetup.cpp
+libsrc/libmotif++/AppParse.cpp
+libsrc/libwgets/CPlot.cpp
+libsrc/libwgets/TtPlot.cpp
+plugins/libgarrival/Arrivals.cpp
+plugins/libgftrace/Ftrace.cpp
+plugins/libgftrace/Ftrace.h
+====================================
+Changes in 2.1.10	18 May 2010
+====================================
+Ivan Henson
+o) Fixed SAC I/O problems. Simplified SegmentInfo interface. The following files
+are have been removed.
+include/CssSegmentInfo.h
+include/GseSegmentInfo.h
+include/SacSegmentInfo.h
+include/SeedSegmentInfo.h
+include/WaveformIO.h
+Moved SacSource.cpp from libgio to libgx++
+o) Fixed bug that caused Map to fail.
+Files changed:
+include/AscSource.h
+include/BasicSource.h
+include/gobject++/DataSource.h
+include/gobject++/GTimeSeries.h
+include/gobject++/SegmentInfo.h
+include/GseSource.h
+include/Makefile.am
+include/motif++/FileDialog.h
+include/SacSource.h
+include/SeedSource.h
+include/TableQuery.h
+libsrc/libgio/Makefile.am
+libsrc/libgobject++/GTimeSeries.cpp
+libsrc/libgobject++/SegmentInfo.cpp
+libsrc/libgx++/AscSource.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/CssFileDialog.cpp
+libsrc/libgx++/GseSource.cpp
+libsrc/libgx++/Makefile.am
+libsrc/libgx++/OpenFile.cpp
+libsrc/libgx++/SacSource.cpp
+libsrc/libgx++/SeedSource.cpp
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TableSource.cpp
+libsrc/libgx++/TQDataSource.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libmotif++/FileDialog.cpp
+libsrc/libwgets/CPlot.cpp
+plugins/libgmap/MapWindow.cpp
+plugins/libgmap/MapWindow.h
+plugins/libgrt/RTDisplay.cpp
+test/test_scripts/polarization
+====================================
+Changes in 2.1.9	11 May 2010
+====================================
+Ivan Henson
+o) Fixed bug in FFDatabase.cpp
+libsrc/libgio/FFDatabase.cpp
+o) Changes to arrival attribute measurement
+include/ArrivalParams.h
+include/WaveformPlot.h
+include/WaveformView.h
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/ArrivalParams.cpp
+libsrc/libgx++/CSSTable.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgx++/WaveformWindow.cpp
+plugins/libgarrival/Arrivals.cpp
+test/test_scripts/amplitudes
+o) Improvements to Polarization plugin
+plugins/libgpolar/Polarization.cpp
+plugins/libgpolar/Polarization.h
+plugins/libgpolar/PolarParam.cpp
+plugins/libgpolar/PolarParam.h
+====================================
+Changes in 2.1.8	07 May 2010
+====================================
+Ivan Henson
+o) Fixed bug in Table Files window. If the user enters filenames for siteTable2,
+sitechanTable2, etc. these files will now be used.
+o) Added Help button to Preferences
+o) Fixed bug in array arrival attribute calculation.
+o) Removed "Compute Amplitude" button, since it was to confusing. Must choose
+"Compute mb amp" or "Compute ml amp"
+o) Fixed Arrival Keys bug.
+o) Fixed FK taper bug
+include/FFDatabase.h
+include/Preferences.h
+include/WaveformPlot.h
+include/WaveformView.h
+include/widget/CPlot.h
+libsrc/libgio/FFDatabase.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/Preferences.cpp
+libsrc/libgx++/TableFiles.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libwgets/CPlotClass.cpp
+libsrc/libwgets/CPlot.cpp
+plugins/libgarrival/AmpMag.cpp
+plugins/libgarrival/AmpMag.h
+plugins/libgfk/FK.cpp
+====================================
+Changes in 2.1.7	04 May 2010
+====================================
+Ivan Henson
+o) libcssio.h -> cssio.h in plugins/libgrt/RTData.cpp
+====================================
+Changes in 2.1.6	04 May 2010
+====================================
+Ivan Henson
+o) Fixed bug in FileDialog that caused Real Time Display to fail.
+o) Fixed bug in libseed
+o) Changed creation of Table Files window: only one for all WaveformWindow's
+include/motif++/Component.h
+include/motif++/FileDialog.h
+include/motif++/FormDialog.h
+include/seed/SeedTime.h
+include/WaveformWindow.h
+libsrc/libgx++/SeedSource.cpp
+libsrc/libgx++/TableFiles.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libmotif++/AppParse.cpp
+libsrc/libmotif++/FileDialog.cpp
+libsrc/libmotif++/FormDialog.cpp
+libsrc/libmotif++/TextField.cpp
+libsrc/libseed/SeedInput.cpp
+libsrc/libseed/SeedTime.cpp
+plugins/libgbm/Slowness.cpp
+====================================
+Changes in 2.1.5	30 Apr 2010
+====================================
+Ivan Henson
+o) Added ability to select more that one file in the Open File popup.
+include/motif++/FileDialog.h
+include/motif++/UndoManager.h
+include/OpenFile.h
+include/TableQuery.h
+include/TableSource.h
+include/TableViewer.h
+include/WaveformView.h
+include/WaveformWindow.h
+libsrc/libgx++/OpenFile.cpp
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TableSource.cpp
+libsrc/libgx++/TableViewer.cpp
+libsrc/libgx++/TQDataSource.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libmotif++/FileDialog.cpp
+libsrc/libmotif++/UndoManager.cpp
+plugins/libglc/Locate.cpp
+====================================
+Changes in 2.1.4	28 Apr 2010
+====================================
+Ivan Henson
+o) Fixed bugs in libgdataqc. Added "extended" qc option and table listing of
+spikes detected.
+o) Fixed Undo Cut; added Undo Data Delete
+o) Added C++ string and vector usage in many files.
+====================================
+Changes in 2.1.3	12 Apr 2010
+====================================
+Ivan Henson
+o) Added check for divide by zero.
+libsrc/libgbeam/ftrace.cpp
+o) Added Ftrace button to FK window that computes the ftrace with the
+azimuth, slowness, flo and fhi of the selected FK plot.
+====================================
+Changes in 2.1.2	08 Apr 2010
+====================================
+Ivan Henson
+o) Fixed bugs and compiler warnings:
+libsrc/libgmethod++/IIRFilter.cpp
+libsrc/libgbeam/ftrace.cpp
+include/seed/Seed.h
+plugins/libgarrival/AmpMag.cpp
+o) Converted libgselfscan to new use Waveform class
+plugins/libgselfscan/SelfScan.cpp
+plugins/libgselfscan/SelfScan.h
+====================================
+Changes in 2.1.1	07 Apr 2010
+====================================
+Ivan Henson
+o) Converted gbase CssTable structures to C++ classes. Create cvector
+template with special option for hold CssTable objects. Gbase Vector structure
+is no longer used.
+libsrc/libgobject++/CssTable.cpp
+libsrc/libgobject++/cssTables.cpp
+o) Converted gbase libgODBC to use the CssTable class objects
+libsrc/libgdb
+o) Replaced all Numerical Recipes functions with GNU Scientific Library
+This required copying gbase libmath and libgdraw to geotool libgmath and
+libgplot, with some changes, to avoid linking to several gbase libraries
+that are no longer used by geotool. geotool will still compile without
+-lgsl, but will have less functionality than the previous version had when
+compiled without -lgsl.
+
+The gbase libraries that are now linked to the geotool executable are:
+-lloc -lgeog -lcancomp -ltau -ltime -lstring -linterp -laesir -lLP -lshape
+
+The following gbase libraries are linked to geotool plugin libraries:
+libgarrival:	-linterp -lmagnitude -lLP -lloc -lgdetect -lgamp -lgeog -laesir
+libgcal:	-lcalib
+libgdataqc:	-lgqc
+libglc:		-linterp -lloc
+libgmap:	-lgCDF -lshape
+libgrt:		-lparidc -lidcsyslog -lcd
+libgstlt:	-lgstalta
+
+The following gbase libraries are no longer used by geotool or geotool plugins:
+-lsac -lFT -lgdraw -lcssio -lgODBC -lgobject -lmath -lFFDB
+
+The following gbase libraries were not used by the previous version of geotool
+and are still not used by this version:
+libascii libBeam libFK libgcss libgenlist libgmethod libgnet libgparse
+libgresp libgrtd libgse libparidc libver
+
+o) Added ftrace option to Create Beam popup. ftrace is also displayed below
+the beam trace at the bottom of the FK and FK-Multi-Band windows. Ftrace and
+related traces are displayed in a new Ftrace window.
+
+o) Replaced all references to "CPlotDataClass **cd_list" with 
+gvector<Waveform *> &wvec. This eliminates the need for Free(cd_list).
+Converted to C++ vector template in other places also.
+
+o) Created new libsrc/libseed for reading SEED formatted files.
+
+====================================
+Changes in 2.0.30	13 Mar 2010
+====================================
+Vera Miljanovic
+o) added self scanning correlation plugin	
+plugins/libgselfscan/SelfScan.cpp
+plugins/libgselfscan/SelfScan.h
+plugins/libgselfscan/SelfScanParams.cpp
+plugins/libgselfscan/SelfScanParams.h
+plugins/libgselfscan/SelfScanSummary.cpp
+plugins/libgselfscan/SelfScanSummary.h
+plugins/libgselfscan/gselfscan.input
+plugins/libgselfscan/libgselfscan.cpp
+	
+libsrc/libcluster/cluster.c
+libsrc/libcluster/cluster.h
+
+o) fixed bug in database
+libsrc/libmotif++/List.cpp
+
+
+o) fixed bug in ftrace
+plugins/libgftrace/Ftrace.cpp 
+plugins/libgftrace/Ftrace.h		
+	
+====================================
+Changes in 2.0.29	29 January 2010
+====================================
+Ivan Henson
+Many bug fixes and minor changes for gpmcc
+====================================
+Changes in 2.0.28	19 January 2010
+====================================
+Ivan Henson
+o) Change default for write_to_db to false for window=pmcc
+For all other window, the default is still true.
+o) Fixed !XtIsRealized bugs in ConPlot.c and Tab.c
+o) Fixed bug in Table.c
+====================================
+Changes in 2.0.27	18 January 2010
+====================================
+Ivan Henson
+o) Removed function declarations for non-existent functions
+include/CSSTable.h
+o) Fixed bug in right-cursor add arrival menu.
+include/widget/CPlotP.h
+libsrc/libwgets/CPlot.cpp
+o) Added travel time curve color control.
+include/widget/TtPlot.h
+include/widget/TtPlotP.h
+libsrc/libwgets/TtPlot.cpp
+o) Fixed bug in response determination when response file is missing.
+libsrc/libgresp++/ConvolveData.cpp
+libsrc/libgresp++/Instruments.cpp
+o) memory leaks
+libsrc/libgx++/Import.cpp
+libsrc/libgx++/WaveformPlot.cpp
+o) Fixed bugs relating to database table mapping
+libsrc/libgx++/odbc.cpp
+libsrc/libgx++/TableQuery.cpp
+o) Fixed bug in Arrivals remove arrival option.
+plugins/libgarrival/Arrivals.cpp
+o) Fixed bug in MapThemes
+plugins/libgmap/MapThemes.cpp
+o) Fixd bug in Spectrogram when instrument response is removed.
+plugins/libgspectro/Spectro.cpp
+
+====================================
+Changes in 2.0.26	19 October 2009
+====================================
+Ivan Henson
+o) Fixed bugs in ghashtable template.
+	removed libgobject++/ghashtable.cpp
+o) Replaced some "char *" variables with "string",
+fixed variable names to avoid compiler -Wshadow warnings,
+added some copy constructors and "operator=" definitions,
+added some constructor initialization lists.
+include/AmpData.h
+include/BasicMap.h
+include/CPlotDataClass.h
+include/CssSegmentInfo.h
+include/CSSTable.h
+include/DataMethod.h
+include/DataReceiver.h
+include/DataSource.h
+include/gobject++/GArray.h
+include/gobject++/GCoverage.h
+include/gobject++/GDataLoop.h
+include/gobject++/GDataPoint.h
+include/gobject++/ghashtable.h
+include/gobject++/Gobject.h
+include/gobject++/GSegmentArray.h
+include/gobject++/GSegment.h
+include/gobject++/GTimeSeries.h
+include/gobject++/gvector.h
+include/GseSegmentInfo.h
+include/IIRFilter.h
+include/motif++/ActionEvent.h
+include/motif++/Application.h
+include/motif++/AppParse.h
+include/motif++/Component.h
+include/motif++/InfoArea.h
+include/motif++/MotifComp.h
+include/motif++/PlugIn.h
+include/motif++/Warnings.h
+include/Output.h
+include/ResponseFile.h
+include/Response.h
+include/RotateData.h
+include/SacSegmentInfo.h
+include/SegmentInfo.h
+include/TaperData.h
+include/WaveformPlot.h
+include/WaveformTag.h
+include/widget/AxesClass.h
+include/widget/ConPlotClass.h
+include/widget/CPlotClass.h
+include/widget/DialClass.h
+include/widget/HistgmClass.h
+include/widget/Map.h
+include/widget/Table.h
+include/widget/TtPlotClass.h
+libsrc/libgbeam/beamRecipe.cpp
+libsrc/libgbeam/FKData.cpp
+libsrc/libgio/asciiWrite.cpp
+libsrc/libgio/cssInput.cpp
+libsrc/libgio/sacWrite.cpp
+libsrc/libgmethod++/AmpData.cpp
+libsrc/libgmethod++/CalibData.cpp
+libsrc/libgmethod++/CopyData.cpp
+libsrc/libgmethod++/CPlotDataClass.cpp
+libsrc/libgmethod++/CutData.cpp
+libsrc/libgmethod++/DataSource.cpp
+libsrc/libgmethod++/Demean.cpp
+libsrc/libgmethod++/GTimeSeries.cpp
+libsrc/libgmethod++/IIRFilter.cpp
+libsrc/libgmethod++/OffsetData.cpp
+libsrc/libgmethod++/RotateData.cpp
+libsrc/libgmethod++/TaperData.cpp
+libsrc/libgmethod++/TravelTime.cpp
+libsrc/libgmethod++/WaveformTag.cpp
+libsrc/libgobject++/GArray.cpp
+libsrc/libgobject++/GCoverage.cpp
+libsrc/libgobject++/GDataLoop.cpp
+libsrc/libgobject++/GDataPoint.cpp
+libsrc/libgobject++/GObject.cpp
+libsrc/libgobject++/GSegmentArray.cpp
+libsrc/libgobject++/GSegment.cpp
+libsrc/libgobject++/GSourceInfo.cpp
+libsrc/libgobject++/SegmentInfo.cpp
+libsrc/libgresp++/ConvolveData.cpp
+libsrc/libgresp++/Instruments.cpp
+libsrc/libgresp++/Response.cpp
+libsrc/libgresp++/ResponseFile.cpp
+libsrc/libgx++/AmplitudeParams.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/ArrivalKeyTable.cpp
+libsrc/libgx++/ArrivalParams.cpp
+libsrc/libgx++/AscSource.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/ColorSelection.cpp
+libsrc/libgx++/ColorTable.cpp
+libsrc/libgx++/CreateBeam.cpp
+libsrc/libgx++/CssFileDialog.cpp
+libsrc/libgx++/CSSTable.cpp
+libsrc/libgx++/DataValues.cpp
+libsrc/libgx++/Diff.cpp
+libsrc/libgx++/Filter.cpp
+libsrc/libgx++/Fonts.cpp
+libsrc/libgx++/FrameTable.cpp
+libsrc/libgx++/GseSource.cpp
+libsrc/libgx++/History.cpp
+libsrc/libgx++/Iaspei.cpp
+libsrc/libgx++/KeyActions.cpp
+libsrc/libgx++/MultiTable.cpp
+libsrc/libgx++/OpenDB.cpp
+libsrc/libgx++/OpenFile.cpp
+libsrc/libgx++/OridList.cpp
+libsrc/libgx++/Output.cpp
+libsrc/libgx++/PluginTable.cpp
+libsrc/libgx++/QueryViews.cpp
+libsrc/libgx++/RefSta.cpp
+libsrc/libgx++/Scroll.cpp
+libsrc/libgx++/SelectOrder.cpp
+libsrc/libgx++/TableFiles.cpp
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TableSource.cpp
+libsrc/libgx++/TableViewer.cpp
+libsrc/libgx++/TagContents.cpp
+libsrc/libgx++/TQDataSource.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/Waveforms.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libgx++/Working.cpp
+libsrc/libmccc/mccc.cpp
+libsrc/libmotif++/Application.cpp
+libsrc/libmotif++/AppParse.cpp
+libsrc/libmotif++/ArrowButton.cpp
+libsrc/libmotif++/Button.cpp
+libsrc/libmotif++/Choice.cpp
+libsrc/libmotif++/Component.cpp
+libsrc/libmotif++/FormDialog.cpp
+libsrc/libmotif++/Frame.cpp
+libsrc/libmotif++/InfoArea.cpp
+libsrc/libmotif++/List.cpp
+libsrc/libmotif++/MenuBar.cpp
+libsrc/libmotif++/Menu.cpp
+libsrc/libmotif++/PlugInManager.cpp
+libsrc/libmotif++/Question.cpp
+libsrc/libmotif++/RowColumn.cpp
+libsrc/libmotif++/Scale.cpp
+libsrc/libmotif++/ScrollBar.cpp
+libsrc/libmotif++/TextField.cpp
+libsrc/libmotif++/TextQuestion.cpp
+libsrc/libmotif++/Toggle.cpp
+libsrc/libmotif++/ToolBar.cpp
+libsrc/libmotif++/TopWindow.cpp
+libsrc/libwgets/AxesClass.cpp
+libsrc/libwgets/ConPlot.c
+libsrc/libwgets/CPlotClass.cpp
+libsrc/libwgets/CPlot.cpp
+libsrc/libwgets/MapPlot.cpp
+libsrc/libwgets/PrintOptions.cpp
+libsrc/libwgets/TabClass.cpp
+libsrc/libwgets/TableAttributes.cpp
+libsrc/libwgets/Table.cpp
+libsrc/libwgets/TtPlot.cpp
+plugins/examples/example3/hilbt.cpp
+plugins/libgarrival/AmpMag.cpp
+plugins/libgarrival/Arrivals.cpp
+plugins/libgarrival/libgarrival.cpp
+plugins/libgarrival/MeasureAmpPer.cpp
+plugins/libgbm/AddGroup.cpp
+plugins/libgbm/AddRecipe.cpp
+plugins/libgbm/BeamGroups.cpp
+plugins/libgbm/BGStations.cpp
+plugins/libgbm/libgbm.cpp
+plugins/libgbm/Recipes.cpp
+plugins/libgbm/Slowness.cpp
+plugins/libgcal/libgcal.cpp
+plugins/libgcepstrum/GCepstrum.cpp
+plugins/libgcepstrum/libgcepstrum.cpp
+plugins/libgcluster/GCluster.cpp
+plugins/libgcluster/GClusterSummary.cpp
+plugins/libgcluster/libgcluster.cpp
+plugins/libgcor/Correlation.cpp
+plugins/libgcor/libgcor.cpp
+plugins/libgcor/tsCorrelate.cpp
+plugins/libgdataqc/libgdataqc.cpp
+plugins/libgdataqc/QCData.cpp
+plugins/libgdataqc/RmsData.cpp
+plugins/libgfk/Fk3D.h
+plugins/libgfk/FK.cpp
+plugins/libgfk/FKGram.cpp
+plugins/libgfk/FK.h
+plugins/libgfk/FkSignal.cpp
+plugins/libgfk/libgfk3d.cpp
+plugins/libgfk/libgfk.cpp
+plugins/libgft/FT.cpp
+plugins/libgft/libgft.cpp
+plugins/libgftrace/Ftrace.cpp
+plugins/libgftrace/libgftrace.cpp
+plugins/libghp/Hilbert.cpp
+plugins/libghp/libghp.cpp
+plugins/libghp/PolarFilter.cpp
+plugins/libglc/libglc.cpp
+plugins/libglc/Locate.cpp
+plugins/libglc/Residuals.cpp
+plugins/libgmap/libgmap.cpp
+plugins/libgmap/MapMeasureForm.cpp
+plugins/libgmap/MapOverlayForm.cpp
+plugins/libgmap/MapThemeColors.cpp
+plugins/libgmap/MapThemeFile.cpp
+plugins/libgmap/MapThemes.cpp
+plugins/libgmap/MapWindow.cpp
+plugins/libgmap/MapWindow.h
+plugins/libgmap/ShapeTable.cpp
+plugins/libgmccc/libgmccc.cpp
+plugins/libgmccc/MultiChannelCC.cpp
+plugins/libgorigin/libgorigin.cpp
+plugins/libgorigin/Origins.cpp
+plugins/libgpm/libgpm.cpp
+plugins/libgpm/MotionPlot.cpp
+plugins/libgpm/ParticleMotionClass.h
+plugins/libgpolar/libgpolar.cpp
+plugins/libgpolar/Polarization.cpp
+plugins/libgrot/libgrot.cpp
+plugins/libgrot/Rotate.cpp
+plugins/libgrsp/libgrsp.cpp
+plugins/libgrsp/Resp.cpp
+plugins/libgrt/libgrt.cpp
+plugins/libgrt/RTChannels.cpp
+plugins/libgrt/RTData.cpp
+plugins/libgrt/RTDisplay.cpp
+plugins/libgrt/RTStatus.cpp
+plugins/libgspectro/libgspectro.cpp
+plugins/libgspectro/Spectro.cpp
+plugins/libgstlt/libgstlt.cpp
+plugins/libgstlt/StaLta.cpp
+plugins/libgtt/libgtt.cpp
+
+====================================
+Changes in 2.0.25	8 October 2009
+====================================
+Ivan Henson
+o) Fixed bug when there is no INSTALLATION_DIR/scripts directory.
+	libmotif++/AppParse.cpp
+o) Print statements commented
+	libsrc/libmotif++/IPCClient.cpp
+o) Added -verbose command line argument that prints plugin libraries as linked
+	include/motif++/PlugInManager.h
+	libsrc/libmotif++/Application.cpp
+	libsrc/libmotif++/PlugInManager.cpp
+
+====================================
+Changes in 2.0.24	4 October 2009
+====================================
+Ivan Henson
+o) Fixed problem in waveform/table read that was making it slow.
+	include/CSSTable.h
+	include/TableViewer.h
+	libsrc/libgx++/TableViewer.cpp
+
+o) Fixed bug in ResponseFile.
+	include/ResponseFile.h
+	libsrc/libgresp++/Instruments.cpp
+	libsrc/libgresp++/ResponseFile.cpp
+	plugins/libgrsp/Resp.cpp
+o) Added origin time to travel time routines for call to set_epoch_travel_time
+for acoustic seasonaly variation.
+	include/TravelTime.h
+	include/widget/TtPlot.h
+	libsrc/libgmethod++/TravelTime.cpp
+o) Fixed bug in beam for amp measurement.
+	libsrc/libgx++/ArrivalAmp.cpp
+o) Added initializations.
+	libsrc/libgx++/Iaspei.cpp
+	libsrc/libgx++/TableQuery.cpp
+o) Memory leak.
+	libsrc/libmotif++/TextField.cpp
+	libsrc/libwgets/MmTable.c
+	plugins/libgfk/FK.cpp
+o) Fixed parsing bugs.
+	plugins/libgft/FT.cpp
+	plugins/libgft/FtPlot.cpp
+	plugins/libgft/FtPlot.h
+	plugins/libgft/FtPlotP.h
+o) Fixed bug from 2.0.22
+	plugins/libglc/Locate.cpp
+o) Updated scripts.
+	test/test_scripts/amplitudes
+	test/test_scripts/ft
+o) Added missing file close.
+	libsrc/libgbeam/beamRecipe.cpp
+	libsrc/libgio/cssInput.cpp
+
+====================================
+Changes in 2.0.23	28 September 2009
+====================================
+Ivan Henson
+o) Fixed bug in right-mouse-add-arrival operation.
+	libsrc/libwgets/CPlot.cpp
+	plugins/libgfk/FK.cpp
+o) Added automatic arrival load to Locate Event.
+	plugins/libglc/Locate.cpp
+	plugins/libglc/Locate.h
+o) Fixed parsing bugs in Amplitude Parameters and Arrival Parameters
+	include/AmplitudeParams.h
+	include/ArrivalParams.h
+	libsrc/libgx++/AmplitudeParams.cpp
+	libsrc/libgx++/ArrivalParams.cpp
+	libsrc/libmotif++/AppParse.cpp
+o) Fixed memory leak.
+	plugins/libgft/FtPlotP.h
+
+====================================
+Changes in 2.0.22	25 September 2009
+====================================
+Ivan Henson
+o) Fixed compiler complaint about non-virtual destructor in libgft
+====================================
+Changes in 2.0.21	24 September 2009
+====================================
+Ivan Henson
+o) Fixed bugs and memory leaks.
+	include/widget/Tab.h
+	include/widget/TabP.h
+	libsrc/libgx++/CSSTable.cpp
+	libsrc/libgx++/TableViewer.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libwgets/Tab.c
+	libsrc/libwgets/TabClass.cpp
+o) Fixed Solaris compiler problems.
+	plugins/libgcluster/GCluster.h
+	plugins/libgcluster/GClusterParams.h
+	plugins/libgft/FtPlot.cpp
+	plugins/libgft/FtPlotP.h
+
+====================================
+Changes in 2.0.20	18 September 2009
+====================================
+Ivan Henson
+o) Fixed bugs in the FT module
+	plugins/libgft/FT.cpp
+	plugins/libgft/FT.h
+	plugins/libgft/FtPlotClass.h
+	plugins/libgft/FtPlot.cpp
+	plugins/libgft/FtPlot.h
+	plugins/libgft/FtPlotP.h
+o) Fixed bug in the Map
+	plugins/libgmap/libgmap.cpp
+	plugins/libgmap/MapWindow.cpp
+	plugins/libgmap/MapWindow.h
+o) Fixed bug in thr Rotation window
+	plugins/libgrot/libgrot.cpp
+o) Fixed bug in arrival amplitude measurement
+	libsrc/libgx++/ArrivalAmp.cpp
+o) Fixed bug in table output.
+	libsrc/libgio/cssInput.cpp
+o) Added auto-read sitechan, affiliation, sensor, instrument
+	libsrc/libgx++/TableViewer.cpp
+o) Added "system" parse command
+	libsrc/libmotif++/AppParse.cpp
+o) Added "stdio.h"
+	libsrc/libgx++/System.cpp
+o) Improved test script
+	test/test_scripts/amplitudes
+
+====================================
+Changes in 2.0.19	1 September 2009
+====================================
+Ivan Henson
+o) Fixed uninitialized variables
+	libsrc/libgx++/CreateBeam.cpp
+o) Fixed g++ 4.4 compiler complaints
+	include/gobject++/CommandParser.h
+	libsrc/libgobject++/GError.cpp
+	libsrc/libgresp++/ConvolveData.cpp
+	libsrc/libgx++/AscSource.cpp
+o) Improvements to import command
+	include/motif++/AppParse.h
+	libsrc/libmotif++/AppParse.cpp
+	libsrc/libgx++/Import.cpp
+	libsrc/libgx++/TableViewer.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+
+====================================
+Changes in 2.0.18	1 September 2009
+====================================
+Ivan Henson
+o) Fixed bug (Solaris compiler) in FK.
+	plugins/libgfk/FK.cpp
+	plugins/libgfk/FK.h
+====================================
+Changes in 2.0.17	31 August 2009
+====================================
+Ivan Henson
+o) Fix Solaris compiler complaint.
+	libsrc/libwgets/Axes.c
+o) Add auto amp measure to FK add arrival
+	libsrc/libgx++/ArrivalAmp.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	plugins/libgfk/FK.cpp
+====================================
+Changes in 2.0.16	24 August 2009
+====================================
+Ivan Henson
+o) Added right-mouse Add Arrival Menu popup to all WaveformPlot objects.
+(This functionality was developed for gpmcc.)
+	include/WaveformPlot.h
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+	libsrc/libwgets/CPlot.cpp
+o) Fixed bug in display waveforms End Time contraint. This also effect the
+script commamd read_waveforms end_time=
+	libsrc/libgx++/TableQuery.cpp
+o) Fixed bugs in Response deconvolve option when inid is specified, eg.
+select_all; deconvolve inid=1116921
+	plugins/libgrsp/Resp.cpp
+
+====================================
+Changes in 2.0.15	19 August 2009
+====================================
+Ivan Henson
+o) Fixed parsing bug in IPCMessageReceiver::getProp()
+	libsrc/libmotif++/IPCClient.cpp
+o) Fixed parsing bug in WaveformPlot
+	libsrc/libgx++/WaveformPlot.cpp
+o) Comments
+	include/TravelTime.h
+	plugins/examples/example3/hilbt.cpp
+	plugins/libgfk/FK.h
+====================================
+Changes in 2.0.14	14 August 2009
+====================================
+Ivan Henson
+o) Fixed bug involving XtNkeyPressCallback
+	libsrc/libwgets/CPlot.cpp
+====================================
+Changes in 2.0.13	14 August 2009
+====================================
+Ivan Henson
+o) remove unnecessary references to plugin classes FKGram and FKGram3C
+	include/FKData.h
+o) enclosed all plugin classes in namespaces to help avoid conflicting class
+	declaration between shared libraries.
+	Changed all plugin .h and .cpp files.
+
+====================================
+Changes in 2.0.12	10 August 2009
+====================================
+Ivan Henson	
+o) Change in Tab widget for gpmcc
+	include/widget/Tab.h
+	include/widget/TabP.h
+	libsrc/libwgets/Tab.c
+o) Compiler warning
+	libsrc/libmotif++/FormDialog.cpp
+o) Changed mouse select symbol sensitivity
+	libsrc/libwgets/MapPlot.cpp
+
+Elena Tomuta
+o) fix to getProp	
+libsrc/libmotif++/IPCClient.cpp
+	
+====================================
+Changes in 2.0.11	06 August 2009
+====================================
+Ivan Henson
+o) Fixed bug in CreateBeam
+	libsrc/libgx++/CreateBeam.cpp
+o) Fixed bug in string command "read_waveforms start_phase_lead=..."
+	libsrc/libgx++/TableQuery.cpp
+o) Fixed bug in "dynamic" TableViewer tab
+	libsrc/libgx++/TableViewer.cpp
+o) Fixed bug in Application::setCursor()
+	libsrc/libmotif++/Application.cpp
+o) Added missing XtRemoveCallback calls
+	libsrc/libwgets/CPlotClass.cpp
+o) Added polarfilt() to PolarFilter.cpp. This removes the dependency gbase
+library libgmethod.
+	plugins/libghp/PolarFilter.cpp
+	plugins/libghp/PolarFilter.h
+
+====================================
+Changes in 2.0.10	04 August 2009
+====================================
+Ivan Henson
+o) Added write_to_db command line argument, Application::writeToDB() function
+	include/motif++/Application.h
+	libsrc/libmotif++/Application.cpp
+	libsrc/libgx++/odbc.cpp
+	libsrc/libgx++/TableViewer.cpp
+o) Added last_arid, last_orid, etc.
+	include/TableViewer.h
+o) Added _TCanvasSetTranslations()
+	include/widget/TCanvas.h
+	libsrc/libwgets/TCanvas.c
+	libsrc/libwgets/MmTable.c
+o) Comments only
+	libsrc/libgx++/ArrivalAmp.cpp
+	libsrc/libgx++/FrameTable.cpp
+	libsrc/libmotif++/TopWindow.cpp
+	libsrc/libwgets/CPlotClass.cpp
+o) Fixed bugs table-changed script callback
+	libsrc/libwgets/TableListener.cpp
+
+====================================
+Changes in 2.0.9	22 July 2009
+====================================
+Ivan Henson
+o) Fixed bug in plugins/libgrt/RTChannels.cpp
+o) Updated test/test_scripts/fkmulti for changes to fk snr computation
+o) Removed dependencies on the following gbase libraries:
+	libascii
+	libgcss
+	libgnet
+	libgse
+	libgmethod
+	libgresp
+	libFFDB
+	libaesir
+This version of geotool depends on the following gbase libraries:
+	libloc
+	libshape
+	libsac
+	libFT
+	libgstalta
+	libgdraw
+	libgeog
+	libgqc
+	libcssio
+	libcancomp
+	libgODBC
+	libgobject
+	libtau
+	libtime
+	libstring
+	libmath
+	libgCDF
+	libcalib
+	libinterp
+	libLP
+	libmagnitude
+	libgdetect
+	libgamp
+	libparidc
+	libidcsyslog
+	libcd
+====================================
+Changes in 2.0.8	21 July 2009
+====================================
+Ivan Henson
+o) New files:
+	include/gobject++/CommandParser.h
+	include/gobject++/ActionListener.h
+
+o) Moved include files that belong to libsrc/libwgets code to include/widget
+	include/widget/AxesClass.h
+	include/widget/ConPlotClass.h
+	include/widget/CPlotClass.h
+	include/widget/DialClass.h
+	include/widget/HistgmClass.h
+	include/widget/Map.h
+	include/widget/MapTypes.h
+	include/widget/Parser.h
+	include/widget/PrintDialog.h
+	include/widget/PrintOptions.h
+	include/widget/TabClass.h
+	include/widget/TableAttributes.h
+	include/widget/Table.h
+	include/widget/TableListener.h
+	include/widget/TtPlotClass.h
+	include/widget/ConPlotClass.h
+	include/widget/ConPlot.h
+	include/widget/CPlotClass.h
+	include/widget/HistgmClass.h
+	include/widget/Map.h
+	include/widget/MapPlot.h
+	include/widget/PrintDialog.h
+	
+This required a change in the following files:
+	include/AmplitudeParams.h
+	include/ArrivalKeyTable.h
+	include/ArrivalParams.h
+	include/BasicMap.h
+	include/BasicSource.h
+	include/ColorTable.h
+	include/CSSTable.h
+	include/Filter.h
+	include/FrameTable.h
+	include/KeyActions.h
+	include/libgx++.h
+	include/motif++/AppParse.h
+	include/MultiTable.h
+	include/OpenDB.h
+	include/PluginTable.h
+	include/RefSta.h
+	include/TableFiles.h
+	include/TableMenu.h
+	include/TableQuery.h
+	include/TableViewer.h
+	include/WaveformPlot.h
+	include/widget/Table.h
+	include/widget/TableListener.h
+	include/widget/TtPlotClass.h
+	libsrc/libgio/cssInput.cpp
+	libsrc/libgx++/AmplitudeParams.cpp
+	libsrc/libgx++/ArrivalParams.cpp
+	libsrc/libgx++/AxesLabels.cpp
+	libsrc/libgx++/BasicSource.cpp
+	libsrc/libwgets/AxesClass.cpp
+	libsrc/libwgets/ConPlot.c
+	libsrc/libwgets/CPlotClass.cpp
+	libsrc/libwgets/CPlot.cpp
+	libsrc/libwgets/HistgmClass.cpp
+	libsrc/libwgets/libwgets.cpp
+	libsrc/libwgets/Map.cpp
+	libsrc/libwgets/MapPlot.cpp
+	libsrc/libwgets/Parser.cpp
+	libsrc/libwgets/PrintDialog.cpp
+	libsrc/libwgets/PrintOptions.cpp
+	libsrc/libwgets/TableAttributes.cpp
+	libsrc/libwgets/Table.cpp
+	libsrc/libwgets/TableListener.cpp
+	plugins/examples/example1/libExample1.cpp
+	plugins/examples/example2/libExample2.cpp
+	plugins/examples/example3/libExample3.cpp
+	plugins/examples/example4/libExample4.cpp
+	
+o) Change to DataSource deleteTable function arguments
+	include/BasicSource.h
+	include/DataSource.h
+
+o) Added new abstract class, ActionListener, for action listeners.
+	include/gobject++/ActionListener.h
+	include/ColorSelection.h
+	include/motif++/ActionEvent.h
+	include/motif++/ArrowButton.h
+	include/motif++/Button.h
+	include/motif++/Choice.h
+	include/motif++/Component.h
+	include/motif++/FileChoice.h
+	include/motif++/List.h
+	include/motif++/Scale.h
+	include/motif++/ScrollBar.h
+	include/motif++/StatusDialog.h
+	include/motif++/TextField.h
+	include/motif++/Toggle.h
+	include/WaveformColor.h
+	include/WaveformSetup.h
+	include/widget/AxesClass.h
+	include/Working.h
+	libsrc/libgx++/ColorSelection.cpp
+	libsrc/libgx++/CreateBeam.cpp
+	libsrc/libgx++/CSSTable.cpp
+	libsrc/libgx++/DataValues.cpp
+	libsrc/libgx++/Diff.cpp
+	libsrc/libgx++/Filter.cpp
+	libsrc/libgx++/Fonts.cpp
+	libsrc/libgx++/FrameTable.cpp
+	libsrc/libgx++/History.cpp
+	libsrc/libgx++/KeyActions.cpp
+	libsrc/libgx++/MultiTable.cpp
+	libsrc/libgx++/odbc.cpp
+	libsrc/libgx++/OpenDB.cpp
+	libsrc/libgx++/OridList.cpp
+	libsrc/libgx++/PluginTable.cpp
+	libsrc/libgx++/RefSta.cpp
+	libsrc/libgx++/TableFiles.cpp
+	libsrc/libgx++/TableMenu.cpp
+	libsrc/libgx++/TableQuery.cpp
+	libsrc/libgx++/TableViewer.cpp
+	libsrc/libgx++/TQDataSource.cpp
+	libsrc/libgx++/WaveformColor.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libgx++/WaveformSetup.cpp
+	libsrc/libgx++/WaveformView.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+	libsrc/libgx++/Working.cpp
+	libsrc/libmotif++/Application.cpp
+	libsrc/libmotif++/AppParse.cpp
+	libsrc/libmotif++/ArrowButton.cpp
+	libsrc/libmotif++/Button.cpp
+	libsrc/libmotif++/Choice.cpp
+	libsrc/libmotif++/Component.cpp
+	libsrc/libmotif++/FileChoice.cpp
+	libsrc/libmotif++/FormDialog.cpp
+	libsrc/libmotif++/List.cpp
+	libsrc/libmotif++/PlugInManager.cpp
+	libsrc/libmotif++/Scale.cpp
+	libsrc/libmotif++/ScrollBar.cpp
+	libsrc/libmotif++/StatusDialog.cpp
+	libsrc/libmotif++/TextField.cpp
+	libsrc/libmotif++/Toggle.cpp
+	libsrc/libmotif++/TopWindow.cpp
+	
+o) Changed the class name XFrame to Group
+	include/motif++/MotifComp.h
+o) Added TabSetTabLabel()
+	include/widget/TabClass.h
+	include/widget/Tab.h
+	libsrc/libwgets/Tab.c
+	libsrc/libwgets/TabClass.cpp
+o) Added AxesSetTimeMarks()
+	include/widget/Axes.h
+	include/widget/AxesP.h
+	libsrc/libwgets/Axes.c
+	libsrc/libwgets/AxesClass.cpp
+o) Added new abstract class, CommandParser, for the string parsing interface
+that was previously defined in Gobject
+	include/gobject++/CommandParser.h
+	include/gobject++/Gobject.h
+o) Added MapListener class
+	include/motif++/Application.h
+o) Changed the PlugIn create method declaration
+	include/motif++/PlugIn.h
+	include/motif++/PlugInManager.h
+
+o) Fixed bug
+	libsrc/libgobject++/GCoverage.cpp
+	scripts/detect2
+
+====================================
+Changes in 2.0.7	7 July 2009
+====================================
+Ivan Henson
+o) Added menu to the Tab component. Right mouse down in the Tab displays a
+menu of CSS tables to add to the Tab component.
+	include/TabClass.h
+	libsrc/libwgets/Tab.c
+	libsrc/libwgets/TabClass.cpp
+	include/widget/Tab.h
+	include/widget/TabP.h
+o) Added functions to edit and insert records into DB (for gpmcc).
+	include/TableQuery.h
+	include/TableViewer.h
+	libsrc/libgx++/TableQuery.cpp
+	libsrc/libgx++/TableViewer.cpp
+	libsrc/libgx++/TQDataSource.cpp
+o) Changes for gpmcc
+	libsrc/libgx++/OpenDB.cpp
+	libsrc/libmotif++/AppParse.cpp
+	libsrc/libwgets/ConPlot.c
+o) Change to function addArrivalFromKey
+	include/WaveformPlot.h
+	libsrc/libgx++/ArrivalAmp.cpp
+	plugins/libgfk/FK.cpp
+	plugins/libgftrace/Ftrace.cpp
+	plugins/libgpolar/Polarization.cpp
+	plugins/libgspectro/Spectro.cpp
+o) Added call to commit all database transactions
+	src/geotool/main.cpp
+
+====================================
+Changes in 2.0.6	18 June 2009
+====================================
+Ivan Henson
+o) Bug fixes
+	include/TravelTime.h
+	include/TtPlotClass.h
+	libsrc/libgmethod++/TravelTime.cpp
+	libsrc/libgx++/CreateBeam.cpp
+	libsrc/libgx++/TableViewer.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libgx++/WaveformView.cpp
+	libsrc/libmotif++/AppParse.cpp
+	plugins/libgarrival/Arrivals.cpp
+
+====================================
+Changes in 2.0.5	16 June 2009
+====================================
+Ivan Henson
+
+o) Changes for gpmcc
+	Added right-mouse menu for adding arrivals
+	include/WaveformPlot.h
+	include/widget/Axes.h
+	include/widget/AxesP.h
+	include/widget/CPlot.h 
+	include/widget/CPlotP.h
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libwgets/Axes.c
+	libsrc/libwgets/CPlotClass.cpp
+	libsrc/libwgets/CPlot.cpp
+
+	changes to select polar-plot symbol code
+	libsrc/libwgets/MapPlot.cpp
+o) Added script modify_table_cb, deleted_table_cb and add_table_cb
+	include/motif++/AppParse.h
+	libsrc/libgx++/ArrivalAmp.cpp
+	libsrc/libgx++/BasicSource.cpp
+	libsrc/libgx++/ffdb.cpp
+	libsrc/libgx++/odbc.cpp
+	libsrc/libgx++/WaveformView.cpp
+	libsrc/libmotif++/AppParse.cpp
+	libsrc/libwgets/Parser.cpp
+	libsrc/libwgets/TableListener.cpp
+o) Fixed bug.
+	libsrc/libgx++/TableViewer.cpp
+o) Fixed bug involving missing assoc records in WaveformPlot objects.
+	plugins/libgarrival/AmpMag.cpp
+	plugins/libgarrival/AmpMag.h
+	plugins/libgcor/Correlation.cpp
+	plugins/libgfk/FK.cpp
+	plugins/libgfk/FK.h
+	plugins/libgpolar/Polarization.cpp
+	plugins/libgspectro/Spectro.cpp
+	plugins/libgspectro/Spectro.h
+
+====================================
+Changes in 2.0.4	2 June 2009
+====================================
+Ivan Henson
+
+New Files:
+	include/TravelTime.h
+	libsrc/libgmethod++/TravelTime.cpp
+	scripts/spectro
+	scripts/fk
+	scripts/init/messages
+	test/test_scripts/travel_times
+o) Updated documentation
+	doc/scripts/scripts.html
+	doc/scripts/scripts.pdf
+o) Fixed SUNWpro compiler warnings.
+	include/FFDatabase.h
+	libsrc/libgio/FFDatabase.cpp
+	plugins/libgscript/script.cpp
+o) Added script message handling.
+	include/motif++/AppParse.h
+	libsrc/libmotif++/Application.cpp
+	libsrc/libmotif++/AppParse.cpp
+o) Added select table cell functions (for gpmcc)
+	include/Table.h
+	include/widget/MmTable.h
+	libsrc/libwgets/TCanvas.c
+o) Bug fixes and misc.
+	include/TableQuery.h
+	include/widget/Axes.h
+	libsrc/libgresp++/Instruments.cpp
+	libsrc/libgresp++/ResponseFile.cpp
+	libsrc/libgx++/ArrivalAmp.cpp
+	libsrc/libgx++/WaveformView.cpp
+	libsrc/libwgets/Tab.c
+	plugins/libgfk/FKGram.cpp
+	plugins/libgft/FtPlot.cpp
+	plugins/libgspectro/Spectro.cpp
+o) Replaced table name strings with defines. ("wfdisc" -> cssWfdisc, etc.)
+	libsrc/libgx++/AscSource.cpp
+	libsrc/libgx++/CreateBeam.cpp
+	libsrc/libgx++/CssFileDialog.cpp
+	libsrc/libgx++/odbc.cpp
+	libsrc/libgx++/OpenDB.cpp
+	libsrc/libgx++/OridList.cpp
+	libsrc/libgx++/TableQuery.cpp
+	libsrc/libgx++/TQDataSource.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libgx++/Waveforms.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+	plugins/libgarrival/AmpMag.cpp
+	plugins/libgarrival/Arrivals.cpp
+	plugins/libgarrival/Stassocs.cpp
+	plugins/libglc/Locate.cpp
+	plugins/libgmap/MapWindow.cpp
+	plugins/libgorigin/Origins.cpp
+	plugins/libgrsp/Resp.cpp
+o) Separated travel time code from TtPlot.c
+	include/TtPlotClass.h
+	include/widget/TtPlot.h
+	include/widget/TtPlotP.h
+	include/TravelTime.h
+	libsrc/libgmethod++/TravelTime.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libwgets/TtPlot.cpp
+	plugins/libgbm/Recipes.cpp
+	plugins/libgbm/Recipes.h
+	plugins/libgbm/Slowness.cpp
+	plugins/libgbm/Slowness.h
+
+====================================
+Changes in 2.0.3	18 May 2009
+====================================
+Ivan Henson
+o) Bug fixes and memory leaks.
+include/Beam.h
+include/BeamSta.h
+libsrc/libgbeam/beam.cpp
+libsrc/libgbeam/beamRecipe.cpp
+libsrc/libgmethod++/DataSource.cpp
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TQDataSource.cpp
+plugins/libgarrival/Arrivals.cpp
+plugins/libgbm/BeamGroups.cpp
+plugins/libgbm/Recipes.cpp
+plugins/libgfk/FK.cpp
+plugins/libgmap/MapOverlay.cpp
+plugins/libgmap/MapWindow.cpp
+plugins/libgrt/BeamList.cpp
+
+====================================
+Changes in 2.0.2	28 Apr 2009
+====================================
+Ivan Henson
+
+New Files:
+	include/AscSource.h
+	include/Demean.h
+	include/motif++/AppParse.h
+	include/motif++/ListDialog.h
+	include/motif++/Parse.h
+	include/Parser.h
+	include/FFDatabase.h
+	libsrc/libgio/FFDatabase.cpp
+	libsrc/libgmethod++/Demean.cpp
+	libsrc/libgx++/AscSource.cpp
+	libsrc/libgx++/GseSource.cpp
+	libsrc/libgx++/libgx.cpp
+	libsrc/libmotif++/ListDialog.cpp
+	libsrc/libmotif++/Parse.cpp
+	libsrc/libwgets/libwgets.cpp
+	libsrc/libwgets/Parser.cpp
+	plugins/libgscript/script.cpp
+	plugins/libgscript/script.h
+	plugins/libgscript/Makefile.am
+
+	test/test_data/*
+	test/test_scripts/*
+	test/test_geotool.input
+
+Deleted Files:
+	libgio/GseSource.cpp
+	libgio/GParseWrite.cpp
+
+o) Added default values and Defaults button to Amplitude Parameters and Arrival Parameters
+include/AmplitudeParams.h
+include/ArrivalParams.h
+libsrc/libgx++/AmplitudeParams.cpp
+libsrc/libgx++/ArrivalParams.cpp
+
+o) Changed enum ParseRet to ParseCmd, function parseInput() to parseCmd()
+include/gobject++/Gobject.h
+include/AmplitudeScale.h
+include/AxesLabels.h
+include/CosineTaper.h
+include/DataValues.h
+include/Fonts.h
+include/FrameTable.h
+include/gobject++/GDataPoint.h
+include/motif++/PlugIn.h
+include/motif++/TextField.h
+include/motif++/Toggle.h
+include/motif++/TopWindow.h
+include/OpenDB.h
+include/OridList.h
+include/Output.h
+include/Preferences.h
+include/PrintDialog.h
+include/PrintOptions.h
+include/RefSta.h
+include/SelectOrder.h
+include/TableAttributes.h
+include/TaperWindow.h
+include/WaveformColor.h
+include/WaveformSetup.h
+libsrc/libgx++/Fonts.cpp
+libsrc/libgx++/OridList.cpp
+libsrc/libgx++/Preferences.cpp
+libsrc/libgx++/RefSta.cpp
+libsrc/libgx++/Scroll.cpp
+libsrc/libgx++/SelectOrder.cpp
+libsrc/libgx++/TaperWindow.cpp
+libsrc/libgx++/WaveformColor.cpp
+libsrc/libgx++/WaveformSetup.cpp
+libsrc/libmotif++/List.cpp
+libsrc/libmotif++/TextField.cpp
+libsrc/libmotif++/Toggle.cpp
+libsrc/libmotif++/TopWindow.cpp
+plugins/libgarrival/libgarrival.cpp
+plugins/libgbm/libgbm.cpp
+plugins/libgbm/Recipes.h
+plugins/libgcal/libgcal.cpp
+plugins/libgcepstrum/libgcepstrum.cpp
+plugins/libgcluster/libgcluster.cpp
+plugins/libgcor/libgcor.cpp
+plugins/libgdataqc/libgdataqc.cpp
+plugins/libgfk/libgfk3d.cpp
+plugins/libgfk/libgfk.cpp
+plugins/libgft/libgft.cpp
+plugins/libghp/libghp.cpp
+plugins/libglc/libglc.cpp
+plugins/libgmap/libgmap.cpp
+plugins/libgmccc/libgmccc.cpp
+plugins/libgorigin/libgorigin.cpp
+plugins/libgpm/libgpm.cpp
+plugins/libgpolar/libgpolar.cpp
+plugins/libgrot/libgrot.cpp
+plugins/libgrsp/libgrsp.cpp
+plugins/libgrt/libgrt.cpp
+plugins/libgspectro/libgspectro.cpp
+plugins/libgstlt/libgstlt.cpp
+plugins/libgtt/libgtt.cpp
+
+o) Added command parsing code:
+include/AxesClass.h
+include/BasicSource.h
+include/ColorTable.h
+include/ConPlotClass.h
+include/CreateBeam.h
+include/Filter.h
+include/History.h
+include/IIRFilter.h
+include/Import.h
+include/libgio.h
+include/motif++/Component.h
+include/motif++/FormDialog.h
+include/motif++/Frame.h
+include/motif++/IPCClient.h
+include/motif++/List.h
+include/motif++/MenuBar.h
+include/motif++/Menu.h
+include/motif++/MotifClasses.h
+include/motif++/MotifComp.h
+include/TagContents.h
+include/WaveformPlot.h
+include/WaveformView.h
+include/widget/Axes.h
+libsrc/libgmethod++/IIRFilter.cpp
+libsrc/libgx++/AmplitudeScale.cpp
+libsrc/libgx++/AxesLabels.cpp
+libsrc/libgx++/ColorTable.cpp
+libsrc/libgx++/CosineTaper.cpp
+libsrc/libgx++/CreateBeam.cpp
+libsrc/libgx++/CSSTable.cpp
+libsrc/libgx++/DataValues.cpp
+libsrc/libgx++/Filter.cpp
+libsrc/libgx++/FrameTable.cpp
+libsrc/libgx++/History.cpp
+libsrc/libgx++/Import.cpp
+libsrc/libgx++/OpenDB.cpp
+libsrc/libgx++/TagContents.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libmotif++/AppParse.cpp
+libsrc/libmotif++/Component.cpp
+libsrc/libmotif++/FormDialog.cpp
+libsrc/libmotif++/Frame.cpp
+libsrc/libmotif++/IPCClient.cpp
+libsrc/libmotif++/MenuBar.cpp
+libsrc/libmotif++/Menu.cpp
+libsrc/libmotif++/TextQuestion.cpp
+libsrc/libwgets/Axes.c
+libsrc/libwgets/AxesClass.cpp
+libsrc/libwgets/CPlotClass.cpp
+libsrc/libwgets/PrintDialog.cpp
+libsrc/libwgets/PrintOptions.cpp
+libsrc/libwgets/TableAttributes.cpp
+libsrc/libwgets/Table.cpp
+plugins/libgarrival/AmpMag.cpp
+plugins/libgarrival/AmpMag.h
+plugins/libgarrival/Arrivals.cpp
+plugins/libgarrival/Arrivals.h
+plugins/libgbm/Recipes.cpp
+plugins/libgbm/Slowness.cpp
+plugins/libgcal/Calibration.cpp
+plugins/libgcal/Calibration.h
+plugins/libgcepstrum/GCepstrum.cpp
+plugins/libgcepstrum/GCepstrum.h
+plugins/libgcluster/GCluster.cpp
+plugins/libgcluster/GCluster.h
+plugins/libgcor/Correlation.cpp
+plugins/libgcor/Correlation.h
+plugins/libgcor/MinCorrOverlap.cpp
+plugins/libgcor/MinCorrOverlap.h
+plugins/libgdataqc/QCData.cpp
+plugins/libgdataqc/QCParam.cpp
+plugins/libgdataqc/QCParam.h
+plugins/libgdataqc/RmsWindow.cpp
+plugins/libgdataqc/RmsWindow.h
+plugins/libgft/FT.cpp
+plugins/libgft/FT.h
+plugins/libgft/FtPlotClass.h
+plugins/libgft/FtPlot.cpp
+plugins/libgft/FtPlot.h
+plugins/libgft/FtSmooth.cpp
+plugins/libgft/FtSmooth.h
+plugins/libgft/FtWindows.cpp
+plugins/libgft/FtWindows.h
+plugins/libghp/HilbertTransform.cpp
+plugins/libghp/HilbertTransform.h
+plugins/libghp/PolarFilter.cpp
+plugins/libghp/PolarFilter.h
+plugins/libglc/Locate.cpp
+plugins/libglc/Locate.h
+plugins/libgmap/MapOverlay.cpp
+plugins/libgmap/MapOverlayForm.cpp
+plugins/libgmap/MapOverlayForm.h
+plugins/libgmap/MapOverlay.h
+plugins/libgmap/MapThemes.cpp
+plugins/libgmap/MapThemes.h
+plugins/libgmap/MapWindow.cpp
+plugins/libgmap/MapWindow.h
+plugins/libgmap/ShapeTable.cpp
+plugins/libgmap/ShapeTable.h
+plugins/libgmccc/MultiChannelCC.cpp
+plugins/libgmccc/MultiChannelCC.h
+plugins/libgorigin/Origins.cpp
+plugins/libgorigin/Origins.h
+plugins/libgpm/MotionPlot.cpp
+plugins/libgpm/MotionPlot.h
+plugins/libgpolar/Polarization.cpp
+plugins/libgpolar/Polarization.h
+plugins/libgrot/Rotate.cpp
+plugins/libgrot/Rotate.h
+plugins/libgrsp/Resp.cpp
+plugins/libgrsp/Resp.h
+plugins/libgrt/RTChannels.cpp
+plugins/libgrt/RTDisplay.cpp
+plugins/libgrt/RTDisplay.h
+plugins/libgspectro/Spectro.cpp
+plugins/libgspectro/Spectro.h
+plugins/libgspectro/SpectroParam.cpp
+plugins/libgspectro/SpectroParam.h
+plugins/libgstlt/StaLta.cpp
+plugins/libgstlt/StaLta.h
+plugins/libgtt/TravelTimes.cpp
+plugins/libgtt/TravelTimes.h
+src/geotool/main.cpp
+
+o) Added defaults to some Component subclass constructors.
+include/motif++/ArrowButton.h
+include/motif++/Button.h
+include/motif++/Choice.h
+include/MultiTable.h
+libsrc/libmotif++/ArrowButton.cpp
+libsrc/libmotif++/Button.cpp
+libsrc/libmotif++/Choice.cpp
+
+o) Fix bug in the code that handles waveform components.
+libsrc/libwgets/CPlot.cpp
+
+o) Added low amplitude cutoff to response deconvolution.
+include/ConvolveData.h
+include/Response.h
+libsrc/libgresp++/ConvolveData.cpp
+libsrc/libgresp++/Response.cpp
+libsrc/libgresp++/ResponseFile.cpp
+plugins/libgrsp/RespTapers.cpp
+plugins/libgrsp/RespTapers.h
+
+o) Changed Vector getTable() and getSelectedTable() to Vector getVTable() and
+getSelectedVTable() to avoid compiler warnings.  Replaced functions
+removeAssoc(), removeStassoc(), etc with the single function removeTable().
+Replaced putAssoc(), putStassoc(), etc with the single function putTable().
+Replaced getSelectedAssoc(), etc with the single function getSelectedTable().
+include/TableSource.h
+include/DataSource.h
+include/CPlotClass.h
+include/WaveformWindow.h
+include/widget/CPlot.h
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/TableFiles.cpp
+libsrc/libgx++/TableSource.cpp
+libsrc/libgx++/TQDataSource.cpp
+libsrc/libgx++/WaveformWindow.cpp
+plugins/libgarrival/MeasureAmpPer.cpp
+plugins/libgarrival/Stassocs.cpp
+plugins/libgbm/AddGroup.cpp
+
+o) Changed virtual declarations
+include/CssFileDialog.h
+libsrc/libgx++/CssFileDialog.cpp
+include/gobject++/GTimeSeries.h
+
+o) Changed class member name to avoid conflict.
+include/CssSegmentInfo.h
+
+o) Added removeSelectedFromDB() function. Improved Cut/Copy/Paste code.
+include/CSSTable.h
+include/Table.h
+include/widget/MmTable.h
+libsrc/libwgets/Table.cpp
+
+o) Added Demean method.
+include/DataMethod.h
+include/Demean.h
+libsrc/libgmethod++/Demean.cpp
+
+o) Added argument default values to DialClass constructor.
+include/DialClass.h
+
+o) Added new class members.
+include/FKData.h
+libsrc/libgbeam/FKData.cpp
+
+o) Fixed bugs in SAC, GSE and ASCII I/O.
+include/GseSegmentInfo.h
+include/GseSource.h
+include/SacSource.h
+include/SegmentInfo.h
+include/WaveformIO.h
+libsrc/libgio/asciiWrite.cpp
+libsrc/libgio/SacSource.cpp
+libsrc/libgx++/OpenFile.cpp
+
+o) Fixed bug in FileDialog
+include/motif++/FileDialog.h
+libsrc/libmotif++/FileDialog.cpp
+
+o) Added initial search pattern to OpenFile
+include/OpenFile.h
+
+o) Fixed bug in Instrument table access.
+include/ResponseFile.h
+libsrc/libgresp++/Instruments.cpp
+
+o) Fixed documentation typos
+include/TableMenu.h
+libsrc/libgbeam/beamRecipe.cpp
+libsrc/libgmethod++/CopyData.cpp
+libsrc/libgmethod++/CutData.cpp
+libsrc/libgmethod++/DataSource.cpp
+libsrc/libgx++/Amp.cpp
+libsrc/libwgets/MmTable.c
+
+o) Replaced Widget usage with Components
+include/TableQuery.h
+libsrc/libgx++/TableQuery.cpp
+
+o) Improved editing and save functionality.
+include/TableViewer.h
+libsrc/libgx++/MultiTable.cpp
+libsrc/libgx++/TableViewer.cpp
+
+o) Added slowness to firstArrival() function.
+include/TtPlotClass.h
+include/widget/TtPlot.h
+include/widget/TtPlotP.h
+libsrc/libwgets/TtPlot.cpp
+
+o) Added edit and delete table object callbacks.
+libsrc/libgio/cssInput.cpp
+libsrc/libgx++/odbc.cpp
+libsrc/libwgets/TableListener.cpp
+
+o) Fixed bug involving rotation of waveform copies.
+libsrc/libgmethod++/GTimeSeries.cpp
+
+o) Fixed compiler warnings
+libsrc/libgx++/ArrivalKeyTable.cpp
+libsrc/libgx++/Diff.cpp
+libsrc/libgx++/KeyActions.cpp
+
+o) Fixed bug in ColorSelection window.
+libsrc/libgx++/ColorSelection.cpp
+
+o) Added option to output tables with waveforms
+libsrc/libgx++/Output.cpp
+
+o) Moved command line processing code from WaveformWindow.cpp to the script file
+INSTALLATION_DIR/scripts/init/cmdline
+libsrc/libgx++/WaveformWindow.cpp
+
+o) Move all parsing code from Application.cpp to AppParse.cpp. Added signal
+processing routines to Application.cpp
+libsrc/libmotif++/Application.cpp
+
+o) Added map routine
+include/Map.h
+include/widget/MapPlot.h
+libsrc/libwgets/MapPlot.cpp
+
+o) Fixed bug in the Tab widget
+libsrc/libwgets/Tab.c
+
+o) Fixed bug in the Table widget
+libsrc/libwgets/TCanvas.c
+
+o) Added SNR trace to FK and Fk-Multi-band Signal windows.
+plugins/libgfk/FkParamDialog.cpp
+plugins/libgfk/FkParamDialog.h
+plugins/libgfk/FKParam.h
+plugins/libgfk/FKParam.cpp
+plugins/libgfk/FK.h
+plugins/libgfk/FK.cpp
+plugins/libgfk/FKGram3C.cpp
+plugins/libgfk/FKGram.cpp
+plugins/libgfk/FkSignal.h
+plugins/libgfk/FkSignal.cpp
+
+o) Replaced calls to CssTable_setIds. Not needed and very slow.
+libsrc/libgio/cssInput.cpp
+libsrc/libgio/SacSource.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/odbc.cpp
+libsrc/libgx++/TableQuery.cpp
+libsrc/libgx++/TableSource.cpp
+libsrc/libgx++/TQDataSource.cpp
+plugins/libgarrival/Arrivals.cpp
+plugins/libgorigin/Origins.cpp
+
+o) Removed call to get new wfid when beams are made. Main window beams and
+FK beams are no longer written to /tmp files.
+
+
+====================================
+Changes in 1.2.35	09 Feb 2009
+====================================
+Vera Miljanovic
+o) added ftrace plugin
+plugins/libgftrace/Ftrace.cpp 
+plugins/libgftrace/Ftrace.h
+plugins/libgftrace/FtraceParam.cpp
+plugins/libgftrace/FtraceParam.h
+plugins/libgftrace/libgftrace.cpp
+plugins/libgftrace/gftrace.input	
+	
+====================================
+Changes in 1.2.34	15 Dec 2008
+====================================
+Elena Tomuta
+
+o)changes to embedd libpipc or libipcnt into libmotif++
+libsrc/libmotif++/Makefile.am
+libsrc/libmotif++/IPCClient.cpp	
+src/geotool/Makefile.am	
+src/example1/Makefile.am
+
+Alexander Boresch
+o) added the line 'sinclude $(top_srcdir) /install-idc.mk' to the following Makefiles:
+libsrc/libgio/Makefile.am
+libsrc/libgx++/Makefile.am
+libsrc/libmccc/Makefile.am
+scripts/Makefile.am
+test/Makefile.am
+test/reference/Makefile.am
+test/test_scripts/Makefile.am
+doc/Makefile.am
+doc/images/Makefile.am
+doc/examples/Makefile.am
+doc/scripts/Makefile.am
+
+Vera Miljanovic
+o) fixed Compiler Sun studio 12 error
+plugins/libgcluster/GCluster.cpp
+
+o) fixed warning from 64bit(dls007)
+libsrc/libgx++/WaveformPlot.cpp
+	
+====================================
+Changes in 1.2.34	09 Dec 2008
+====================================
+Ivan Henson
+
+1) Changed the keyboardFocusPolicy from POINTER to EXPLICIT for most windows.
+2) Added/changed comments for doxygen
+3) Added Import window and updateGlobalFile() method.
+4) Fixed bug involving arrival popup menu.
+5) Added initializations to prevent compiler complaints.
+6) Added code to parseInput methods.
+7) Added tabKeyFocus to TextField. Allows tab-key to change keyboard focus.
+8) Moved plugins/examples/Hilbert.h & Hilbert.h to hilbt.h & hilbt.cpp to avoid
+	file name duplication with plugins/libghp
+
+New Files:
+	include/Import.h
+	libsrc/libgx++/Import.cpp
+	libsrc/libmotif++/AppParse.cpp
+	plugins/examples/example3/hilbt.cpp
+	plugins/examples/example3/hilbt.h
+
+Deleted Files:
+	plugins/examples/Hilbert.h
+	plugins/examples/Hilbert.cpp
+
+include/AxesClass.h	Added manual page and scroll methods.
+include/BasicMap.h	1)
+include/BeamSta.h	2)
+include/CPlotClass.h	Added parseInput, retimeArrivalOn, retimeArrivalAllOff
+include/CSSTable.h	Added Vector backup_order
+include/DataSource.h	2)
+include/Filter.h	Added autoFilter()
+include/FKData.h	2)
+include/gobject++/Gobject.h	Added members to enum ParseRet
+include/Map.h		2)
+include/MapTypes.h	2)
+include/motif++/Application.h	Added additional command parsing code.
+include/motif++/FormDialog.h	1)
+include/motif++/Frame.h		1)
+include/motif++/MotifComp.h	Fixed bug in RadioBox::parseInput
+include/motif++/PlugIn.h	2)
+include/motif++/TextField.h	7)
+include/motif++/TopWindow.h	1)
+include/MultiTable.h		Added gvector<TableRow *> backup_order;
+include/OpenDB.h		Added ConnectionType sourceType(void);
+include/TableViewer.h		3)
+include/WaveformWindow.h	Added help buttons.
+include/widget/CPlot.h	Added CPlotRetimeArrival & CPlotRetimeArrivalAllOff
+include/widget/CPlotP.h 	4)
+include/widget/MmTableP.h	1)
+include/widget/TabP.h		1)
+libsrc/libgbeam/FKCompute3C.cpp	2)
+libsrc/libgbeam/FKData.cpp	2)
+libsrc/libgio/cssInput.cpp	Fixed problem in cssSameTable()
+libsrc/libgmethod++/AmpData.cpp		2)
+libsrc/libgmethod++/CopyData.cpp	2)
+libsrc/libgmethod++/CutData.cpp		2)
+libsrc/libgmethod++/DataMethod.cpp Removed printLog calls. Fixed bug in remove()
+libsrc/libgmethod++/GTimeSeries.cpp Removed printLog calls.
+libsrc/libgmethod++/IIRFilter.cppA	2)
+libsrc/libgmethod++/OffsetData.cpp	2)
+libsrc/libgmethod++/TaperData.cpp	2)
+libsrc/libgobject++/GError.cpp		2)
+libsrc/libgresp++/Response.cpp		5)
+libsrc/libgx++/Amp.cpp			2)
+libsrc/libgx++/AmplitudeScale.cpp	1)
+libsrc/libgx++/ArrivalAmp.cpp		5)
+libsrc/libgx++/ArrivalKeyTable.cpp	1)
+libsrc/libgx++/AxesLabels.cpp		1)
+libsrc/libgx++/CreateBeam.cpp		6)
+libsrc/libgx++/CSSTable.cpp		Fixed bug in table editCancel()
+libsrc/libgx++/DataValues.cpp		1) & Changed window title
+libsrc/libgx++/Diff.cpp			1)
+libsrc/libgx++/Filter.cpp		6)
+libsrc/libgx++/Fonts.cpp		1)
+libsrc/libgx++/KeyActions.cpp		1)
+libsrc/libgx++/MultiTable.cpp		Fixed bug in table editCancel()
+libsrc/libgx++/odbc.cpp			5)
+libsrc/libgx++/OpenDB.cpp		7)
+libsrc/libgx++/Output.cpp		1)
+libsrc/libgx++/Preferences.cpp		1)
+libsrc/libgx++/Scroll.cpp		1)
+libsrc/libgx++/SelectOrder.cpp		1)
+libsrc/libgx++/TableFiles.cpp		Changed default mag files.
+libsrc/libgx++/TableQuery.cpp		Added ConnectionType sourceType(void)
+libsrc/libgx++/TableViewer.cpp		Added
+libsrc/libgx++/TaperWindow.cpp		3)
+libsrc/libgx++/WaveformColor.cpp	1)
+libsrc/libgx++/WaveformPlot.cpp		6)
+libsrc/libgx++/WaveformSetup.cpp	1)
+libsrc/libgx++/WaveformView.cpp		1) & 6)
+libsrc/libgx++/WaveformWindow.cpp	6)
+libsrc/libgx++/Working.cpp		1)
+libsrc/libmccc/mccc.cpp			2)
+libsrc/libmccc/mccc.h			2)
+libsrc/libmotif++/Application.cpp	Added additional command parsing code.
+libsrc/libmotif++/Component.cpp		2)
+libsrc/libmotif++/FileDialog.cpp	1)
+libsrc/libmotif++/FormDialog.cpp	1) & changes to showHelp()
+libsrc/libmotif++/Frame.cpp		1)
+libsrc/libmotif++/ParamDialog.cpp	1)
+libsrc/libmotif++/Question.cpp		1)
+libsrc/libmotif++/ScrolledPane.cpp	2)
+libsrc/libmotif++/StatusDialog.cpp	1)
+libsrc/libmotif++/TextDialog.cpp	1)
+libsrc/libmotif++/TextField.cpp		7)
+libsrc/libmotif++/TextQuestion.cpp	1)
+libsrc/libmotif++/Toggle.cpp		2)
+libsrc/libmotif++/TopWindow.cpp		1) & 2)
+libsrc/libmotif++/Warn.cpp		1)
+libsrc/libmotif++/Warnings.cpp		Fixed ScrollBar bug.
+libsrc/libwgets/Axes.c			5)
+libsrc/libwgets/CPlotClass.cpp		1) & 6)
+libsrc/libwgets/CPlot.cpp  Added CPlotRetimeArrival & CPlotRetimeArrivalAllOff
+libsrc/libwgets/MmTable.c		1)
+libsrc/libwgets/PrintDialog.cpp		1)
+libsrc/libwgets/PrintOptions.cpp	1) & 6)
+libsrc/libwgets/Tab.c			1)
+libsrc/libwgets/TableAttributes.cpp	1)
+libsrc/libwgets/Table.cpp		6)
+libsrc/libwgets/TCanvas.c   Fixed tab-key,return,arrow key control in edit-mode
+plugins/examples/example1/libExample1.cpp	2)
+plugins/examples/example2/libExample2.cpp	2)
+plugins/examples/example3/Example3.cpp		8)
+plugins/examples/example3/libExample3.cpp	2)
+plugins/examples/example4/libExample4.cpp	2)
+plugins/libgarrival/AmpMag.cpp		1)
+plugins/libgarrival/Arrivals.cpp    1) & fixed bug in arrival change callback
+plugins/libgcepstrum/GCepstrum.cpp	1)
+plugins/libgcluster/GCluster.cpp	1)
+plugins/libgcor/Correlation.cpp		1)
+plugins/libgcor/MinCorrOverlap.cpp	1)
+plugins/libgcor/tsCorrelate.cpp		2)
+plugins/libgdataqc/RmsData.cpp		2)
+plugins/libgfk/Fk3D.cpp			1)
+plugins/libgfk/FK.cpp			1) & 6)
+plugins/libgfk/FKGram3C.cpp		2)
+plugins/libgfk/FKGram.cpp		2)
+plugins/libgfk/FKGram.h			2)
+plugins/libgfk/FK.h			2)
+plugins/libgfk/FkSignal.cpp		1)
+plugins/libgft/FT.cpp			1)
+plugins/libghp/HilbertTransform.cpp	1)
+plugins/libgmap/MapCursor.cpp		1) & fixed callback bug
+plugins/libgmap/MapCursor.h		fixed callback bug
+plugins/libgmap/MapMeasureForm.cpp	1)
+plugins/libgmap/MapOverlay.cpp		Fixed bug in MapOverlay::isCommand()
+plugins/libgmap/MapOverlayForm.cpp	1)
+plugins/libgmap/MapWindow.cpp		Added getSiteTable for TableViewer
+plugins/libgmap/MapWindow.h		2)
+plugins/libgmccc/MultiChannelCC.h	2)
+plugins/libgpolar/Polarization.cpp	1) & added check for same angles to rotate()
+plugins/libgpolar/Polarization.h	added check for save angles to rotate()
+plugins/libgrsp/Resp.cpp		1)
+plugins/libgspectro/Spectro.cpp		1)
+plugins/libgstlt/StaLta.cpp		Corrected spelling
+
+====================================
+Changes in 1.2.30	19 Nov 2008
+====================================
+Ivan Henson
+o) Fixed bugs in the code that allows arrivals to be created in the FK,
+Polarization and Spectrogram windows.
+include/CPlotClass.h
+libsrc/libgbeam/beam.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libwgets/CPlotClass.cpp
+plugins/libgarrival/AmpMag.cpp
+plugins/libgfk/FK.cpp
+plugins/libgfk/FK.h
+plugins/libgpolar/Polarization.cpp
+plugins/libgspectro/Spectro.cpp
+plugins/libgspectro/Spectro.h
+
+====================================
+Changes in 1.2.29	18 Nov 2008
+====================================
+Ivan Henson
+o) More work on Arrival/Amplitude measurements.
+include/AmplitudeParams.h
+include/ArrivalParams.h
+include/BasicSource.h
+include/WaveformPlot.h
+libsrc/libgx++/Amp.cpp
+libsrc/libgx++/AmplitudeParams.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/ArrivalParams.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/ArrivalKeyTable.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformView.cpp
+plugins/libgarrival/AmpMag.cpp
+plugins/libgarrival/AmpMag.h
+plugins/libgarrival/Arrivals.cpp
+o) Added KeyActions window that provides control of the key actions in the
+waveform windows.
+include/CPlotClass.h
+include/Preferences.h
+include/widget/CPlot.h
+include/KeyActions.h  (new file)
+libsrc/libgx++/KeyActions.cpp	(new file)
+libsrc/libgx++/ArrivalKeyTable.cpp
+libsrc/libgx++/Preferences.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libwgets/Axes.c
+libsrc/libwgets/CPlotClass.cpp
+libsrc/libwgets/CPlot.cpp
+o) Added Log window.
+include/motif++/Application.h
+include/motif++/Component.h
+include/motif++/MotifClasses.h
+include/motif++/MotifDecs.h
+include/motif++/TextDialog.h (new file)
+include/motif++/TextField.h
+include/WaveformWindow.h
+libsrc/libgmethod++/DataMethod.cpp
+libsrc/libgmethod++/GTimeSeries.cpp
+libsrc/libmotif++/Application.cpp
+libsrc/libmotif++/Component.cpp
+libsrc/libmotif++/TextDialog.cpp (new file)
+libsrc/libmotif++/TextField.cpp
+o) Added key controls to Table class.
+libsrc/libwgets/TCanvas.c
+o) Changed addWaveforms arguments.
+plugins/libgcluster/GCluster.cpp
+plugins/libgcor/Correlation.cpp
+o) Fixed bug in ODBC add table.
+include/TableQuery.h
+libsrc/libgx++/TQDataSource.cpp
+o) Fixed bug with chanid in cssInput.cpp.
+libsrc/libgio/cssInput.cpp
+o) Fixed bug involving station quarks from ODBC.
+libsrc/libgx++/TableQuery.cpp
+o) Fixed bug in ToolBar
+libsrc/libmotif++/ToolBar.cpp
+
+====================================
+Changes in 1.2.28	10 Nov 2008
+====================================
+Ivan Henson
+o) More work on Amplitude measurements.
+include/Amp.h
+include/AmplitudeParams.h
+include/ArrivalParams.h
+libsrc/libgmethod++/GTimeSeries.cpp
+libsrc/libgresp++/Instruments.cpp
+libsrc/libgx++/Amp.cpp
+libsrc/libgx++/AmplitudeParams.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/ArrivalParams.cpp
+libsrc/libgx++/Preferences.cpp
+plugins/libgarrival/MeasureAmpPer.cpp
+plugins/libgarrival/AmpMag.cpp
+o) Fixed compiler complaints.
+include/motif++/Application.h
+libsrc/libgio/cssInput.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libmotif++/Application.cpp
+plugins/libgpm/MotionPlot.cpp
+
+====================================
+Changes in 1.2.27	6 Nov 2008
+====================================
+Ivan Henson
+o) Improvements to the Amplitude measurement code.
+include/AmplitudeParams.h
+include/BasicSource.h
+libsrc/libgio/cssInput.cpp
+include/WaveformPlot.h
+libsrc/libgbeam/beam.cpp
+libsrc/libgx++/Amp.cpp
+libsrc/libgx++/AmplitudeParams.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libwgets/CPlotClass.cpp
+libsrc/libwgets/CPlot.cpp
+plugins/libgarrival/AmpMag.cpp
+plugins/libgarrival/AmpMag.h
+plugins/libgarrival/MeasureAmpPer.cpp
+plugins/libgarrival/MeasureAmpPer.h
+o) Added routines.
+include/CSSTable.h
+libsrc/libgx++/CSSTable.cpp
+include/gobject++/GTimeSeries.h
+libsrc/libgmethod++/GTimeSeries.cpp
+o) Added error messages to code that looks for instrument response.
+libsrc/libgresp++/Instruments.cpp
+o) Taper window changes.
+plugins/libgfk/FK.cpp
+plugins/libgfk/FK.h
+plugins/libgft/FT.cpp
+plugins/libgft/FT.h
+libsrc/libgx++/Filter.cpp
+libsrc/libgx++/TaperWindow.cpp
+include/TaperWindow.h
+o) Fixed bugs.
+libsrc/libgmethod++/DataMethod.cpp
+libsrc/libgx++/OpenDB.cpp
+libsrc/libgx++/Preferences.cpp
+libsrc/libgx++/TQDataSource.cpp
+libsrc/libwgets/CPlotClass.cpp
+
+====================================
+Changes in 1.2.26	28 Oct 2008
+====================================
+Ivan Henson
+o) Fixed bug in taper parameters that prevented the FK from working correctly
+	after the first computation.
+plugins/libgfk/FK.cpp
+
+====================================
+Changes in 1.2.25	28 Oct 2008
+====================================
+Ivan Henson
+o) Added interface access to parameters for mbpcc computation.
+include/AmplitudeParams.h
+libsrc/libgx++/AmplitudeParams.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+
+o) Fixed table bug
+include/BasicSource.h
+libsrc/libgx++/CSSTable.cpp
+libsrc/libgx++/MultiTable.cpp
+
+o) Fixed bugs in multiple origin logic.
+include/CPlotClass.h
+include/TtPlotClass.h
+include/widget/CPlot.h
+include/widget/CPlotP.h
+include/widget/TtPlot.h
+libsrc/libwgets/CPlotClass.cpp
+libsrc/libwgets/CPlot.cpp
+libsrc/libwgets/MapPlot.cpp
+libsrc/libwgets/TtPlot.cpp
+plugins/libgarrival/AmpMag.cpp
+plugins/libgarrival/AmpMag.h
+plugins/libghp/PolarFilter.cpp
+plugins/libgmap/MapWindow.cpp
+plugins/libgorigin/Origins.cpp
+plugins/libgorigin/Origins.h
+
+o) Fixed compiler warnings
+include/motif++/IPCClient.h
+include/TableSource.h
+libsrc/libgx++/TableSource.cpp
+libsrc/libwgets/TCanvas.c
+plugins/libgfk/FK.h
+
+o) Added undo for origin, amplitude, stamag, and netmag delete.
+include/motif++/UndoAction.h
+include/WaveformPlot.h
+include/WaveformWindow.h
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libmotif++/UndoManager.cpp
+plugins/libgarrival/Arrivals.cpp
+plugins/libgarrival/Arrivals.h
+plugins/libgfk/FK.cpp
+plugins/libgfk/FK.h
+
+o) Fixed bug in SacSource
+include/SacSource.h
+libsrc/libgio/SacSource.cpp
+
+====================================
+Changes in 1.2.24	22 Oct 2008
+====================================
+Ivan Henson
+o) Added orid lists to several popups
+include/OridList.h
+libsrc/libgx++/OridList.cpp
+plugins/libgtt/TravelTimes.h
+plugins/libgtt/TravelTimes.cpp
+
+o) Changes for amplitude measurements.
+include/Amp.h
+include/AmplitudeParams.h
+include/ArrivalKeyTable.h
+include/BasicSource.h
+include/CPlotClass.h
+include/DataMethod.h
+include/DataSource.h
+include/libgio.h
+include/WaveformPlot.h
+include/WaveformView.h
+include/WaveformWindow.h
+include/widget/CPlot.h
+include/widget/CPlotP.h
+libsrc/libgio/cssInput.cpp
+libsrc/libgx++/ArrivalAmp.cpp
+
+o) Bug fixes:
+include/motif++/List.h
+include/MultiTable.h
+include/Table.h
+include/TableQuery.h
+include/widget/HCanvasP.h
+libsrc/libgx++/CSSTable.cpp
+libsrc/libgx++/DataValues.cpp
+
+o) Removed dependence on gbase/libgcss.a
+libsrc/libgio/cssInput.cpp
+libsrc/libgio/GParseWrite.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/ffdb.cpp
+libsrc/libgx++/odbc.cpp
+libsrc/libgx++/TQDataSource.cpp
+libsrc/libgx++/WaveformPlot.cpp
+plugins/libgarrival/AmpMag.cpp
+plugins/libgbm/Recipes.cpp
+plugins/libghp/PolarFilter.cpp
+plugins/libgspectro/Spectro.cpp
+
+o) Fixed bugs in Origins window
+plugins/libgorigin/Origins.cpp
+
+o) Removed getProgramResource()
+plugins/libgspectro/Spectro.cpp
+
+o) Removed references to CSSTABLE_id()
+libsrc/libgio/cssInput.cpp
+libsrc/libgio/SacSource.cpp
+libsrc/libgmethod++/WaveformTag.cpp
+libsrc/libgx++/BasicSource.cpp
+libsrc/libgx++/CreateBeam.cpp
+libsrc/libgx++/odbc.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformView.cpp
+libsrc/libwgets/CPlot.cpp
+plugins/libgarrival/AmpMag.cpp
+plugins/libgarrival/Arrivals.cpp
+plugins/libgbm/Slowness.cpp
+plugins/libglc/Locate.cpp
+plugins/libgmap/MapWindow.cpp
+plugins/libgorigin/Origins.cpp
+
+
+====================================
+Changes in 1.2.22	29 Sept 2008
+====================================
+Elena Tomuta
+	
+o) changes due to PMCC
+configure.ac	
+libsrc/libmotif++/IPCClient.cpp
+libsrc/libmotif++/Application.cpp	
+libsrc/libmotif++/Makefile.am
+include/motif++/IPCClient.h
+include/motif++/Application.h	
+include/motif++/Makefile.am	
+src/geotool/Makefile.am	
+
+Vera Miljanovic
+o) fixed error after 4.3. Suse compiler
+libsrc/libgobject++/GError.cpp	
+libsrc/libgx++/System.cpp
+libsrc/libmotif++/Component.cpp
+libsrc/libmotif++/PluginManager.cpp
+plugins/libgrsp/Resp.cpp
+
+Dmitry Bobrov
+o) fixed error after 4.3. Suse compiler
+include/motif++/IPCClient.h
+	
+====================================
+Changes in 1.2.21	17 Sept 2008
+====================================
+Vera Miljanovic
+
+o) added additional changes to cluster: 
+parameter min cross-correlation threshold and cluster summary
+plugins/libgcluster/GClusterParams.cpp
+plugins/libgcluster/GClusterSummary.cpp
+plugins/libgcluster/GCluster.cpp
+plugins/libgcluster/GClusterParams.h
+plugins/libgcluster/GClusterSummary.h
+plugins/libgcluster/GCluster.h	
+plugins/libgcluster/Makefile.am
+o) added waveform difference
+libsrc/libgx++/Diff.cpp
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformWindow.cpp
+libsrc/libgx++/Makefile.am
+include/Diff.h
+include/WaveformPlot.h
+include/WaveformWindow.h
+include/Makefile.am
+	
+====================================
+Changes in 1.2.21	16 Sept 2008
+====================================
+Ivan Henson	
+o) Fixed SUNWSPRO compiler warnings.
+	include/CPlotClass.h
+	libsrc/libwgets/Table.cpp
+	plugins/examples/example4/Example4.h
+o) Fixed problems with TabClass, WaveformPlot usage, memory leaks.
+	plugins/libgcluster/GCluster.cpp
+o) Changes to DataSource/DataReceiver communication.
+	include/DataReceiver.h
+	include/DataSource.h
+	libsrc/libgmethod++/DataSource.cpp
+	libsrc/libgx++/OpenFile.cpp
+	libsrc/libgx++/RefSta.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	plugins/libgarrival/Arrivals.cpp
+	plugins/libgarrival/MeasureAmpPer.cpp
+	plugins/libgarrival/Stassocs.cpp
+	plugins/libgbm/Recipes.cpp
+	plugins/libgdataqc/QCParam.cpp
+	plugins/libgfk/FK.cpp
+	plugins/libgft/FT.cpp
+	plugins/libghp/PolarFilter.cpp
+	plugins/libglc/Locate.cpp
+	plugins/libgpm/MotionPlot.cpp
+	plugins/libgpolar/Polarization.cpp
+	plugins/libgrot/Rotate.cpp
+	plugins/libgrsp/Resp.cpp
+	plugins/libgspectro/Spectro.cpp
+	plugins/libgstlt/StaLta.cpp
+o) Fixed delete methods and Destroy methods
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libgx++/WaveformView.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+	libsrc/libwgets/Axes.c
+	libsrc/libwgets/CPlot.cpp
+	libsrc/libwgets/TtPlot.cpp
+o) Replaced calls to assert() with returns
+	libsrc/libmccc/mccc.cpp
+	plugins/libgmccc/MultiChannelCC.cpp
+o) Memory leaks.
+	libsrc/libmccc/mccc.cpp
+o) Fixed bug in WaveformPlot initialization.
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libwgets/CPlotClass.cpp
+	libsrc/libwgets/TtPlot.cpp
+====================================
+Changes in 1.2.20	12 Sept 2008
+====================================
+Ivan Henson	
+o) Create and save CssAmplitude record when adding an arrival.
+	include/Amp.h
+	include/AmplitudeParams.h
+	include/BasicSource.h
+	include/Preferences.h
+	include/WaveformPlot.h
+	libsrc/libgx++/Amp.cpp
+	libsrc/libgx++/AmplitudeParams.cpp
+	libsrc/libgx++/BasicSource.cpp
+	libsrc/libgx++/Preferences.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libwgets/CPlotClass.cpp
+o) Fixed problems with instrument response. Record calib, calper for each
+	response that is convolved or deconvolved. Add initial_calib,
+	initial_calper to Segment class.
+	include/ConvolveData.h
+	include/gobject++/GSegment.h
+	include/gobject++/GTimeSeries.h
+	include/ResponseFile.h
+	include/Response.h
+	libsrc/libgmethod++/GTimeSeries.cpp
+	libsrc/libgobject++/GSegment.cpp
+	libsrc/libgresp++/ConvolveData.cpp
+	libsrc/libgresp++/Instruments.cpp
+	libsrc/libgresp++/Response.cpp
+	plugins/libgarrival/AmpMag.cpp
+	plugins/libgarrival/MeasureAmpPer.cpp
+	plugins/libgft/FtPlot.cpp
+	plugins/libgrsp/Resp.cpp
+	plugins/libgrsp/Resp.h
+	plugins/libgrsp/RespTapers.cpp
+	plugins/libgspectro/Spectro.cpp
+o) Memory leaks.
+	libsrc/libgmethod++/WaveformTag.cpp
+	plugins/libgrt/RTDisplay.cpp
+	plugins/libgstlt/StaLta.cpp
+o) Bug fixes.
+	libsrc/libgx++/CssFileDialog.cpp
+	libsrc/libgx++/CSSTable.cpp
+	libsrc/libgx++/History.cpp
+	libsrc/libgx++/TableFiles.cpp
+	libsrc/libgx++/TableQuery.cpp
+	libsrc/libgx++/WaveformView.cpp
+	plugins/libglc/Locate.cpp
+o) Fixed SUNWSPRO compiler warnings.
+	include/CPlotClass.h
+	include/DataSource.h
+	include/TtPlotClass.h
+	include/WaveformPlot.h
+	include/WaveformWindow.h
+	plugins/libgfk/FK.h
+	
+====================================	
+Changes in 1.2.18	13 Aug 2008
+====================================
+Vera Miljanovic
+
+o) added clustering library
+plugins/libgcluster/GCluster.cpp
+plugins/libgcluster/GCluster.h
+plugins/libgcluster/GClusterParams.cpp
+plugins/libgcluster/GClusterParams.h
+plugins/libgcluster/GClusterSummary.cpp
+plugins/libgcluster/GClusterSummary.h
+plugins/libgcluster/gcluster.input
+plugins/libgcluster/libgcluster.cpp	
+plugins/libgcluster/cluster.c
+plugins/libgcluster/cluster.h
+	
+====================================
+Changes in 1.2.17	31 July 2008
+====================================
+Ivan Henson	
+o) Fixed more problems with arrival delete callbacks.
+	include/CPlotClass.h
+	libsrc/libgx++/MultiTable.cpp
+	libsrc/libgx++/WaveformView.cpp
+	libsrc/libwgets/TableListener.cpp
+	libsrc/libwgets/CPlotClass.cpp
+o) Added horizontal double line callbacks to Axes.c
+	include/AxesClass.h
+	src/example1/Example.cpp
+	src/example1/Example.h
+o) Added time_tolerance parameter in the GTimeSeries class for time comparisons
+	such as the one in truncate:
+	double del = time_tolerance*s[0]->tdel();
+	if(t1 <  tbeg()+del && t2 > tend()-del) {
+	    return true;
+	}
+	This should fix the problem of one-sample-short GSE formatted waveforms.
+
+	include/gobject++/GTimeSeries.h
+	libsrc/libgmethod++/GTimeSeries.cpp
+o) Fixed memory leak.
+	libsrc/libgx++/WaveformPlot.cpp
+	
+====================================
+Changes in 1.2.16	29 July 2008
+====================================
+Ivan Henson
+o) Fixed problem with arrival delete callbacks.
+	include/CPlotClass.h
+	include/DataSource.h
+	libsrc/libgx++/WaveformView.cpp
+	plugins/libgarrival/Arrivals.cpp
+o) Fixed bug in CPlot widget.
+	libsrc/libwgets/CPlot.cpp
+o) Fixed BasicSource::cts2nms so that it works after convolve/deconvolve
+	operations.
+	libsrc/libgx++/BasicSource.cpp
+o) Changed comment.
+	libsrc/libgresp++/Response.cpp
+	
+====================================
+Changes in 1.2.15	29 July 2008
+====================================
+John Coyne
+o) Fixed bug when saving data in SAC and ascii formats so calib value
+   is handled correctly. Also fixed some rounding problems when saving in 
+   SAC format.
+       	./libsrc/libgio/sacWrite.cpp
+	./libsrc/libgio/asciiWrite.cpp
+
+o) When displaying instruments for a station, an assumption was made that 
+   instrument records from the database would be the same of the filename 
+   was the same. This is not correct, so inid is now used to retrieve the 
+   correct instrument response for a station.
+	./include/ResponseFile.h
+	./include/BasicSource.h
+	./include/gobject++/GTimeSeries.h
+	./plugins/libgrsp/Resp.cpp
+	./libsrc/libgresp++/Instruments.cpp (Ivan, check this one)
+	./libsrc/libgx++/BasicSource.cpp
+	./libsrc/libgmethod++/GTimeSeries.cpp
+
+o) fixed GLw warning and made improvements in configure.ac
+o) changes in plugins Makefile.am's ( $(SED) -> sed )
+o) fixed error under SUNWspro compiler
+include/widget/CPlot.h
+	
+Vera Miljanovic
+o) changes in order to make plugins work on Mac
+libsrc/libmotif++/PlugInManager.cpp
+o) fixed warning for passing double instead of int
+libsrc/libgx++/WaveformPlot.cpp	
+o) fixed warning under Mac OS
+libsrc/libglc/Locate.cpp
+	
+====================================
+Changes in 1.2.15	28 July 2008
+====================================
+o) Fixed some compiler warnings.
+o) Made changes related to creating arrivals.
+	- removed default values for deltime, delaz, delslo
+	- can now add arrivals in FK window and in Polarization window.
+o) Fixed bug in Align on Predicted FirstP
+o) Added AmplitudeParams window
+
+New files:
+include/AmplitudeParams.h
+libsrc/libgx++/AmplitudeParams.cpp
+
+====================================
+Changes in 1.2.13	09 July 2008
+====================================
+Ivan Henson
+
+o) New files:
+	include/FixBool.h
+	include/TableListener.h
+	libsrc/libgio/TableListener.cpp
+	libsrc/libgmethod++/WaveformTag.cpp (moved from libsrc/libgx++)
+	plugins/examples/example1/Example1.cpp
+	plugins/examples/example1/Example1.h
+	plugins/examples/example1/libExample1.cpp
+	plugins/examples/example2/Example2.cpp
+	plugins/examples/example2/Example2.h
+	plugins/examples/example2/libExample2.cpp
+	plugins/libgfk/libgfk3d.cpp
+
+o) Added TableListener class for callbacks to CSS table object changes,
+	such as CssArrival retime, rename, delete , etc.
+	include/TableListener.h
+	libsrc/libgio/TableListener.cpp
+	include/CPlotClass.h
+	include/CSSTable.h
+	libsrc/libgx++/CSSTable.cpp
+	libsrc/libgx++/MultiTable.cpp
+	libsrc/libwgets/CPlotClass.cpp
+o) Changes to DataSource and DataReceive classes
+	include/DataReceiver.h
+	include/DataSource.h
+	include/Filter.h
+	include/History.h
+	include/MultiTable.h
+	include/OpenFile.h
+	include/RefSta.h
+	libsrc/libgmethod++/DataSource.cpp
+	libsrc/libgx++/CreateBeam.cpp
+	libsrc/libgx++/CssFileDialog.cpp
+	libsrc/libgx++/Filter.cpp
+	libsrc/libgx++/History.cpp
+	libsrc/libgx++/OpenFile.cpp
+	libsrc/libgx++/RefSta.cpp
+	libsrc/libgx++/Waveforms.cpp
+	and all files that were changes in plugins subdirectories
+o) Changes to GSourceInfo class
+	include/gobject++/GSourceInfo.h
+	include/gobject++/GTimeSeries.h
+	include/TableQuery.h
+	libsrc/libgbeam/beam.cpp
+	libsrc/libgio/cssInput.cpp
+	libsrc/libgio/GParseWrite.cpp
+	libsrc/libgio/GseSource.cpp
+	libsrc/libgio/SacSource.cpp
+	libsrc/libgobject++/GSourceInfo.cpp
+	libsrc/libgx++/ffdb.cpp
+	libsrc/libgx++/odbc.cpp
+	libsrc/libgx++/TableQuery.cpp
+	libsrc/libgx++/TableViewer.cpp
+	libsrc/libgx++/TQDataSource.cpp
+o) Made ghashtable.elements public
+	include/gobject++/ghashtable.h
+o) Fixed memory leaks, and memory bugs
+	include/motif++/Component.h
+	include/motif++/MotifComp.h
+	libsrc/libgbeam/beamRecipe.cpp
+	libsrc/libgbeam/FKData.cpp
+	libsrc/libgx++/Iaspei.cpp
+	libsrc/libgx++/OpenDB.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+	libsrc/libmotif++/Component.cpp
+	libsrc/libmotif++/TextField.cpp
+	libsrc/libwgets/Tab.c
+	libsrc/libwgets/TtPlot.cpp
+	src/geotool/main.cpp
+o) Changes to default resources
+	libsrc/libmotif++/Application.cpp
+	plugins/libgfk/FkSignal.cpp
+o) Removed unecessary class declaration
+	include/motif++/PlugIn.h
+o) Added constructor
+	include/motif++/Toggle.h
+	libsrc/libmotif++/Toggle.cpp
+o) Added new include file FixBool.h
+	include/FixBool.h
+	include/OpenDB.h
+	include/TableSource.h
+	include/TableViewer.h
+o) Added Waveform Tables to WaveformWindow Option menu
+	include/WaveformPlot.h
+	include/WaveformWindow.h
+	libsrc/libgx++/WaveformPlot.cpp
+o) Moved WaveformTag object inside GTimeSeries
+	include/WaveformTag.h
+	include/gobject++/GTimeSeries.h
+	libsrc/libgmethod++/GTimeSeries.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+o) Fixed units bug in FK
+	plugins/libgfk/FK.cpp
+o) Revived libgfk3d
+	plugins/libgfk/libgfk.cpp
+o) Changed csh to sh in the plugins scripts
+	libgbm/gdbm.input
+	libgbm/gobm.input
+	libgcal/gcal.input
+	libgcepstrum/gcepstrum.input
+	libgcor/gcor.input
+	libgfk/gfk.input
+	libgfk/gfkmb.input
+	libgft/gft.input
+	libglc/glc.input
+	libgmap/gmap.input
+	libgmccc/gmccc.input
+	libgorigin/gorigin.input
+	libgpmcc/gpmcc.input
+	libgpolar/gpolar.input
+	libgrsp/grsp.input
+	libgrt/grt.input
+	libgspectro/gspectro.input
+
+====================================
+Changes in 1.2.12	26 June 2008
+====================================
+Vera Miljanovic
+
+o) changes in Makefile.am's and configure.ac
+
+Dmitry Bobrov
+
+o) added header files due to testing on openSUSE 11.0
+libsrc/libgobject++/GError.cpp
+libsrc/libgx++/System.cpp
+libsrc/libmotif++/Component.cpp
+libsrc/libmotif++/PluginManager.cpp
+plugins/libgrsp/Resp.cpp	
+	
+====================================
+Changes in 1.2.11	25 June 2008
+====================================
+Ivan Henson
+
+o) Added option to remove time shifts from the FIR instrument responses.
+	include/ConvolveData.h
+	include/Response.h
+	libsrc/libgresp++/ConvolveData.cpp
+	libsrc/libgresp++/Response.cpp
+	libsrc/libgx++/BasicSource.cpp
+	plugins/libgrsp/Resp.cpp
+	plugins/libgrsp/Resp.h
+	plugins/libgft/FtPlot.cpp
+o) Corrected the algorithm for FIR instrument responses that have denominator
+	coefficients.
+	libsrc/libgresp++/Response.cpp
+
+	The old formula:
+	--------------------------------------------------
+	 * Compute a linear filter response (FIR or IIR)
+	 *
+	 *               M
+	 *              ----
+	 *              \           -2*PI*i*k*(f*dt)
+	 *              /     c  * e
+	 *              ----   k
+	 *     	         k=0
+	 *  H(f) =   ------------------------------------
+	 *                 N
+	 *                ----
+	 *                \           -2*PI*i*j*(f*dt)
+	 *          1. -  /     d  * e
+	 *                ----   j
+	 *                j=0
+	--------------------------------------------------
+
+	The new formula:
+	--------------------------------------------------
+	 * Compute a linear filter response (FIR or IIR)
+	 *
+	 *               M
+	 *              ----
+	 *              \           -2*PI*i*k*(f*dt)
+	 *              /     c  * e
+	 *              ----   k
+	 *              k=0
+	 *  H(f) =   ------------------------------------
+	 *               N
+	 *              ----
+	 *              \           -2*PI*i*j*(f*dt)
+	 *              /     d  * e
+	 *              ----   j
+	 *              j=0
+	--------------------------------------------------
+
+o) Added default CPlot/TtPlot resources.
+	libsrc/libwgets/CPlotClass.cpp
+o) Removed unnecessary resources for WaveformView and WaveformPlot
+	libsrc/libgx++/OpenFile.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+	libsrc/libmotif++/Application.cpp
+	plugins/libgarrival/AmpMag.cpp
+	plugins/libgcor/Correlation.cpp
+	plugins/libgfk/FK.cpp
+	plugins/libgfk/FkSignal.cpp
+	plugins/libgmccc/MultiChannelCC.cpp
+	plugins/libgpolar/Polarization.cpp
+	plugins/libgspectro/Spectro.cpp
+o) Fixed bug in the drawing of the axes minor ticmarks involving the
+	extraXTicmarcks and extraYTicmarks resources.
+	libsrc/libwgets/Axes.c
+
+====================================
+Changes in 1.2.10	23 June 2008
+====================================
+Ivan Henson
+
+o) Fixed bug in Polarization. The position of the time window cursor was
+	not being computed correctly. This bug was introduced when the
+	waveform plot time scale was changed to be actual time.
+	plugins/libgpolar/Polarization.cpp
+o) Added the time impulse response plot to the instrument response window.
+	plugins/libgrsp/Resp.cpp
+	plugins/libgrsp/Resp.h
+o) Added two new getPlugins methods to PlugInManager
+	include/motif++/PlugIn.h
+	libsrc/libmotif++/PlugInManager.cpp
+	include/motif++/PlugInManager.h
+	libsrc/libgx++/TableViewer.cpp
+o) Changed TopWindow::pluginParse
+	libsrc/libmotif++/TopWindow.cpp
+o) Added checks for unrealized window to allow parseInput to work when the
+		window is not realized.
+	libsrc/libwgets/ConPlot.c
+	libsrc/libwgets/TtPlot.cpp
+o) Changed some putProgramProperty calls to putAppProperty. The later method
+	optionally does not write the property to the property file.
+	plugins/libgarrival/Arrivals.cpp
+	plugins/libgarrival/MeasureAmpPer.cpp
+	plugins/libgpmcc/Pmcc.cpp
+o) Change to allow FK to be computed when window is not visible.
+	plugins/libgfk/FK.cpp
+o) Change to allow locations when location window is not visible.
+	plugins/libglc/Locate.cpp
+o) Rearranged and renamed some methods for documentation purposes.
+	plugins/libgarrival/libgarrival.cpp
+	plugins/libgbm/libgbm.cpp
+	plugins/libgcal/libgcal.cpp
+	plugins/libgcepstrum/libgcepstrum.cpp
+	plugins/libgcor/libgcor.cpp
+	plugins/libgdataqc/libgdataqc.cpp
+	plugins/libgfk/libgfk.cpp
+	plugins/libgft/libgft.cpp
+	plugins/libghp/libghp.cpp
+	plugins/libglc/libglc.cpp
+	plugins/libgmap/libgmap.cpp
+	plugins/libgmccc/libgmccc.cpp
+	plugins/libgorigin/libgorigin.cpp
+	plugins/libgpm/libgpm.cpp
+	plugins/libgpmcc/libgpmcc.cpp
+	plugins/libgpolar/libgpolar.cpp
+	plugins/libgrot/libgrot.cpp
+	plugins/libgrsp/libgrsp.cpp
+	plugins/libgspectro/libgspectro.cpp
+	plugins/libgrt/libgrt.cpp
+	plugins/libgstlt/libgstlt.cpp
+	plugins/libgtt/libgtt.cpp
+
+====================================
+Changes in 1.2.9	13 June 2008
+====================================
+Ivan Henson
+
+o) Changed some of the putProgramProperty calls to use putAppProperty, which
+	has the option to not write the property to the ~/.geotool++/geotool
+	file. Put a version check in main.cpp to clean up the properties file.
+	src/geotool/main.cpp
+	libsrc/libgx++/BasicSource.cpp
+	libsrc/libgx++/CssFileDialog.cpp
+	libsrc/libgx++/Fonts.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	plugins/libgfk/FK.cpp
+	plugins/libgfk/FK.h
+	plugins/libglc/Locate.cpp
+o) Added check for tables/map/shapefiles/f_pol/vpf/polbnda.shp.gz and if not
+	found, try tables/map/shapefiles/f_pol/vpf/polbnda.shp.
+	plugins/libgmap/MapThemes.cpp
+o) Changed the logic for saving the Filters in the Filter popup.
+	Added a Save button.
+	include/Filter.h
+	libsrc/libgx++/Filter.cpp
+
+====================================
+Changes in 1.2.8	30 May 2008
+====================================
+Ivan Henson
+
+o) Add automatic arrival parameter computation when arrivals are added.
+	(snr, azimuth, slow, deltim, delaz, etc)
+o) Improvements to FK. Improved algorithm speed and adjusted amp (and fstat)
+	to be the same as the ibase routine fk_spectra().
+o) Fixed bug in Polarization module. Compared polarization algorithm to
+	the ibase routine polar().
+o) Remove GParseSource class from libgx++. Replaced it with TableSource class.
+	Removed the GParse code from libgio (except GParseWrite.cpp), that
+	was not being used. Also avoid confusion with gbase-gparse.
+o) Removed all plugin/src code. Changed the geotool++ executable
+	(geotool++/main.cpp and libgx++/WaveformWindow.cpp) to run all plugins
+	as the first window.
+		geotool++ window=WINDOW_NAME
+	For example gft is now a script:
+		geotool++ window=FT
+o) Added icon image routine.
+	Application.cpp
+
+-------------------------------------------------------------
+File changes in include/
+	Deleted: GParseSource.h, libGParse.h, g_icon.xbm
+	Added:	Map.h, OpenDB.h, QueryViews.h, TableQuery.h, TableSource.h,
+		widget/MapPlot.h, widget/MapPlotP.h
+
+File changes in libsrc/
+	Deleted: libgio/GParse.cpp, libgio/GParseError.cpp, libgio/libGParseP.h,
+		libgx++/GParseSource.cpp libgio/GParseInit.cpp
+	Added:	libgx++/ffdb.cpp, libgx++/odbc.cpp, libgx++/OpenDB.cpp,
+		libgx++/QueryViews.cpp, libgx++/TableQuery.cpp,
+		libgx++/TableSource.cpp, libgx++/TQDataSource.cpp,
+		libwgets/Map.cpp, libwgets/MapPlot.cpp
+
+File changes in plugins/
+	Deleted plugins/src and contents. No longer needed.
+	Deleted plugins/include directory. Moved all .h files to library
+		directories:
+		libgarrival/Arrivals.h
+		libgbm/Recipes.h
+		libgcal/Calibration.h
+		libgcepstrum/GCepstrum.h
+		libgcor/Correlation.h
+		libgdataqc/QCParam.h
+		libgdataqc/RmsWindow.h
+		libgfk/FK.h
+		libgfk/FKParam.h
+		libgft/FT.h
+		libghp/HilbertTransform.h
+		libghp/PolarFilter.h
+		libglc/Locate.h
+		libgmap/MapWindow.h
+		libgmccc/MultiChannelCC.h
+		libgorigin/Origins.h
+		libgpm/MotionPlot.h
+		libgpolar/Polarization.h
+		libgrot/Rotate.h
+		libgrsp/Resp.h
+		libgrt/RTDisplay.h
+		libgspectro/Spectro.h
+		libgstlt/StaLta.h
+		libgtt/TravelTimes.h
+
+	Deleted plugins/libsrc/libgfk3d. Moved contents to libsrc/libgfk/.
+		libgfk3d/con.c		-> libgfk
+		libgfk3d/Fk3D.cpp	-> libgfk
+		libgfk3d/Fk3D.h		-> libgfk
+		libgfk3d/ggl.h		-> libgfk
+		libgfk3d/ggl_widget.c	-> libgfk
+		(Delete completely libgfk3d/libgfk3d.cpp)
+
+	Deleted plugins/libsrc/libgtq. Moved contents to libgx++.
+		libgtq/ffdb.cpp		-> libgx++
+		libgtq/odbc.cpp		-> libgx++
+		libgtq/OpenDB.cpp	-> libgx++
+		libgtq/QueryViews.cpp	-> libgx++
+		libgtq/QueryViews.h	-> libgx++
+		libgtq/TableQuery.cpp	-> libgx++
+		libgtq/TQDataSource.cpp	-> libgx++
+		libgtq/QueryViews.h	-> include/
+		plugins/include/TableQuery.h	-> include/
+		plugins/include/OpenDB.h	-> include/
+		(Delete completely libgtq/TQ.cpp and libgtq/libgtq.cpp)
+
+	Delete files in libgmap (moved to main include and libwgets):
+		libgmap/Map.cpp			-> libwgets
+		plugins/include/Map.h		-> include
+		(Renamed MapPlot.c to MapPlot.cpp)
+		libgmap/MapPlot.cpp		-> libwgets
+		plugins/include/MapPlotP.h	-> include/widgets
+		plugins/include/MapPlot.h	-> include/widgets
+
+	Moved all plugins/libsrc directories up to plugins/ and removed
+	plugins/libsrc.
+-------------------------------------------------------------
+		
+
+====================================
+Changes in 1.2.7	22 May 2008
+====================================
+Vera Miljanovic
+	
+o) change in configure.ac to build geotool without having gsl library
+configure.ac	
+plugins/libsrc/libgmccc/Makefile.am
+
+o) fixed gfk crashing
+plugins/libsrc/libgfk/FK.cpp	
+	
+====================================
+Changes in 1.2.6	6 Apr 2008
+====================================
+Ivan Henson
+o) Finished work on FK.
+	include/FKData.h
+	libsrc/libgbeam/FKData.cpp
+	plugins/include/FK.h
+	plugins/include/FKParam.h
+	plugins/libsrc/libgfk/FK.cpp
+	plugins/libsrc/libgfk/FKGram3C.cpp
+	plugins/libsrc/libgfk/FKGram.cpp
+	plugins/libsrc/libgfk/FKGram.h
+	plugins/libsrc/libgfk/FKParam.cpp
+	plugins/libsrc/libgfk/FkParamDialog.cpp
+	plugins/libsrc/libgfk/FkParamDialog.h
+	plugins/libsrc/libgfk/FKPeaks.cpp
+	plugins/libsrc/libgfk/FkSignal.cpp
+	plugins/libsrc/libgfk/FkSignal.h
+o) Added option to print error messages to stderr.
+	include/gobject++/GError.h
+	libsrc/libgobject++/GError.cpp
+o) Changes to avoid SUNWspro compiler warings.
+	plugins/include/MultiChannelCC.h
+	plugins/libsrc/libgmccc/MultiChannelCC.cpp
+	plugins/src/gfk/main.cpp
+	plugins/src/gcepstrum/main.cpp
+	include/widget/TtPlot.h
+	libsrc/libwgets/CPlot.cpp
+
+====================================
+Changes in 1.2.5	20 Mar 2008
+====================================
+Ivan Henson
+o) Added predicted arrivals to waveform display in the FK windows.
+	include/Beam.h
+	include/TtPlotClass.h
+	include/widget/TtPlot.h
+	libsrc/libwgets/TtPlot.cpp
+o) Testing an option in FKGram to search over a sliding frequency band (as well
+	as sliding time window) for the FK that has the highest Fstat.
+	include/FKData.h
+	plugins/libsrc/libgfk/FKGram.cpp
+	plugins/libsrc/libgfk/FKGram.h
+	plugins/libsrc/libgfk/FkSignal.cpp
+	plugins/libsrc/libgfk/FkSignal.h
+o) Fixed buf in FK Parameter window.
+	plugins/libsrc/libgfk/FkParamDialog.h
+o) Fixed bug in Beam.cpp (only when there are no dnorth and deast values)
+	libsrc/libgbeam/beam.cpp
+	libsrc/libgbeam/FKData.cpp
+o) Removed calls to mkstemp that caused GParseXXXX and geotlXXXX files to be
+	create in /tmp and not removed. Replaced with cssioGetTmpPrefix.
+	libsrc/libgio/GParseInit.cpp
+	libsrc/libgx++/BasicSource.cpp
+	libsrc/libgx++/TableViewer.cpp
+o) Fixed 64-bit Compiler warnings.
+	include/widget/AxesP.h
+	include/widget/ConPlotP.h
+	include/widget/HCanvasP.h
+	include/widget/TabP.h
+	include/widget/TCanvasP.h
+	libsrc/libmotif++/Info.c
+	libsrc/libwgets/Axes.c
+	libsrc/libwgets/ConPlot.c
+	libsrc/libwgets/CPlot.cpp
+	libsrc/libwgets/HCanvas.c
+	libsrc/libwgets/Histgm.c
+	libsrc/libwgets/MmTable.c
+	libsrc/libwgets/Tab.c
+	libsrc/libwgets/TCanvas.c
+	libsrc/libwgets/TtPlot.cpp
+	plugins/libsrc/libgtq/TableQuery.cpp
+	plugins/libsrc/libgtq/TQDataSource.cpp
+	plugins/libsrc/libgpm/ParticleMotion.c
+o) Fixed 64-bit bug in SAC and GSE I/O routines.
+	libsrc/libgio/SacSource.cpp
+	libsrc/libgio/sacWrite.cpp
+o) Fixed 64-bit compiler uninitialized variable warnings.
+	libsrc/libgx++/Amp.cpp
+	libsrc/libgx++/GParseSource.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libmotif++/Component.cpp
+	libsrc/libgmethod++/RotateData.cpp
+	libsrc/libgio/cssInput.cpp
+	plugins/libsrc/libgft/FtPlot.cpp
+	plugins/libsrc/libgmap/MapPlot.c
+	plugins/libsrc/libgmap/MapThemes.cpp
+	plugins/libsrc/libgorigin/Origins.cpp
+	plugins/libsrc/libgtq/TQ.cpp
+	plugins/libsrc/libgcor/tsCorrelate.cpp
+	plugins/libsrc/libgpm/ParticleMotion.c
+o) Fixed bug in the code that remembers the main window x,y position between
+	executions.
+	libsrc/libmotif++/Application.cpp
+o) Adjustment to CPlot widget to make it unzoom to display new data that is
+	added to an empty window.
+	libsrc/libwgets/CPlot.cpp
+o) Function argument simplication.
+	plugins/include/FK.h
+o) Fixed MultiChannelCC.cpp print routine, some mallocs, a memory leak and
+	compiler warnings.
+	MultiChannelCC.cpp
+
+====================================
+Changes in 1.2.3	10 Mar 2008
+====================================
+Ivan Henson
+o) Changed time axis limits to real time for the Polarization, Correlation, and
+	FkSignal plots.
+	include/CPlotClass.h
+	libsrc/libwgets/CPlot.cpp
+	libsrc/libwgets/TtPlot.cpp
+	include/libdrawx.h
+	plugins/libsrc/libgpolar/Polarization.cpp
+	plugins/libsrc/libgcor/Correlation.cpp
+	plugins/include/Polarization.h
+	plugins/libsrc/libgcepstrum/GCepstrum.cpp
+	plugins/libsrc/libgrsp/Resp.cpp
+	
+o) Changed the FK algorithm to improve the speed. Changed the normalization to
+  	produce the same results as new_fkspectra.c in ibase/libfk. Added
+	fstat computation.
+	include/FKData.h
+	libsrc/libgbeam/FKData.cpp
+	libsrc/libgbeam/fit2d.cpp
+	libsrc/libgbeam/FKCompute3C.cpp
+	plugins/libsrc/libgfk/FKGram3C.cpp
+	plugins/libsrc/libgfk/FKGram3C.h
+	plugins/libsrc/libgfk/FKGram.cpp
+	plugins/libsrc/libgfk/FKGram.h
+	plugins/libsrc/libgfk/FkParamDialog.cpp
+	plugins/libsrc/libgfk/FkParamDialog.h
+	include/gobject++/GTimeSeries.h
+	libsrc/libgmethod++/GTimeSeries.cpp
+o) Changed FK Signal window to display fstat, instead of log(amp). Also added
+	delaz and delslo and the beams to the FK Signal window.
+	plugins/include/FK.h
+	plugins/include/FKParam.h
+	plugins/libsrc/libgfk/FK.cpp
+	plugins/libsrc/libgfk/FKParam.cpp
+	plugins/libsrc/libgfk/FkSignal.cpp
+	plugins/libsrc/libgfk/FkSignal.h
+	libsrc/libwgets/Axes.c
+o) Fixed bug in the minimum overlap option of the Correlation window.
+	plugins/libsrc/libgcor/Correlation.cpp
+	plugins/libsrc/libgcor/MinCorrOverlap.cpp
+o) Fixed bug that prevented the Spectrogram "RTD Compute" button from being
+	displayed.
+	plugins/libsrc/libgrt/RTDisplay.cpp
+o) Added ArrivalParams window and delaz, delslo computation.
+	libsrc/libgx++/ArrivalParams.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+o) Fixed bugs
+	include/motif++/Application.h
+	libsrc/libmotif++/Application.cpp
+	libsrc/libgio/GParseInit.cpp
+	libsrc/libgx++/Iaspei.cpp
+o) Added color to Table column labels that display attributes from two table
+	types (for example arrival and assoc).
+	libsrc/libwgets/TableAttributes.cpp
+	libsrc/libgx++/MultiTable.cpp
+====================================
+Changes in 1.2.0	13  Feb 2008
+====================================
+Vera Miljanovic
+
+o) added Multi Channel Cross Correlation
+plugins/libgmccc/MultiChannelCC.cpp
+plugins/libgmccc/MultiChannelCC.h
+plugins/libgmccc/gmccc.input
+plugins/libgmccc/libgmccc.cpp
+libsrc/libmccc/mccc.cpp
+libsrc/libmccc/mccc.h	
+	
+====================================
+Changes in 1.2.0	17 Jan 2008
+====================================
+Ivan Henson
+o) Many change to improve the C++ objects
+	Removed all run time type identification (RTTI) through the use of the
+		Component isSubClass() and className() methods. These methods
+		have been removed.
+	Removed the Gobject equals() method which depended on RTTI.
+	Changed the GVector class to the gvector template.
+	Changed the GHashtable class to the ghashtable template.
+	Changed the GTimeSeries putValue and getValue methods to use
+		ghastable. Moved most of the information that was stored
+		in the GTimeSeries hashtable to the GTimeSeries class structure.
+	Add the PluginTable window that displaces the plugin libraries that are
+		being used.
+	Added scripts to the distribution.
+	
+====================================
+Changes in 1.1.26	6 Dec 2007
+====================================
+Ivan Henson
+o) Changes for Pmcc
+	include/AxesClass.h
+	include/CPlotClass.h
+	include/MapTypes.h
+	include/TtPlotClass.h
+	include/widget/Axes.h
+	include/widget/TtPlot.h
+	libsrc/libgx++/CreateBeam.cpp
+	libsrc/libwgets/Axes.c
+	libsrc/libwgets/ConPlot.c
+	libsrc/libwgets/CPlot.cpp
+	libsrc/libwgets/TtPlot.cpp
+	plugins/include/Map.h
+	plugins/include/MapPlot.h
+	plugins/include/MapPlotP.h
+	plugins/libsrc/libgmap/Map.cpp
+	plugins/libsrc/libgmap/MapPlot.c
+	plugins/libsrc/libgmap/MapThemeFile.cpp
+o) Changes to avoid possible memory problem.
+	libsrc/libgobject++/GVector.cpp
+o) Coloring arrivals based on association.
+	include/WaveformPlot.h
+	libsrc/libgx++/WaveformPlot.cpp
+o) putenv bug fix.
+	libsrc/libmotif++/Application.cpp
+o) Fix to avoid X Error: BadDrawable (invalid Pixmap or Window parameter)
+	on some X-servers
+	libsrc/libwgets/MmTable.c
+	libsrc/libwgets/Table.cpp
+o) Bug fix.
+	plugins/libsrc/libgtt/TravelTimes.cpp
+
+====================================
+Changes in 1.1.24	3 Dec 2007
+====================================
+Ivan Henson
+o) Changes for Pmcc
+	include/widget/Axes.h
+	include/widget/AxesP.h
+	libsrc/libwgets/Axes.c
+	plugins/include/Map.h
+	plugins/include/MapPlot.h
+	plugins/include/MapPlotP.h
+	plugins/libsrc/libgmap/Map.cpp
+	plugins/libsrc/libgmap/MapPlot.c
+	plugins/libsrc/libgtq/OpenDB.cpp
+o) Bug fix in libgrt
+	plugins/libsrc/libgrt/RTData.cpp
+	plugins/libsrc/libgrt/RTData.h
+	plugins/libsrc/libgrt/RTDisplay.cpp
+o) Bug in Beam::getDetectionRecipes
+	include/Beam.h
+o) Another fix to getenv.
+	libsrc/libmotif++/Application.cpp
+
+====================================
+Changes in 1.1.23	28 Nov 2007
+====================================
+Ivan Henson
+o) Fixed bug in CPlot.cpp. The y-axis scrollbar now adjusts when waveforms
+	are turned off.
+	libsrc/libwgets/CPlot.cpp
+o) Fixed getenv in Application.cpp
+o) Added ifdef HAVE_GSL to libglsq
+
+====================================
+Changes in 1.1.23	28 Nov 2007
+====================================
+Ivan Henson
+o) Added colorArrival()
+	include/CPlotClass.h
+	libsrc/libwgets/CPlot.cpp
+	libsrc/libwgets/CPlot.cpp
+o) Fixed bug related to time limits.
+	libsrc/libwgets/CPlot.cpp
+o) Added redirect_warnings to Component.cpp
+	include/motif++/Component.h
+	libsrc/libmotif++/Component.cpp
+o) Fixed bug that had deactivated the Paste option
+	libsrc/libgx++/WaveformView.cpp
+o) Added installation_directory code to make the installation directory
+		available at run time. All calls to getenv("GEOTOOL_HOME") were
+		replace by Application::getInstallDir("GEOTOOL_HOME") which
+		returns the environment variable if it is found, or else returns
+		the installation directory path.
+	include/motif++/Application.h
+	libsrc/libgbeam/beamRecipe.cpp
+	libsrc/libgio/GParseInit.cpp
+	libsrc/libgresp++/Instruments.cpp
+	libsrc/libgx++/GParseSource.cpp
+	libsrc/libgx++/Iaspei.cpp
+	libsrc/libgx++/TableFiles.cpp
+	libsrc/libmotif++/Application.cpp
+	libsrc/libmotif++/PlugInManager.cpp
+	plugins/libsrc/libgbm/AddGroup.cpp
+	plugins/libsrc/libgbm/AddRecipe.cpp
+	plugins/libsrc/libgbm/BeamGroups.cpp
+	plugins/libsrc/libgmap/MapOverlayForm.cpp
+	plugins/libsrc/libgmap/MapThemes.cpp
+	plugins/libsrc/libgmap/MapWindow.cpp
+	plugins/libsrc/libgrt/RTDisplay.cpp
+	plugins/libsrc/libgtq/TableQuery.cpp
+	plugins/src/gbm/main.cpp
+	plugins/src/gcalex/main.cpp
+	plugins/src/gcepstrum/main.cpp
+	plugins/src/gfk/main.cpp
+	plugins/src/gft/main.cpp
+	plugins/src/gmap/main.cpp
+	plugins/src/grsp/main.cpp
+	plugins/src/grt/main.cpp
+	plugins/src/gspectro/main.cpp
+	plugins/src/gtq/main.cpp
+	plugins/src/gtv/main.cpp
+	src/geotool/main.cpp
+	src/geotool/Makefile.am
+	plugins/src/gbm/Makefile.am
+	plugins/src/grsp/Makefile.am
+	plugins/src/gcalex/Makefile.am
+	plugins/src/grt/Makefile.am
+	plugins/src/gcepstrum/Makefile.am
+	plugins/src/gspectro/Makefile.am
+	plugins/src/gfk/Makefile.am
+	plugins/src/gtq/Makefile.am
+	plugins/src/gft/Makefile.am
+	plugins/src/gtv/Makefile.am
+	plugins/src/gmap/Makefile.am
+
+====================================
+Changes in 1.1.22	27 Nov 2007
+====================================
+Ivan Henson
+o) Added mouse-over callback to ConPlot
+	include/ConPlotClass.h
+	include/widget/ConPlot.h
+	include/widget/ConPlotP.h
+	libsrc/libwgets/ConPlot.c
+o) Added another flavor of beamWaveforms()
+	include/WaveformPlot.h
+o) Fixed bugs related to CPlot widget calls before widget realization.
+	libsrc/libwgets/CPlot.cpp
+o) Changed some protected to public
+	plugins/include/TableQuery.h
+
+====================================
+Changes in 1.1.21	24 Nov 2007
+====================================
+o) Changes to libgrtd by Gerald.
+
+====================================
+Changes in 1.1.20	21 Nov 2007
+====================================
+Ivan Henson
+o) Merge with Vera's 1.1.19 (qsort argument function declaration)
+	include/BasicSource.h
+	include/gobject++/GVector.h
+	include/WaveformConstraint.h
+	libsrc/libgio/GParse.cpp
+	libsrc/libgobject++/GVector.cpp
+	libsrc/libgresp++/ConvolveData.cpp
+	libsrc/libgx++/BasicSource.cpp
+	libsrc/libgx++/TableViewer.cpp
+	libsrc/libgx++/WaveformConstraint.cpp
+	libsrc/libmotif++/Application.cpp
+	libsrc/libwgets/MmTable.c
+	libsrc/libwgets/TCanvas.c
+	plugins/include/Arrivals.h
+	plugins/include/StaLta.h
+	plugins/include/TableQuery.h
+	plugins/libsrc/libgarrival/AmpMag.h
+	plugins/libsrc/libgarrival/Arrivals.cpp
+	plugins/libsrc/libgbm/Slowness.cpp
+	plugins/libsrc/libgcor/Correlation.cpp
+	plugins/libsrc/libgfk/FKPeaks.cpp
+	plugins/libsrc/libgft/FtPlot.cpp
+	plugins/libsrc/libghp/PolarFilter.cpp
+	plugins/libsrc/libgrt/RTData.cpp
+	plugins/libsrc/libgstlt/StaLta.cpp
+	plugins/libsrc/libgtq/TableQuery.cpp
+	plugins/libsrc/libgtq/TQDataSource.cpp
+o) Added setInitialColors
+	include/ColorSelection.h
+	libsrc/libgx++/ColorSelection.cpp
+o) Added setBarValues (ConPlot color bar)
+	include/ConPlotClass.h
+	include/TtPlotClass.h
+	include/widget/ConPlot.h
+	include/widget/ConPlotP.h
+	libsrc/libwgets/ConPlot.c
+o) Promote visible data to the top of the window.
+	include/CPlotClass.h
+	include/widget/CPlot.h
+	include/widget/TtPlot.h
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libgx++/Waveforms.cpp
+	libsrc/libwgets/CPlot.cpp
+	libsrc/libwgets/TtPlot.cpp
+o) Added getTable()
+	include/FrameTable.h
+o) Added option to conserve screen space.
+	include/widget/Axes.h
+	include/widget/AxesP.h
+	libsrc/libwgets/Axes.c
+	plugins/include/Map.h
+	plugins/include/MapPlot.h
+	plugins/include/MapPlotP.h
+	plugins/libsrc/libgmap/MapPlot.c
+
+====================================
+Changes in 1.1.18	14 Nov 2007
+====================================
+Ivan Henson
+o) New Classes:
+	include/FrameTable.h
+	libsrc/libgx++/FrameTable.cpp
+	include/motif++/ScrolledPane.h
+	libsrc/libmotif++/ScrolledPane.cpp
+	include/TableMenu.h
+	libsrc/libgx++/TableMenu.cpp
+	include/motif++/MotifClasses.h
+	include/motif++/MotifDecs.h
+o) Changed actionPerformed() from protected to public
+	include/AmplitudeScale.h
+	include/AxesLabels.h
+	include/ColorTable.h
+	include/CosineTaper.h
+	include/CSSTable.h
+	include/DataValues.h
+	include/Filter.h
+	include/Fonts.h
+	include/History.h
+	include/motif++/ToolBar.h
+	include/motif++/Warn.h
+	include/motif++/Warnings.h
+	include/MultiTable.h
+	include/Output.h
+	include/Preferences.h
+	include/PrintDialog.h
+	include/PrintOptions.h
+	include/RefSta.h
+	include/Scroll.h
+	include/SelectOrder.h
+	include/TableAttributes.h
+	include/TableFiles.h
+	include/TableViewer.h
+	include/TagContents.h
+	include/WaveformColor.h
+	include/WaveformSetup.h
+	include/Waveforms.h
+	include/WaveformView.h
+	include/Working.h
+o) Bug fixes:
+	include/ColorSelection.h
+	libsrc/libgx++/ColorSelection.cpp
+	libsrc/libgx++/MultiTable.cpp
+	libsrc/libgx++/Preferences.cpp
+	include/WaveformWindow.h
+	libsrc/libwgets/TableAttributes.cpp
+	libsrc/libwgets/TCanvas.c
+	plugins/libsrc/libgspectro/Spectro.cpp
+o) Added arrivalState() function to CPlotClass
+	include/CPlotClass.h
+	include/widget/CPlot.h
+o) Changes for Pmcc module.
+	include/DataSource.h  added PmccFeatures and PmccRecipe routines
+	plugins/include/Map.h
+	plugins/include/MapPlot.h
+	plugins/include/OpenDB.h
+	plugins/include/TableQuery.h
+	plugins/libsrc/libgmap/MapPlot.c
+	plugins/libsrc/libgtq/OpenDB.cpp
+	plugins/libsrc/libgtq/TableQuery.cpp
+o) Added new functions to GVector
+	include/gobject++/GVector.h
+	libsrc/libgobject++/GVector.cpp
+o) Added new function to ActionEvent
+	include/motif++/ActionEvent.h
+o) Added new contructor to Menu
+	include/motif++/Menu.h
+	libsrc/libmotif++/Menu.cpp
+o) Added new functions to Table
+	include/Table.h
+o) Moved functions from WaveformWindow to WaveformPlot
+	include/WaveformPlot.h
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+o) Changes to margins in Axes.c
+	include/widget/AxesP.h
+	libsrc/libwgets/Axes.c
+o) Changed Button so that right mouse click will activate it.
+	libsrc/libmotif++/Button.cpp
+o) Added printTime and save functions to Table
+	libsrc/libwgets/Table.cpp
+o) Improvements to libgcor
+	plugins/include/Correlation.h
+	plugins/libsrc/libgcor/Correlation.cpp
+
+====================================
+Changes in 1.1.17	25 Oct 2007	
+====================================
+Vera Miljanovic
+
+o) changes in Makefile.am's 
+
+o) fixed bug in View->Components that shows 'Z','E' incorrectly
+include/widget/CPlot.h
+	
+====================================
+Changes in 1.1.16	17 Oct 2007
+====================================
+Ivan Henson
+o) Changes for libgpmcc
+	Fixed "R", "G", 'B', "H", "S", "V" lables in the ColorSelection class.
+	include/ColorSelection.h
+	libsrc/libgx++/ColorSelection.cpp
+	Added a routine to TextQuestion.
+	include/motif++/TextQuestion.h
+	libsrc/libmotif++/TextQuestion.cpp
+o) Added option to edit the contents of a CSSTable (in the TableViewer,
+	TableQuery, etc.) with the vi or other independent text editor.
+	include/TableViewer.h
+	libsrc/libgx++/TableViewer.cpp
+o) Changed the mouse button and key stroke translation table that is defined
+	in the defTrans[] of all widgets in libwgets, to avoid the problem
+	caused by modifier keys (such as Num Lock). The solution is to avoid
+	the use of the '!' symbol in the table and instead use the '~'
+	symbol. All geotool widgets will now work correctly even if there
+	are modified keys selected (Num Lock, etc).
+	include/widget/AxesP.h
+	include/widget/ConPlotP.h
+	libsrc/libwgets/Axes.c
+	libsrc/libwgets/ConPlot.c
+	libsrc/libwgets/CPlot.cpp
+	libsrc/libwgets/HCanvas.c
+	libsrc/libwgets/Histgm.c
+	libsrc/libwgets/MmTable.c
+	libsrc/libwgets/TCanvas.c
+	plugins/libsrc/libgft/FtPlot.cpp
+	plugins/libsrc/libgmap/MapPlot.c
+o) Fixed memory leak
+	../geotoolPP/geotool++/plugins/libsrc/libgarrival/AmpMag.cpp
+o) Fixed partial selection in the Correlation module.
+	plugins/libsrc/libgcor/Correlation.cpp
+o) Fixed 64 bit compiler warnings.
+	plugins/libsrc/libgpm/ParticleMotion.c
+
+
+====================================
+Changes in 1.1.15	07 Oct 2007
+====================================
+Ivan Henson
+o) Added missing selectDataCallback and selectBarCallback to ConPlotClass
+	include/ConPlotClass.h
+	libsrc/libwgets/CPlotClass.cpp
+o) Change to GParseSource queryPrefixTables
+	include/GParseSource.h
+	libsrc/libgx++/GParseSource.cpp
+o) Improvements to the standard command input.
+	include/motif++/Application.h
+	libsrc/libmotif++/Application.cpp
+o) Added formDialog routine to return the FormDialog parent.
+	include/motif++/Component.h
+	libsrc/libmotif++/Component.cpp
+	libsrc/libmotif++/Application.cpp
+o) Added Destroy routine to TabClass and Table.
+	include/TabClass.h
+	include/Table.h
+	libsrc/libwgets/TabClass.cpp
+	libsrc/libwgets/Table.cpp
+o) Changed mouse-menu routines to be virtual.
+	include/WaveformView.h
+o) Improvements to readFile routine.
+	include/WaveformWindow.h
+	libsrc/libgx++/WaveformWindow.cpp
+o) Bug fix. Test for null data source.
+	libsrc/libgio/cssInput.cpp
+o) Bug fix. Test for null row_order.
+	libsrc/libgx++/CSSTable.cpp
+o) Added string command "duration" for window length specification.
+	libsrc/libgx++/WaveformPlot.cpp
+o) Added "exit" string command.
+	libsrc/libmotif++/FormDialog.cpp
+o) Fixed bug on 64 bit machines.
+	libsrc/libmotif++/ToolBar.cpp
+o) Fixed error in destroy routine.
+	libsrc/libwgets/CPlotClass.cpp
+	libsrc/libwgets/HistgmClass.cpp
+o) Fixed component related problem.
+	libsrc/libwgets/CPlot.cpp
+o) Fixed bug in table attributes and wfdisc tab interface attachements that
+	did not work correctly on Suse10.2.
+	libsrc/libwgets/Table.cpp
+	plugins/libsrc/libgtq/TableQuery.cpp
+o) Correlation upgrade. Can now correlate any waveform with any other waveform,
+	including itself, regardless of lengths.
+	plugins/include/Correlation.h
+	plugins/libsrc/libgcor/Correlation.cpp
+	plugins/libsrc/libgcor/tsCorrelate.cpp
+o) Added disconnect routine.
+	plugins/include/TableQuery.h
+
+
+====================================
+Changes in 1.1.14	05 Sep 2007
+====================================
+Ivan Henson
+o) More work on three-component rotation. Rotation, Particle Motion, and
+	Polarization all work with non-standard orientations like
+	NWA0 BHE hang=329, BHN hang=239.
+	Also, the Particle Motion and Polarization operate on the original
+	unrotated waveforms even when the displayed waveforms have been
+	rotated.
+	libsrc/libgmethod++/RotateData.cpp
+	libsrc/libgx++/BasicSource.cpp
+	plugins/include/MotionPlot.h
+	plugins/include/Rotate.h
+	plugins/libsrc/libgpm/MotionPlot.cpp
+	plugins/libsrc/libgpolar/Polarization.cpp
+	plugins/libsrc/libgrot/Rotate.cpp
+o) Added parameters to the Waveforms table. Fixed bug in CSSTable.
+	libsrc/libgx++/Waveforms.cpp
+	libsrc/libgx++/CSSTable.cpp
+o) Fixed bug in DataValues window.
+	libsrc/libgx++/DataValues.cpp
+o) Fixed bug related to Uniform Scale mode.
+	libsrc/libwgets/CPlot.cpp
+o) Fixed bug in Dial.
+	libsrc/libwgets/Dial.c
+
+====================================
+Changes in 1.1.13	29 Aug 2007
+====================================
+Ivan Henson
+o) Fixed bug in waveform redisplay after deleting individual waveforms
+	include/CPlotClass.h
+o) Added 3-component rotation and made Rotate to maximum (rectilinearity)
+	work the same in the Rotate interface and the Particle Motion interface.
+	Also fixed the code so that it uses the sitechan hang/vang parameters
+	to determine the orientation of 3-component stations. (It used to look
+	at the last letter of the channel name. It still does this when there
+	is not hang/vang information.)
+	include/BasicSource.h
+	include/CssSegmentInfo.h
+	include/DataSource.h
+	include/RotateData.h
+	include/SegmentInfo.h
+	include/WaveformWindow.h
+	include/widget/CPlot.h
+	include/widget/CPlotP.h
+	libsrc/libgmethod++/RotateData.cpp
+	libsrc/libgobject++/SegmentInfo.cpp
+	libsrc/libgx++/BasicSource.cp
+	libsrc/libwgets/CPlot.cpp
+	plugins/include/MotionPlot.h
+	plugins/include/Rotate.h
+	plugins/libsrc/libgfk/FK.cpp
+	plugins/libsrc/libgpm/MotionPlot.cpp
+	plugins/libsrc/libgpm/ParticleMotion.c
+	plugins/libsrc/libgpolar/Polarization.cpp
+	plugins/libsrc/libgrot/Rotate.cpp
+	plugins/libsrc/libgfk/FK.cpp
+o) Changed FileDialog "Cancel" label to "Close".
+	include/motif++/FileDialog.h
+	libsrc/libmotif++/FileDialog.cpp
+o) Fixed Table.cpp so that it remembers the sort after a row is editted.
+	include/Table.h
+	include/widget/MmTable.h
+	libsrc/libgx++/CSSTable.cpp
+	libsrc/libgx++/TableViewer.cpp
+	libsrc/libwgets/MmTable.c
+o) Added an interface to set the waveform colors.
+	include/WaveformColor.h
+	include/WaveformPlot.h
+	include/WaveformWindow.h
+	libsrc/libgx++/WaveformColor.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libmotif++/Component.cpp
+	new files:
+		include/ColorTable.h
+		libsrc/libgx++/ColorTable.cpp
+o) Fixed a bug in GParseWrite.cpp
+	libsrc/libgio/GParseWrite.cpp
+o) Changed the DataValues format.
+	libsrc/libgx++/DataValues.cpp
+	
+
+====================================
+Changes in 1.1.12	17 Jul 2007
+====================================
+Ivan Henson
+o) Fixed problems with gspectro, gft and grsp.
+	plugins/include/TableQuery.h
+	plugins/libsrc/libgspectro/Spectro.cpp
+	plugins/libsrc/libgtq/OpenDB.cpp
+	plugins/libsrc/libgtq/TableQuery.cpp
+	plugins/libsrc/libgtq/TQ.cpp
+	plugins/src/gft/main.cpp
+	plugins/src/grsp/main.cpp
+	plugins/src/gspectro/main.cpp
+	include/GParseSource.h
+	libsrc/libwgets/CPlot.cpp
+	libsrc/libgx++/BasicSource.cpp
+o) Fixed problem when the site, sitechan or affilation tables are not found in
+	the current database account. The corresponding files are read form the
+	$GEOTOOL_HOME/tables/static directory.
+	plugins/include/OpenDB.h
+	plugins/libsrc/libgtq/TableQuery.cpp
+o) Fixed bug in the Edit/Cut option
+	libsrc/libgx++/WaveformPlot.cpp
+o) Fixed the following bugs reported by Sheila Peacock:
+	no. 29 – crashing on attempt to display all attributes of a location
+	no. 25 – inability to rotate horizontal components that are not
+			initially oriented at 0 and 90
+	plugins/libsrc/libglc/Locate.cpp
+	plugins/libsrc/libgrot/Rotate.cpp
+
+====================================
+Changes in 1.1.11	05 Jul 2007
+====================================
+Ivan Henson
+o) Fixed problem with gspectro
+	plugins/libsrc/libgspectro/Spectro.cpp
+	plugins/src/gspectro/main.cpp
+o) Fixed zero-phase filter problem.
+	libsrc/libgmethod++/IIRFilter.cpp
+
+====================================
+Changes in 1.1.10       28 Jun 2007
+====================================
+Vera Miljanovic
+o) added Compute mb2 amplitude, Compute ml2 amplitude in the Amplitude/Magnitude popup
+plugins/libsrc/libgarrival/AmpMag.cpp
+plugins/include/AmpMag.h
+
+====================================
+Changes in 1.1.10	26 Jun 2007
+====================================
+Ivan Henson
+o) Fixed bug in the Recent Files option.
+	libsrc/libgobject++/GVector.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+	plugins/libsrc/libgtq/TableQuery.cpp
+o) Fixed Measure Amp/Period code to work with beams.
+	include/BasicSource.h
+	include/Beam.h
+	include/WaveformPlot.h
+	libsrc/libgbeam/beam.cpp
+	libsrc/libgio/cssInput.cpp
+	libsrc/libgx++/BasicSource.cpp
+	libsrc/libgx++/WaveformPlot.cpp
+	plugins/libsrc/libgarrival/Arrivals.cpp
+	plugins/libsrc/libgarrival/MeasureAmpPer.cpp
+	plugins/libsrc/libgarrival/MeasureAmpPer.h
+
+====================================
+Changes in 1.1.9	21 Jun 2007
+====================================
+Ivan Henson
+o) Fixed SAC and GSE input.
+	include/WaveformPlot.h
+	include/WaveformWindow.h
+	libsrc/libgx++/WaveformPlot.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+	include/gobject++/Gobject.h
+	include/OpenFile.h
+	include/WaveformPlot.h
+	libsrc/libgobject++/GObject.cpp
+	libsrc/libgx++/CssFileDialog.cpp
+	libsrc/libgx++/OpenFile.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+	libsrc/libmotif++/FileDialog.cpp
+
+====================================
+Changes in 1.1.8	20 Jun 2007
+====================================
+Ivan Henson
+o) Fixed problem in Rotation involving data mean.
+	libsrc/libgmethod++/RotateData.cpp
+o) Added File/Preferences window.
+	include/WaveformView.h
+	libsrc/libgx++/WaveformView.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+	libsrc/libgx++/Preferences.cpp
+	include/Preferences.h
+
+====================================
+Changes in 1.1.8	19 Jun 2007
+====================================
+Ivan Henson
+o) Fixed Arrival Associate(Disassociate) With Origin
+o) Fixed Arrival Associate(Disassociate) With Stassoc
+o) Fixed Delete Origin
+o) Fixed Origin Remove Selected from List
+
+====================================
+Changes in 1.1.7	18 Jun 2007
+====================================
+Vera Miljanovic
+
+o) fixed wrong labels from printing output when the x axis is logarithmic	
+libsrc/libwgets/Axes.c
+	
+====================================
+Changes in 1.1.7	14 Jun 2007
+====================================
+John Coyne
+
+o) changes in configure.ac and Makefile.am's
+	
+
+	
+====================================
+Changes in 1.1.7	12 Jun 2007
+====================================	
+Ivan Henson
+o) Fixed undo delete and undo edit for the Arrivals and Origins windows.
+	Created UndoButton class. This button type will undo the last global
+	UndoAction.
+o) Fixed several bugs in the Origins window. When reading from files, all
+	origins in the prefix.origin file are displayed in the Origins table.
+	This was the behavior of the C version. Assoc and/or Wftag records are
+	used to associate an origin with the waveforms. If none are found, the
+	first origin in the file is associated with the waveforms.
+o) Fixed Sort default button to have the same behavior as the C version.
+o) Fixed bug in TableViewer that caused the global files (global.site, etc.) to
+	be listed twice. Also fixed the Delete Row and Add Row in TableViewer.
+o) Added windowManagerClose() function to FormDialog.cpp that allows the class
+	to warn before closing a window from the window decoration button.
+o) Changed "actionPerformed(ActionEvent *a)" to
+	"actionPerformed(ActionEvent *action_event)" for documentation purposes.
+o) Added arrow button functionality to the Table class when in edit mode. The
+	left and right arrow buttons position the cursor. The up and down arrow
+	button move the cursor to a new row. The tab and shift tab buttons
+	move the cursor to a new cell with the row.
+o) Fixed bugs in the Add Recipe option and the Add Group option.
+o) Added Option/Beams/Create Beam window that provides a simple interface for
+	beaming waveforms. You can input slowness and azimuth by hand or
+	select an origin and a phase. Beam groups are not used. The selected
+	waveforms a beamed with equal weights (1.0).
+o) Fixed a bug in the Wfdisc tab of the TableQuery window. The sta, chan and
+	jdate lists under Waveform Display Constraints were incorrect.
+o) Added an actionListener interface to the Map. When an origin is repositioned
+	on the Map, its coordinates are updated in the Origins table.
+
+====================================
+Changes in 1.1.6	07 Jun 2007
+====================================	
+Vera Miljanovic
+
+o) fixed Macintosh errors:
+plugins/libsrc/libgtq/OpenDB.cpp
+plugins/libsrc/libgtq/TQDataSource.cpp	
+
+renamed FkParam.cpp, FkParam.h to FKParamDialog.cpp, FKParamDialog.h
+	
+	
+====================================
+Changes in 1.1.6	04 Jun 2007
+====================================
+Vera Miljanovic
+
+o) fixed channel column in Add Beam Group popup
+plugins/libsrc/libgbm/AddGroup.cpp
+libsrc/libgx++/BasicSource.cpp	
+
+o) fixed Data Values sorting bug 	
+libsrc/libgx++/DataValues.cpp
+	
+====================================
+Changes in 1.1.6	01 Jun 2007
+====================================
+John Coyne
+	
+o)fixed array-beam amplitude bug
+libsrc/libgresp++/Instruments.cpp
+libsrc/libgbeam/beam.cpp	
+		
+
+====================================
+Changes in 1.1.6	18 May 2007
+====================================
+Vera Miljanovic
+
+o)fixed gspectro	
+plugins/libsrc/libgspectro/Spectro.cpp
+	
+====================================
+Changes in 1.1.6	17 May 2007
+====================================
+Vera Miljanovic
+
+o)fixed TT widget
+libsrc/libgx++/WaveformWindow.cpp
+plugins/libsrc/libgtt/TravelTimes.cpp
+include/WaveformWindow.cpp	
+
+
+====================================
+Changes in 1.1.6	15 May 2007
+====================================
+Vera Miljanovic
+
+o) renamed any Version.c to version.c.input	
+
+
+====================================
+Changes in 1.1.6	08 May 2007
+====================================
+Vera Miljanovic
+
+o)fixed Sort Default button
+libsrc/libgx++/WaveformPlot.cpp
+libsrc/libgx++/WaveformWindow.cpp	
+include/WaveformPlot.h
+include/WaveformWindow.cpp	
+	
+====================================
+Changes in 1.1.6	02 May 2007
+====================================
+o) Added window list to the set accelerator interface.
+o) Fixed the auto-cursor in FT,Spectrogram and polarization
+o) Fixed error messages in Arrivals.
+o) Added sort by distance from station to RTDisplay
+	
+====================================
+Changes in 1.1.5	30 Apr 2007
+====================================
+Ivan Henson	
+
+o) new code for the RTChannels class
+plugins/libsrc/libgrt/RTChannels.cpp
+plugins/libsrc/libgrt/RTChannels.h	
+	
+====================================
+Changes in 1.1.5	27 Apr 2007
+====================================
+Vera Miljanovic
+	
+o)fixed undo button in Arrivals popup	
+plugins/libsrc/libgarrival/Arrivals.cpp
+libsrc/libmotif++/UndoManager.cpp
+plugins/include/Arrivals.h
+include/motif++/Application.h	
+include/motif++/UndoManager.h
+
+	
+====================================
+Changes in 1.1.5	27 Apr 2007
+====================================
+Added comments and changes some argument names for doxygen.
+Fixed bug in Arrivals.cpp that caused arrival selection to fail after a
+	location was made.
+Fixed Save Selected in FT window.
+Added cursor to WaveformWindow when Spectrogram is computed.
+Fixed Tag Contents Text Input.
+
+
+
+====================================
+Changes in 1.1.4	25 Apr 2007
+====================================
+Vera Miljanovic
+
+o)fixed the station, channel and date columns
+plugins/libsrc/libgtq/TableQuery.cpp
+	
+
+====================================
+Changes in 1.1.4	18 Apr 2007
+====================================
+Vera Miljanovic
+
+o)changed any cancel with close button
+libsrc/libgx++/Output.cpp
+libsrc/libgx++/WaveformSetup.cpp
+libsrc/libwgets/Table.cpp
+libsrc/libwgets/PrintDialog.cpp
+libsrc/libmotif++/ToolBar.cpp
+include/Output.h
+include/WaveformSetup.h
+include/Table.h
+include/PrintDialog.h
+include/motif++/ToolBar.h
+	
+====================================
+Changes in 1.1.4	13 Apr 2007
+====================================
+Vera Miljanovic
+	
+o)fixed error message in
+include/TableAttributes.h
+o)changed default values for deltim,delslo,delaz
+	according to Bernd and Dima
+plugins/libsrc/libgarrival/Arrivals.cpp
+		
+	
+====================================
+Changes in 1.1.3	28 Mar 2007
+====================================
+Ivan Henson
+changed libgcss++ to libgio
+made libgbeam from beam code in libgFK++
+moved the FK code in libgFK++ to plugins/libsrc/libgfk
+removed libgFK++
+
+moved some files to different locations to clean up the library dependencies.
+
+added the option to have a output destination that is different from the input.
+
+
+====================================
+Changes in 1.1.2	22 Mar 2007
+====================================
+John Coyne
+
+o) renamed geotool++/build to geotool++/config
+
+====================================
+Changes in 1.1.2	19 Mar 2007
+====================================
+John Coyne, Vera Miljanovic
+
+
+o)fixed warnings under g++(GCC) 3.4.1 on Solaris
+libsrc/libdrawx/SetCursor.c
+libsrc/libdrawx/shade.c
+libsrc/libdrawx/StrToPixel.c
+libsrc/libmotif++/Info.c
+libsrc/libwgets/Axes.c
+libsrc/libwgets/ConPlot.c
+libsrc/libwgets/Dial.c	
+libsrc/libwgets/Histgm.c
+libsrc/libwgets/MapPlot.c
+libsrc/libwgets/Tab.c
+libsrc/libwgets/TCanvas.c
+libsrc/libwgets/HCanvas.c	
+include/widget/AxesP.h
+include/widget/ConPlotP.h
+include/widget/HCanvasP.h
+include/widget/TCanvasP.h
+include/widget/TabP.h
+	
+====================================
+Changes in 1.1.1	09 Mar 2007
+====================================
+John Coyne, Vera Miljanovic
+
+o)added Free(cd_list);
+libsrc/libgx++/CPlotClass.cpp
+
+o)replaced new->new_index
+libsrc/libwgets/HCanvas.c
+	
+o)replaced delete->delete_index
+libsrc/libwgets/MapPlot.c
+libsrc/libwgets/Tab.c	
+	
+	
+o) replaced new->new_index, and added cast XtPointer 
+libsrc/libmotif++/Info.c
+libsrc/libwgets/Axes.c
+libsrc/libwgets/ConPlot.c
+libsrc/libwgets/Dial.c
+libsrc/libwgets/Histgm.c	
+libsrc/libwgets/MapPlot.c
+libsrc/libwgets/MmTable.c
+libsrc/libwgets/TCanvas.c	
+
+o)added cast char
+libsrc/libwgets/Histgm.c	
+libsrc/libwgets/MapPlot.c
+libsrc/libwgets/Tab.c
+	
+o)added casts char, XFontStruct,void
+libsrc/libwgets/Axes.c
+
+	
+o)In timeEpochToString()  
+replaced 5 with YMONDHMS2 as in gbase*/include/libtime.h
+libsrc/libwgets/ConPlot.c
+	
+	
+	
+
+====================================
+Changes in 1.1.1	08 Mar 2007
+====================================
+Ivan Henson
+
+1) fixed parseHelp() bug involving stringToLower in:
+	libmotif++/Choice.cpp
+	libmotif++/List.cpp
+	libmotif++/Menu.cpp
+
+3) Improvements to parsing.
+	include/Filter.h
+	libsrc/libgx++/Filter.cpp
+	plugins/include/Polarization.h
+	plugins/libsrc/libgpolar/Polarization.cpp
+	libsrc/libgx++/Output.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+
+4) Fixed compiler warnings (isspace, isdigit):
+	libsrc/libgFK++/beamRecipe.cpp
+	libsrc/libGParse++/GParse.cpp
+	libsrc/libGParse++/GParseInit.cpp
+	libsrc/libgresp++/ResponseFile.cpp
+	libsrc/libgx++/CharFile.cpp
+	libsrc/libgx++/PrintDialog.cpp
+	libsrc/libgx++/Table.cpp
+	libsrc/libmotif++/Application.cpp
+	libsrc/libmotif++/Choice.cpp
+	plugins/libsrc/libgmap/MapOverlay.cpp
+	plugins/libsrc/libgmap/MapWindow.cpp
+	plugins/libsrc/libgtq/ffdb.cpp
+	plugins/libsrc/libgtq/TableQuery.cpp
+
+5) Fixed 64-bit compiler warnings.
+	motif++/FormDialog.h
+	libsrc/libwgets/MapPlot.c
+	widget/MmTableP.h
+
+6) Changes for new libcd
+	plugins/libsrc/libgrt/RTData.cpp
+	
+
+====================================
+Changes in 1.1.0	06 Mar 2007
+====================================
+Ivan Henson
+
+1) Removed circular library dependencies.
+	Moved libgmethod++/ConvolveData.cpp to libgresp++/ConvolveData.cpp
+	Moved libgobject++/GTimeSeries.cpp to libgmethod++/GTimeSeries.cpp
+	Moved libgx++/CPlotDataClass.cpp to libwgets/CPlotDataClass.cpp
+	Moved libgx++/DataSource.cpp to libgmethod++/DataSource.cpp
+
+	Moved function BasicSource::compareChan to DataSource::compareChan
+	Moved function Application::logErrorMsg to GObject::logErrorMsg
+	    changed references in:
+		libgresp++/Instruments.cpp
+
+2) Changed sprintf to snprintf
+	libgcss++/cssInput.cpp
+	libgFK++/FKPeaks.cpp
+	libGParse++/GParse.cpp
+	libGParse++/GParseWrite.cpp
+	libgresp++/ConvolveData.cpp
+	libgx++/CharFile.cpp
+
+3) Removed local include "logErrorMsg.h"
+	libgFK++/beam.cpp
+	libgFK++/beamRecipe.cpp
+	libgmethod++/AmpData.cpp
+	libgmethod++/CalibData.cpp
+	libgmethod++/CopyData.cpp
+	libgmethod++/CutData.cpp
+	libgmethod++/GTimeSeries.cpp
+	libgmethod++/IIRFilter.cpp
+	libgmethod++/OffsetData.cpp
+	libgmethod++/RotateData.cpp
+	libgmethod++/TaperData.cpp
+	libgx++/CPlusUtil.cpp
+	libgx++/TableFiles.cpp
+	libgx++/WaveformTag.cpp		
+
+4) Added parseInput(), parseHelp()
+	Many files.
+
+5) Fixed copy waveform bug
+	libgx++/WaveformView.cpp
+
+6) Fixed bug in Open File dialog
+	libmotif++/FileDialog.cpp
+
+7) Fixe bug in AxesHardCopy
+	libwgets/Axes.c
+
+8) Improvements to Map (MapPlotRotateToStation, MapPlotSetLimits)
+	libwgets/MapPlot.c
+	include/widget/MapPlot.h
+
+9) Additions to MmTable for parseInput()
+	libwgets/MmTable.c
+	include/widget/MmTable.h
+
+====================================
+Changes in 1.0.7	19 Feb 2007
+====================================
+Ivan Henson
+
+1) More refinements to Universal Transverse Mercator projection
+	include/widget/MapPlot.h
+	include/widget/Axes.h
+	include/AxesClass.h
+	libwgets/Axes.c
+	include/MapWindow.h
+	libgmap/MapWindow.cpp
+
+2) Added arguments for window title.
+	include/motif++/FormDialog.h
+	include/motif++/Frame.h
+	include/motif++/TopWindow.h
+	libmotif++/TopWindow.cpp
+	libmotif++/Frame.cpp
+	libmotif++/FormDialog.cpp
+	
+3) Modified the response file reading code to handle files that contain
+	non-comment lines (lines that do not begin with '#') before the first
+	required response line. Reading code now also handles response files
+	that do not supply pole and zero error columns (real and imaginary).
+	If not found, the error value are set to 0.
+	libgresp++/ResponseFile.cpp
+
+4) Modified ResponseFile::getInstrument to check if the sta/chan is a beam
+	and use the sta/chan of the first beam element to get the sensor
+	record.
+	libgresp++/Instruments.cpp
+
+5) Added compareChan's with quark arguments.
+	include/BasicSource.h
+
+6) Added missing Spectrogram Color Selection callbacks. ("+", "-", default)
+	include/ColorSelection.h
+	libgx++/ColorSelection.cpp
+
+7) Fixed the bugs that caused the waveforms to flicker when Select All or 
+	Deselect All options were selected.
+	libwgets/CPlot.cpp
+
+8) Fixed bugs in TableViewer
+	include/TableViewer.h
+	libgx++/WaveformWindow.cpp
+	libgx++/TableViewer.cpp
+	libgx++/TableFiles.cpp
+
+9) Fixed bug in TableQuery: the Review Origins option failed whenever the
+	wfdisc query returned only beam elements and returned no channels
+	specified mentioned in the reviewChannels file.
+	include/TableQuery.h
+	libgtq/TableQuery.cpp
+
+10) Added a Pane to the RTChannels window.
+	libgrt/RTChannels.cpp
+	libgrt/RTChannels.h
+
+
+====================================
+Changes in 1.0.6	14 Feb 2007
+====================================
+Ivan Henson
+
+1) Fixed problems caused by 1.0.5:2
+	libgx++/OpenFile.cpp
+	libgx++/WaveformWindow.cpp
+	libwgets/Axes.c
+	include/AxesClass.h
+	include/widget/Axes.h
+	include/widget/AxesP.h
+	libgarrival/AmpMag.cpp
+	libgcepstrum/GCepstrum.cpp
+	libgcor/Correlation.cpp
+	libgfk/FK.cpp
+	libgfk/FkSignal.cpp
+	libgpolar/Polarization.cpp
+	libgspectro/Spectro.cpp
+
+2) Continued work on Universal Transverse Mercator projection
+	include/MapTypes.h
+	include/widget/MapPlot.h
+	include/widget/MapPlotP.h
+	libwgets/MapPlot.c
+	libgmap/Map.cpp
+	libgmap/MapThemes.cpp
+	libgmap/MapThemes.h
+	libgmap/MapWindow.cpp
+	include/Map.h
+	include/MapWindow.h
+
+====================================
+Changes in 1.0.5	08 Feb 2007
+====================================
+Ivan Henson
+
+1) Fixed bug in TableQuery that caused the File Prefix mode to fail.
+	libgtq/TableQuery.cpp
+
+2) On 64-bit Linux machines, XtSetValues does not work for double arguments.
+	Replaced all XtSetValues for the Axes widget XtNxMin, XtNxMax, XtNyMin
+	and XtNyMax with setYLimits(ymin, ymax), setXLimits(xmin, xmax) or
+	setLimits(xmin, xmax, ymin, ymax).  The XtGetValues appears to work ok
+	on 64-bit Linux for double arguments.
+	include/AxesClass.h
+	include/widget/Axes.h
+	libwgets/Axes.c
+	libgx++/OpenFile.cpp
+	libgx++/WaveformWindow.cpp
+	libgarrival/AmpMag.cpp
+	libgcepstrum/GCepstrum.cpp
+	libgcor/Correlation.cpp
+	libgfk/FK.cpp
+	libgfk/FkSignal.cpp
+	libgpolar/Polarization.cpp
+	libgspectro/Spectro.cpp
+	
+3) Began work on the Universal Transverse Mercator projection.
+	include/MapTypes.h
+	include/widget/MapPlot.h
+	include/widget/MapPlotP.h
+	libwgets/MapPlot.c
+	libgmap/MapWindow.cpp
+
+4) Fixed bug with window size logic.
+	libmotif++/FormDialog.cpp
+
+5) Fixed bug in RTD Channels window. Apply button would not become sensitive
+	when the search directory was changed or added.
+	libgrt/RTChannels.cpp
+
+====================================
+Changes in 1.0.4	30 Jan 2007
+====================================
+Ivan Henson
+
+1) Fixed Window positioning, sizing, and parenting problems (2 below)
+	include/motif++/Application.h
+	include/motif++/FormDialog.h
+	libmotif++/Application.cpp
+	libmotif++/Component.cpp
+	libgx++/AmplitudeScale.cpp
+	libgx++/Fonts.cpp
+	libgx++/PrintDialog.cpp
+	libgx++/PrintOptions.cpp
+	libgx++/Scroll.cpp
+	libgx++/SelectOrder.cpp
+	libgx++/WaveformColor.cpp
+	libgx++/WaveformSetup.cpp
+	libmotif++/FileDialog.cpp
+	libmotif++/FormDialog.cpp
+	libmotif++/ParamDialog.cpp
+	libmotif++/Question.cpp
+	libmotif++/StatusDialog.cpp
+	libmotif++/TextQuestion.cpp
+	libmotif++/TopWindow.cpp
+	libmotif++/Warn.cpp
+	libgbm/AddRecipe.cpp
+	libgbm/Slowness.cpp
+	libghp/HilbertTransform.cpp
+	libghp/PolarFilter.cpp
+	libgmap/MapCursor.cpp
+	libgrot/Rotate.cpp
+	libgrsp/RespTapers.cpp
+	libgtq/OpenDB.cpp
+	libgtt/TravelTimes.cpp
+	include/TableQuery.h
+	include/OpenDB.h
+	
+2) Fixed copy/paste bugs.
+	include/Table.h
+	libwgets/TCanvas.c
+3) Fixed "Display Waveform" option on Arrivals-only waveform-lines and
+	added "Display Elements" to the Tag menu.
+	libgFK++/beam.cpp
+	libgx++/WaveformView.cpp
+	libgtq/TableQuery.cpp
+	libgtq/TQDataSource.cpp
+4) Fixed the Table problem: when going into edit mode the table would
+	reposition the horizontal scroll. Now the scroll position stays the
+	same.
+	libgx++/Table.cpp
+	libgx++/CSSTable.cpp
+	libgx++/MultiTable.cpp
+	libgarrival/Arrivals.cpp
+5) Fixed bug in TopWindow isSubClass().
+	include/motif++/TopWindow.h
+6) Moved setCursor from FormDialog to Component
+	include/motif++/Component.h
+	include/motif++/FormDialog.h
+7) Fixed bug in Output interface.
+	libgx++/Output.cpp
+8) Fixed bug in References Stations window.
+	libgx++/RefSta.cpp
+9) Changed Button names.
+	libgbm/BeamGroups.cpp
+	libgbm/Recipes.cpp
+10) Fixed bug in Locate Reload option.
+	libglc/Locate.cpp
+
+
+====================================
+Changes in 1.0.3	26 Jan 2007
+====================================
+Ivan Henson
+
+1) New files:
+	plugins/src/gtv/main.cpp  This is the TableViewer class.
+	plugins/src/gtv/Version.cpp
+	plugins/src/gtv/Makefile.am
+
+2) Added window manager decorations to all FormDialogs. All FormDialog window
+	sizes are saved in the ~/.geotool/ property for later executions.
+	The position of the main window is also saved.
+	include/motif++/Application.h
+	include/motif++/Component.h
+	include/motif++/FormDialog.h
+	libsrc/libmotif++/Application.cpp
+	libsrc/libmotif++/FormDialog.cpp
+
+3) The Copy/Paste functionality (through the X-Server) was added to the
+	Table, CSSTable, TableViewer and TableQuery classes. Table records
+	(rows) can be copied from one Table and pasted into another Table in
+	a different program or pasted into any window (such as the vi editor) as
+	strings. One or more Table columns can also be selected and pasted into
+	another Table or into any text window. CSS records can also be copied
+	as text and pasted into a CSSTable object (TableViewer,TableQuery,etc).
+	If the text can be read as CSS records, rows are added to the CSSTable.
+	include/motif++/Component.h
+	include/widget/MmTable.h
+	include/widget/MmTableP.h
+	include/Table.h
+	include/TableViewer.h
+	libsrc/libgx++/Table.cpp
+	libsrc/libgx++/TableViewer.cpp
+	libsrc/libwgets/MmTable.c
+	libsrc/libwgets/TCanvas.c
+
+4) Added 'Make Permanent' button to the Database Connection Account and Mapping
+	tabs.
+	libsrc/libgtq/OpenDB.cpp
+
+5) Changed the Flat-File-Database default structure to be
+	seg/station/stationyyyymmdd/stationyyyymmdd.wfdisc
+
+6) Frequency sliders were added to the FK and multi-FK interfaces. The sliders
+	update the FK-plot for the frequency band. New parameters were added to
+	the FK Parameters window. Signal-slowness-min, Signal-slowness-max,
+	Signal-Azimuth-min and Signal-Azimuth-max. These parameters confine the
+	allowable FK-maximum that is plotted as the signal.
+	include/FKData.h
+	include/FKGram.h
+	libsrc/libgFK++/FKCompute3C.cpp
+	libsrc/libgFK++/FKData.cpp
+	libsrc/libgFK++/FKGram3C.cpp
+	libsrc/libgFK++/FKGram.cpp
+	libsrc/libgFK++/FKParam.cpp
+	include/Fk3D.h
+	include/FK.h
+	libsrc/libgfk3d/Fk3D.cpp
+	libsrc/libgfk3d/libgfk3d.cpp
+	libsrc/libgfk/FkParam.cpp
+	libsrc/libgfk/FkParam.h
+	libsrc/libgfk/FK.cpp
+
+7) Added a TableViewer button to the WaveformWindow class.
+	include/WaveformWindow.h
+	libsrc/libgx++/TableViewer.cpp
+
+8) Added setLabel to ParamDialog. Added setMaximum,setMinimum to Scale.
+	include/motif++/ParamDialog.h
+	include/motif++/Scale.h
+	libsrc/libmotif++/ParamDialog.cpp
+	libsrc/libmotif++/Scale.cpp
+
+9) Added ConPlotGetMatrix to ConPlotWidget
+	include/widget/ConPlot.h
+	libsrc/libwgets/ConPlot.c
+
+10) Changed X11/Motif includes to avoid compiler warnings.
+	libsrc/libdrawx/BitmapFont.c
+	libsrc/libdrawx/GetStrImage.c
+	libsrc/libdrawx/SetCursor.c
+	libsrc/libdrawx/shade.c
+	libsrc/libdrawx/StrToPixel.c
+
+11) Changed (int) to (long) for 64-bit compilers.
+	libsrc/libGParse++/GParse.cpp
+	libsrc/libgx++/WaveformWindow.cpp
+
+12) Fixed bug involving stassocs and stamags.
+	libsrc/libgx++/WaveformPlot.cpp
+
+13) Fixed limits related bug in Axes.c.
+	libsrc/libwgets/Axes.c
+
+14) Changed MallocIt functions to avoid compiler warnings.
+	libsrc/libwgets/Tab.c
+	libsrc/libwgets/MmTable.c
+	libsrc/libwgets/TCanvas.c
+	libsrc/libwgets/HCanvas.c
+
+15) Changed New Window parent.
+	libsrc/libgft/FT.cpp
+        libsrc/libglc/Locate.cpp
+	libsrc/libgpm/MotionPlot.cpp
+	libsrc/libgpolar/Polarization.cpp
+	libsrc/libgrt/RTDisplay.cpp
+	libsrc/libgspectro/Spectro.cpp
+
+16) Added '#include <strings.h>' for Solaris compiler.
+	libsrc/libgrt/RTData.cpp
+
+
+	
+====================================
+Changes in 1.0.2
+====================================
+o) removed reference to #ifdef HAVE_LIBMAGNITUDE
+	plugins/libsrc/libgarrival/AmpMag.h
+	plugins/libsrc/libgarrival/AmpMag.cpp
+
+o) added -I@includedir@/ibase to INCLUDES, since libmagnitude.h and related files are needed
+	./plugins/libsrc/libgarrival/Makefile.am
+
+o) removed dynamic linking to libstdtime, since libmagnitude no longer depends on libstdtime
+	./plugins/libsrc/libgarrival/AmpMag.cpp

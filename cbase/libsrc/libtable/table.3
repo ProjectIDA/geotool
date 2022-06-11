@@ -1,0 +1,495 @@
+.ig
+SccsId: @(#)table.3	104.1	07/08/97
+..
+.TH TABLE 3aesir "11 February 1992" 
+.UC 4
+.SH NAME
+table \- Manage insertion, search, traversal, and deletion of data.
+.SH SYNOPSIS
+.nf
+.B #include "table.h"
+.LP
+\fITable Management Functions:\fP
+.LP
+.B "TABLE \(**table_list_create(compar, release, destroy)"
+.B int (\(**compar)(char \(**elt1, char \(**elt2);
+.B void (\(**release)(char \(**datum);
+.B void (\(**destroy)(TABLE \(**table);
+.LP
+.B "TABLE \(**table_hash_create(compar, release, destroy, hash, count)"
+.B int (\(**compar)(char \(**elt1, char \(**elt2);
+.B void (\(**release)(char \(**datum);
+.B void (\(**destroy)(TABLE \(**table);
+.B uintmax_t (\(**hash)(char \(**key);
+.B int count;
+.LP
+.B int table_add(datum, table)
+.B char *datum;
+.B TABLE *table;
+.LP
+.B int table_append(datum, table)
+.B char *datum;
+.B TABLE *table;
+.LP
+.B int table_prepend(datum, table)
+.B char *datum;
+.B TABLE *table;
+.LP
+.B int table_delete(datum, table)
+.B char *datum;
+.B TABLE *table;
+.LP
+.B "char \(**table_unlink(datum, table)"
+.B char *datum;
+.B TABLE *table;
+.LP
+.B "char \(**table_find(datum, table)"
+.B char *datum;
+.B TABLE *table;
+.LP
+.B void table_first(table)
+.B TABLE *table;
+.LP
+.B "char \(**table_next(table)"
+.B TABLE *table;
+.LP
+.B "int table_count(table)"
+.B TABLE *table;
+.LP
+.B void table_destroy(table)
+.B TABLE *table;
+.LP
+\fIC Database Functions:\fP
+.LP
+.B char *varget(key)
+.B char  *key;
+.LP
+.B void var_init()
+.LP
+.B void var_print()
+.LP
+.B char *var_set(key, value)
+.B char  *key;
+.B char  *value;
+.LP
+.B int var_array(names, values)
+.B char  ***names;
+.B char  ***values;
+.fi
+.SH DESCRIPTION
+.LP
+.I Table Management Functions
+.LP
+The
+.I table
+library provides routines for managing data.  The name ``table'' is used
+to promote the notion of a generic data structure; in fact, the
+.I table
+library provides a consistent interface independent of the underlying
+data structure implementation.  The desired data structure type is
+specified at the time the table is created (using one of the
+.I table_create
+functions).
+.SH table_{list,hash}_create
+The
+.I table_create
+function defines the underlying data storage structure.  If
+.I table_list_create
+is used, a linear access linked list will be used.  If
+.I table_hash_create
+is used, a hash table will be used.
+.LP
+The
+.I compar
+parameter is a pointer to a user supplied function that is used by
+the table routines to differentiate user data.  The function will
+be called with two pointers to user data elements to be compared
+and must return an integer less than, equal to, or greater than 0
+corresponding to the first element being considered less than, equal
+to, or greater than the second.  A typical case is comparing two
+structures with an integer valued field as a key.  The compar function
+should cast its arguments to pointers of the appropriate type, refer
+to the integer key through the pointers, and compare the integer keys.
+.LP
+The
+.I release
+parameter is a pointer to a user supplied function that is used by
+the table routines when
+.I table_delete()
+is called.  The release
+function will be called with a pointer to the user datum of the
+element being deleted.  This function will typically be used to
+free any dynamically allocated memory in the user data.  A default
+function called
+.I default_release()
+is provided by the library; it just calls
+.I free(3)
+on its argument.  This is appropriate for a user datum that consists of
+a single block of dynamically allocated memory.  If, for example,
+a user datum consists of a dynamically allocated structure that contains
+pointers to other dynamically allocated blocks, a more sophisticated
+release function that understands the dynamically allocated structure
+hierarchy will need to be supplied by the user.
+A 0 valued (NULL) pointer may also be passed as
+the release function; this will have the expected result, and is useful
+for temporary tables, when it is not desirable to free the user data when
+the transient table is destroyed.
+.LP
+The
+.I destroy
+parameter is a pointer to a user supplied function that is used by
+the table routines when
+.I table_destroy()
+is called.  The destroy function will be called with a pointer to
+the table structure returned from an earlier
+.I table_create()
+call.
+.I table_destroy()
+will first call
+.I table_release()
+on each of the table's elements, then call the supplied destroy function.
+A default function called
+.I default_destroy()
+is provided by the library; it first calls a private destroy function to 
+deallocate any internal structures used by the list or hash table and then 
+calls
+.I free(3)
+on its argument, releasing the dynamically allocated table overhead block
+(allocated by the initial
+.I table_create()
+call) to the system.  This should usually be sufficient, unless the programmer
+has some other dynamically allocated memory associated with the table. 
+A 0 valued (NULL) pointer may also be passed as
+the destroy function.  This will have the expected result; the table overhead
+block will not be released and the table may still be used.  If a viable
+release function was associated with the table, the effect will be the
+deletion of all elements in the table (the table will be emptied).
+.LP
+The
+.I hash
+parameter (for 
+.I table_hash_create()
+only) is a pointer to a user supplied hash function.  The hash function
+will be called with a pointer to a user datum; it is the responsibility
+of the hash function to cast the pointer and dereference if necessary.
+A default hash function exists in the library, and is used if the
+.I hash
+parameter is NULL; it is not externally visible.
+.LP
+The
+.I count
+parameter (
+.I table_hash_create()
+only) has something to do with the initial hash table size; I didn't
+write the hash code, and can't figure out what it does from a cursory
+look.  I've seen 4 used in several places, try using it for
+.I count.
+
+.SH table_add
+The
+.I table_add
+function is used to add user data to a table created using one of the
+.I table_create
+functions.  Duplicate items, as determined by the table's
+.I compar
+function (see
+.I table_create
+), are not added to the table.
+.I table_add
+actually stores the pointer passed in as the parameter
+.I datum,
+so that stack addresses (local variables) should not be passed to
+.I table_add,
+as the stack data may be modified as function stack frames come and go.
+.I table_add returns TABLE_ERR if an error occurs or the item being added 
+already exists in the table. TABLE_OK is returned on success.
+.SH table_append
+The
+.I table_append
+function is similar to the 
+.I table_add
+function but is used to add user data to the end of the table.  This is 
+only relevant for list tables; in hash tables it acts the same as 
+.I table_add.
+TABLE_ERR is returned on error otherwise TABLE_OK is returned.
+.SH table_prepend
+The
+.I table_prepend
+function is similar to the 
+.I table_add
+function but is used to add user data to the beginning of the table.  This is 
+only relevant for list tables; in hash tables it acts the same as the 
+.I table_add
+function.  TABLE_ERR is returned on error and TABLE_OK upon success.
+.SH table_delete
+The
+.I table_delete
+function is used to remove a datum from a table.  A datum is initialized
+with the ``key'' of the desired item and its address is passed in
+.I datum.
+If a datum considered to be identical by the table's
+.I compar
+function is found in the table it is deleted from the table.  
+.I table_delete
+returns TABLE_ERR on error and TABLE_OK on success.
+
+.SH table_unlink
+The
+.I table_unlink
+function is used to remove a datum from a table.  A datum is initialized
+with the ``key'' of the desired item and its address is passed in
+.I datum.
+If a datum considered to be identical by the table's
+.I compar
+function is found in the table it is removed from the table.  The
+table's
+.I release
+function is not called on the user datum.  The user datum is returned
+by
+.I table_unlink.
+.LP
+.I table_unlink
+should be used when a program needs to modify a field of a user datum
+that is a parameter to the hash function (for tables created with
+.I user_hash_create
+).  The datum may be unlinked, updated, then reinserted, without incurring
+the overhead of deallocation of the old datum and allocation of a new datum.
+
+.SH table_find
+allows retrieval of data previously inserted into a table by a call
+to
+.I table_add.
+A datum is initialized with the ``key'' of the desired item and its
+address is passed in
+.I datum.
+If a datum considered to be identical by the table's
+.I compar
+function is found in the table its address is returned; if no identical
+datum is found
+.I table_find
+returns NULL.
+
+.SH "table_first, table_next"
+.I table_first
+is used to prepare a table for traversal by
+.I table_next.
+Typical usage is to call
+.I table_first
+for a particular table, then call
+.I table_next
+in a loop.
+.I table_next
+will return pointers to previously added elements until all elements
+have been returned, then it will return NULL.  The order that items
+are returned by
+.I table_next
+is not defined.
+
+.SH table_count
+returns the number of data items in the table.  
+.I table_count
+returns -1 if a NULL table is passed to it.
+
+.LP
+.I C Database Functions
+.LP
+The C Database functions provide a simple associative database consisting
+of key/value associations.  The database may be accessed from C
+using the functions described in this section, or from the scheme
+interpreter using \fBset-cvar!, get-cvar-number\fP, and \fBget-cvar-string\fP.
+The keys and values are null terminated character strings.
+.LP
+.SH var_init
+initializes the database.
+Multiple calls are unecessary but not harmful.
+
+.SH var_set
+sets a key/value association in the database.  \fIkey\fP is a pointer
+to the key string and \fIvalue\fP is a pointer to the value string.
+Any existing value for this key is overwritten.
+
+.SH var_get
+returns a pointer to the value string for the given \fIkey\fP if
+found in the database, or NULL otherwise.
+
+.SH var_print
+prints all the key/value associations in the database.
+
+.SH var_array
+returns two character pointer arrays containing the names and values in 
+sorted order.
+
+.SH EXAMPLES
+This first example shows creation of a table, insertion of elements,
+searching for elements, traversal of the table,
+and destruction of the table, with all dynamically allocated memory
+being released to the system through the default library functions:
+.LP
+.nf
+#include "table.h"
+
+static
+int
+int_compar(elt1, elt2)
+char	*elt1, *elt2;
+{
+	return (*(int *)elt1 - *(int *)elt2);
+}
+
+int	i;
+TABLE	*table;
+int	*value;
+int	key;
+
+if (table = table_list_create(int_compar, default_release, default_destroy))
+{
+	for (i = 0; i < 100; i++)
+	{
+		if (value = (int *)malloc((unsigned)sizeof(int)))
+		{
+			*value = i;
+			(void) table_add((char *)value, table);
+		}
+	}
+
+	for (key = -20; key <= 20; key += 5)
+	{
+		if (value = (int *)table_find((char *)&key, table))
+		{
+			printf("find %d\n", *value);
+		}
+	}
+
+	table_first(table);
+	for (value = (int *)table_next(table); value;
+	     value = (int *)table_next(table))
+	{
+		printf("traversal %d\n", *value);
+	}
+
+	table_destroy(table);
+}
+.fi
+.LP
+This next example shows some more sophisticated use of a user
+specified release function:
+.LP
+.nf
+#include "table.h"
+
+typedef struct complex
+{
+	int	*key;
+	TABLE	*sub_table;
+} COMPLEX;
+
+	/*
+	 *  Cast the parameters to the correct types and then 
+	 *  compare the dereferenced fields.
+	 */
+static
+int
+comp_compar(elt1, elt2)
+char	*elt1, *elt2;
+{
+	COMPLEX	*ptr1 = (COMPLEX *)elt1;
+	COMPLEX	*ptr2 = (COMPLEX *)elt2;
+
+	return (*ptr1->key - *ptr2->key);
+}
+
+	/*
+	 *  Cast the parameter to the correct type and then 
+	 *  free any dynamically allocated fields. 
+	 */
+static
+void
+comp_release(elt)
+char	*elt;
+{
+	COMPLEX	*ptr = (COMPLEX *)elt;
+
+	free((char *)ptr->key);
+	table_destroy(ptr->sub_table);
+
+	/*
+	 *  We are deallocating the element here too. If this was statically 
+	 *  allocated we couldn't free this - be sure of where your 
+	 *  memory is allocated.
+	 */
+	free((char *)ptr);
+}
+
+	/*
+	 *  Cast the parameter to the correct type and then hash 
+	 *  on the dereferenced field.
+	 */
+static
+uintmax_t
+comp_hash(elt)
+char    *elt;
+{
+	COMPLEX *ptr = (COMPLEX *)elt;
+
+	return((uintmax_t) *ptr->key);
+}
+
+
+	/*
+	 *  Use of above functions follows...
+	 */
+
+int	i, j;
+TABLE	*table;
+TABLE	*sub_table;
+int	*ival;
+
+	/*
+	 *  Note the use of comp_hash() rather than the default hash 
+	 */
+if (table = table_hash_create(comp_compar, comp_release, default_destroy,
+			      comp_hash, 4))
+{
+	for (i = 0; i < 100; i++)
+	{
+		if (value = (COMPLEX *)malloc((unsigned)sizeof(COMPLEX)))
+		{
+			if (value->key = (int *)malloc((unsigned)sizeof(int)))
+			{
+				*value->key = i;
+				value->sub_table =
+					table_list_create(int_compar,
+					default_release, default_destroy);
+				for (j = 0; j < 5; j++)
+				{
+					if (ival =
+					  (int *)malloc((unsigned)sizeof(int)))
+					{
+						*ival = j;
+						(void) table_add((char *)ival,
+							value->sub_table);
+					}
+				}
+			}
+			
+			(void) table_add((char *)value, table);
+		}
+	}
+
+	table_first(table);
+	for (value = (COMPLEX *)table_next(table); value;
+	     value = (COMPLEX *)table_next(table))
+	{
+		printf("complex key: %d\n", *value->key);
+
+		table_first(value->sub_table);
+		for (ival = (int *)table_next(value->sub_table); ival;
+		     ival = (int *)table_next(value->sub_table))
+		{
+			printf("\ttraverse: %d\n", *ival);
+		}
+	}
+	
+	table_destroy(table);
+}
+.fi

@@ -1,0 +1,31 @@
+option.create name="Detect" type="Button"   # create the "Detect" button
+option.detect.activateCallback={            # when it is selected, the script "detect2" is parsed
+    # use an absolute or relative path for detect2
+    parse "detect2"
+}
+
+create name="detections" type="FormDialog"     # create a window with a Table component
+detections.create name="table" type="Table" args={
+    columns:9
+    columnLabels:no.,window,kmax,low,high,snr,azimuth,slowness,time
+    topAttachment: ATTACH_FORM
+    leftAttachment: ATTACH_FORM
+    rightAttachment: ATTACH_FORM
+    bottomAttachment: ATTACH_FORM
+    visibleRows: 10
+    width: 400
+}
+
+detections.table.selectRowCallback={            # the table row select callback
+    if(detections.table.num_sel_rows > 0)       # if there is a selected row display the FK
+	k = detections.table.sel_row[1].kmax    # k is the frequeucy band (1-8)
+	i = detections.table.sel_row[1].window  # i is the time window
+	if(k <= 4)                              # frequency bands 1-4 are in the first FK
+	    fk_multi_band.display window=i
+	    fk_multi_band.open
+	else                                    # frequency bands 5-8 are in the second FK
+	    fk_multi_band.2.display window=i
+	    fk_multi_band.2.open
+	endif
+    endif
+}

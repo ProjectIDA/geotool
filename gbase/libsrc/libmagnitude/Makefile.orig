@@ -1,0 +1,75 @@
+# Automagically generated
+###############################################################################
+# File: Makefile
+# VersionId: %VERSION_NUMBER% %VERSION_DATE%
+# Copyright %VERSION_YEAR% Science Applications International Corporation.
+# @(#)Makefile	4.1  10/30/97
+###############################################################################
+
+###############################################################################
+# FILE
+#	Makefile
+#
+# AUTHOR
+#	Doug Brumbaugh - 15 Oct 1997
+###############################################################################
+
+
+###############################################################################
+# Obtain global macro values
+###############################################################################
+# Include site config macros
+include $(SITE_CONFIG)
+
+# Include the OS specific macros OS_NAME and OS_VERSION must be set by
+# the site.config makefile
+include $(CM_HOME)/make/site.$(OS_NAME).$(OS_VERSION)
+
+# Include revision control macros
+include $(CM_HOME)/make/site.scm.$(SCM_TYPE)
+
+# Uncomment the following if you want Oracle macros defined
+# ORACLE_VERSION is set in site.config
+#include $(CM_HOME)/make/site.oracle.$(ORACLE_VERSION)
+
+
+###############################################################################
+# Macros
+###############################################################################
+
+H_SRCS			= magp.h \
+			  tl_defs.h \
+			  $(INCLUDE_FILES)
+INCLUDE_FILES		= libmagnitude.h \
+			  mag_descrip.h \
+			  mag_params.h \
+			  mag_defs.h \
+			  tl_table.h
+C_SRCS			= read_mdf.c \
+			  TL_manipulation.c \
+			  read_tl_table.c \
+			  mag_access.c \
+			  build_mag_obj.c \
+			  mag_params.c \
+			  mag_error_msg.c \
+			  TL_error_msg.c \
+			  calc_mags.c \
+			  network_mag.c \
+			  mag_boot_strap.c \
+			  mag_max_lik.c \
+			  only_bound_amps.c \
+			  mag_utils.c
+CHANGES			= Changes.libmagnitude
+MAN3			= libmagnitude.3
+RNOTES			= Rnotes.libmagnitude
+INCLUDE_DIRS		= $(GLOBAL_INC_DIR) \
+			  $(GLOBAL_INC_DIR)/array_structs
+LIBRARY			= libmagnitude.a
+DEFAULT_TARGET		= debug
+
+
+###############################################################################
+# Include global makefile
+###############################################################################
+include $(CM_HOME)/make/global.mk
+###############################################################################

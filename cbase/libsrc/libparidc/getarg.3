@@ -1,0 +1,397 @@
+.TH GETARG 3 "29 October 1999"
+.SH NAME
+setarg, getarg, countarg, lenarg, endarg \- get arguments from a string
+.SH SYNOPSIS
+.nf
+#include "libpar.h"
+
+void setarg(char *argstring, char *subname)
+
+int countarg(char *name, char *type)
+
+int lenarg(char *name)
+
+int getarg(char *name, char *type, void *pointer)
+
+void endarg(void)
+.fi
+
+.SS FORTRAN INTERFACE
+.nf
+setarg(argstring, subname)
+character argstring
+character subname
+
+cntarg(name, type)
+character name
+character type
+
+fgtarg(name, type, output)
+character name
+character type
+real/integer/character  output
+
+endarg()
+.fi
+.SH DESCRIPTION
+.br
+The
+.B getarg
+routines provide a simple procedure for passing optional arguments
+to subroutines and for parsing strings into data values.  The syntax
+of the functions and the format of the parameter specification
+is similar to
+.BR getpar (3).
+.PP
+The function
+.BR setarg ()
+initializes the
+.B getarg
+package, and it must be called before any calls to
+.BR getarg ().
+The two arguments to
+.BR setarg () 
+are a character string containing optional arguments
+and a subroutine name (for error reporting).
+The pointer to either the character string or the subroutine name may be
+NULL but they cannot both be NULL.
+.PP
+The function
+.BR countarg ()
+takes two arguments,
+.I name
+and 
+.IR type .
+.I Name
+is the external name of the variable initialized in
+.BR setarg ().
+.I Type
+specifies the variable type, one of 
+.I d, f, F, 
+or 
+.I s.
+.BR Countarg ()
+counts the number of elements for the vector
+.I name.
+It is useful for ascertaining the vector limit
+for data retrieval via
+.BR getarg ().
+Upon successful completion,
+.BR countarg ()
+returns the number of elements for the parameter, or zero if there are no
+elements.
+.PP
+The function
+.BR lenarg ()
+takes one argument,  
+.I name.
+.I Name
+is the external name of the variable initialized in
+.BR setarg ().
+.BR Lenarg ()
+determines the length of the longest element in the
+.I name
+vector.
+It is useful for ascertaining the memory space needed to
+accommodate the largest string in a character string vector.
+Upon successful completion,
+.BR lenarg ()
+returns a value guaranteed to be at least as large as the 
+length of the longest string argument.  It returns zero
+if there are no arguments.
+.PP
+The function
+.BR getarg ()
+takes three arguments:
+.I name, type,
+and
+.I pointer.
+.I Name
+is the external name of the variable initialized in
+.BR setarg ().
+.I Type
+specifies the variable type.
+The currently valid types are:
+.RS
+.nf
+"d"	integer
+"f"	float
+"F"	double
+"s"	character string
+"b"	boolean (integer)
+"vd"	integer vector
+"vf"	float vector
+"vF"	double vector
+"vs"	character string vector
+.fi
+.RE
+.PP
+The 
+.I type
+parameter can be expanded to indicate the maximum number of elements
+allowable in vectors.  For example type="vf[4]" or type="vf(4)"
+would cause
+.BR getarg ()
+to modify no more than 4 elements of the vector, regardless of how
+many elements are in the argument list
+initialized in
+.BR setarg ().
+If no limit is specified, a limit of 10 is quietly enforced.  If there 
+are fewer elements than the limit the vector will only be modified up
+to the number of elements.
+.PP
+.I Pointer
+is a pointer to the type of variable indicated by
+.I type.
+If no occurrences of the parameter
+.I name
+is found, the contents of
+.I pointer
+are not modified.
+.PP
+.BR Getarg ()
+returns 1 for a successful conversion, and 0 if unsuccessful.  In the
+case of vectors
+.BR getarg ()
+returns the number of elements found, or 0 if an unsuccessful conversion
+occurs at any index in the vector.
+.PP
+The function
+.BR endarg ()
+gracefully terminates the package.
+.PP
+The Fortran interface subroutines
+.BR setarg (),
+.BR cntarg (),
+.BR fgtarg ()
+and
+.BR endarg ()
+provide equivalent functionality with the exception that 
+.BR fgtarg () 
+does not process vectors of character strings.  Also, there is no
+Fortran version of
+.BR lenarg ().
+
+.SH EXAMPLES
+The following program example illustrates the use of 
+.BR getarg ()
+for the purpose of parsing optional arguments.
+It is intended for use with subroutines that have a few essential
+arguments and many optional ones.
+.RS
+.nf
+sub(x,lx,list)
+float *x;
+int lx; 
+char *list;
+{
+	int opt1, boo;
+	float fopt2;
+	char title[40];
+
+	/* set defaults */
+	opt1= 10;
+	fopt2= 5.0;
+	title[0]= '\0';
+	boo= 1;	/* true */
+
+	setarg(list,"sub");	/* initialize getarg package */
+
+	getarg("opt1","d",&opt1);
+	getarg("fopt2","f",&fopt2);
+	getarg("title","s",title);
+	getarg("boo","b",&boo);
+
+	endarg();		/* deactivate getarg package */
+
+	/* rest of subroutine */
+}
+.fi
+.RE
+.PP
+The minimal call to this subroutine would be
+.RS
+sub(x,lx,0);
+.RE
+or
+.RS
+sub(x,lx,"");
+.RE
+.PP
+in which case the default values of all the options are used.
+To change some of the options, the call would be
+.br
+.RS
+sub(x,lx,"opt1=100 fopt2=2.0 title='new title' noboo");
+.RE
+.TP 10
+.B NOTE:
+If the variables are defaulted by giving them initializations in
+static declarations,
+then subsequent calls to subroutines that use
+.BR getarg()
+may have their default values modified by previous calls.
+.PP
+The next program example illustrates the use of
+.BR getarg()
+for the purpose of parsing a string argument into data values.
+.RS
+.nf
+get_msg(list)
+char *list;
+{
+	double *time;
+	char **sta_chans, dbtemp[BUFSIZ], format[BUFSIZ];
+	int orid, count_times, count_stas;
+	int get_times, get_stas, len_stas;
+
+	setarg(list, NULL);                    /* initialize getarg package */
+
+	count_times = countarg("channel-time", "F");    /* determine size   */
+						        /* of double vector */
+	
+	time = (double *) malloc(count_times * sizeof(double)); 
+                                                            /* create space */
+
+	sprintf(format, "vF[%d]", count_times);    /* format type parameter */
+
+	get_times = getarg("channel-time", format, time);  /* retrieve data */
+
+	if (count_times != get_times)
+	  	/* error */
+
+	/*
+	 * For the string vector ascertain the number of elements and
+	 * the length of the longest element in the vector channel.
+	 * Malloc the appropriate amount of memory space before calling
+	 * getarg().
+	 */
+	count_stas = countarg("channel", "s");
+	len_stas = lenarg("channel");
+	sta_chans = (char **) malloc(count_stas * sizeof(char*));
+
+	for (i = 0; i < count_stas; i++)
+		sta_chans[i] = (char *) malloc((len_stas + 1) * sizeof(char));
+
+	sprintf(format, "vs[%d]", count_stas);
+
+	get_stas = getarg("channel", format, sta_chans);
+	if (count_stas != get_stas)
+		/* error */
+	
+	getarg("orid", "d", &orid);           /* get remaining arguments */
+	getarg("dbtemp", "s", dbtemp);
+
+	endarg();                           /* deactivate getarg package */
+
+	/* rest of subroutine */
+}
+.fi
+.RE
+An example call to this subroutine would be
+.IP "" 5
+get_msg("dbtemp='demo/demo' orid=721 channel-time=240.0,480.0 channel='ARA/sz','ARA/bz')
+.SH PARAMETER FORMAT
+The parameters in the strings can occur in any order, and any number
+of times.  In the case of multiple specifications, the last one is
+used.  Any parameters that are not requested by
+.BR getarg ()
+are ignored.
+.PP
+Each parameter/value specification is of the form 
+.I name=value.
+No embedded blanks are allowed on either side of the equals ("=")
+sign.  Character strings with white space are delimited with single
+(') or double (") quotes which are removed by
+.BR getarg ().
+To get a single or double quote in a string, precede it with a backslash (\\).
+Vector arguments are separated by commas.  Vectors of strings are
+enclosed in single quotes separated by commas.  To get a single 
+quote, comma, or backslash in a string argument, precede each with a 
+backslash.  For example:
+.IP "" 5
+get_msg("vs_arg='\'MSO\',\'San Diego\\, CA'");
+.PP
+The only exception to the
+.I name=value
+syntax is boolean variables which can simply be specified by
+.I name
+or
+.I noname
+to mean true or false respectively.
+.PP
+Repetition factors can be used to specify repeated values in vectors
+using the symbols
+.I x, X, 
+and 
+.I *
+interchangeably.  For example
+.I get_msg("ints=1,2x2,3,3*4,2X5")
+would yield a vector with nine elements:  1, 2, 2, 3, 4, 4, 4, 5, 5.
+Repetition factors cannot be used with vectors of strings.  
+
+.SH DIAGNOSTICS
+The routines produce error messages on
+.I stderr
+and return -1 for the following trapped errors.
+.IP 1.
+.BR setarg ()
+is not properly called.
+
+.IP 2.
+The arglist to
+.BR setarg ()
+appears to be garbage.
+
+.IP 3.  
+.BR countarg (), 
+.BR lenarg (),
+or
+.BR getarg ()
+are called before
+.BR setarg ().
+
+.IP 4.  
+.BR countarg (),
+.BR lenarg (),
+or
+.BR getarg ()
+are called after
+.BR endarg ().
+
+.IP 5.
+There is an unknown conversion type in
+.BR countarg ()
+or
+.BE getarg ().
+
+.IP 6.
+Attempt to process a vector of strings in
+.BR fgtarg ().
+
+.IP 7.
+Invalid vector limit is specified in
+.BR getarg ().
+
+.IP 8.
+Invalid vector repetition factor is specified in
+.BR getarg ().
+
+.IP 9. 
+A NULL
+.I pointer
+parameter is passed to
+.BR getarg ().
+
+.PP
+An attempt is made to report which function was active when the error occurred.
+.SH BUGS
+Probably.
+.SH "SEE ALSO"
+.BR getpar (3)
+.SH AUTHOR
+Robert W. Clayton, Seismological Laboratory, Caltech, Pasadena, CA
+91125
+.br
+Cynde K. Smith, Science Applications International Corp., San Diego,
+CA  92121

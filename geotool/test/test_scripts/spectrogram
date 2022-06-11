@@ -1,0 +1,49 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/DPRK_test.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file query="select * from wfdisc where sta='MK32' and chan='SHZ'"
+
+set i=14,451,837,1314,1991,2364,2987,3958
+set d=0.38241,2.54940,1.52964,1.93329,2.86808,9.15659,6.77715,5.09880
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "spectrogram input data has changed"; return; endif
+
+select 1
+
+alias sp = spectrogram
+
+sp.auto_window_parameters=false
+sp.lo_freq=0.
+sp.hi_freq=10.
+sp.window_length=10
+sp.window_overlap=9
+sp.normalize=false
+sp.bin_average=false
+sp.instrument_corr=false
+sp.log=true
+
+sp.compute
+
+if(sp.n_windows != 88 || sp.nf != 129)
+    print "spectrogram test 1 failed"
+    return
+endif
+
+set i=193,2934,5495,5032,6849,8325,10215
+set d=-163.000,-171.490,-178.123,-177.164,-179.067,-193.474,-179.770
+setb ok=true
+foreach(i)
+    sprint s sp.pow[i](%.3f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "spectrogram test 1 OK"
+else; print "spectrogram test 1 failed"; endif

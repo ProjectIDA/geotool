@@ -1,0 +1,86 @@
+@(#)Changes.libtable	104.1 07/08/97
+
+14 January 1993 atom
+--------------------
+Created Changes file.  See an34 for Changes file Guidelines, an44 for
+the Standard.
+
+16 February 1993 (bonnie)
+---------------------
+Moved table.h from ../../include/SCCS.  This file is considered PUBLIC
+and is installed in ../../include with "make includes".
+
+29 March 1993 (karen)
+---------------------
+Added ALLSRCS, MAKEFILE macros to Makefile for ADSN release.
+
+22 October 1993 (karen)
+-----------------------
+Baselined to 55.1 to get corrected Makefile for next ADSN release.
+
+21 December 1993 shawn
+----------------------
+Baselined to 56.1 for NMRD release.
+
+22 March 1994 jeff
+----------------------
+Merged variables.c (from libscheme).
+
+26 April 1994 jeff
+----------------------
+Final Solaris 1 Baseline: 58.1
+
+4 October 1994 tanida
+---------------------
+Was baselined for S2 at 100.1 in April.  Baselining again at 101.1 for
+changes to the Makefile.
+
+01 September 1995 wahl
+----------------------
+variables.c: Updated var_set() to delete variable from table if value is NULL 
+on input.  Previously, NULL value condition was not checked and led to a
+segmentation violation.
+
+15 December 1995 fox
+--------------------
+changed args to const char * for TABLE_COMPARE to eliminate
+                ^^^^^ 
+warnings when using strcmp().  In table.h.
+
+20 December 1995 shawn
+----------------------
+   In Makefile I modified the install target so include files are 
+automatically installed on a "make install".
+
+09 January 1996 karen
+---------------------
+Baselined v102.1 to include table.h update for PNDC 5.0 release.
+
+
+30 September 1996 gail
+----------------------
+Added reference to libtable.3 man page.
+
+Updated Makefile to include ref to libtable.3 man page.
+
+Baselined for PNDC 5.3 Release.
+
+05 June 1997 wahl, laist
+------------------------
+
+setcvar.c: Created file from consolidation of many instances in
+different applications.  Includes externally visible function
+setcvar() for accessing cvar table.
+
+table.h: Added setcvar(), getcvar() prototypes.
+
+06 June 1997 wahl
+-----------------
+
+table.h: Corrected getcvar() val argument to be of type void*
+
+setcvar.c: Corrected getcvar() val argument to be of type void*
+
+17 March 1999 jim
+-----------------
+Baselined with label PIDC_6.2.0.

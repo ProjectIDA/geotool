@@ -1,0 +1,50 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/yka.asc.gz"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file
+select_all
+
+ftrace.clear
+ftrace.compute az=300.6 slow=1./17.4 flo=0.4 fhi=3.0 lat=62.49320 lon=-114.60530 snr=6.0 wlen=2.0 autoloc=false
+
+set i=35,629,925,1179,1200,1592,2597,3052
+set d=-0.0024308,-0.33819,0.16324,9.225,0.43791,2.4826,0.012057,0.2781
+setb ok=true
+foreach(i)
+    sprint s ftrace.wave[1].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "ftrace test 1 OK"
+else; print "ftrace test 1 failed"; endif
+
+set d=0.45595,2.5034,0.86493,95.281,61.078,33.949,6.4919,3.1975
+setb ok=true
+foreach(i)
+    sprint s ftrace.wave[2].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "ftrace test 2 OK"
+else; print "ftrace test 2 failed"; endif
+
+set d=0.026269,0.13529,0.051286,0.85622,0.79242,0.67968,0.28863,0.16656
+setb ok=true
+foreach(i)
+    sprint s ftrace.wave[3].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "ftrace test 3 OK"
+else; print "ftrace test 3 failed"; endif
+
+set d=0,0,0,1,0.99877,0.20591,0,0
+setb ok=true
+foreach(i)
+    sprint s ftrace.wave[4].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "ftrace test 4 OK"
+else; print "ftrace test 4 failed"; endif

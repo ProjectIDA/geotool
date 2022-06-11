@@ -1,0 +1,98 @@
+.\" @(#)g2toint.3	109.1 07/08/97 SAIC
+.TH G2TOINT 3 "@(#)g2toint.3	109.1"
+.SH NAME
+g2toint, inttog2, g2tofloat, floattog2 \- g2 format conversion routines
+.SH SUMMARY
+g2toint - convert g2 format data to host format integer
+.br
+inttog2 - convert host integer data to g2 format
+.br
+g2tofloat - convert g2 format data to host single precision
+.br
+floattog2 - convert host single precision to g2 format.
+.SH FILE
+degain.c
+.SH SYNOPSIS
+.nf
+g2toint (from, to, num)
+unsigned char	*from;		(i) array with gainranged data
+int32_t		*to;		(o) degained data
+int		num;		(i) number of entries
+
+inttog2 (from, to, num)
+int32_t		*from;		(i) array with i*4 data
+unsigned char	*to;		(o) gain ranged data
+int		num;		(i) number of entries
+
+g2tofloat (from, to, num)
+unsigned char	*from;		(i) array with gainranged data
+float		*to;		(o) degained data
+int		num;		(i) number of entries
+
+floattog2 (from, to, num)
+float		*from;		(i) array with i*4 data
+unsigned char	*to;		(o) gain ranged data
+int		num;		(i) number of entries
+
+Fortran interface:
+
+g2toint (from, to, num)
+integer*2	from(num)
+integer*4	to(num)
+integer		num
+
+inttog2 (from, to, num)
+integer*4	from(num)
+integer*2	to(num)
+integer		num
+
+g2tofloat (from, to, num)
+integer*2	from(num)
+real		to(num)
+integer		num
+
+floattog2 (from, to, num)
+real		from(num)
+integer*2	to(num)
+integer		num
+.fi
+
+.SH DESCRIPTION
+.LP
+G2 format provides a representation with a manitissa ranging
+from -8191 to +8192 (8191 is the BIAS) and a multiplier of 1,
+4, 16, or 128 (the multiplier is 128/<gain-code>).
+Although the total dynamic range is +- 2**20,
+many numbers within this range are not representable.
+.LP
+To avoid the difficulty of having a vax and ieee versions of
+the g2 format, we define the g2 format as a byte stream.  Each
+value takes two bytes (bytes are 8 bits) with the high order
+two bits of byte[0] being the gain code, the low order 6 bits
+and the 8 bits of the second byte being the value (the 6 bits
+are the high order bits in the 14 bit value).
+.LP
+If value is less than BIAS, it is a negative number, if it is
+greater than BIAS it is a positive number.
+.LP
+Bit 15 and 16 (two upper bits) of the first byte in each
+sample contains the gain ranging value which determines the gain code:
+.nf
+00 -> gain code	= 128
+01 -> gain code 	= 32
+10 -> gain code  	= 8
+11 -> gain code  	= 1
+.fi
+.LP
+The formula for g2 to integer is:
+(value-BIAS)*(128/<gain code>).
+.SH NOTES
+These routines can be used as inplace conversions.
+.LP
+Although g2 format offers less precision then integer format,
+in practice there is no difference since the original data from
+NORSAR is recorded in g2 format.  In other words, we have already
+lost the precision before the data reaches the processing stage.
+.SH AUTHOR
+Pete Ware
+

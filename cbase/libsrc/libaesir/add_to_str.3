@@ -1,0 +1,24 @@
+.TH ADD_TO_STR 3 "4 Apr 1990"
+.\" @(#)add_to_str.3	109.1	       07/08/97
+.SH NAME
+add_to_str \- add one string onto another
+.SH SYNOPSIS
+.nf
+add_to_str (add_string, add_to)
+char           *add_string;		(i) string to add
+char		**add_to;		(o) and place to put it
+.fi
+.SH DESCRIPTION
+This can continually concatenate one string on to another string.
+Memory is dynamically allocated for each additional string.
+Initially, add_to should point to NULL.  For example:
+.nf
+.sp
+char *add_to;
+add_to = NULL;
+add_to_str ("This is a test", &add_to);
+.sp
+.fi
+Will allocate space for the string "This is a test"
+.SH AUTHOR
+08/03/89	Pete Ware	Documented

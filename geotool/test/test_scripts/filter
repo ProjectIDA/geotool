@@ -1,0 +1,185 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/DPRK_test.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file query="select * from wfdisc where sta in ('MK32')"
+
+# check 10 "random" samples of the first waveform
+set i=5,357,534,983,1356,1456,2869,3111,3523,3894
+set d=2.42193,0.70108,2.65563,3.48418,4.88635,3.14426,3.50542,-0.44615,3.14426,0.44615
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "filter: input waveform 1 has changed"; return; endif
+
+# check 10 "random" samples of the second waveform
+set j=14,451,837,1946,1999,2125,2987,3103,3535,3958
+set d=6.97412,6.1796,1.50076,2.36149,5.7382,3.3105,0.04414,-8.32039,-9.7108,0.4414
+setb ok=true
+foreach(j)
+    sprint s wave[2].seg[1].data[j](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "filter: input waveform 2 has changed"; return; endif
+
+filter.taper_on
+filter.filter_taper.width=10
+filter.filter_taper.min_points=5
+filter.filter_taper.max_points=200
+
+# test 1: filter
+filter wave[1] low=2.0 high=4.0 type="BP" order=3 zp=false
+
+set d=-0.000044,0.567136,0.440962,-0.155045,-0.103840,0.414860,0.203009,-0.320751,-1.021945,0.506935
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.6f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 1 OK"
+else; print "filter test 1 failed"; endif
+
+# test 2: unfilter
+unfilter wave[1]
+
+set d=2.42193,0.70108,2.65563,3.48418,4.88635,3.14426,3.50542,-0.44615,3.14426,0.44615
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 2 OK"
+else; print "filter test 2 failed"; endif
+
+# test 3: taper width
+filter.filter_taper.width=10
+filter.filter_taper.min_points=5
+filter.filter_taper.max_points=400
+filter wave[1] low=2.0 high=4.0 type="BP" order=3 zp=false
+
+set d=-0.000011,0.527495,0.440962,-0.155045,-0.103840,0.414860,0.203009,-0.320751,-1.021945,0.158794
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.6f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 3 OK"
+else; print "filter test 3 failed"; endif
+
+filter.filter_taper.max_points=200 # reset filter length
+
+# test 4: setting filter table values
+select 1 # select the first waveform
+
+filter.set_cell row=1 column="low" value=3.2
+filter.set_cell row=1 column="high" value=5.1
+filter.set_cell row=1 column="order" value=4
+filter.set_cell row=1 column="type" value="BP"
+filter.set_cell row=1 column="constraint" value="causal"
+filter.select_row 1
+
+set d=-0.000007,-0.390124,-0.137100,0.862475,-0.387191,-0.524730,-0.462134,0.280222,2.245323,0.663344
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.6f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 4 OK"
+else; print "filter test 4 failed"; endif
+
+# test 5: filter mode setting
+filter.chain
+
+filter wave[1] low=3.6 high=4.8 type="BP" order=3 zp=false
+set d=3.8193e-11,0.048945,-0.61083,-0.91902,0.54318,-0.21964,-0.49316,-0.89728,-0.058858,0.2324
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 5 OK"
+else; print "filter test 5 failed"; endif
+
+# test 6: filter LP type
+filter.replace
+filter wave[2] high=6. type="LP" order=3 zp=false
+set d=-0.019216,-2.6252,-1.6666,6.7084,-7.7379,-5.4198,1.5515,6.0128,6.2911,-0.25192
+setb ok=true
+foreach(j)
+    sprint s wave[2].seg[1].data[j](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 6 OK"
+else; print "filter test 6 failed"; endif
+
+# test 7: filter HP type
+filter wave[2] low=1. type="HP" order=3 zp=false
+set d=0.049553,4.5017,0.6054,-2.9991,8.8625,5.458,-3.2695,-10.282,-11.041,-0.10473
+setb ok=true
+foreach(j)
+    sprint s wave[2].seg[1].data[j](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 7 OK"
+else; print "filter test 7 failed"; endif
+
+# test 8: filter zero-phase
+filter wave[2] low=2. high=4. type="BP" zp=true
+set d=0.0070753,-0.78351,-0.5789,1.033,0.77981,-0.013063,0.47474,0.25819,-0.52585,0.017413
+setb ok=true
+foreach(j)
+    sprint s wave[2].seg[1].data[j](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 8 OK"
+else; print "filter test 8 failed"; endif
+
+# test 9: filter and unfilter by waveform selection
+unfilter wave[1]  # must unfilter wave[1] twice since the chain option was used
+unfilter wave[2]
+select_all
+filter low=2. high=4. type="BP" order=3 zp=false
+
+set d=-4.3779e-05,0.56714,0.44096,-0.15505,-0.10384,0.41486,0.20301,-0.32075,-1.0219,0.50694
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 9a OK"
+else; print "filter test 9a failed"; endif
+
+set d=-0.0040892,-0.28836,-0.4004,-0.68241,0.33397,-0.42142,-1.2413,2.5895,-0.64423,-0.051972
+setb ok=true
+foreach(j)
+    sprint s wave[2].seg[1].data[j](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 9b OK"
+else; print "filter test 9b failed"; endif
+
+unfilter_all
+
+set d=2.4219,0.70108,2.6556,3.4842,4.8864,3.1443,3.5054,-0.44615,3.1443,0.44615
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 9c OK"
+else; print "filter test 9c failed"; endif
+
+set d=6.9741,6.1796,1.5008,2.3615,5.7382,3.3105,0.04414,-8.3204,-9.7108,0.4414
+setb ok=true
+foreach(j)
+    sprint s wave[2].seg[1].data[j](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "filter test 9d OK"
+else; print "filter test 9d failed"; endif

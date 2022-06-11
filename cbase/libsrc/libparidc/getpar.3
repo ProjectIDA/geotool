@@ -1,0 +1,431 @@
+.\" @(#)getpar.3	110.1 07/08/97
+.TH GETPAR 3 "19 January 2000
+.SH NAME
+setpar, getpar, mstpar, endpar \- retrieve command-line parameters
+.SH SYNOPSIS 
+.mf
+#include "libpar.h"
+
+setpar(int argc, char**argv)
+
+getpar(char *name, char *type, void *pointer)
+
+mstpar(char *name, char *type, void *pointer)
+
+endpar(void)
+
+getspar(char *name, char *defvalue)
+
+mstspar(char *name)
+
+getbpar(char *name, int defvalue)
+
+getdpar(char *name, int defvalue)
+
+getfpar(char *name, float defvalue)
+
+getffpar(char *name, double defvalue)
+
+.SH DESCRIPTION
+The
+.B getpar
+routines provide a simple method to parse program arguments from
+the command line, and from files.
+.PP
+The function
+.BR setpar ()
+initializes the package.
+Its arguments are the same as those to main() itself.
+It is an error to call 
+.BR getpar ()
+or 
+.BR mstpar ()
+before calling.
+.BR setpar ().
+The
+.B getpar
+routines are deactivated with a call to
+.BR endpar ().
+This routine releases memory.  If the
+.B STOP 
+or 
+.B LIST_MST 
+options are given, it also write a message to 
+.I stderr 
+and terminates the program.
+.PP
+The individual parameters are obtained with calls to
+.BR getpar ()
+and
+.BR mstpar ().
+.BR Mstpar ()
+(must par) is identical to
+.BR getpar ()
+except that it terminates the program with an error message
+if the particular parameter is not specified.
+The following description of
+.BR getpar ()
+also applies to
+.BR mstpar ().
+.PP
+.BR Getpar ()
+has three arguments.
+The first is a character string which specifies the external name
+of the parameter.
+It can be (practically speaking) of any length.
+The second argument is a character string which specifies the type
+of variable the parameter is.
+Currently the following types are understood:
+.RS
+.nf
+"d"	integer
+"f"	float
+"F"	double
+"s"	character string
+"b"	boolean (integer)
+"vd"	integer vector
+"vf"	float vector
+"vF"	double vector
+.fi
+.RE
+.PP
+The \fItype\fR argument can be used to indicate the maximum number
+of elements allowable in vectors.
+For example \fItype="vf[4]"\fR or \fItype="vf(4)"\fR would
+cause 
+.BR getpar ()
+to modify no more than 4 elements of the vector,
+regardless of how many elements the user specifies.
+If no limit is specified, a limit of 10 is quietly enforced.
+.PP
+The last argument is a pointer to the type of variable indicated by
+.I type.
+.BR Getpar ()
+does not modify this variable if no occurrence of the parameter is found.
+Hence, a default value can be assigned before the call to
+.BR getpar ().
+.BR Getpar ()
+returns 1 if the parameter was found, and 0 if not.
+For vectors,
+.BR getpar ()
+returns the number of elements found.
+.PP
+.BR Getspar ()
+and 
+.BR mstspar ()
+work similarly to 
+.BR getpar ()
+and 
+.BR mstpar ()
+for string parameters, except that the returned value is a pointer to a string
+that contains the parameter value.  The input parameter value is
+copied to a new string using 
+.BR strdup (3C).
+It is the responsibility of the user to free the string.
+In 
+.BR getspar ()
+the input arguments include the
+parameter name and a default value, which can be a NULL string.  The 
+NULL pointer is returned if the default value is a NULL pointer and
+no parameter was found.  
+.PP
+.BR Getbpar (), 
+.BR getdpar (), 
+.BR getfpar (),
+and 
+.BR getffpar ()
+work similarly to 
+.BR getpar ()
+for 
+boolean, integer, float and double parameters, respectively except that 
+the returned value contains the default value and is of type boolean, 
+integer, float or double as requested.
+The input arguments for these functions include the
+parameter name and a default value.
+.SH EXAMPLE
+.RS
+.nf
+main(ac,av)
+int ac; char **av;
+{
+	/* specify parameters, some with default values */
+	static int nx =10;
+	static char title[40] = "No title given";
+	static float dx = 0.01;
+	static char input[40];
+	static float x[8];
+	static int boo = 1;	/* boolean, true */
+
+	setpar(ac,av);			 /* initialize getpar */
+
+	getpar("nx","d",&nx);
+	getpar("dx","f",&dx);
+	getpar("title","s",title);
+	mstpar("input","s",input); /* must have this parameter */
+	getpar("boo","b",&boo);
+	getpar("x","vf[8]",x);
+
+	endpar();		 /* deactivate getpar */
+
+	/* rest of program */
+}
+.fi
+.RE
+.SH PARAMETER FORMAT
+.PP
+The parameters on the command line can occur in any order,
+and any number of times.
+In the case of multiple specifications, the last one is used.
+Any parameters that are not requested by
+.BR getpar ()
+or
+.BR mstpar ()
+are ignored.
+An example of specifying parameters for the above program is:
+.RS
+a.out dx=0.123  nx=300 title="sample title"  dy=0.456 noboo x=1.0,4x2.0,2x5.12
+.RE
+.PP
+Each specification is of the form
+.I name=value.
+No embedded blanks are allowed on either side of the equals ("=") sign.
+Character strings with blanks or tabs are delimited with single (') or
+double (") quotes.
+The only exceptions to the
+.I name=value
+rule are boolean variables which are specified as
+.I name
+or
+.I noname
+to indicate true or false.
+Boolean variables may also be specified as integers with the form
+.I name=(int).
+In the above example, true values for
+.I boo
+are specified as either
+.I boo
+or
+.I boo=1,
+and false values as either
+.I noboo
+or
+.I boo=0.
+If
+.I boo=100
+is given then the returned value is
+.I 100.
+The value for vector is given as a list separated by commas (,).
+No embedded blanks are allowed in the list.
+Repetition factors (2x and 4x in the above example) can be used to
+specify repeated values.
+.PP
+Several additional features are also available.
+At any point on the command line, the parameter
+.I par=filename
+can be given.
+This will cause
+.BR getpar ()
+to look in the file
+.I filename
+for additional parameters.
+Several
+.I par
+arguments can be given on the command line.
+The search order is left to right.
+Consequently, any parameters given after the
+.I par=filename
+will override their values given in
+.I filename.
+Also, the environment (if allowed, see NOENV option below) is searched first.
+Thus parameters on the command line and in par files override parameters
+set in the environment.
+The format of the parameters in the par file follow the same rules as the
+command line.
+Several specifications separated by white space, can occur on a given
+line, and their can be any number of lines.
+A '#' symbol in the position where a name would normally occur,
+indicates that the rest of the line is a comment, and is consequently
+ignored.
+The specification
+.I par=filename
+is also allow in the file, however recursions are limited in depth
+(current limit is 8).
+.PP
+As a concession to the traditional switch passing method, a parameter
+of the form
+.RS
+a.out -abc
+.RE
+.PP
+is available to the calling program as a character string with the call
+.RS
+getpar("SWITCH","s",&sw);
+.RE
+.PP
+where in the example above, the string
+.I sw
+would be
+.I abc.
+.PP
+Parameters in the shell environment can be set (unset) with the
+C-shell commands:
+.RS
+.nf
+setenv name value
+unsetenv name
+.fi
+.RE
+.PP
+Five additional parameters allow for input checking, and program
+interrogation.
+.TP 10
+.B STOP
+The call to
+.BR endpar ()
+will terminate the program if this parameter is given.
+.TP 10
+.B LIST
+Each call to
+.BR getpar ()
+or
+.BR mstpar ()
+will cause the name, type, and value of the variable to be
+listed on
+.I stderr.
+If
+.I LIST=filename
+is given, the listing is put in the file
+.I filename.
+This option is useful for interrogating a program as to what it wants
+for input.
+.TP 10
+.B LIST_MST
+Normally 
+.BR mstpar ()
+writes an error message to 
+.I stderr 
+and exits immediately (terminates the program) when a parameter is not found.
+When the
+.B LIST_MST 
+parameter is given,
+.BR mstpar ()
+continues rather than exits and
+.BR endpar () 
+exits instead (like the 
+.B STOP 
+parameter).  This facilitates input debugging by allowing
+.I all 
+error messages identifying missing "mst" parameters to be written to 
+.I stderr
+with one execution of the program.
+.TP 10
+.B INPUT
+.BR Setpar ()
+will list all input parameters that are found.
+This option is useful for debugging input data, and determining
+Where a particular parameter is coming from in multiple
+.I par
+specifications.
+If
+.I INPUT=filename
+is given, the listing is put in the file
+.I filename.
+.TP 10
+.B NOENV
+will disallow any parameters to be obtained from the environment.
+It may occur on the command line, in a par file, or in the environment
+itself.
+.TP 10
+.B VERBOSE
+will cause
+.BR getpar ()
+or
+.BR mstpar ()
+to print the name of the parameter before starting to search for it.
+This provides a method of determining which subroutine call is
+at fault, when a program dies in the getpar package.
+.SH PARAMETER EVALUATION
+Limited parameter substitution is supported.  An example of the syntax is
+.RS
+.nf
+dir=/usr/local/lib
+file=filename
+path=$(dir)/$(path)
+.fi
+.RE
+Parameter substitution occurs during parameter input.  Whenever a
+parameter to be substituted is encountered during input, the list of
+previously defined parameters (including the environment) are searched
+for the value and immediately substituted.  Thus, for the purpose of
+substitution, the ordering of parameter input is important.
+Substitution may be suppressed by escaping the "$" with a backslash (
+\\ ).  If a parameter value contains the name of an undefined parameter,
+it is simply removed from the parameter value.
+.PP
+Left-hand side parameters may be substituted for as well.
+.RS
+.nf
+class=Interval
+$(class)-color=red
+.fi
+.RE
+In this example, \fIInterval-color\fR is assigned the value \fIred\fR.
+.PP
+Arithmetic argument evaluation is supported for types 
+\fId\fR, \fIf\fR, and \fIF\fR.  The right-hand side value must be
+a string starting with \fI"bc"\fR.
+The evaluation is performed by piping the expression through a subshell
+.BR bc (1)
+process.
+.RS
+.nf
+start-time=781462029
+lookback=600
+time="bc $(start-time) - $(lookback)"
+.fi
+.RE
+In this example, \fItime\fP gets the value 781461429
+(which is 781462029 - 600).
+.SH WARNINGS
+Be careful that
+.I type
+is correctly specified, when dealing with floats and doubles.
+If a double pointer is used with \fItype="f"\fR,
+The lowest 32 bits of the mantissa will not be set correctly.
+If a float pointer and \fItype="F"\fR
+are used, the next element in memory will be clobbered.
+If the last combination is used in vector mode, you will get garbage back.
+.PP
+If a program appears to behave differently for identical input
+parameters, make sure that some defaulted parameters are not sneaking
+in via the environment.
+The NOENV option may be of some use in this case.
+If you believe back door parameters are a bad practice, then set NOENV in
+your login shell.
+.SH DIAGNOSTICS
+The routines produce error messages of the type:
+.RS
+.nf
+****** ERROR program[getpar]: ******
+	error message
+.fi
+.RE
+Hopefully the error message is diagnostic of the trouble.
+If you are debugging a program try the VERBOSE option to see which
+call generated the problem.
+.SH BUGS
+Errors in calls to
+.BR mstpar ()
+are often reported as calls to
+.BR getpar ().
+.PP
+Parameter substitution might be more useful (but the program would
+be more complex) if the ordering requirements were relaxed.
+.SH "SEE ALSO"
+.BR bc (1),
+.BR getarg (3),
+.BR setenv (1),
+.BR strdup (3C),
+.BR unsetenv (1)
+.SH AUTHOR
+Robert W. Clayton, Seismological Laboratory, Caltech, Pasadena, CA 91125

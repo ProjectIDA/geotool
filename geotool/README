@@ -1,0 +1,48 @@
+Build at the IDC:
+-----------------
+
+  NOTE: Build and install cbase and libcd first
+  NOTE: Next, build and install ibase (for libipcnt)
+  NOTE: Next, build and install gbase (for libLP, libloc, libinterp)
+  NOTE: Then, build and install this package
+  NOTE: Afterwards, build and install gpmcc and garsspectro
+
+  For all platforms:
+  ------------------
+    ./bootstrap
+    [platform specific configure, see below]
+    make
+    make check
+    make install
+
+  Linux platform configure:
+  -------------------------
+   ./bootstrap
+
+  ./configure --prefix=/where/to/install \
+	        CFLAGS="-g -DENVIRONMENT" \
+                CPPFLAGS="-I/dvl/software/site/usr/include -I/where/to/install/cbase/include -I/where/to/install/libcd/include -I/where/to/install/gbase/include" \
+                LDFLAGS="-L/dvl/software/site/usr/lib64 -L/where/to/install/cbase/lib -L/where/to/install/libcd/lib -L/where/to/install/gbase/lib" \
+                --enable-interactive-ipc=nontux \
+                --with-libipcnt=/where/to/install/ibase \
+                --with-pic
+
+
+
+Build outside the IDC:
+----------------------
+
+  In general:
+  -----------
+    ./configure CFLAGS="-g -fPIC -DENVIRONMENT"  CXXFLAGS="-g -fPIC"\
+                CPPFLAGS="-I/path/to/cbase/include -I/path/to/libcd/include -I/path/to/gbase/include" \
+                LDFLAGS="-L/path/to/cbase/lib -L/path/to/libcd/lib -L/path/to/gbase/lib" \
+                --prefix=/where/to/install/geotool 
+    make
+    make check
+    make install
+
+  After changing configure.ac or Makefile.am files:
+  -------------------------------------------------
+    ./bootstrap
+    [then as above]

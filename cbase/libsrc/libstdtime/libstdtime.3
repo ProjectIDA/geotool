@@ -1,0 +1,938 @@
+.ig
+#=# 
+#=#
+..
+.TH libstdtime 3 "11 August 1999" "C LIBRARY FUNCTIONS"
+.SH NAME
+libstdtime \- Y2K-compliant standard time functions
+
+.SH SYNOPSIS
+.nf
+.ta 8 16
+#include "libstdtime.h"
+
+int stdtime_errno;
+.fi
+
+.SS CURRENT TIME FUNCTIONS
+.LP
+.nf
+.ta 8 16
+
+epoch_t stdtime_get_epoch(void);
+
+char *stdtime_get_lddate(char *lddate_a);
+.fi
+
+.SS WRAPPER FUNCTIONS
+.LP
+.nf
+.ta 8 16
+
+jdate_t stdtime_etoj(epoch_t epoch);
+
+epoch_t stdtime_jtoe(jdate_t jdate);
+
+char *stdtime_etos(epoch_t epoch, int ndec, char *std_a, 
+		int std_len);
+
+char *stdtime_etosd(epoch_t epoch, char *std_a, int std_len);
+
+char *stdtime_etost(epoch_t epoch, int ndec, char *std_a, 
+		int std_len);
+
+char *stdtime_etodir(epoch_t epoch, char *fmt_a, char *dir_a, 
+		int dir_len);
+
+epoch_t stdtime_htoe(char *human_a);
+
+epoch_t stdtime_rnd_epoch(epoch_t epoch, int ndec);
+
+epoch_t stdtime_diff_epoch(epoch_t epoch1, epoch_t epoch2, 
+		int ndec, char *diff_a, int diff_len);
+.fi
+
+.SS SPECIAL PURPOSE FUNCTIONS
+.LP
+.nf
+.ta 8 16
+
+char *stdtime_etol(epoch_t epoch, char *lddate_a, 
+		int lddate_len);
+
+char *stdtime_etogse(epoch_t epoch, int ndec, char *gse_a, 
+		int gse_len));
+
+char *stdtime_etogsed(epoch_t epoch, char *gse_a, int gse_len);
+
+char *stdtime_etogset(epoch_t epoch, int ndec, char *gse_a, 
+		int gse_len));
+
+char *stdtime_etocd(epoch_t epoch, int ndec, char *cd_a, 
+		int cd_len));
+
+calendar_t *stdtime_etoc(epoch_t epoch, calendar_t *calendar);
+
+epoch_t stdtime_ctoe(calendar_t *calendar);
+
+julian_t stdtime_htojulian(char *human_a);
+
+calendar_t *stdtime_juliantoc(julian julian_t, calendar_t *calendar);
+
+julian_t stdtime_ctojulian(calendar_t *calendar);
+
+julian_t stdtime_etojulian(epoch_t epoch);
+
+epoch_t stdtime_juliantoe(julian_t julian);
+
+.fi
+
+.SS INFRASTRUCTURE FUNCTIONS
+.LP
+.nf
+.ta 8 16
+
+epoch_t stdtime_expr_time(char *expr_a);
+
+calendar_t *stdtime_expr_time_c(char *expr_a, calendar_t *calendar);
+
+int stdtime_format_r(epoch_t epoch, char *fmt_a, char *human_a, 
+		int human_len);
+
+epoch_t stdtime_unformat(char *human_a, char *fmt_a);
+.fi
+
+.SS FORTRAN FUNCTIONS
+.LP
+.nf
+.ta 8 16
+
+stdtimeetoj(epoch, jdate)
+real		epoch
+integer		jdate
+ 
+stdtimeetos(epoch, ndec, std_a)
+real		epoch
+integer		ndec
+character	std_a
+
+.fi
+.SH DESCRIPTION 
+Libstdtime provides centralized date and time functionality.  It eliminates Y2K
+errors and other errors due to misuse of system time structures and functions.
+It improves portability of applications by insulating them from differences in
+OS's.  It improves testability by containing all date manipulation in a single,
+separately testable, library.  Finally, the use of libstdtime improves
+maintainability and consistency of applications by limiting the variations
+of date and time formats used throughout the system.  See the NOTES section for
+application guidelines for date and time usage.
+.LP
+\fBstdtime_get_epoch()\fP returns the current system time in epoch seconds
+(double) including milliseconds.  All time should be stored as epoch seconds
+wherever possible to avoid any issues relating to Y2K.
+.LP
+\fBstdtime_get_lddate()\fP returns the current system time as a lddate
+string (yyyymmdd hh:mm:ss) in the output buffer, \fIlddate_a\fP.  The lddate
+string is in UTC.  The output buffer must be at least STDTIME_LDDATE_SIZE bytes
+long.  A pointer to the output buffer is returned if successful, otherwise a
+NULL pointer is returned and the string STDTIME_STRING_ERR ("Err") is placed in
+the output buffer.  
+.LP
+\fBstdtime_etoj()\fP and \fBstdtime_jtoe()\fP convert time between epoch  
+seconds and jdate where jdate is an integer containing yyyydoy (ordinal date).
+\fBstdtimeetoj()\fP is the Fortran interface to \fBstdtime_etoj()\fP. 
+.LP
+\fBstdtime_etos()\fP converts time from epoch seconds, \fIepoch\fP, to an ISO
+standard format string (yyyy-mm-dd hh:mm:ss[.n+]).  Results are placed in
+the output buffer, \fIstd_a\fP.  \fIstd_len\fP specifies the length of the
+output buffer.  \fIndec\fP specifies the number of digits for fractional
+seconds. \fIndec\fP may be 0 through 6 although 0, 1, 3, and 6 are preferred.
+Additional decimal digits are truncated. \fBstdtime_etosd()\fP and
+\fBstdtime_etost()\fP convert epoch seconds to the date (yyyy-mm-dd) or time
+(hh:mm:ss[.n+]) portion of the ISO standard format.  A pointer to the output
+buffer is returned if successful.  If \fIepoch\fP is equal to TIME_NA or 
+another error occurs, a NULL pointer is returned. 
+\fBstdtimeetos()\fP is the Fortran interface to \fBstdtime_etos()\fP.
+.LP
+\fBstdtime_etodir()\fP converts time from epoch seconds, \fIepoch\fP, to a
+directory or path 
+string.  The format of the string is specified by \fIfmt_a\fP.  Only year
+(%Y), doy (%j), jdate (%J), mon (%m), day (%d), hour (%H),
+min (%M), sec (%S), time (%T), colon (':'), and forward slash ('/') are
+allowed in \fIfmt_a\fP.  The results are placed in the output buffer,
+\fIdir_a\fP.  The length of the buffer is specified by \fIdir_len\fP.
+A pointer to the output buffer is returned if successful.  If \fIepoch\fP is
+equal to TIME_NA or another error occurs, a NULL pointer is returned. 
+.LP
+\fBstdtime_htoe()\fP converts time from human readable string of various
+formats to epoch seconds.  \fBstdtime_htoe()\fP calls
+\fBstdtime_expr_time()\fP. 
+.LP
+\fBstdtime_rnd_epoch()\fP rounds an epoch time to a selected number of decimal
+places as specified by \fIndec\fP.  \fIndec\fP may be 0 through 6 although 0,
+1, 3, and 6 are preferred.  This function may be called before calling
+\fBstdtime_etos()\fP if truncation of extra digits is not desired.
+.LP
+\fBstdtime_diff_epoch()\fP calculates the difference between two epoch times
+(\fIepoch2\fP - \fIepoch1\fP, where \fIepoch2\fP >= \fIepoch1\fP) and places
+the result into an output buffer, 
+\fIdiff_a\fP.  The length of the buffer is specified by \fIdiff_len\fP.  The
+format of the output is "ddd hh:mm:ss[.n+]" where 'ddd' is days (000-999).
+\fIndec\fP specifies the number of digits for fractional seconds (0 through 6).
+The numeric difference between the two epoch times is returned as type epoch_t.
+If an error occurs, TIME_DOUBLE_ERR is returned.
+.LP
+\fBstdtime_etol()\fP converts time from epoch seconds, \fIepoch\fP, to a lddate
+string.  This is a special purpose function that should only be used for
+lddates.  Fractional seconds are truncated.  The results are placed in the
+output buffer, \fIlddate_a\fP.  \fIlddate_len\fP specifies the length of the
+output buffer.  A pointer to the output buffer is returned if successful.  If
+\fIepoch\fP is equal to TIME_NA or another error occurs, a NULL pointer is
+returned. 
+.LP
+\fBstdtime_etogse()\fP converts time from epoch seconds to a GSE format string
+(yyyy/mm/dd hh:mm:ss[.n+]).  This is a special purpose function that should
+only be used for GSE2.0 or IMS1.0 messages and formats.  \fIndec\fP specifies
+the number of digits for fractional seconds (0 - 3).  \fIndec\fP is equal
+to 1 for GSE2.0.  \fIndec\fP equal to 3 is used for IMS1.0 (GSE2.1).
+The results are placed in an output buffer, \fIgse_a\fP.  \fIgse_len\fP
+specifies the length of the buffer.  \fBstdtime_etogsed()\fP and
+\fBstdtime_etogset()\fP convert epoch seconds to the date (yyyy/mm/dd) or time
+(hh:mm:ss[.n+]) portion of the GSE format.  A pointer to the output
+buffer is returned if successful, otherwise a NULL pointer is returned.
+\fBstdtime_htoe()\fP can be used to parse a GSE format string.
+.LP
+\fBstdtime_etocd()\fP converts time from epoch seconds to the Continuous Data
+(CD) format string (yyyyjjj hh:mm:ss[.n+]).  This is a special purpose function
+that should only be used by the Continuous Data System (CDS).  \fIndec\fP
+specifies the number of digits for fractional seconds (0 - 3).  \fIndec\fP is
+equal to 3 for CD 1.1 as described in the CD-1.1 Formats and Protocol document.  
+The results are placed in an output buffer, \fIcd_a\fP.  \fIcd_len\fP
+specifies the length of the buffer.   A pointer to the output
+buffer is returned if successful, otherwise a NULL pointer is returned.
+\fBstdtime_htoe()\fP can be used to parse a CD format string.
+.LP
+\fBstdtime_etoc()\fP and \fBstdtime_ctoe()\fP convert between an epoch time and
+a calendar date structure, calendar_t, as defined below.  Calendar_t values are
+in UTC.  \fBstdtime_etoc()\fP takes a pointer to an allocated calendar_t
+structure as an argument and returns a NULL pointer if an error occurs. 
+.LP
+.nf
+	typedef struct {
+	     int     year;   /* 4-digit year      */
+	     int     mon;    /* month number 1-12 */
+	     int     day;    /* day of month 1-31 */
+	     int     hour;   /* 0-23   */
+	     int     min;    /* 0-59   */
+	     double  sec;    /* 0-61.0 */
+	} calendar_t;
+.fi
+.LP
+The Julian Day functions convert between a Julian Day number and other date
+represenations.  The Julian Day is the number of days since Jan. 1, 4713 BC for
+the date specified by yyyy-mm-dd where yyyy < 0 is BC, yyyy > 0 is AD, and yyyy
+= 0 is an error.  \fBstdtime_htojulian()\fP converts a human time string to a
+Julian Day. \fBstdtime_juliantoc()\fP and \fBstdtime_ctojulian()\fP convert
+between a Julian Day and a calendar date (calendar_t).
+\fBstdtime_etojulian()\fP and \fBstdtime_juliantoe()\fP convert between a
+Julian Day and an epoch time.
+.TP 6
+NOTE:
+Officially, the Julian Day number begins at noon, however the libstdtime
+functions use midnight for the start of the day, ex. Jan 1, 1970 00:00:00 is
+2440588 in Julian Days.  This is consistant with the Oracle implementation of
+Julian Days. 
+.LP
+\fBstdtime_expr_time()\fP converts a character string containing a time
+expression to time in epoch seconds.  \fBstdtime_expr_time_c()\fP converts a
+character string containing a time expression to a calendar date (calendar_t).
+\fBstdtime_expr_time_c()\fP takes a pointer to an allocated calendar_t
+structure as an argument and returns a NULL pointer if an error occurs.
+.LP
+\fBstdtime_format_r()\fP and \fBstdtime_unformat()\fP convert time between
+epoch seconds and date/time strings as specified by a format string,
+\fIfmt_a\fP.  Epoch time may include milliseconds.  \fBstdtime_format_r()\fP
+places the date/time string in the output buffer, \fIhuman_a\fP.  The output
+buffer length is specified by \fIhuman_len\fP (maximum
+STDTIME_MAX_FORMAT_SIZE).   \fBstdtime_format_r()\fP returns STDTIME_SUCCESS if
+successful, otherwise it returns STDTIME_INT_ERR. 
+
+.SH ARGUMENTS
+.TP 12
+.B calendar
+A structure (calendar_t) containing the components of a calendar date.
+.TP 12
+.B cd_a
+A character buffer for a CD format date (yyyyjjj hh:mm:ss[.n+]).
+.TP 12
+.B cd_len
+The length of the \fIcd_a\fP buffer.
+.TP 12
+.B epoch
+Time in epoch seconds, the number of seconds including milliseconds since
+January 1, 1970 00:00:00 UTC.   
+.TP 12
+.B diff_a
+A character buffer containing the difference between two epoch times as
+calculated by \fBstdtime_etodir()\fP.  The format is "days hh:mm:ss".
+.TP 12
+.B diff_len
+Length of the \fIdiff_a\fP buffer.
+.TP 12
+.B dir_a
+A character buffer containing a directory path created by
+\fBstdtime_etodir()\fP. 
+.TP 12
+.B dir_len
+Length of the \fIdir_a\fP buffer.
+.TP 12
+.B expr_a
+A string containing a date/time expression.
+.TP 12
+.B fmt_a
+A date/time format string.
+.TP 12
+.B gse_a
+A character buffer for a GSE format date (yyyy/mm/dd hh:mm:ss[.n+]).
+.TP 12
+.B gse_len
+The length of the \fIgse_a\fP buffer.
+.TP 12
+.B human_a
+A character buffer for a human readable date/time of various formats including
+the libstdtime "standard," lddate and GSE formats.
+.TP 12
+.B human_len
+The length of the \fIhuman_a\fP buffer.  The maximum length is
+STDTIME_MAX_FORMAT_SIZE. 
+.TP 12
+.B jdate
+An integer (jdate_t) containing an ordinal date (yyyydoy).
+.TP 12
+.B julian
+An integer (julian_t) containing a julian day number.  The Julian Day
+number begins at noon of the date specified by yyyy-mm-dd where yyyy < 0 is BC,
+yyyy > 0 is AD, and yyyy = 0 is an error. 
+.TP 12
+.B lddate_a
+A character buffer for a lddate formatted date/time (yyyymmdd hh:mm:ss).
+.TP 12
+.B lddate_len
+The length of the \fIlddate_a\fP buffer.
+.TP 12
+.B ndec
+The number of digits of fractional seconds.  Generally, \fIndec\fP may be 0
+through 6 although 0, 1, 3, and 6 are preferred.  For \fBstdtime_etogse()\fP and
+\fBstdtime_etocd()\fP, \fIndec\fP may be (0-3).
+.TP 12
+.B std_a
+A character buffer for a libstdtime "standard" formatted date/time
+(yyyy-mm-dd hh:mm:ss[.n+]).  The format is compatible with ISO 8601, the
+international standard for dates.  The number of fractional digits may be 0
+trhough 6 although 0, 1, 3, and 6 are preferred.
+.TP 12
+.B std_len
+The length of the \fIstd_a\fP buffer.
+
+.SH USAGE
+.LP
+\fBstdtime_expr_time()\fP converts a time expression to epoch seconds.
+The expression may be a date/time expression to calculate
+dates based on the current system time or it may be a date/time string 
+surrounded by brackets, [], with an optional format string.
+.LP
+Date/time expressions may contain simple arithmetic operators
+(+,-,*,/,%,@).  All numbers are assumed to be
+seconds.  The following is a list of words that can be used in
+the expressions.
+.LP
+.RS
+.nf
+.ta 16
+now	- present time
+today	- 00:00:00 of the present day.
+yesterday	- 00:00:00 of the previous day.
+tomorrow	- 00:00:00 of the next day.
+minute		- one minute
+hour		- one hour
+day		- one day
+week		- one week
+.fi
+.RE
+.LP
+The following date/time strings may be enclosed in brackets and automatically 
+parsed by \fBstdtime_expr_time()\fP: 
+.LP
+.RS
+.nf
+.ta 32
+e+.n+ [anything]		- epoch time 
+hh[:mm[:ss[.n+]]]		- date 1970-01-01 assumed
+yyyy-mm-dd [hh[:mm[:ss[.n+]]]]	- ISO format
+yyyy/mm/dd [hh[:mm[:ss[.n+]]]]	- GSE format
+mm/dd/yyyy [hh[:mm[:ss[.n+]]]]  - common American
+dd.mm.yyyy [hh[:mm[:ss[.n+]]]]  - common European
+yyyyjjj [hh[:mm[:ss[.n+]]]]	- CD format, jdate + time
+yyyymmdd [hh[:mm[:ss[.n+]]]]	- lddate format (%L)
+yyyyjjjhhmmss			- gmt format (%G)
+dd month yyyy [hh[:mm[:ss[.n+]]]]
+month dd[,] yyyy [hh[:mm[:ss[.n+]]]]
+				- common American
+month dd hh[:mm[:ss[.n+]]] year
+[dayofweek] month dd hh[:mm[:ss[.n+]]] [timezone] year
+				- Unix date(1) format (%F)
+.fi
+.RE
+.LP
+Any number of spaces may appear before and after seperators 
+(:,/,-,.).  Currently the timezone is ignored and UTC is assumed.
+.LP
+The [] in the time format specify the optional parts.  For instance, 12:32
+(12 hours, 32 minutes) or 12:32:15.3826 (12 hours, 32 minutes, 15.3826
+seconds) are valid time strings.  The fractional part does not have a limit on
+decimal places. 
+.LP
+Date/time strings with formats are passed to \fBstdtime_unformat()\fP.
+Examples are:
+.LP
+.RS
+.nf
+[2006 267, %Y %j]
+[12/31/1999 12:59:59, %f %T]
+.fi
+.RE
+.LP
+The format string, \fIfmt_a\fP, for \fBstdtime_expr_time()\fP,
+\fBstdtime_format_r()\fP, and \fBstdtime_unformat()\fP may
+contain any characters as well as any number of format characters.
+A character is considered a format character if it is preceded by the '%'
+character.  If a non-format character is preceded by a '%', the character will
+be added to the output string.
+.LP
+The valid format characters and descriptions are listed below.  Most of these
+formats are native to strftime(3), but some have been added.
+Note, some formats (e.g., %D, %x, and %y) that are
+acceptable to strftime() are disabled due to use of a two-digit year format.
+.LP
+.PD 0
+.RS
+.TP 8
+.B %%
+same as %
+.TP
+.B %a
+day of week, in locale's abbreviated weekday name
+.TP
+.B %A
+day of week, in locale's full weekday name
+.TP
+.B %b
+month, in locale's abbreviated month name
+.TP
+.B %B
+month, in locale's full month name
+.TP
+.B %c
+date and time, in locale's date and time representation, %x %X
+.TP
+.B %C
+date and time, in locale's long-format date and time representation
+.TP
+.B %d
+day of month (1-31)
+.TP
+.B %D
+disallowed due to the invalid two-digit year; returns an error
+.TP
+.B %e
+day of month (1-31); same as %e
+.TP
+.B %E
+epoch time integer
+.TP
+.B %f
+date as %m/%d/%Y
+.TP
+.B %F
+date as returned from Unix date(1) command
+(%a %b %e %X %Z %Y)
+.TP
+.B %g
+short human format (mm/dd/yyyy hh:mm:ss.nnn) (%f %T.%N)
+.TP
+.B %G
+gmt format (yyyyjjjhhmmss)
+.TP
+.B %h
+human format (epoch.nnn yyyy mm dd yyyyjjj hh:mm:ss.n)
+(%E.%N %Y %m %e %J %T.%1N)
+.TP
+.B %H
+hour (00-23)
+.TP
+.B %i
+units (unitless integer value)
+.TP
+.B %I
+hour (00-12)
+.TP
+.B %j
+day number of year (001-366)
+.TP
+.B %J
+"jdate" or ordinal date (yyyyjjj)
+.TP
+.B %k
+hour (0-23; single digits preceded by a blank)
+.TP
+.B %K
+number of days (000-999), for day count
+.TP
+.B %l
+hour (1-12; single digits preceded by a blank)
+.TP
+.B %L
+lddate format (yyyymmdd hh:mm:ss)
+.TP
+.B %m
+month number (01-12)
+.TP
+.B %M
+minute (00-59)
+.TP
+.B %n
+newline (same as \\n)
+.TP
+.B %[1-9]N
+fractional seconds where the modifier (1-9) indicates the number of digits; if
+modifier is omitted, number of digits defaults to 3 for milliseconds (000-999) 
+.TP
+.B %o
+time in the form hh:mm:ss.nn.
+.TP
+.B %O
+date and time formatted as mm/dd/yyyy hh:mm:ss.nn.
+.TP
+.B %p
+locale's equivalent of AM or PM
+.TP
+.B %r
+time in 12-hour clock format as %I:%M:%S %p
+.TP
+.B %R
+time as %H:%M
+.TP
+.B %S
+seconds (00-61)
+.TP
+.B %t
+tab (same as \\t)
+.TP
+.B %T
+time as %H:%M:%S
+.TP
+.B %u
+weekday number [1,7], Sunday is day 1
+.TP
+.B %U
+week number of year (00-53), Sunday is the first day of first week
+.TP
+.B %V 
+week number of the year [01,53], Monday is the first day of
+the week.  If the week containing 1 January has four or more days in
+the new year, then it is considered week 1; otherwise,
+it is week 53 of the previous year, and the next week is week 1.
+.TP
+.B %w
+day of week (0-6), Sunday is day 0
+.TP
+.B %W
+week number of year (00-53), Monday is the first day of first week
+.TP
+.B %x
+disallowed due to the invalid two-digit year; returns an error
+.TP
+.B %X
+time, using locale's time representation
+.TP
+.B %y
+disallowed due to the invalid two-digit year; returns an error
+.TP
+.B %Y
+year, including century (for example, 1998)
+.TP
+.B %Z
+time zone name or abbreviation
+.RE
+.PD
+.LP
+In general, if a complete date and time are not specified, then
+\fBstdtime_unformat()\fP will assume minimal values for the unspecified
+quantities.  For example, if a string of form
+mm/dd/yyyy is given to %f, a time of 00:00:00 is assumed.
+.LP
+Beware the following caveats concerning \fBstdtime_unformat()\fP:
+.LP
+.PD 0
+.RS
+.TP 12
+.B %a, %A
+A value of 0.0 is returned instead of the more correct error value of -1.0.  
+.TP 12
+.B  %e, %k, %l, 
+.TP 12
+.B %n, %t, %w,
+These formats do not work correctly; an error value is returned.
+.TP 12
+.B %D
+Dates prior to 1 January 1970 are not converted; an error value of -1.0
+will be returned.
+.TP 12
+.B %i
+When given an undecipherable value, -2147483648.0 may be returned instead of
+-1.0.  
+.TP 12
+.B %j, %U, %W
+The default year for %j (day number of the year) or %U and %W (week number)
+is the current year. 
+.TP 12
+.B %p
+The AM/PM indicator cannot be unformatted.  However, instead of returning
+an error code, a value of 0.0 is returned.
+.TP 12
+.B %Z
+The timezone indicator does not work correctly; sometimes it is ignored;
+sometimes an error of -1.0 is returned. 
+.TP 12
+.B %r
+The hour and AM/PM indicator are erroneously ignored.  The return value
+is derived from the minutes and seconds as if they were in the
+midnight hour of January 1, 1970.
+.TP 12
+.B %k %l %u %V
+These formats are undefined and always return an error of -1.0. 
+.RE
+.PD
+.SH DIAGNOSTICS
+The range of valid dates is 1901-12-13 20:45:53 to 2038-01-19 03:14:06.
+The range of valid years and epoch times are given by STDTIME_YEAR_MIN,
+STDTIME_YEAR_MAX, STDTIME_EPOCH_MIN, and STDTIME_EPOCH_MAX. 
+.LP
+Functions that return a char* return STDTIME_CHAR_ERR (NULL pointer) if an
+error occurs.  \fbNOTE: this means that it is unwise to use the return pointer
+without checking first for NULL.\fP
+.LP
+Functions that return an int or a double return STDTIME_INT_ERR
+(-1) or STDTIME_DOUBLE_ERR (-1.0).  Since the value returned on error may be
+within the valid range of results, applications should check
+\fIstdtime_errno\fP for error codes.  If \fIstdtime_errno\fP is set to
+STDTIME_NOERR, then no error occurred.  The following is a list of possible
+values for \fIstdtime_errno\fP: 
+.LP
+.RS
+.ta 24 30
+.nf
+STDTIME_NOERR	 0	/* No error */
+STDTIME_PARSE	-1	/* Couldn't parse input */
+STDTIME_INVALID	-2	/* Input invalid */
+STDTIME_AMBIGUOUS	-3	/* Input ambiguous */
+STDTIME_MALLOC	-4	/* Couldn't malloc */
+.fi
+.RE
+
+.SH COMPILER FLAGS
+.TP 15
+-D_REENTRANT
+Needed to get the correct definition of \fIstdtime_errno\fP.
+
+.SH LIBRARY DEPENDENCIES
+.TP 15
+STDLIBS
+-lm
+
+.SH KNOWN PROBLEMS
+.IP 1.
+stdtime_jtoe() returns a value for 1901347 which is correct but is less than
+the minimum epoch time as defined by STDTIME_EPOCH_MIN.
+.IP 2.
+stdtime_htojulian() and stdtime_expr_time_c() are limited to the range of
+epoch time (STDTIME_EPOCH_MIN to STDTIME_EPOCH_MAX).  
+
+.SH NOTES
+The following are application guidelines for handling dates and times.
+.IP 1. 
+All date and time generation and conversion between time representations should
+be done through libstdtime functions.  Applications should not call standard C
+time functions directly.  Nor should applications include time.h, tzfile.h or
+any standard time headers unless calling a system function that is not a date
+or time function (ex. clock()).
+.IP 2.
+Applications should use epoch time wherever possible to represent dates
+internally.  Inputs and outputs may use epoch time or date strings in one of
+the formats supported by libstdtime.  The tm struct is the least preferred
+representation of time.  The definition and usage of tm may vary from
+system to system. 
+.IP 3.
+Applications should use UTC for date/time strings wherever possible.  Local
+time is especially confusing due to Daylight Savings Time (DST).  Also, the
+standard C time libraries can only process local time strings from the current
+timezone with the current DST mode unless the string includes the timezone.
+.IP 4.
+Applications should use the libstdtime "standard" format for date strings
+(yyyy-mm-dd hh:mm:ss[.n+]).  The format is compatible with ISO 8601, the
+international standard for dates.  The number of fractional digits may be 0, 1,
+3, or 6.  \fBstdtime_etos()\fP may be used to convert epoch seconds to the
+standard format. 
+.IP 5.
+SQL commands within applications should use the lddate format for dates
+(YYYYMMDD HH24:MI:SS).  This is the default date format for libgdi for
+Oracle 7 so there should be no need to use the to_char() or to_date() SQL 
+functions.
+.IP 
+Note, lddate is defined to be GMT.  Oracle's sysdate function returns local
+time so do not use it to populate lddate columns.  
+.IP 6.
+Applications should call the libstdtime "wrapper" functions rather than
+calling functions that take format strings as inputs.  The wrapper 
+functions provide interfaces for a set of predefined formats.  The use of
+\fBstdtime_expr_time()\fP, \fBstdtime_format_r()\fP, and
+\fBstdtime_unformat()\fP should be extremely limited. 
+.IP 7.
+Applications should not manipulate date strings.  That would be the same
+thing as creating a new format without the protections provided by
+libstdtime.  If a new format is needed, say for an interface to an external
+system, then the format and wrapper functions should be added to libstdtime.
+.IP 8.
+New applications should not call libstdtime deprecated functions.  Deprecated
+functions may be deleted in the future.
+.IP 9.
+Applications should check for error codes returned from libstdtime functions.
+
+.SH DEPRECATED FUNCTIONS
+The following functions are to be removed in the future.  
+.LP
+.nf
+.ta 8 16
+double stdtime_now(void);
+
+epoch_t stdtime_fnow(void)
+
+time_t stdtime_time(void);
+
+int stdtime_gettimeofday(struct timeval *tp);
+
+char *stdtime_format(epoch_t epoch, char *fmt_a);
+
+std_time_st stdtime_build_struct(epoch_t epoch);
+
+epoch_t stdtime_convert_struct(std_time_st time_s);
+
+int stdtime_etoyyyymmdd(epoch_t epoch);
+
+jdate_t stdtime_htoj(char *human);
+
+char *stdtime_jtoh(jdate_t jdate);
+
+int stdtime_jtoh_r(jdate_t jdate, char *human_a, char *human_len);
+
+epoch_t stdtime_gmttoe(char *gmt_a);
+
+char *stdtime_etogmt(epoch_t epoch);
+
+int stdtime_etogmt_r(epoch_t epoch, char *gmt_a, int gmt_len);
+
+epoch_t stdtime_shtoe(char *sh_a);
+
+char *stdtime_etosh(epoch_t epoch);
+
+int stdtime_etosh_r(epoch_t epoch, char *sh_a, in sh_len);
+
+epoch_t stdtime_sshtoe(char *sh_a);
+
+char *stdtime_etossh(epoch_t epoch);
+
+int stdtime_etossh_r(epoch_t epoch, char *ssh_a, int ssh_len);
+
+char *stdtime_etou(epoch_t epoch);
+
+int stdtime_etou_r(epoch_t epoch, char *u_a, int u_len)
+
+char *stdtime_etoh(epoch_t epoch);
+
+int stdtime_etoh_r(epoch_t epoch, char *human_a, int human_len);
+
+epoch_t stdtime_dstrtoe(char *human_a);
+
+char *stdtime_etodstr(epoch_t epoch);
+
+char *stdtime_etostr(epoch_t epoch);
+
+char *stdtime_gol_lddate(int gmt_or_local, char *lddate_a)
+
+char *stdtime_asctime(struct tm tm);
+
+char *stdtime_asctime_r(struct tm, char* buf, int buf_len);
+
+struct tm *stdtime_localtime(time_t time);
+
+struct tm *stdtime_localtime_r(time_t time, struct tm *tm);
+
+double	stdtime_local_now(void);
+
+double	stdtime_local_double(time_t epoch);
+
+char *stdtime_log_lddate(int flag);
+
+char *stdtime_ctime(time_t time);
+
+char *stdtime_ctime_r(time_t time, char *buf, int buf_len);
+
+char *stdtime_strdtime(epoch_t epoch);
+
+char *stdtime_strtime(void);
+
+int stdtime_getMilliTime(void);
+
+int stdtime_getMilliElapse(int start);
+
+int stdtime_MillitoSeconds(int milli);
+
+.SS FORTRAN FUNCTIONS
+.LP
+.nf
+.ta 8 16
+
+stdtimeetoh(epoch, human_a)
+real		epoch
+character	human_a
+
+stdtimeetosh(epoch, human_a)
+real		epoch
+character	human_a
+
+stdtimeetou(epoch, u_a)
+real		epoch
+character	u_a
+
+stdtimehtoe(human_a, epoch)
+character	human_a
+real		epoch
+
+stdtimehtoj(human_a, jdate)
+character	human_a
+integer		jdate
+
+stdtimejtoh(jdate, human_a)
+integer		jdate
+character	human_a
+
+stdtimeshtoe(human_a, epoch)
+character	human_a
+real		epoch
+.fi
+.LP
+\fBstdtime_now()\fP and \fBstdtime_fnow()\fP return the 
+current system time in epoch seconds.  \fBstdtime_now()\fP returns integral
+seconds as a double.  \fBstdtime_fnow()\fP returns epoch seconds including
+milliseconds as a double.  
+.LP
+\fBstdtime_time()\fP returns the current system time in epoch seconds
+as type \fBtime_t\fP.  It is a wrapper for \fBtime()\fP.
+.LP
+\fBstdtime_gettimeofday()\fP gets the system's notion of current time in 
+elapsed seconds and microseconds since 00:00 Universal Coordinated Time, 
+January 1, 1970. It is a wrapper for \fBgettimeofday()\fP.
+.LP
+\fBstdtime_build_struct()\fP and \fBstdtime_convert_struct()\fP convert
+between epoch time and a time structure, std_time_st.   std_time_st is used
+rather than the standard C structure to preserve the millisecond information.
+.LP
+\fBstdtime_etoyyyymmdd()\fP converts an epoch time to an int of the form
+yyyymmdd.
+.LP
+\fBstdtime_htoj()\fP and \fBstdtime_jtoh()\fP convert between human readable
+time string and an integer containing an ordinal date (yyyydoy).
+\fBstdtime_jtoh_r()\fP is a thread safe version of \fBstdtime_jtoh()\fP.  
+.LP
+\fBstdtime_gmttoe()\fP and \fBstdtime_etogmt()\fP convert between a GMT format
+string (see %G) and time in epoch seconds.  \fBstdtime_etogmt_r()\fP is a
+thread safe version of \fBstdtime_etogmt()\fP. 
+.LP
+\fBstdtime_shtoe()\fP and \fBstdtime_etosh()\fP convert between short human
+time string (mm/dd/yyyy hh:mm:ss.n) and time in epoch seconds.  Decimal seconds
+are optional for \fBstdtime_shtoe()\fP and will be converted if given.  If
+\fIepoch\fP is equal to TIME_NA for \fBstdtime_etosh()\fP, a pointer to a
+string "None" will be returned.  \fBstdtime_etosh_r()\fP is a thread safe
+version of \fBstdtime_etosh()\fP.   
+.LP
+\fBstdtime_sshtoe()\fP and \fBstdtime_etossh()\fP convert between short short
+human time string (mm/dd/yyyy hh:mm:ss) and time in epoch seconds.
+Milliseconds are truncated for \fBstdtime_etossh()\fP.  If \fIepoch\fP is
+equal to TIME_NA, a pointer to a string "None" will be returned.
+\fBstdtime_etossh_r()\fP is a thread safe version of \fBstdtime_etossh()\fP.  
+.LP
+\fBstdtime_etou()\fP converts an epoch time to a "universal" time string 
+of the format %Y-%j:%H.%M.%S.%N (yyyy-jjj:hh.mm.ss.nnn).
+\fBstdtime_etou_r()\fP is a thread safe version of \fBstdtime_etou()\fP. 
+.LP
+\fBstdtime_gsetoe()\fP Accepts a data/time string in the GSE format
+(yyyy/mm/dd hh:mm:ss.n) and returns an epoch time.
+.LP
+\fBstdtime_etoh()\fP accepts epoch time and returns a string
+containing the time in human format (See %h).  \fBstdtime_etoh_r()\fP is a
+thread safe version of \fBstdtime_etoh()\fP. 
+.LP
+\fBstdtime_dstrtoe()\fP and \fBstdtime_etodstr()\fP convert between epoch time
+and a date string of format %O (mm/dd/yyyy hh:mm:ss.nn).
+\fBstdtime_etotstr()\fP converts an epoch time to a time string of format %o
+(hh:mm:ss.nn).
+.LP
+\fBstdtime_gol_lddate()\fP fills in a buffer with a lddate string (yyyymmdd
+hh:mm:ss)
+based on either UTC time now, or local time now depending on the input flag.
+The flag can be STDTIME_GMT_TIME or STDTIME_LOCAL_TIME (1 or 0). This function
+assumes that the buffer pointed to by lddate is at least STDTIME_LDDATE_SIZE
+bytes in size.
+.LP
+\fBstdtime_log_lddate()\fP returns a compressed lddate string
+(yyyymmddhhmmss) either as UTC time now, or localtime now depending on the
+flag. The flag can be STDTIME_GMT_TIME or STDTIME_LOCAL_TIME (1 or 0).
+.LP
+\fBstdtime_ctime()\fP and \fBstdtime_ctime_r()\fP are wrappers around the C
+library calls \fBctime()\fP and \fBctime_r()\fP.
+.LP
+\fBstdtime_asctime()\fP and \fBstdtime_asctime_r()\fP are wrapper around the C
+library calls \fBasctime()\fP and \fBasctime_r()\fP.
+.LP
+\fBstdtime_localtime()\fP and \fBstdtime_localtime_r()\fP  are wrappers around
+the C library calls \fBlocaltime()\fP and \fBlocaltime_r()\fP.
+.LP
+\fBstdtime_local_now()\fP returns the local time as a double.
+.LP
+\fBstdtime_local_double()\fP passes in an epoch time, and returns it as
+a local time in double format.
+.LP
+\fBstdtime_strdtime()\fP passes in an epoch time, and returns the
+local date/time string in %a %b %e %T %Y format.  Note that this function
+is exactly the same as stdtime_ctime(), except that the newline character
+is stripped off the end of the string.
+.LP
+\fBstdtime_strtime()\fP returns the current localtime in the
+%a %b %e %T %Y format.  Note that this format is the same as is returned
+by stdtime_ctime(), except that the newline character has been stripped off
+the end of the string.
+.LP
+\fBstdtime_getMilliTime()\fP, \fBstdtime_getMilliElapse()\fP, and
+\fBstdtime_getMillitoSeconds()\fP are used for debug timing.
+.SH SEE ALSO
+.BR date(1),
+.BR strftime (3C),
+.BR strptime (3C)
+
+.SH AUTHOR
+B. MacRitchie, SAIC Geophysical Systems Operation
+.br
+T. Glines, SAIC Geophysical Systems Operation
+.br
+J. Wehlen, AFTAC
+

@@ -1,0 +1,77 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/DPRK_test.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file query="select * from wfdisc where sta='MK32'"
+
+set i=14,451,837,1314,1991,2364,2987,3958
+
+set d=0.38241,2.54940,1.52964,1.93329,2.86808,9.15659,6.77715,5.09880
+setb ok=true
+foreach(i)
+    sprint s wave[1].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "polarization filter: input waveform 1 has changed"; return; endif
+
+set d=6.97412,6.17960,1.50076,1.94216,-6.68721,2.51598,0.04414,0.44140
+setb ok=true
+foreach(i)
+    sprint s wave[2].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "polarization filter: input waveform 2 has changed"; return; endif
+
+set d=-1.75155,-2.68008,-6.14097,-4.72707,-13.65364,-7.78701,-9.89731,-1.30839
+setb ok=true
+foreach(i)
+    sprint s wave[3].seg[1].data[i](%.5f)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "polarization filter: input waveform 3 has changed"; return; endif
+
+select_all
+filter low=2. high=4.
+polarization.compute
+
+set i=4,120,988,1325,2408,3112,3340
+
+set d=0.37871,0.43574,0.72662,0.46607,0.52656,0.65325,0.46979
+setb ok=true
+foreach(i)
+    sprint s polarization.recti[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "polarization test 1 OK"
+else; print "polarization test 1 failed"; endif
+
+set d=71.35,49.208,59.356,35.975,79.062,58.084,56.135
+setb ok=true
+foreach(i)
+    sprint s polarization.inc[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "polarization test 2 OK"
+else; print "polarization test 2 failed"; endif
+
+set d=55.907,98.976,174.17,138.44,-165.36,174.51,163.69
+setb ok=true
+foreach(i)
+    sprint s polarization.paz[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "polarization test 3 OK"
+else; print "polarization test 3 failed"; endif
+
+set d=19.227,13.727,16.324,10.181,20.985,16.005,15.513
+setb ok=true
+foreach(i)
+    sprint s polarization.slow[i](%.5g)
+    if(s != d[for_index]); setb ok=false; endif
+endfor
+if( ok ); print "polarization test 4 OK"
+else; print "polarization test 4 failed"; endif

@@ -1,0 +1,337 @@
+# Version 2013/02/14 by Remmy Phiri IDC/CBT, CTBTO
+
+Option.create name="Print Bulletin" type="Button"       # add a button to the Option menu
+
+# the button will open the bulletin
+Option.print_bulletin.activateCallback={
+	sprint str ''
+	sprint fstr ' '
+	sprint und_scr '_'
+	#place-holder for number of stations used
+	#place-holder for number of stations used
+	sprintf nsta ' '
+	#place-holder for gap in Azimuth
+	sprintf gap ' '
+	#place-holder for mdist - closest station
+	sprintf minDist ' '
+	#place-holder for Mdist - furthest station
+	sprintf maxDist ' '
+	sprintf AQ 'm'
+	#place-holder for Location Quality - Location Method 
+	sprintf LQ 'i'							
+	#place-holder for Magnitude indicator - < or > 
+	sprintf mag_ind ' '
+	
+	#The event type is of unknown table
+	#place-holder for event type. For now we will us 'uk' for 'unknown'
+	
+	# The 'undes' string is for putting for example, between maxDist and Qual, there is an undesirable space, so take care of that
+	sprintf undes ' '
+	sprint ET 'uk'
+	bulletin.open
+	bulletin.tableContainer.origins.remove_all_rows
+	bulletin.tableContainer.MagFixContainer.magnitudes.remove_all_rows   
+	bulletin.tableContainer.MagFixContainer.fixedFlags.remove_all_rows   
+	bulletin.tableContainer.arrivals.remove_all_rows 
+	foreach (origin, o)
+		foreach (origerr, e)
+			if (o.orid == e.orid)
+				sprint qual AQ(%2s) LQ(%2s) ET(%3s)
+				bulletin.tableContainer.origins.add_row o.time(%6t) e.stime(%6.2f) e.sdobs(%6.2f) o.lat(%9.4f) o.lon(%10.4f)  \
+				e.smajax(%5.1f) e.sminax(%6.1f) e.strike(%4.0f) o.depth(%6.1f) e.sdepth(%5.1f) o.ndef(%5s) nsta(%5s) gap(%4s) \
+				minDist(%7s) maxDist(%7s)  qual o.auth(%0.9s) o.orid(%9s) o.evid(%9s) o.grn(%-8s)
+			endif
+		endfor
+	endfor
+}	
+
+# create a popup window of type FormDialog
+create name="bulletin" type="Frame" title="Print Bulletin"
+
+# create a container component
+bulletin.create name="contrls" type="RowColumn" args={
+        leftAttachment:ATTACH_FORM
+        leftOffset:5
+        rightAttachment:ATTACH_FORM
+        bottomAttachment:ATTACH_FORM
+        bottomOffset:5
+        orientation:HORIZONTAL
+}
+
+# create a button that will close the window
+bulletin.contrls.create name="Close" type="Button"
+bulletin.contrls.Close.activateCallback="bulletin.close"
+
+# create a button that will Update the window
+bulletin.contrls.create name="Save to Dir" type="Button"
+
+bulletin.contrls.save_to_dir.setInsensitive
+
+# create a separator which is a horizontal line
+bulletin.create name="separt" type="Separator" args={
+        leftAttachment:ATTACH_FORM
+        rightAttachment:ATTACH_FORM
+        bottomAttachment:ATTACH_WIDGET
+        bottomWidget:contrls
+}
+
+
+# create a container for tables
+bulletin.create name="tableContainer" type="Pane" args={
+        topAttachment:ATTACH_FORM
+        leftAttachment:ATTACH_FORM
+        rightAttachment:ATTACH_FORM
+        bottomAttachment:ATTACH_WIDGET
+        bottomWidget:separt
+}
+
+bulletin.tableContainer.create name="origins" type="Table" args={
+        columns: 20
+        columnLabels:Time,TErr,RMS,Latitude,Longitude,Smaj,Smin,Az,Depth,DErr,Ndef,Nsta,Gap,minDist,maxDist,Qual,Author,OrigID,evID,GRN
+        topAttachment:ATTACH_FORM
+        topOffset:5
+        bottomAttachment:ATTACH_WIDGET
+        leftAttachment:ATTACH_WIDGET
+        leftOffset:5
+        rightAttachment:ATTACH_WIDGET
+        width:1000
+        height:100
+        visibleRows:3
+        tableTitle:Origins
+	}
+
+# create a separator which is a vertical line
+bulletin.tableContainer.create name="MagFixContainer" type="RowColumn" args={
+        leftAttachment:ATTACH_WIDGET
+        rightAttachment:ATTACH_WIDGET
+        bottomAttachment:ATTACH_WIDGET
+        orientation:VERTICAL
+        packing:PACK_COLUMN
+        width:1000
+        height:120
+        numColumns:2
+        #bottomWidget:contrls
+}
+
+bulletin.tableContainer.MagFixContainer.create name="magnitudes" type="Table" args={
+        columns: 6
+        columnLabels:Magtype,Magnitude,Err,Nsta,Author,OrigID
+        bottomAttachment:ATTACH_WIDGET
+        leftAttachment:ATTACH_WIDGET
+        leftOffset:5
+        rightAttachment:ATTACH_WIDGET
+        #rightWidge:fixedFlags
+        width:400
+        height:100
+        visibleRows:3
+        tableTitle:Magnitudes
+}
+
+bulletin.tableContainer.MagFixContainer.create name="fixedFlags" type="Table" args={
+        columns: 4
+        columnLabels:OrigID,FixTime,FixEpicentre,FixDepth
+        bottomAttachment:ATTACH_WIDGET
+        leftAttachment:ATTACH_WIDGET
+        leftOffset:5
+        leftAttachment:ATTACH_WIDGET
+        #leftWidget:magnitudes
+        width:400
+        height:100
+        visibleRows:3
+        tableTitle:Fixed Flags
+}
+
+bulletin.tableContainer.create name="arrivals" type="Table" args={
+        columns: 17
+        columnLabels:Sta,Dist,EvAz,Phase,Time,TRes,Azim,AzRes,Slow,SRes,Def,SNR,Amp,Per,Qual,Magnitude,ArrID
+        bottomAttachment:ATTACH_WIDGET    
+        leftAttachment:ATTACH_WIDGET
+        leftOffset:5
+        rightAttachment:ATTACH_WIDGET
+        width:1000
+        height:300
+        visibleRows:20
+        tableTitle:Arrivals
+}
+
+# create the buttons in the File menu
+bulletin.File.create name="Close" type="Button"
+bulletin.File.Close.activateCallback="bulletin.close"
+
+bulletin.File.create name="Save" type="Button" args={
+	bottomAttachment:ATTACH_WIDGET
+	bottomWidget:separ
+}
+
+bulletin.File.save.setInsensitive
+		
+bulletin.File.create name="separ" type="separator" args={
+	leftAttachment:ATTACH_WIDGET
+	rightAttachment:ATTACH_WIDGET
+	bottomAttachment:ATTACH_WIDGET
+	bottomWidget:close
+}
+bulletin.Help.create name="BulletinHelp" type="Button"
+bulletin.Help.BulletinHelp.activateCallback={
+	showMessage message="You must first locate and save the event in the Locate Event window before you load the bulleting information"
+}
+
+create name="Save File" type="FileDialog" file_type="WRITE_FILE" dir="." 
+
+
+bulletin.tableContainer.origins.selectRowCallback={
+	#place-holder for fixed time flag
+	sprintf undes ' '
+	bulletin.tableContainer.MagFixContainer.magnitudes.remove_all_rows   
+	bulletin.tableContainer.MagFixContainer.fixedFlags.remove_all_rows   
+	bulletin.tableContainer.arrivals.remove_all_rows 
+	unset dfix
+	unset epfix
+	if (assoc.size() <= 0)
+		showMessage message="No event-associated arrivals were found in the assoc table. Please locate the event properly and save it"
+		return
+	endif
+	if(bulletin.tableContainer.origins.num_sel_rows > 0)       # if there is a selected row
+        orid = bulletin.tableContainer.origins.sel_row[1].OrigID
+		#some dubious origins should be flagged as soon as possible :-)
+		if (bulletin.tableContainer.origins.sel_row[1].Ndef < 1) 
+			showMessage message="No event-associated arrivals were found in the assoc table. Please locate the event properly and save it"
+			return
+		endif
+		
+		if (netmag.size() > 0) 
+			foreach (netmag, n)
+				if ((n.orid == orid) && (n.magtype != '-'))
+					if (n.magtype == "ml")
+						sprint magtype 'ML'
+					else 
+						sprint magtype n.magtype
+					endif
+					bulletin.tableContainer.MagFixContainer.magnitudes.add_row magtype(%-5s) n.magnitude(%4.1f) \
+					n.uncertainty(%3.1f) n.nsta(%4s) n.auth(%-9s) orid(%8s)
+				endif				
+			endfor
+		endif
+		foreach (origin, o)
+			if (o.orid == orid)
+				#Fixed depth, location
+				if (o.dtype == 'g') 
+					set dfix = 'f'
+				elseif (o.dtype == 'd')
+					set dfix = o.dtype
+				else 
+					sprint dfix undes(%1s)
+				endif
+			endif
+		endfor
+		foreach (origerr, oe)
+			if (oe.orid == orid)
+				if ((oe.sxx < 0) && (oe.syy < 0))
+					set epfix = 'f'
+				else
+					sprint epfix undes(%1s)
+				endif
+				if (oe.stt < 0) 
+					set otfix = 'f'
+				else
+					sprint otfix undes(%1s)
+				endif
+			endif	
+		endfor
+		if (defined(epfix) || defined(dfix) || defined(otfix))
+			bulletin.tableContainer.MagFixContainer.fixedFlags.add_row orid otfix(%1s) epfix(%1s) dfix(%1s)
+		endif	
+	endif
+	export orid
+	if (defined(bulletin.tableContainer.origins.sel_row[1].index))
+		parse "bulletin_arrivals"
+	endif
+	bulletin.File.save.setSensitive
+	bulletin.contrls.save_to_dir.setSensitive
+}
+
+bulletin.File.Save.activateCallback={
+	if (defined(bulletin.tableContainer.origins.sel_row[1]))
+		sprintf undes ' '
+		foreach (bulletin.tableContainer.origins.sel_row, or) 
+			sprintf orig_str or.Time(%3t) undes(%1s) \
+			bulletin.tableContainer.MagFixContainer.fixedFlags.row[1].FixTime(%1s) undes(%1s) or.TErr(%5.2f) \
+			undes(%1s) or.RMS(%5.2f) or.Latitude(%9.4f) or.Longitude(%10.4f) \
+			bulletin.tableContainer.MagFixContainer.fixedFlags.row[1].FixEpicentre(%1s) or.Smaj(%5.1f) or.Smin(%6.1f) or.Az(%4.0f) \
+			or.Depth(%6.1f) bulletin.tableContainer.MagFixContainer.fixedFlags.row[1].FixDepth(%1s) or.DErr(%5.1f) \
+			or.Ndef(%5s) or.Nsta(%5s) or.Gap(%4.0f) or.minDist(%7.2f) or.Maxdist(%7.2f) or.Qual(%7s)  undes(%1s) or.Author(%-9.9s) or.origID(%9s)
+			# Some events, especially in Geotool, have -ve Evid
+			if (or.EvID >= 0) 
+				sprintf eventID or.EvID
+			else
+				sprintf eventID or.origID
+			endif
+			sprintf event_str 'EVENT' eventID(%9s) ' ' tablequery.gregion[or.GRN].grname(%-65s)
+		endfor
+		printOpen file="bulletin.txt" append=false
+		print event_str
+		print '   Date       Time        Err   RMS Latitude Longitude  Smaj  Smin  Az Depth   Err Ndef Nsta Gap  \
+		mdist  Mdist Qual   Author      OrigID'
+		print orig_str
+		print undes
+		print 'Magnitude  Err Nsta Author      OrigID'
+		if (defined(bulletin.tableContainer.MagFixContainer.magnitudes.row[1])) 
+			foreach (bulletin.tableContainer.MagFixContainer.magnitudes.row, mg)
+				print mg.Magtype(%-5s) mg.Magnitude(%4.1f) mg.Err(%3.1f) mg.Nsta(%4.0f)  mg.Author(%-9.9s) mg.OrigID(%8s)
+			endfor
+		endif 
+		print undes
+		print 'Sta     Dist  EvAz Phase        Time      TRes  Azim AzRes   Slow   SRes Def   SNR       Amp   Per Qual Magnitude    ArrID'
+		foreach (bulletin.tableContainer.arrivals.row, ar)
+			print ar.Sta(%-5s) ar.Dist(%6.2f) ar.EvAz(%5.1f) ar.Phase(%-8s) ar.Time ar.TRes(%5s) ar.Azim(%5.1f) ar.AzRes(%5s) \
+			ar.Slow(%6s) ar.SRes(%6s) ar.Def(%3s) ar.SNR(%5.1f) ar.Amp(%9s) ar.Per(%5s) ar.Qual(%-3s) ar.Magnitude(%10s) ar.ArrID(%8s)
+		endfor
+		printClose
+	endif
+}
+
+bulletin.contrls.Save_to_dir.activateCallback={
+	if (defined(bulletin.tableContainer.origins.sel_row[1].index)) 
+		Save_File.open
+		set selectedFile = Save_File.getSelection
+		sprintf undes ' '
+		foreach (bulletin.tableContainer.origins.sel_row, or) 
+			sprintf orig_str or.Time(%3t) undes(%1s) \
+			bulletin.tableContainer.MagFixContainer.fixedFlags.row[1].FixTime(%1s) undes(%1s) or.TErr(%5.2f) \
+			undes(%1s) or.RMS(%5.2f) or.Latitude(%9.4f) or.Longitude(%10.4f) \
+			bulletin.tableContainer.MagFixContainer.fixedFlags.row[1].FixEpicentre(%1s) or.Smaj(%5.1f) or.Smin(%6.1f) or.Az(%4.0f) \
+			or.Depth(%6.1f) bulletin.tableContainer.MagFixContainer.fixedFlags.row[1].FixDepth(%1s) or.DErr(%5.1f) \
+			or.Ndef(%5s) or.Nsta(%5s) or.Gap(%4.0f) or.minDist(%7.2f) or.Maxdist(%7.2f) or.Qual(%7s)  undes(%1s) or.Author(%-9.9s) or.origID(%9s)
+			# Some events, especially in Geotool, have -ve Evid
+			if (or.EvID >= 0) 
+				sprintf eventID or.EvID
+			else
+				sprintf eventID or.origID
+			endif
+			sprintf event_str 'EVENT' eventID(%9s) ' ' tablequery.gregion[or.GRN].grname(%-65s)
+		endfor
+		#printOpen seems to have a problem with an already quoted file so I had to use an array reference to drop the quotes.
+		printOpen file=selectedFile[1] append=false
+		print event_str
+		print '   Date       Time        Err   RMS Latitude Longitude  Smaj  Smin  Az Depth   Err Ndef Nsta Gap  \
+		mdist  Mdist Qual   Author      OrigID'
+		print orig_str
+		print undes
+		print 'Magnitude  Err Nsta Author      OrigID'
+		if (defined(bulletin.tableContainer.MagFixContainer.magnitudes.row[1])) 
+			foreach (bulletin.tableContainer.MagFixContainer.magnitudes.row, mg)
+				print mg.Magtype(%-5s) mg.Magnitude(%4.1f) mg.Err(%3.1f) mg.Nsta(%4.0f)  mg.Author(%-9.9s) mg.OrigID(%8s)
+			endfor
+		endif 
+		print undes
+		print 'Sta     Dist  EvAz Phase        Time      TRes  Azim AzRes   Slow   SRes Def   SNR       Amp   Per Qual Magnitude    ArrID'
+		foreach (bulletin.tableContainer.arrivals.row, ar)
+			print ar.Sta(%-5s) ar.Dist(%6.2f) ar.EvAz(%5.1f) ar.Phase(%-8s) ar.Time ar.TRes(%5s) ar.Azim(%5.1f) ar.AzRes(%5s) \
+			ar.Slow(%6s) ar.SRes(%6s) ar.Def(%3s) ar.SNR(%5.1f) ar.Amp(%9s) ar.Per(%5s) ar.Qual(%-3s) ar.Magnitude(%10s) ar.ArrID(%8s)
+		endfor
+		printClose
+		
+	endif
+}
+
+

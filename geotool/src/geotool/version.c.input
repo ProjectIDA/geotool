@@ -1,0 +1,5 @@
+/* 
+	CTBTO
+*/
+char Versionstr[] = "  geotool++ release %VERSION% \n   built: (%WHEN%)\n      by: %WHO%\n    from: %WHERE%\n";
+char installation_directory[] = "%INSTALLATION_DIRECTORY%";

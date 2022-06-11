@@ -1,0 +1,37 @@
+Option.create name="FBands" type="button"  # add a button to the Option menu
+Option.FBands.setInsensitive               # make the button initially insensitive
+
+# A dataChangeCallback is called for any change to the waveforms or their
+# selected state. Add this callback so that the FBands button is sensitive
+# only when one and only one waveform is selected.
+
+dataChangeCallback={                   # add a callback script to the waveform window
+    if(sel_wave.size() == 1)           # if one and only one waveform is selected,
+        Option.FBands.setSensitive     # make the FBands button sensitive
+    else
+        Option.FBands.setInsensitive   # otherwise make it insensitive
+    endif
+}
+
+# Add a callback script to the FBands button. Each time the
+# FBands button is selected, this script will be interpreted.
+
+Option.FBands.activateCallback={
+
+    copy              # copy the selected waveform to the paste buffer
+
+    set lo=1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0  # define the frequency band limits
+    set hi=2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0
+
+    2.clear           # clear the second waveform window
+    # set the waveform tags in the second window
+    2.tag_contents.set tag="station,channel,filter(low high)"
+
+    foreach(1, lo.size(), i)  # loop over all frequency bands
+        2.paste            # paste from the paste buffer to the second window
+
+        filter 2.wave[i] low=lo[i] high=hi[i]  # filter the waveform just pasted
+    endfor
+
+    2.open          # display the second waveform window
+}

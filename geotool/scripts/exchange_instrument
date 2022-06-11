@@ -1,0 +1,34 @@
+# Add a button that deconvolves the instrument response and
+# convolves the waveform with a different response.
+
+Edit.create name="Exchange Response" type="button"    # add button to the Edit menu
+addToToolbar name="Edit.Exchange Response" toolbar_name="Exc"  # display in toolbar
+edit.exchange_response.setInsensitive  # make the button initially insensitive
+
+dataChangeCallback={             # add a callback script to the waveform window
+    if(sel_wave.size() > 0)                   # if waveforms are selected, make the
+        edit.exchange_response.setSensitive   # Exchange Response button sensitive
+    else
+        edit.exchange_response.setInsensitive # otherwise make it insensitive
+    endif
+}
+
+# define the callback script for the Exchange Response button
+Edit.Exchange_Response.activateCallback={
+
+  new_inid = 211455   # the inid of the new instrument response
+
+  foreach(sel_wave, w)        # loop over all selected waveforms
+    if(w.samprate > 39)       # if the sample rate is > 39.
+	flo = .01             # set the low pass frequency to .01 Hz
+    else
+	flo = .1              # otherwise set it to .1 Hz     
+    endif
+    nyquist = .5*w.samprate
+    fhi = nyquist - 1.        # set the high pass frequency to nyquist - 1
+
+    deconvolve w low=flo high=fhi amp_cutoff=-4  # deconvolve the recording response
+
+    convolve w inid=new_inid low=flo high=fhi    # convolve the new instrument
+  endfor
+}

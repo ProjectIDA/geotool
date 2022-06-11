@@ -1,0 +1,1611 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+
+
+
+
+
+  
+  
+  
+  
+  
+  <title>geotool plug-ins</title>
+</head>
+
+
+<body style="color: rgb(0, 0, 0);" alink="#ee0000" link="#0000ee" vlink="#551a8b">
+
+
+
+
+
+
+<h2 style="text-align: center;">Geotool Plug-in Manual</h2>
+
+
+
+
+
+
+<span style="font-weight: bold;">Table of Contents<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+<a href="#1.Introduction">1. Introduction</a><br>
+
+
+
+
+
+<a href="#2.Using_Plug-in_Templates">2. Using the Example Plug-in Libraries</a><br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; <a href="#2.1_Viewing_the_template">2.1 Viewing the example plug-ins</a><br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; <a href="#2.2_Changing_template_names">2.2 Changing the example names</a><br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; <a href="#2.3_Modifying_the_template">2.3 Modifying the&nbsp;examples plug-ins</a><br>
+
+
+
+&nbsp; &nbsp; <a href="#2.4_Example_plug-in_code">2.4 Example plug-in code</a><br>
+
+</span><span style="font-weight: bold;"></span><a style="font-weight: bold;" href="plugins.html#3._Data_Methods"> 3. Data Methods</a><br>
+
+<span style="font-weight: bold;"></span><a style="font-weight: bold;" href="#4.Data_access"> 4. Data access</a><br>
+
+<span style="font-weight: bold;">
+
+<a href="#5._GUI_from_libmotif">
+5. GUI from libmotif++</a><br>
+
+
+
+</span><a href="#6.string_commands"><span style="font-weight: bold;">6. The String Command Interpreter and plug-ins</span></a><br>
+
+<a href="#7.geotool_arguments"><span style="font-weight: bold;">7. Geotool's "window=" argument and plug-ins</span></a><br>
+
+<span style="font-weight: bold;"><br>
+
+
+
+
+
+</span><a href="#2.2_Changing_template_names"><span style="font-weight: bold;">
+</span><span style="font-weight: bold;"></span><span style="font-weight: bold;"></span><span style="font-weight: bold;"></span><span style="font-weight: bold;"></span></a>
+<br>
+
+
+
+
+
+
+<h3><a name="1.Introduction"></a>1.
+Introduction</h3>
+
+
+
+
+
+
+Geotool supports a type of plug-in library interface that allows users
+to add functionality to the program. This manual describes the geotool
+plug-in interface. This document assumes a familiarity with geotool and
+some experience with&nbsp;of the C++ programming language.<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+The term plug-in is frequently used to denote a module that is added to
+a web browser. The only thing that is obvious to the casual user is
+that the browser can function without the plug-in and the plug-in adds
+some new capabilities to the browser. This is true for geotool
+plug-ins. Many of the geotool data analysis windows (FT, FK,
+Spectrogram, etc., see <a href="#Table_1">Table 1</a>)
+are in fact plug-in libraries. When geotool begins execution, it
+searches several directories for plug-in libraries. Geotool loads each
+plug-in library that it finds with the system methods for handling
+dynamic libraries. The loaded plug-in library then usually adds an
+interface component (e.g. Button, or Toggle) to a geotool menu. When
+the user activates the new menu item, a method in the plug-in library
+is called that displays the plug-in's initial window.<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+The plug-in libraries that are distributed with geotool are called the
+standard plug-ins. When geotool is distributed, the standard plug-in
+shared libraries are placed in the directory <span style="font-style: italic;">top_srcdir/lib/plugins</span>,
+where&nbsp;<span style="font-style: italic;">top_srcdir</span>
+is the&nbsp;top directory of the geotool source. You can run
+geotool without one of its standard plug-ins by simply removing the
+corresponding shared library from its installation directory
+(<span style="font-style: italic;">install_dir/lib/plugins</span>).
+For example, if you removed <span style="font-style: italic;">install_dir/lib/plugins/libgft.so.0.0.0</span>
+and all links to it, geotool would continue to execute, but the
+Option/FT button would not appear under the main Option menu. You can also run
+geotool without any of its standard plug-ins by simply renaming the
+standard plug-in library directory. This prevents geotool from finding
+and loading the standard plug-in libraries when it begins execution.
+Without the standard plug-ins, geotool's functionality is limited to
+data I/O, waveform display, and a few analysis tools such as filtering.
+Most of the buttons under geotool's Option menu will not appear.<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+This document describes in detail how to create a plug-in library like
+one of the standard plug-ins. In fact, a practical method of creating a
+new plug-in library is to simply copy and modify the source code from
+one of the standard plug-ins that has a graphical interface similar to
+your requirements. (The source files for the standard plug-ins are
+distributed in subdirectories like <span style="font-style: italic;">plugins/libgft</span>,
+<span style="font-style: italic;">plugins/libgfk</span>,
+<span style="font-style: italic;">plugins/libgspectro</span>,
+etc.) The geotool release also contains plug-in example libraries,
+which are in subdirectories under <span style="font-style: italic;">top_srcdir/plugins/examples</span>.
+These examples offer another starting point for creating a custom
+plug-in library. The geotool example libraries are discussed in section <a href="#2.Using_Plug-in_Templates">2</a>.<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<div style="text-align: center;"><span style="font-weight: bold;"><a name="Table_1"></a>Table
+1. Geotool standard plug-ins</span><br>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<table style="width: 591px; height: 840px; text-align: left; margin-left: auto; margin-right: auto;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><span style="font-weight: bold;">Plug-in
+Name</span></td>
+
+
+
+
+
+
+      <td><span style="font-weight: bold;">Directory
+and Library Name</span></td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgarrival.html">Arrivals</a></td>
+
+
+
+
+
+
+      <td>libgarrival</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgcal.html">Calibration</a></td>
+
+
+
+
+
+
+      <td>libgcal</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgcepstrum.html">Cepstrum</a></td>
+
+
+
+
+
+
+      <td>libgcepstrum</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgdataqc.html">Correlation</a></td>
+
+
+
+
+
+
+      <td>libgcor</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgdataqc.html">Data
+QC</a></td>
+
+
+
+
+
+
+      <td>libgdataqc</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgbm.html">Detection
+Beams</a></td>
+
+
+
+
+
+
+      <td>libgbm</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgfk.html">FK</a></td>
+
+
+
+
+
+
+      <td>libgfk</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgfk.html">FK
+Multi-Band</a></td>
+
+
+
+
+
+
+      <td>libgfk</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgfk.html">FK3D</a></td>
+
+
+
+
+
+
+      <td>libgfk</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgft.html">FT</a></td>
+
+
+
+
+
+
+      <td>libgft</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libghp.html">Hilbert
+Transform</a></td>
+
+
+
+
+
+
+      <td>libghp</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgrsp.html">Instrument
+Response</a></td>
+
+
+
+
+
+
+      <td>libgrsp</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libglc.html">Locate
+Event</a></td>
+
+
+
+
+
+
+      <td>libglc</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgmap.html">Map</a></td>
+
+
+
+
+
+
+      <td>libgmap</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgorigin.html">Origins</a></td>
+
+
+
+
+
+
+      <td>libgorigin</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgorigin.html">Origin
+Beams</a></td>
+
+
+
+
+
+
+      <td>libgbm</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgpm.html">Particle
+Motion</a></td>
+
+
+
+
+
+
+      <td>libgpm</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgpolar.html">Polarization</a></td>
+
+
+
+
+
+
+      <td>libgpolar</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libghp.html">Polarization
+Filter</a></td>
+
+
+
+
+
+
+      <td>libghp</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgrt.html">Real
+Time Display</a></td>
+
+
+
+
+
+
+      <td>libgrt</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgrot.html">Rotation</a></td>
+
+
+
+
+
+
+      <td>libgrot</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgspectro.html">Spectrogram</a></td>
+
+
+
+
+
+
+      <td>libgspectro</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgstlt.html">StaLta</a></td>
+
+
+
+
+
+
+      <td>libgstlt</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td><a href="html/group__libgtt.html">Travel
+Times</a></td>
+
+
+
+
+
+
+      <td>libgtt</td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<h3><a name="2.Using_Plug-in_Templates"></a>2.
+Using Plug-in example Libraries</h3>
+
+
+
+
+
+
+<h4><a name="2.1_Viewing_the_template"></a>2.1
+Viewing the example plug-ins.</h4>
+
+
+
+
+
+
+The geotool distribution contains plug-in example libraries
+located in subdirectories under <span style="font-style: italic;">top_srcdir/plugins/examples</span>.
+There are several ways to make geotool load one or more of these
+example plug-ins, so that you can view the plug-in popup windows. When
+geotool is executed, it looks in the several places for plug-in
+libraries. It first looks in the directory&nbsp;<span style="font-style: italic;">~/.geotool++/plugins</span>,
+if it exists. Next it looks in the directory specified by the shell
+environment variable GEOTOOL_PLUGINS, if it has been set. Finally,
+geotool looks in the directory <span style="font-style: italic;">install_dir/lib/plugins</span>.
+For each of these plug-in library locations, geotool will also
+recursively search any subdirectories. So, to load all of the example
+plug-ins, the simplest thing to do is set the environment variable
+GEOTOOL_HOME to <span style="font-style: italic;">top_srcdir/plugins/examples</span> and then restart geotool.<br>
+<br>
+To load one example plug-in at a time, you can move or copy its shared libraries to <span style="font-style: italic;">~/.geotool++/plugins</span>. For example, make sure that the
+directory <span style="font-style: italic;">.geotool++/plugins</span>
+exists in your home directory, and then copy the shared (.so.0.0.0) library,
+and its links, that are in the example sub-directory to <span style="font-style: italic;">~/.geotool++/plugins/</span>.
+When you restart geotool++, there should be a new button in the Option
+menu. Click this new button to view the plug-in window.<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+For example:<br>
+
+
+
+
+
+
+<div style="margin-left: 40px;"><span style="font-style: italic;">cd top_srcdir/plugins/examples/example1</span><br style="font-style: italic;">
+
+
+
+
+
+
+<span style="font-style: italic;">mv *.so*
+~/.geotool++/plugins</span><br>
+
+
+
+
+
+
+<br>
+Restart geotool and click on the button labeled
+"Option/Example1 (Table)...". This will display the Example1 popup
+window. Select some waveforms in the main window and then click the
+Compute button in the Example1 window. The table will be filled with
+some information about the selected waveforms. The code for this
+example plug-in is explained below in section <a href="#2.4_Example_plug-in_code">2.4</a>.<br>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+<h4><a name="2.2_Changing_template_names"></a>2.2 Changing the example names</h4>
+
+
+
+
+
+There are several names that refer to a plugin-library in the geotool
+interface. These names are defined at the top of the include (<span style="font-style: italic;">.h</span>) file in the example directory. For example,&nbsp;the beginning of file Example1.h looks like:<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+<div style="text-align: center;"><span style="font-weight: bold;">top_srcdir/plugins/examples/example1/Example1.h</span><br>
+
+
+
+
+
+</div>
+
+
+
+
+
+<div style="border-style: groove; background-color: rgb(232, 232, 255);"><code>&nbsp;#ifndef _EXAMPLE_1_H</code><br>
+
+
+
+
+
+<code>&nbsp;#define _EXAMPLE_1_H</code><br>
+
+
+
+
+
+<code></code><br>
+
+
+
+
+
+<code>&nbsp;#include "motif++/MotifDecs.h"</code><br>
+
+
+
+
+
+<code>&nbsp;#include "motif++/Frame.h"</code><br>
+
+
+
+
+
+<code>&nbsp;#include "DataReceiver.h"</code><br>
+
+
+
+
+
+<code></code><br>
+
+
+
+
+
+<code>&nbsp;/* Change the following defines as desired. Make sure that they do not conflict</code><br>
+
+
+
+
+
+<code>&nbsp;&nbsp;* with another plug-in. PLUGIN_STRING must be "PLUGIN_NAME".</code><br>
+
+
+
+
+
+<code>&nbsp;&nbsp;*/</code><br>
+
+
+
+
+
+<code>&nbsp;#define PLUGIN_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Example1</code><br>
+
+
+
+
+
+<code>&nbsp;#define PLUGIN_STRING&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Example1"</code><br>
+
+
+
+
+
+<code>&nbsp;#define PLUGIN_CLASS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Example1Plugin</code><br>
+
+
+
+
+
+<code>&nbsp;#define PLUGIN_DESCRIPTION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Table Example Plug-in"</code><br>
+
+
+
+
+
+<code>&nbsp;#define PLUGIN_BUTTON_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Example 1 (Table)..."<br>
+
+
+
+
+
+&nbsp;...<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+</code></div>
+
+
+
+
+
+<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+<table style="text-align: left; width: 1012px; height: 234px;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+    <tr>
+
+
+
+
+
+      <td>PLUGIN_NAME</td>
+
+
+
+
+
+      <td>This name appears in the Plugins table (<a href="plugins.html#Plugins_Table_image">see below</a>) and as the title of the plug-in window.</td>
+
+
+
+
+
+    </tr>
+
+
+
+
+
+    <tr>
+
+
+
+
+
+      <td>PLUGIN_STRING</td>
+
+
+
+
+
+      <td>This must be the same as the PLUGIN_NAME with quotes.</td>
+
+
+
+
+
+    </tr>
+
+
+
+
+
+    <tr>
+
+
+
+
+
+      <td>PLUGIN_CLASS</td>
+
+
+
+
+
+      <td>This does not appear in the geotool interface. It must be unique among plugins.</td>
+
+
+
+
+
+    </tr>
+
+
+
+
+
+    <tr>
+
+
+
+
+
+      <td>PLUGIN_DESCRIPTION</td>
+
+
+
+
+
+      <td>This string appears in the Plugins table and should be a brief description.</td>
+
+
+
+
+
+    </tr>
+
+
+
+
+
+    <tr>
+
+
+
+
+
+      <td>PLUGIN_BUTTON_NAME</td>
+
+
+
+
+
+      <td>This is the label of the button that is added to the main window Option menu.</td>
+
+
+
+
+
+    </tr>
+
+
+
+
+
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+<br>
+
+
+
+
+
+To change these names, edit the include (<span style="font-style: italic;">.h</span>) file, remake the plug-in library and copy the <span style="font-style: italic;">.so</span> shared library to <span style="font-style: italic;">~/.geotool++/plugins</span>.<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+For example:<br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic;">cd top_srcdir/plugins/examples/example1<br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; vi Example1.h<br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; make install<br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; mv *.so* ~/.geotool++/plugins<br>
+
+
+
+
+
+</span><br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; Restart geotool.<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+ 
+<div style="text-align: center;"><span style="font-weight: bold;"><a name="Plugins_Table_image"></a>The geotool Plugins popup window (click File/Plugins...) showing the Example1 plug-in highlighted.</span><br>
+
+
+
+
+
+</div>
+
+
+
+
+
+<div style="text-align: center;"><img style="width: 790px; height: 599px;" alt="The Plug-in Table Window" src="examples/plugin_table.gif"><br>
+
+
+
+
+
+</div>
+
+
+
+
+
+<br>
+
+
+
+
+
+<h4><a name="2.3_Modifying_the_template"></a>2.3 Modifying the example plug-ins</h4>
+
+
+
+
+
+E<span style="font-style: italic;"></span><span style="font-style: italic;"></span>ach plug-in example directory contains source files (.<span style="font-style: italic;">cpp</span>) and include files (.<span style="font-style: italic;">h</span>). To make changes to the appearance
+and the behavior of on of the example plug-ins, you will need to edit the
+include&nbsp;<span style="font-style: italic;"></span>file (.<span style="font-style: italic;">h</span>) whose name starts with <span style="font-style: italic;">Example</span> and the source file (<span style="font-style: italic;">.cpp</span>) whose name also starts with <span style="font-style: italic;">Example.</span> For most modifications, you will not need to edit the source file that begins with "<span style="font-style: italic;">lib</span>". For example:<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic;">cd top_srcdir/plugins/examples/example1<br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; vi Example1.h<br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; vi Example1.cpp<br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; make install<br>
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; cp *.so* ~/.geotool++/plugins<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+<span style="font-style: italic;"></span></span>&nbsp;&nbsp; &nbsp;Restart geotool.<br>
+
+
+
+<br>
+
+
+
+<h4><a name="2.4_Example_plug-in_code"></a>
+
+2.4 Example plug-in code</h4>
+
+
+
+<ul>
+
+
+
+  <li><a href="examples/Example1.xhtml">Example1: Using the Table class</a></li>
+
+
+
+  <li><a href="examples/Example2.xhtml">Example2: Using the WaveformView class</a></li>
+  <li><a href="examples/Example3.xhtml">Example3: Using the DataMethod class</a></li>
+
+
+
+</ul>
+
+
+
+
+
+
+
+<h3><span style="font-weight: bold;"><a href="examples/Example3.xhtml" name="3.Data_Methods"></a> 3. Data Methods</span></h3>
+
+<h3><span style="font-weight: bold;"><a name="4.Data_access"></a>
+4. Data access</span></h3>
+
+
+
+<h3><span style="font-weight: bold;"><a name="5.GUI_from_libmotif"></a> 5. GUI from libmotif++</span></h3>
+
+
+
+
+
+
+
+<h3><a name="6.string_commands"></a> 6. The String Command Interpreter and plug-ins</h3>
+
+
+
+
+
+
+
+
+<h3><a name="7.geotool_arguments"></a> 7. Geotool's "window=" argument and plug-ins</h3>
+
+
+
+<br>
+
+<h3></h3>
+
+</body>
+</html>

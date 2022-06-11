@@ -1,0 +1,3717 @@
+=========================================
+Changes in 2.0.15     19 November  2013
+=========================================
+Ivan Henson
+o) Fixed bug in function removeTimeShift
+libsrc/libgresp/response.c
+=========================================
+Changes in 2.0.14     25 October   2013
+=========================================
+Ivan Henson
+o) Added #ifdef HAVE_LIBODBC where needed and removed unused variables to eliminate compiler warnings
+include/libgqcmask.h
+include/libstandardsensor.h
+include/libstanoise.h
+
+libascii/ascii.c
+libBeam/beam.c
+libcssio/decomp.c
+libcssio/read_dotw.c
+libFK/FKGram3C.c
+libFK/FKGram.c
+libFK/FKSignal.c
+libgCDF/gCDF.c
+libgCDF/griddedData.c
+libgcss/css_input.c
+libgdetect/avg.c
+libgeog/lat_lon.c
+libgeventquality/get_state_ev_quality.c
+libgnet/read_wf_data.c
+libgobject/TimeSeries.c
+libgparse/GParseBeam.c
+libgparse/GParse.c
+libgparse/GParseDraw.c
+libgparse/GParseEvQuality.c
+libgparse/GParseFT.c
+libgparse/GParseQCMask.c
+libgparse/GParseStandardSensor.c
+libgparse/GParseStaNoise.c
+libgqcmask/get_qcrec.c
+libgqcmask/get_state_qc_mask.c
+libgqcmask/qc_fix.c
+libgqcmask/update_qc_tables.c
+libgse/gse.c
+libloc/compute_hypo.c
+libloc/predsat.c
+libloc/sssc.c
+libloc/trv_time_specific.c
+libLP/geoc_lat_lon.c
+libLP/LP_trace_ray.c
+libmagnitude/network_mag.c
+libmagnitude/only_bound_amps.c
+libmagnitude/TL_manipulation.c
+libstandardsensor/get_inid.c
+libstanoise/calculate_psd.c
+libstanoise/get_chanid.c
+libstanoise/get_dot_w_and_wfdisc_data.c
+libstanoise/get_out_filename.c
+libstanoise/get_sta_lat_lon.c
+libstanoise/get_state_sta_noise.c
+libstanoise/plot_prob.c
+libstanoise/set_state.c
+libstanoise/update_states.c
+libstanoise/use_day.c
+libstanoise/write_psd_netcdf4.c
+libstanoise/write_wfdisc_data.c
+libtau/libtau.c
+libtime/timeParse.c
+
+=========================================
+Changes in 2.0.12     26 April   2013
+=========================================
+Vera Miljanovic
+o)changes in configure.ac, bootstrap
+include/logErrorMsg.h	
+=========================================
+Changes in 2.0.12     26 February   2013
+=========================================
+Vera Miljanovic
+o)changes from static to shared library due to problems in linking on Virtual Machine
+libsrc/libgdetect/Makefile.am	
+	
+=========================================
+Changes in 2.0.11     08 February   2013
+=========================================
+Vera Miljanovic
+	
+o) fixed the bug in modified GSE format support so that the format is
+	HH:MM:SS.SS
+libsrc/libtime/timeParse.c
+	
+=========================================
+Changes in 2.0.10     15  November   2012
+=========================================
+Riccardo Rubni	riccardo.rubini@ctbto.org
+
+o) Changes in Gbase:
+
+Changed files:
+
+/include/libtime.h"
+/include/gobject/cssObjects.h
+/libsrc/libgobject/cssObjects.c
+/libsrc/libtime/timeParse.c
+
+
+=========================================
+Changes in 2.0.10     22  October    2012
+=========================================
+Riccardo Rubni	riccardo.rubini@ctbto.org
+
+o) added modified GSE format support as
+   requested by CBT users.
+
+Changed files:
+  /libsrc/libtime/timeParse.c
+  /include/libtime.h
+
+=======================================
+Changes in 2.0.10     10  June   2012
+=======================================
+David Brown	David.Brown@ctbto.org
+1) Added 4 new gparse functions, viz:
+  a. StaNoise                 -for determining station noise as PSD's
+  b. StaQCMask                -for determining the station qc mask
+  c. StaEvQuality             -for applying the 'J. Stevens' style event quality SQL analysis
+  d. StandardSensor           -for convoling seismic data to a standard sensor
+
+2) Added 5 new libraries:
+  a. libsrc/libstanoise       -the station noise library
+  b. libsrc/libgqcmask        -the qcmask library
+  c. libsrc/libstandardsensor -the standard sensor library
+  d. libsrc/libgeventquality  -the event quality library
+  e. libsrc/libps             -a postscript plot library for generating station noise plots.
+
+Changed files:
+  configure.ac
+  libsrc/Makefile.am
+  libgobject/cssObjects.c
+  libgparse/GParse.c
+  libgparse/Makefile.am
+  include/gobject/cssObjects.h
+  include/libgeventquality.h 
+  include/libgparse.h
+  include/libgqcmask.h
+  include/libps.h
+  include/libstandardsensor.h
+  include/libstanoise.h
+  include/qctool.h
+  src/gparse/Makefile.am
+
+Added files:
+  libgeventquality/Makefile.am
+  libgeventquality/check_lib_gevquality.c
+  libgeventquality/do_queries.c
+  libgeventquality/free_evquality_struct.c
+  libgeventquality/get_state_ev_quality.c
+  libgeventquality/read_ev_quality.c
+  libgeventquality/write_ev_quality.c
+
+  libgparse/GParseEvQuality.c
+  libgparse/GParseQCMask.c
+  libgparse/GParseStandardSensor.c
+  libgparse/GParseStaNoise.c
+
+  libgqcmask/Makefile.am
+  libgqcmask/check_lib_gqcmask.c
+  libgqcmask/free_qcmask_struct.c
+  libgqcmask/get_qcdef.c
+  libgqcmask/get_qcmask.c
+  libgqcmask/get_qcrec.c
+  libgqcmask/get_state_qc_mask.c
+  libgqcmask/qc_fix.c
+  libgqcmask/read_qcmask_struct_data.c
+  libgqcmask/update_qc_tables.c
+  libgqcmask/write_qcmask_struct_data.c
+
+  libps/Makefile.am
+  libps/libps.c
+
+  libstandardsensor/Makefile.am
+  libstandardsensor/check_lib_standardsensor.c
+  libstandardsensor/get_inid.c
+
+  libstanoise/big_or_little_endian.c
+  libstanoise/calculate_psd.c
+  libstanoise/check_lib_stanoise.c
+  libstanoise/contains_string.c
+  libstanoise/copy_after_equal.c
+  libstanoise/copy_after_slash.c
+  libstanoise/copy_psd_struct.c
+  libstanoise/create_psd_struct.c
+  libstanoise/epochtime_to_jdate.c
+  libstanoise/free_psd_struct.c
+  libstanoise/free_station.c
+  libstanoise/free_wavedata.c
+  libstanoise/generate_year_day_list.c
+  libstanoise/get_chanid.c
+  libstanoise/get_channels.c
+  libstanoise/get_data_block.c
+  libstanoise/get_dot_w_and_wfdisc_data.c
+  libstanoise/get_max_sample_rate.c
+  libstanoise/get_max_samples.c
+  libstanoise/get_no_diff_sample_rates.c
+  libstanoise/get_out_filename.c
+  libstanoise/get_sensor_from_data_block_time.c
+  libstanoise/get_state_sta_noise.c
+  libstanoise/get_station_info.c
+  libstanoise/is_recorded.c
+  libstanoise/jdate_to_epochtime.c
+  libstanoise/maximum.c
+  libstanoise/maximum_int.c
+  libstanoise/minimum.c
+  libstanoise/minimum_int.c
+  libstanoise/minimum_long.c
+  libstanoise/mkdir.c
+  libstanoise/nearest_integer.c
+  libstanoise/plot_prob.c
+  libstanoise/psd_prob.c
+  libstanoise/read_psd_data.c
+  libstanoise/read_psd_prob.c
+  libstanoise/remove_trend.c
+  libstanoise/running_mean_var_std.c
+  libstanoise/sanitized_psd_log.c
+  libstanoise/savitzky_golay.c
+  libstanoise/set_state.c
+  libstanoise/shi_station_type.c
+  libstanoise/update_states.c
+  libstanoise/use_day.c
+  libstanoise/use_file.c
+  libstanoise/window_sn.c
+  libstanoise/write_psd_data.c
+  libstanoise/write_psd_prob.c
+  libstanoise/write_wfdisc_data.c
+  libstanoise/zero_vector.c
+  libstanoise/read_psd_netcdf4.c
+  libstanoise/update_day_night_average_psd.c
+  libstanoise/write_psd_netcdf4.c
+  libstanoise/Makefile.am
+  libstanoise/update_average_psd.c
+  libstanoise/update_high_noise_model.c
+  libstanoise/update_low_noise_model.c
+
+=======================================
+Changes in 2.0.8      24  March  2011
+=======================================
+Vera Miljanovic
+o) fixed a SegFault in libloc(pointers were freed without being allocated)	
+libsrc/libloc/tt_info.c 
+=======================================
+Changes in 2.0.7      18 January  2011
+=======================================
+Vera Miljanovic
+o) fixed warnings after compiling with new libCD and deleted all sysdefs.h references 
+include/ibase/libloc.h
+include/ibase/libwfm.h	
+libsrc/libgeog/area_of_interest.c
+libsrc/libgqc/points.c	
+libsrc/libloc/srst.c 
+=======================================
+Changes in 2.0.6      19 December  2010
+=======================================
+Vera Miljanovic
+o) implemented ClearCase installation mechanism
+configure.ac
+install-sh-clearcase	
+all Makefile.am's
+=======================================
+Changes in 2.0.5      02 November  2010
+=======================================
+Vera Miljanovic
+o) fixed an error after compiling garsspectro
+include/libFT.h
+o) fixed error handling in libloc
+libsrc/libloc/tt_info.c 	
+include/ibase/tt_info.h	
+o) implemented libgODBC change by Gerald Klinkl
+Add new ODBCConnect3 function to allow choice between forcing new connection or reusing existing connection
+include/libgODBC.h
+libsrc/libgODBC/ODBCConnect.c
+o) removed all libcd references	
+====================================
+Changes in 2.0.4      13 September  2010
+===================================
+Vera Miljanovic	
+o) fixed a location bug	
+libsrc/libloc/ts_corr.c
+====================================
+Changes in 2.0.2      09 July  2010
+===================================
+Vera Miljanovic
+o)fixed a bug in libloc
+libsrc/libloc/ts_corr.c
+include/ibase/ts_cor.h	
+====================================
+Changes in 2.0.1      16 May  2010
+====================================
+Vera Miljanovic
+o) Fixed memory bugs and warnings under Ubuntu 9.10
+libsrc/libgcss/css_input.c 
+libsrc/libgnet/net_tables.c 
+libsrc/libgparse/GParse.c	
+libsrc/libgparse/GParseInit.c
+libsrc/libgparse/GParseMTinversion.c 
+libsrc/libloc/read_tt_tables.c 	
+libsrc/libloc/srst.c 
+libsrc/libloc/ts_corr.c
+libsrc/libloc/tt_info.c
+libsrc/libmagnitude/read_tl_table.c
+libsrc/libparidc/getpar.c
+libsrc/libsac/sac2odbc.c
+src/cdoc/cdoc.c 	
+	
+====================================
+Changes in 2.0.0      06 May  2010
+====================================
+Vera Miljanovic
+o) Fixed memory bugs and warnings under Fedora
+libsrc/libloc/trv_time_specific.c
+libsrc/libLP/LP_trace_ray.c
+libsrc/libgcss/css_input.c
+libsrc/libgparse/GParse.c	
+libsrc/libidcsyslog/logging.c
+libsrc/libFFDB/FFDBUpdateTables.c
+libsrc/libgcss/undo.c	
+libsrc/libgmethod/AmpFactor.c
+libsrc/libgmethod/Copy.c
+libsrc/libgmethod/Cut.c
+libsrc/libgmethod/Offset.c
+libsrc/libgmethod/QC.c	
+
+	
+====================================
+Changes in 1.2.27      28 April 2010
+====================================
+Ivan Henson
+o) Fixed memory bugs in libsrc/libgqc
+libsrc/libgqc/qc.c.
+libsrc/libgqc/segments.c	
+
+	
+====================================
+Changes in 1.2.26      01 April 2010
+====================================
+Ivan Henson
+o) Removed calls to exit() from libtau:
+include/libisop.h
+libsrc/libtau/libtau.c
+o) Added argument check to deltaz().
+libsrc/libmath/deltaz.c
+o) Removed unused(bad) function from libgdraw.
+libsrc/libgdraw/plotxd.c
+o) Added choice to enum TimeFormat.
+include/libtime.h
+o) Fixed memory leak.
+libsrc/libgODBC/ODBCGeneralQuery.c
+o) Removed unecessary include.
+libsrc/libgODBC/ODBCGetStruct.c
+
+
+====================================
+Changes in 1.2.26      02 March 2010
+====================================
+Vera Miljanovic	
+o) added default value for SNR
+libsrc/libgdetect/calc_deltime.c
+libsrc/libgdetect/libdetectP.h
+	
+====================================
+Changes in 1.2.26      04 February 2010
+====================================
+Vera Miljanovic
+o) implemented libcd 2.1.34 changes by Gerald Klinkl
+libsrc/libcd/cd_common.c
+include/CDtools/fileAPI.h	
+
+====================================
+Changes in 1.2.25      21 January 2010
+====================================
+Vera Miljanovic
+o)implemented changes for norfy release 1.0.0 by Martin Ertl 	
+libsrc/libgobject/cssObjects.c
+include/gobject/cssObjects.h	
+	
+====================================
+Changes in 1.2.24      21 December 2009
+====================================
+Dmitry Bobrov, 
+o) fixed error in libgeog and incorrect srn value(-1 instead of 50) into origin table for grn 728 and 729
+libsrc/libgeog/reg.c
+
+====================================
+Changes in 1.2.24      07 November 2009
+====================================
+Dmitry Bobrov, Vera Miljanovic
+o) fixed error under Ubuntu Compiler 4.4
+src/FFDB/ffsql.c	 
+
+Vera Miljanovic
+o) implemented libcd 2.1.30, 2.1.31, 2.1.33 changes by Gerald Klinkl
+libsrc/libcd/cd_common.c
+libsrc/libcd/init.c
+libsrc/libcd/init_sender.c
+libsrc/libcd/logfiles.c
+libsrc/libcd/misc.c
+libsrc/libcd/prepare.c
+libsrc/libcd/schedule.c
+libsrc/libcd/senderAPI.c
+include/CDtools/cd_common.h
+include/CDtools/fileAPI.h
+include/CDtools/misc.h
+include/CDtools/prepare.h
+	
+====================================
+Changes in 1.2.23      04 October 2009
+====================================
+Ivan Henson
+o) Added check for possible infinite loops in drawing routines.
+libsrc/libgdraw/DrawAxis.c
+o) Added test for special case.
+libsrc/libgobject/CssTable.c
+o) Added missing close file descriptor
+libsrc/libcssio/cssio.c
+
+====================================
+Changes in 1.2.22      04 August 2009
+====================================
+Ivan Henson
+o) Fixed compiler warnings
+libsrc/libgobject/CssIO.c
+o) Fixed incorrect return code in ODBCGeneralQuery() and added missing
+"case SQL_BIGINT:" to ODBCQuery()
+libsrc/libgODBC/ODBCGeneralQuery.c
+o) Added check for failure of SQLBindCol(hstmt, i+1, SQL_BIGINT,...) and
+call to SQLBindCol(hstmt, i+1, SQL_INTEGER,...). This is necessary for
+64-bit linux.
+libsrc/libgODBC/ODBCGetResultCols.c
+o) Added '\'' and '`' quote checks to stringGetArg()
+libsrc/libstring/string.c
+
+====================================
+Changes in 1.2.20      27 July 2009
+====================================
+Marian Harustak, Ivan Henson
+o) fixed the date fields definition and redefined to DateTime
+include/gobject/cssObjects.h
+include/css/pmcc_features.h
+libsrc/libcssio/readTables.c
+libsrc/libgobject/cssObjects.c 
+	
+====================================
+Changes in 1.2.19      22 July 2009
+====================================
+Vera Miljanovic
+o) implemented libcd 2.1.28 changes by Gerald Klinkl
+libsrc/libcd/cd_common.c
+libsrc/libcd/prepare.c	
+libsrc/libcd/senderAPI.c
+include/CDtools/prepare.h
+
+====================================
+Changes in 1.2.19      9 July 2009
+====================================
+Ivan Henson
+o) Changed CssPmccFeatures.intial_time to CssPmccFeatures.initial_time
+include/gobject/cssObjects.h
+libsrc/libgobject/cssObjects.c
+o) Fixed bug in ODBCCloseDatabase() and added ODBCCommit()
+include/libgODBC.h
+libsrc/libgODBC/ODBCConnect.c
+o) Fixed memory leaks
+libsrc/libgloc/locsat.c
+libsrc/libgobject/CssTable.c
+libsrc/libgobject/GObject.c
+libsrc/libgODBC/ODBCGeneralQuery.c
+libsrc/libinterp/interp_tbl_val.c
+libsrc/libloc/srst.c
+libsrc/libloc/trv_time_specific.c
+libsrc/libloc/ts_corr.c
+libsrc/libLP/LP_trace_ray.c
+
+====================================
+Changes in 1.2.17      24 June 2009
+====================================
+Vera Miljanovic
+o) implemented libcd 2.1.26 and 2.1.27 changes by Gerald Klinkl
+libsrc/libcd/cd_common.c
+libsrc/libcd/frames.c	
+libsrc/libcd/monitor.c
+libsrc/libcd/schedule.c
+include/CDtools/cd_common.h
+include/CDtools/frames.h	
+include/CDtools/fileAPI.h
+include/CDtools/init.h
+	
+====================================
+Changes in 1.2.16      29 May 2009
+====================================
+Vera Miljanovic
+o) implemented libcd 2.1.25 changes by Gerald Klinkl	
+libsrc/libcd/cd_common.c
+libsrc/libcd/logfiles.c
+	
+====================================
+Changes in 1.2.15      25 May 2009
+====================================
+Vera Miljanovic
+o) implemented libcd 2.1.24 changes by Gerald Klinkl	
+libsrc/libcd/cd_common.c
+libsrc/libcd/logfiles.c
+	
+====================================
+Changes in 1.2.14      19 May 2009
+====================================
+Vera Miljanovic
+o) implemented libcd 2.1.22 and 2.1.23  changes by Gerald Klinkl	
+libsrc/libcd/cd_common.c
+	
+====================================
+Changes in 1.2.13      30 April 2009
+====================================
+Vera Miljanovic	
+o) implemented libcd 2.1.20 changes by Gerald Klinkl
+libsrc/libcd/cd_common.c	
+libsrc/libcd/frames.c
+libsrc/libcd/misc.c
+libsrc/libcd/prepare.c	
+libsrc/libcd/schedule.c
+include/CDtools/prepare.h
+	
+o) implemented libcd 2.1.21 changes by Gerald Klinkl	
+libsrc/libcd/cd_common.c
+libsrc/libcd/init.c
+include/CDtools/fileAPI.h 
+include/CDtools/frames.h	
+	
+====================================
+Changes in 1.2.12      01 April 2009
+====================================
+Vera Miljanovic	
+o) implemented libcd 2.1.19 changes by Gerald Klinkl
+libsrc/libcd/auth.c
+libsrc/libcd/cd_common.c
+libsrc/libcd/events.c
+libsrc/libcd/fileAPI.c
+libsrc/libcd/frames.c
+libsrc/libcd/init.c
+libsrc/libcd/keychecker.c 
+libsrc/libcd/ldap.c	
+libsrc/libcd/logfiles.c
+libsrc/libcd/misc.c	
+libsrc/libcd/monitor.c
+libsrc/libcd/prepare.c 
+libsrc/libcd/requests.c
+libsrc/libcd/schedule.c 
+libsrc/libcd/senderAPI.c 
+include/CDtools/auth.h
+include/CDtools/cd_common.h
+include/CDtools/cd_ldap.h
+include/CDtools/events.h
+include/CDtools/frames.h 
+include/CDtools/schedule.h	
+include/CDtools/senderAPI.h
+		
+====================================
+Changes in 1.2.11      24 February 2009
+====================================	
+o) Changes to the instrument response methods
+Corrected the response scaling factor
+Improved speed of FIR computation
+libgresp/response.c
+libgmethod/Convolve.c
+libgresp/responseFiles.c
+libgresp/get_response.c
+libgparse/GParseDraw.c
+include/response.h
+
+Ivan Henson
+====================================
+Changes in 1.2.10      20 February 2009
+====================================
+Vera Miljanovic
+o) implemented libcd 2.1.18 changes by Gerald Klinkl
+libsrc/libcd/cd_common.c
+libsrc/libcd/events.c
+libsrc/libcd/frames.c
+libsrc/libcd/logfiles.c
+libsrc/libcd/prepare.c
+libsrc/libcd/schedule.c
+include/CDtools/events.h
+include/CDtools/fileAPI.h
+include/CDtools/frames.h
+include/CDtools/prepare.h
+include/CDtools/schedule.h	
+
+====================================
+Changes in 1.2.9      02 February 2009
+====================================
+Ivan Henson
+o) Fixed problem in libgresp/get_response.c. Removed the chanid comparisons,
+since wfdisc.chanid does not always point to the correct sensor record. The
+sensor record is found by comparing sta,chan, and time values.
+libsrc/libgresp/get_response.c
+
+====================================
+Changes in 1.2.8      09 January 2009
+====================================
+Vera Miljanovic
+o) implemented libcd 2.1.17 changes by Gerald Klinkl
+libsrc/libcd/cd_common.c
+include/CDtools/cd_common.h
+libsrc/libcd/logfiles.c
+libsrc/libcd/ldap.c
+libsrc/libcd/auth.c
+libsrc/libcd/frames.c	
+libsrc/libcancomp/canada.c
+	
+====================================
+Changes in 1.2.7      03 November 2008
+====================================
+Vera Miljanovic
+o) fixed warnings under gcc(GCC) 4.3 (SUSE Linux)	
+libsrc/libaesir/dbug.c
+libsrc/libgparse/GParseBeam.c
+libsrc/libgparse/GParseInit.c	
+libsrc/libgCDF/griddedData.c
+src/FFDB/ffsql.c
+include/libFFDB.h
+
+o) implemented libcd 2.1.16 changes by Gerald Klinkl
+libsrc/libcd/auth.c
+libsrc/libcd/cd_common.c
+libsrc/libcd/events.c	
+libsrc/libcd/fileAPI.c
+libsrc/libcd/frames.c
+libsrc/libcd/init.c
+libsrc/libcd/init_sender.c
+libsrc/libcd/ldap.c
+libsrc/libcd/logfiles.c
+libsrc/libcd/misc.c
+libsrc/libcd/monitor.c
+libsrc/libcd/prepare.c
+libsrc/libcd/schedule.c
+include/CDtools/auth.h	
+include/CDtools/cd_common.h
+include/CDtools/events.h
+include/CDtools/fileAPI.h
+include/CDtools/frames.h
+include/CDtools/init.h
+include/CDtools/init_sender.h
+include/CDtools/logfiles.h
+include/CDtools/prepare.h
+include/CDtools/schedule.h
+
+Elena Tomuta, Gerald Klinkl
+o)fix for a problem in libgODBC for fields of type NUMBER(10)	
+libsrc/libgODBC/ODBCGetResultCols.c		
+
+Gerald Klinkl
+o)fixed bugs
+libsrc/libcancomp/canada.c
+libsrc/libgODBC/ODBCError.c	
+	
+====================================
+Changes in 1.2.6       29 July 2008
+====================================
+John Coyne
+o) fixed bug when reading time for waveforms from the WID2 line	
+libsrc/libgse/get_gse_waveform.c
+
+Vera Miljanovic
+o)fixed warnings under Mac OS
+libsrc/libFFDB/FFDBInsertTables.c
+libsrc/libtau/libtau.c
+libsrc/libgparse/GParseBeam.c	
+src/gODBC/odbc_general_idc.c
+src/io/wave2odbc.c
+	
+====================================
+Changes in 1.2.5       09 July 2008
+====================================
+Ivan Henson
+o) Fixed FIR response when there are denomintor coefficients
+libsrc/libgresp/response.c
+o) Change comments only
+libsrc/libgobject/CssTable.c
+o) Fixed memory leaks
+libsrc/libFFDB/FFDBOpen.c
+libsrc/libFT/cepstrum.c
+
+====================================
+Changes in 1.2.4       03 June 2008
+====================================
+Elena Tomuta
+
+o) added changes due to noble gas gui
+libsrc/libgobject/cssObjects.c
+include/gobject/cssObjects.h	
+
+====================================
+Changes in 1.2.3       30 May 2008
+====================================
+Ivan Henson
+	
+o) fixed bug 
+libsrc/libstring/string.c	
+o) fixes the problem about having duplicate lines in the TableViewer list of the site table
+libsrc/libFFDB/FFDBQueryTable.c
+	
+====================================
+Changes in 1.2.2       24 Apr 2008
+====================================
+Vera Miljanovic	
+
+o) implemented changes in configure file 
+configure.ac
+
+o) implemented libcd changes by Gerald Klinkl
+libsrc/libcd/cd_common.c (Change version string)
+libsrc/libcd/fileAPI.c (Improve function header for getNextFrameDescription() 
+include/CDtools/fileAPI.h (Add void pointer to senderParams_t structure. This pointer is used to hold the DB handle for CD2W)
+libsrc/libcd/senderAPI.c (Fix bug in senderAPI which prevents signing of frames with user provided function when no private key is set in the config file)
+
+	
+====================================
+Changes in 1.2.2       09 Apr 2008
+====================================
+John Coyne
+o) fixed bug for gparse beam
+libsrc/libgparse/GparseBeam.c	
+	
+
+====================================
+Changes in 1.2.1       20 Mar 2008
+====================================
+Vera Miljanovic
+o) implemented libcd changes by Gerald Klinkl
+libsrc/libcd/cd_common.c
+libsrc/libcd/misc.c
+libsrc/libcd/senderAPI.c
+libsrc/libcd/init_sender.c
+libsrc/libcd/frames.c
+libsrc/libcd/inittables.c
+libsrc/libcd/prepare.c
+libsrc/libcd/schedule.c
+include/CDtools/frames.h	
+
+Ivan Henson
+o) Changes to make the Sac unformatted I/O and the GSE I/O work on 64-bit arch
+libsrc/libsac/sac.c
+libsrc/libsac/sac2odbc.c
+include/sac.h
+include/libgnet.h
+libsrc/libgse/get_gse_waveform.c	
+
+====================================
+Changes in 1.2.0       13 Mar 2008
+====================================
+Vera Miljanovic
+o) implemented libcd changes by Gerald Klinkl
+libsrc/libcd/cd_common.c
+libsrc/libcd/init.c
+libsrc/libcd/frames.c 	
+libsrc/libcd/schedule.c
+libsrc/libcd/logfiles.c
+libsrc/libcd/auth.c
+include/CDtools/logfiles.h
+	
+o) implemented GParse change by Ronan Le Bras
+libsrc/libgparse/GParse.c
+libsrc/libgparse/GParseInit.c	
+	
+====================================
+Changes in 1.1.42       28 Jan 2008
+====================================
+Vera Miljanovic
+o) Fixed warnings under SUNWspro compiler
+include/libgnet.h
+include/ibase/sysdefs.h
+	
+====================================
+Changes in 1.1.41       16 Jan 2008
+====================================
+Ivan Henson
+o) Changes to DrawAxis
+include/libgraw.h	
+libsrc/libgdraw/DrawAxis.c
+
+====================================
+Changes in 1.1.40       20 Dec 2007
+====================================
+Vera Miljanovic, Yan Jia
+implemented
+o) calculation of the total power for each frequency band over all channels
+o) normalization of fk power and estimation of fstat values for each filter band
+libsrc/libFK/FKCompute.c
+libsrc/libFK/FKGram.c
+include/libFK.h	
+	
+
+====================================
+Changes in 1.1.39       6 Dec 2007
+====================================
+Gerald Klinkl, Ivan Henson
+o) fixed bug in decomp.c
+	libcssio/decomp.c
+o) Error checks added to Vector and Hashtable
+	libgobject/Hashtable.c
+	libgobject/Vector.c
+o) Bug fix.
+	libFFDB/FFDBQueryTable.c
+
+====================================
+Changes in 1.1.36       26 Nov 2007
+====================================
+Vera Miljanovic, Gerald Klinkl, Elena Tomuta, Dmitry Bobrov
+
+o) fixed rtd error	
+libsrc/libgrtd/rtdata.c
+o) fixed warning under SUN compiler	
+libsrc/libgODBC/ODBCGetResultCols.c	
+o) fixed incorrect calculation of azimuth residuals
+libsrc/libloc/az_slow_corr.c	
+	
+====================================
+Changes in 1.1.35       07 Nov 2007
+====================================
+Tested libgODBC on 64 bit Linux and implemented fixes to portability
+problems in libgODBC. Made small corrections to testgODBC.  
+====================================
+Changes in 1.1.34       02 Nov 2007
+====================================
+Implemented latest CDtools delivery
+which contains the changes listed below
+================================
+Changes in 2.1.8  31. Sep. 2007
+================================
+
+o) Change version string (cd_common.c)
+
+o) Add macro to count command request/response frames (cd_common.h)
+
+o) Add number of command frames received/sent to output of GST
+   commands (to give other applications a chance to check if
+   a station sends only command requests)(command.c)
+
+o) Fix bug in auxiliary station mode which prevents sending
+   the same requested data twice (fileAPI.c, schedule.[ch])
+
+o) Increase maximum number of frames which are allowed being
+   queued for sending to cover 14 days (10 frames per minute)
+   (requested by Gonzalo)(prepare.h)
+
+o) Fix bug which prevents removing of sent frames from the IRL
+   (introduced with 2.1.6) (prepare.c)
+
+====================================
+Changes in 1.1.33       05 Sep 2007
+====================================
+Implemented latest CDtools delivery
+which contains the changes listed below
+
+================================
+Changes in 2.1.7    . July 2007
+================================
+
+o) Fix UMR warning when processing key pre-load directive (init.c)
+
+o) Add function readDffByIrl() (fileAPI.[ch])
+
+o) Fix result shifted by UTC time offset to local time in ASN1toDouble()
+   (misc.[ch], auth.c)
+
+o) Add loading and checking CRL from file system (auth.[ch], cd_common.h,
+   init.c)
+
+o) Update version (cd_common.c)
+
+================================
+Changes in 2.1.6  13. July 2007
+================================
+
+o) Keep internal reference list bounded to seven days
+   (with a maximum of 6 frames/s) (prepare.[ch])
+
+o) Update version (cd_common.c)
+
+================================
+Changes in 2.1.5   6. July 2007
+================================
+
+o) Modify priority of debug messages (cd_common.c)
+
+o) Fix too high channel ID in sender API (senderAPI.c)
+
+o) Add ALIAS directive to key pre-load file (init.c, auth.[ch],
+   ldap.c)
+
+o) Fix missing offline extension for virtual connect/disconnect
+   frames (logfiles.c)
+
+================================
+Changes in 2.1.4  28. June 2007
+================================
+
+o) Save errno of last system error for logging in text files
+   (PR-0294). (cd_common.[ch], fileAPI.c, logfiles.c, readwrite.c,
+    requests.c, schedule.c)
+
+o) Use real data provider name at the file API now (drop
+   _DUMMY data consumer name) (fileAPI.[ch], schedule.c)
+
+o) Update some comments (frames.ch])
+
+o) Add version of application to monitor thread summary (monitor.c)
+
+o) Report all incoming frames at the file reader API and report
+   the frame parsing code (prepare.[ch])
+
+================================
+Changes in 2.1.3  14. June 2007
+================================
+
+o) Add new event 'command request frame expected'
+   (events.[ch])
+
+o) Update version and remove control station related
+   code (cd_common.[ch])
+
+o) Rewrote security level code. Move functions
+   which process a connect/command request from receiver to
+   libCD (command.c, requests.[ch])
+
+================================
+Changes in 2.1.2   1. June. 2007
+================================
+
+o) Don't check if a file can be created
+   when using the file reader API init function (fileAPI.c)
+
+o) Copy modified files from gbase-libs-1.1.28
+   (aesir.h, getarg.c, getpar.c, cdefs.h, libparidc/Makefile.am)
+
+o) Add security levels
+   (cd_common.[ch], command.[ch], frames.[ch], init.c, readwrite.c)
+
+o) Fix splint warning (schedule.c)
+
+o) Fix problem when compiling on BSD variants (e.g. MAC OS)
+   (configure.ac, misc.c)
+
+================================
+====================================
+Changes in 1.1.31       04 Sep 2007
+====================================
+Vera
+Modified dbug.c to be compatible with SUN-compiler
+
+====================================
+Changes in 1.1.32        30 Jul 2007
+====================================
+Idriz Smaili
+o) Add new interface functions 'isvalidList' and 'isvalidQueue' to the
+   generic linked list and generic queue.
+
+   libsrc/libgenlist/genList.c
+   libsrc/libgenlist/genQueue.c
+   include/libGenList.h
+
+
+====================================
+Changes in 1.1.31        30 Jul 2007
+====================================
+Idriz Smaili
+o) The clf attribute 'frameid' shall be
+   38 bytes long instead of 16.
+libsrc/libgobject/cssObjects.c
+
+o) fixed 64bit ODBC problem in (change
+done outside clear case on 20 Apr 2007)
+libsrc/libgODBC/ODBCGetResultCols.c
+
+
+====================================
+Changes in 1.1.30	 13 Jun 2007
+====================================
+Ivan Henson
+o) Fixed bugs in libFFDB related to reading the global files.
+libFFDB/FFDBOpen.c
+libFFDB/FFDBStatic.c
+libFFDB/FFDBQueryTable.c
+include/libFFDBP.h
+include/libFFDB.h
+
+====================================
+Changes in 1.1.29	 16 May 2007
+====================================
+John Coyne
+
+o) changes in configure.ac and Makefile.am's
+
+====================================
+Changes in 1.1.28	16 May 2007
+====================================
+Vera Miljanovic
+
+o)fixed warnings under gcc(GCC) 4.1.2 (SUSE Linux)
+libsrc/libFK/FKPeaks.c
+libsrc/libFT/cefft.c
+libsrc/libgcss/css_input.c
+libsrc/libmagnitude/only_bound_amps.c
+libsrc/libmagnitude/read_tl_table.c
+libsrc/libmagnitude/TL_manipulation.c
+libsrc/libgrtd/rtdata.c
+libsrc/libtau/tauspl.c
+libsrc/libgparse/GParse.c
+libsrc/libcalib/calex.c
+src/calibration/main.c
+
+o) added values.h in configure.ac
+
+
+====================================
+Changes in 1.1.27	13 May 2007
+====================================
+Vera Miljanovic
+
+o)fixed Macintosh errors in
+libsrc/libgamp/avg_max.c
+libsrc/libloc/print_loc_results.c
+libsrc/libgeog/area_of_interest.c
+libsrc/libparidc/getpar.c
+include/ibase/ar_sasc.h
+libsrc/libgqc/percentile.c
+libsrc/libcd/misc.c
+include/aesir.h
+include/ibase/dyn_array.h
+include/libdataqc.h
+libsrc/libgqc/points.c
+libsrc/libgqc/segments.c
+libsrc/libgqc/sequences.c
+libsrc/libgqc/spike.c
+libsrc/libmagnitude/libmagnitude_version.c
+
+o)removed include/cdefs.h from gbase
+o) added more recent
+libsrc/libaesir/dbug.c
+ from Tryggvi
+
+
+====================================
+Changes in 1.1.26	20 Apr 2007
+====================================
+Vera Miljanovic
+
+o)fixed Macintosh errors in
+libsrc/libaesir/messages.c
+libsrc/libaesir/dyn_array.c
+libsrc/libaesir/dyn_array_ext.c
+include/ibase/dispatcher.h
+include/ibase/dyn_array.h
+include/ibase/error.h
+include/ibase/gdi_ArrayStructs.h
+include/ibase/libgdi.h
+include/ibase/libinterp.h
+include/ibase/libloc.h
+include/ibase/libmagnitude.h
+include/ibase/libwfm.h
+include/ibase/locp.h
+include/ibase/magp.h
+include/ibase/mask.h
+
+====================================
+Changes in 1.1.26	18 Apr 2007
+====================================
+Vera Miljanovic
+
+o)fixed Macintosh errors in
+include/ibase/dbug.h
+include/ibase/libLP.h
+include/ibase/libaesir.h
+include/ibase/libgeog.h
+libsrc/libaesir/dbug.c
+libsrc/libaesir/error.c
+include/libdataqc.h
+libsrc/libgeog/area_of_interest.c
+libsrc/libgeog/ellip_dist.c
+libsrc/libgqc/libdataqcp.h
+libsrc/libloc/best_guess.c
+libsrc/libloc/print_loc_results.c
+
+
+====================================
+Changes in 1.1.25	12 Apr 2007
+====================================
+Vera Miljanovic
+
+o) fixed 64bit warnings in
+libsrc/libFFDB/FFDBQueryTable.c
+src/cdoc/cdoc.c
+o) added Get timeout of a query statement
+libsrc/libgODBC/ODBCConnect.c
+
+
+====================================
+Changes in 1.1.25	12 Apr 2007
+====================================
+John Coyne
+
+o) fixed bug in
+libsrc/libgODBC/ODBCConnect.c
+
+
+====================================
+Changes in 1.1.24	06 Apr 2007
+====================================
+Gerald Klinkl
+
+o) Change version string (cd_common.c)
+
+o) Move DB access functions from libCD to
+   sender code to simplify linking dependencies;
+   requested by John
+   (cd_common.c, db_access.[ch], libcd/Makefile.am,
+    configure.ac, prepare.c)
+
+
+
+====================================
+Changes in 1.1.23	29 Mar 2007
+====================================
+John Coyne
+
+o)fixed warnings under g++(GCC) 3.4.1 on Solaris
+src/testgODBC/parseTC.c
+src/testgODBC/utils.c
+src/gODBC/odbc_query_idc.c
+
+====================================
+Changes in 1.1.23	27 Mar 2007
+====================================
+Ivan Henson
+
+o) fixed bugs in libFFDB
+include/libFFDB.h
+libsrc/libFFDB/FFDBInsertTables.c
+libsrc/libFFDB/FFDBQueryTable.c
+
+====================================
+Changes in 1.1.21	22 Mar 2007
+====================================
+Vera Miljanovic
+
+o)fixed 64-bit compiler warnings
+./libsrc/libgmethod/RemoveAvg.c
+./libsrc/libgparse/GParse.c
+./libsrc/libgparse/GParseMTinversion.c
+./libsrc/libLP/LP_trace_ray.c
+
+====================================
+Changes in 1.1.20	16 Mar 2007
+====================================
+Vera Miljanovic
+
+o)fixed warnings under g++(GCC) 3.4.1 on Solaris
+./libsrc/libFFDB/FFDBInsertTables.c
+./libsrc/libFK/FKCompute.c
+./libsrc/libFK/FKio.c
+./libsrc/libFK/FKGram.c
+./libsrc/libFK/FKPeaks.c
+./libsrc/libLP/LP_trace_ray.c
+./libsrc/libaesir/degain.c
+./libsrc/libcssio/cssio.c
+./libsrc/libcssio/read_dotw.c
+./libsrc/libFT/cepstrum.c
+./libsrc/libFT/tapers.c
+./libsrc/libgODBC/ODBCGetTableCols.c
+./libsrc/libgODBC/ODBCQueryTable.c
+./libsrc/libgcss/css_input.c
+./libsrc/libgcss/undo.c
+./libsrc/libgCDF/gCDF.c
+./libsrc/libgCDF/griddedData.c
+./libsrc/libgmethod/polarfilt.c
+./libsrc/libgmethod/taperMethods.c
+./libsrc/libgobject/CssTable.c
+./libsrc/libgresp/response.c
+./libsrc/libloc/print_loc_results.c
+./libsrc/libloc/trv_time_specific.c
+./libsrc/libmath/nicex.c
+./libsrc/libmath/ttup.c
+./libsrc/libmagnitude/only_bound_amps.c
+./libsrc/libparidc/getarg.c
+./libsrc/libparidc/getpar.c
+./libsrc/libgrtd/rtdata.c
+./libsrc/libsac/sac.c
+./libsrc/libsac/sac2odbc.c
+./libsrc/libshape/dbfopen.c
+./libsrc/libgstalta/stalta.c
+./libsrc/libstring/quark.c
+./libsrc/libtau/libtau.c
+./libsrc/libtime/timeParse.c
+./libsrc/libtime/timeUtil.c
+./libsrc/libgdraw/DrawAxis.c
+./libsrc/libgdraw/mapalf.c
+./libsrc/libgdraw/plotxd.c
+./libsrc/libgdraw/pltcon.c
+./libsrc/libgdraw/plotsym.c
+./libsrc/libgdraw/DrawSubs.c
+./libsrc/libgparse/GParseBeam.c
+./libsrc/libgparse/GParseDraw.c
+./libsrc/libgparse/GParseFT.c
+./libsrc/libcalib/calex.c
+./src/testgODBC/testgODBC.c
+./src/testgODBC/utils.c
+
+
+
+
+
+====================================
+Changes in 1.1.18	13 Mar 2007
+====================================
+Vera Miljanovic
+
+o)fixed 64-bit compiler warnings
+./src/genList/testGenList.c
+./libsrc/libgCDF/gCDF.c
+./libsrc/libmath/toeplitz.c
+./libsrc/libloc/tt_info.c
+./libsrc/libgparse/GParseFT.c
+./libsrc/libgODBC/ODBCConnect.c
+./libsrc/libsac/sac.c
+./libsrc/libgparse/GParse.c
+./libsrc/libgparse/GParseDraw.c
+
+
+
+====================================
+Changes in 1.1.18	07 Mar 2007
+====================================
+Ivan Henson
+
+1) changes to libstring/string.c
+		added stringArg()
+		modified stringGetArg()
+
+======================================
+Changes in 1.1.16        06 Mar 2007
+======================================
+John Coyne, Vera Miljanovic
+
+o)
+./libsrc/libmagnitude/calc_mags.c
+./libsrc/libloc/locate_event.c
+./include/ibase/stamag_Astructs.h
+./include/ibase/origin_Astructs.h
+./include/ibase/netmag_Astructs.h
+./libsrc/libmagnitude/build_mag_obj.c
+./libsrc/libmagnitude/mag_access.c
+
+renamed Na_Origin, Na_Netmag, Na_Stamag, Na_Assoc to Na_Origin_Init, Na_Netmag_Init, Na_Stamag_Init, Na_Assoc_Init
+
+
+o) changed
+./libsrc/libBeam/BeamRecipe.c
+./libsrc/libaesir/dbug.c
+./libsrc/libaesir/messages.c
+./libsrc/libaesir/stringcat.c
+./libsrc/libcd/db_access.c
+./libsrc/libgODBC/ODBCUpdateTables.c
+./libsrc/libstring/quark.c
+./include/ibase/libaesir.h
+./src/gODBC/odbc_update.c
+./src/gODBC/odbc_update_idc.c
+./src/cdoc/cdoc.c
+
+to delete_index, new_index, private_index, typeid_index since it appears that delete, new, private, typeid are keywords under (g++ (GCC) 3.4.1) on solaris
+
+o)changed
+./libsrc/libFK/FKPeaks.c
+./libsrc/libFK/FKSignal.c
+./libsrc/libgcss/css_input.c
+./libsrc/libgparse/GParse.c
+./libsrc/libgparse/GParseDetect.c
+
+
+In timeEpochToString()
+	instead of 3,4,5 we write HMS2, HMS3, YMONDHMS2 as in ./include/libtime.h
+
+o) added missing casts to
+./libsrc/libFK/FKio.c
+./libsrc/libFFDB/FFDBQueryTable.c
+./libsrc/libLP/LP_trace_ray.c
+./libsrc/libaesir/add_to_str.c
+./libsrc/libaesir/dbug.c
+./libsrc/libcd/auth.c
+./libsrc/libcd/cd_common.c
+./libsrc/libcd/db_access.c
+./libsrc/libcd/fileAPI.c
+./libsrc/libcd/init.c
+./libsrc/libcd/init_sender.c
+./libsrc/libcd/ldap.c
+./libsrc/libcd/misc.c
+./libsrc/libcd/prepare.c
+./libsrc/libcd/schedule.c
+./libsrc/libcd/senderAPI.c
+./libsrc/libcssio/cssio.c
+./libsrc/libcssio/read_dotw.c
+./libsrc/libFT/cepstrum.c
+./libsrc/libgODBC/ODBCQueryTable.c
+./libsrc/libgcss/css_input.c
+./libsrc/libgcss/load_tables.c
+./libsrc/libgCDF/gCDF.c
+./libsrc/libgobject/Array.c
+./libsrc/libgobject/properties.c
+./libsrc/libgobject/tsCorrelate.c
+./libsrc/libgse/get_gse_waveform.c
+./libsrc/libloc/blk_subs.c
+./libsrc/libmagnitude/mag_access.c
+./libsrc/libmagnitude/read_mdf.c
+./libsrc/libmagnitude/read_tl_table.c
+./libsrc/libmagnitude/TL_manipulation.c
+./libsrc/libparidc/getarg.c
+./libsrc/libgenlist/genList.c
+./libsrc/libparidc/getpar.c
+./libsrc/libgrtd/rtdata.c
+./libsrc/libsac/sac.c
+./libsrc/libshape/dpfopen.c
+./libsrc/libshape/shpopen.c
+./libsrc/libshape/shptree.c
+./libsrc/libstring/quark.c
+
+
+
+o) introduced correct prototype
+./libsrc/libLP/geoc_distaz.c
+./libsrc/libaesir/MilliTime.c
+./libsrc/libaesir/change_case.c
+./libsrc/libaesir/dbug.c
+./libsrc/libaesir/degain.c
+./libsrc/libaesir/dyn_array.c
+./libsrc/libaesir/dyn_array_ext.c
+./libsrc/libaesir/messages.c
+./libsrc/libaesir/nap.c
+./libsrc/libaesir/error.c
+./libsrc/libaesir/mask.c
+./libsrc/libaesir/select.c
+./libsrc/libaesir/read.c
+./libsrc/libaesir/space.c
+./libsrc/libaesir/stringcat.c
+./libsrc/libaesir/strtime.c
+./libsrc/libaesir/write.c
+./libsrc/libgamp/max_stav.c
+./libsrc/libgeog/area_of_interest.c
+./libsrc/libgeog/azimuth_cross_pt.c
+./libsrc/libgeog/lat_conv.c
+./libsrc/libgeog/reg.c
+./libsrc/libgeog/small_circle_cross_pts.c
+./libsrc/libinterp/nrutil.c
+
+
+
+0) changed
+./libsrc/libLP/geoc_lat_lon.c
+./libsrc/libgeog/lat_lon.c
+
+	/*	double	atan2(), cos(), sin();*/
+	since library #include math.h is already included
+
+
+o)
+i) In ./include/CDtools/db_access.h
+  had to #define ATTRIB_BUFFER_SIZE 512
+
+ii) In ./libsrc/libgrtd/rtdata.c
+	had to replace receivedTime ->clfTime as in CDtools
+
+
+iii) In ./include/libGenList.h
+renamed lIterator to lIterator_t
+
+o) added correct function parameters
+
+./libsrc/libaesir/error.c
+./libsrc/libgdetect/ltav.c
+./libsrc/libgdetect/libdetectP.h
+./libsrc/libgdetect/stav.c
+./libsrc/libloc/dsvdc.c
+./libsrc/libloc/solve_via_svd.c
+./libsrc/libgdraw/DrawSubs.c
+./include/ibase/libdetect.h
+./src/testgODBC/runTC.c
+
+
+o)
+i)   ./libsrc/libmath/nicex.c
+     ./libsrc/libmath/validData.c
+     ./libsrc/libgdraw/plotxd.c
+     ./libsrc/libgdraw/plotsym.c
+     ./libsrc/libgdraw/plotxy.c
+     ./libsrc/libgparse/GParseFT.c
+
+  Included ieeefp.h in the configure.ac
+
+ii)  ./libsrc/libgrtd/rtdata.c
+
+
+     #include <strings.h>
+
+
+
+iii) ./libsrc/libgqc/points.c
+     ./libsrc/libgqc/segments.c
+     ./libsrc/libgqc/sequences.c
+     ./libsrc/libgqc/spike.c
+
+
+     #include "cdefs.h"
+
+
+
+o)
+
+i) ./libsrc/libgparse/GParseIaspei.c
+
+	if(file_open) return 0;
+
+	instead of
+	if(file_open) return;
+ii) ./libsrc/libloc/tt_info.c
+	*(header+header_length) = '\0';
+	instead of /*sprintf(header+header_length,"\0"); */
+
+o)
+./libsrc/libgparse/GParse.c
+./libsrc/libtime/timeParse.c
+./libsrc/libFFDB/FFDBQueryTable.c
+./libsrc/libaesir/change_case.c
+./libsrc/libaesir/space.c
+./libsrc/libgcss/undo.c
+./libsrc/libcssio/readTables.c
+./libsrc/libgobject/properties.c
+./libsrc/libgresp/response.c
+./libsrc/libgse/get_gse_waveform.c
+./libsrc/libloc/tt_info.c
+./libsrc/libshape/dbfopen.c
+./libsrc/libstalta/stalta.c
+./libsrc/libstring/string.c
+./libsrc/libstring/checks.c
+./src/cdoc/cdoc.c
+
+isspace,isupper,tolower,islower,toupper,isdigit-> isspace((int) ),isupper((int) ),tolower((int) ),islower((int) ),toupper((int) ),isdigit((int) )
+
+====================================
+Changes in 1.1.17	26 Feb 2007
+====================================
+John Coyne
+
+
+many libraries are no longer added to LIBS by default. If certain libs are
+needed at link time, they must be specificly requested.
+	gODBC/Makefile.am
+	gparse/Makefile.am
+	io/Makefile.am
+	rtd/Makefile.am
+	testgODBC/Makefile.am
+
+removed all reference to ifdef HAVE_CANCOMP
+	include/libcssio.h
+	libsrc/libcssio/CheckWfdisc.c
+	libsrc/libcssio/cssio.c
+	libsrc/libcssio/decomp.c
+	libsrc/libcssio/read_dotw.c
+
+====================================
+Changes in 1.1.17	16 Feb 2007
+====================================
+John Coyne
+
+1) Removed obsolete dir include/CD, and which has been superseeded by
+   include/CDtools.
+        removed include/CDtools
+        include/Makefile.am
+        configure.ac
+
+2) synchronized with CDlibs-2.0.20. Modified file:
+   include/CDtools
+        cd_common.h
+        command.h
+        events.h
+        fileAPI.h
+        frames.h
+        init_sender.h
+        logfiles.h
+        prepare.h
+        schedule.h
+        senderAPI.h
+
+   libsrc/libcd
+        cd_common.c
+        command.c
+        events.c
+        extend.c
+        fileAPI.c
+        frames.c
+        init.c
+        init_sender.c
+        logfiles.c
+        misc.c
+        monitor.c
+        prepare.c
+        readwrite.c
+        schedule.c
+        senderAPI.c
+
+3) two minor changes so we could compile with CDlibs-2.0.20.
+    libsrc/libgrtd/rtdata.c
+
+
+
+==================================
+Changes in 1.1.6      17 Feb 2007
+==================================
+
+John Coyne
+
+o) Fixed bug in ODBCQueryTable that caused the DB failure
+        libgODBC/ODBCQueryTable.c
+
+====================================
+Changes in 1.1.16	14 Feb 2007
+====================================
+Ivan Henson
+
+1) Changed axes format for Universal Transverse Mercator coordinates.
+	libsrc/libgdraw/DrawAxis.c
+2) Fixed bug in CssTable_toBytes() and CssTable_fromBytes()
+	libsrc/libgobject/CssTable.c
+
+
+====================================
+Changes in 1.1.16	14 Feb 2007
+====================================
+Ivan Henson
+
+1) Changed axes format for Universal Transverse Mercator coordinates.
+	libsrc/libgdraw/DrawAxis.c
+2) Fixed bug in CssTable_toBytes() and CssTable_fromBytes()
+	libsrc/libgobject/CssTable.c
+
+====================================
+Changes in 1.1.15x        26 Jan 2007
+====================================
+Ivan Henson
+
+o) Added CssTable_toBytes() and CssTable_fromBytes() for copy/paste mechanism.
+	libsrc/CssTable.c
+	include/gobject/CssTable.h
+
+o) Added a Flat-File-Database directory structure:
+	seg/station/stationyyyymmdd/stationyyyymmdd.wfdisc
+  This structure is used when the directory_structure string is empty.
+	libFFDB/FFDBQueryTable.c
+	libFFDB/FFDBInsertTables.c
+
+o) Change a SQL parameter in libgODBC/ODBCQueryTable.c.
+
+====================================
+Changes in 1.1.13x        13 Dec 2006
+====================================
+John Coyne
+
+o) fixed a bug where the iaspei tables were opened after every call from gparse
+        ./libsrc/libgparse/GParseIaspei.c
+
+
+o) removed libstdtime related header files:
+        removed files:
+        ./include/ibase/libstdtime.h
+        ./include/ibase/libstdtimeP.h
+
+o) removed calls to variables in libstdtime. use gettimeofday instead.
+        ./libsrc/libmagnitude/mag_boot_strap.c
+
+o) LIBS is now empty. Before there was one library, which forced a relinking of libloc
+every time make was run.
+        ./libsrc/libloc/Makefile.am
+
+
+
+o) libmagntiude was added
+include files added to include/ibase:
+# added for libmagnitude: db_amplitude.h db_netmag.h db_parrival.h db_stamag.h netmag_Astructs.h
+#                         stamag_Astructs.h origin_Astructs.h origin_Astructs.h
+#                         libmagnitude.h  mag_defs.h  mag_descrip.h  mag_params.h  magp.h  tl_defs.h  tl_table.h
+
+  other file changes:
+        configure.ac
+        libsrc/Makefile.am
+        libsrc/libmagnitude - new library
+
+
+o) changes made to files in libmagnitude:
+  added missing
+ #include <stdlib.h>
+  calc_mags.c mag_access.c mag_utils.c network_mag.c read_mdf.c read_tl_table.c TL_manipulation.c build_mag_obj.c
+
+  remove unused variables
+  calc_mags.c
+
+  remove SccsId:
+  mag_access.c mag_boot_strap.c mag_error_msg.c mag_max_lik.c mag_params.c mag_utils.c
+  network_mag.c only_bound_amps.c read_tl_table.c TL_error_msg.c TL_manipulation.c
+
+  moved definitions like NETMAG_CONTAINER_DEF and Netmag_Attr inside #ifdef's to remove wanring messages at compile time
+  also changed Na_Origin from a structure (which was sometimes unsed and caused warning messages) to
+  a #define Na_Origin, which causes no warning messages.
+  netmag_Astructs.h stamag_Astructs.h origin_Astructs.h
+
+end of changes made to files in libmagnitude:
+
+
+o) made some functions definitions were changed since they caused problems
+when using gcc 4.1
+
+  ./libsrc/libgenlist/genList.c
+
+====================================
+Changes in 1.1.13x        29 Oct 2006
+====================================
+Ivan Henson
+libFFDB changes did not get into version 1.1.13
+o) libFFDB/FFDBQueryTable.c added initQueryTableStruct routine.
+o) libFFDB/FFDBStatic.c changed stringToQuark to stringUpperToQuark
+
+
+
+====================================
+Changes in 1.1.12x        24 Oct 2006
+====================================
+Ivan Henson
+o) libascii/ascii.c changed stringToQuark to stringUpperToQuark
+o) libBeam/beam.c changed stringToQuark to stringUpperToQuark
+o) libBeam/beamRecipe.c added an error check for write_recipe.
+o) libFFDB/FFDBQueryTable.c added initQueryTableStruct routine.
+o) libFFDB/FFDBStatic.c changed stringToQuark to stringUpperToQuark
+o) libgcss/css_input.c changed backup_file from ProgramResource to property
+o) libgcss/load_tables.c changed stringToQuark to stringUpperToQuark
+o) libgnet/net.c changed stringToQuark to stringUpperToQuark
+o) libgnet/stations.c changed stringToQuark to stringUpperToQuark
+o) libgobject/CssTable.c changed stringToQuark to stringUpperToQuark
+		fixed bug in CssTable_copyTable
+		fixed bug in CssTable_setIO
+		fixed bug in CssTable_free
+		fixed bug in CssTable_copySource
+		added CssTable_removeValue
+o) libgobject/DataLoop.c changed stringToQuark to stringUpperToQuark
+o) libgobject/properties.c added removeProgramProperty
+o) libgobject/sitechan.c added removeProgramProperty
+o) libgODBC/ODBCInsertTables.c changed comment
+o) libgparse/GParse.c added GParseOpenPrefix,GParseStartTime,GParseEndTime,
+	GParseSourceType;  fixed bug in GParseSetFFDBIds
+o) libgresp/get_response.c changed stringToQuark to stringUpperToQuark
+o) libgresp/responseFiles.c changed stringToQuark to stringUpperToQuark
+o) libmath/hilbert.c fixed bug.
+o) libsac/sac.c changed CSSTABLE_setIO to CssTable_setIO
+o) libsac/gse.c changed CSSTABLE_setIO to CssTable_setIO
+o) libstring/string.c aded memset to stringcpy, added stringUpperToQuark
+
+o) include/gobject/CssTable.h added CssTable_removeValue
+o) include/gobject/CssTableP.h removed CSSTABLE_setIO
+o) include/gobject/properties.h added removeProgramProperty
+o) include/libgcss.h added cssSavePick and openBackupFile
+o) include/libgparse.h added GPARSE_SOURCE_NONE, etc, added GParseOpenPrefix,
+	GParseStartTime, GParseEndTime, GParseSourceType
+o) include/libstring.h added #include <string.h> added stringUpperToQuark
+o) include/libcalib.h added struct name.
+o) include/libFT.h added struct names (struct CepstrumParam_s, etc)
+o) include/gobject/cssObjects.h added struct names (struct CssArrival_s, etc)
+o) include/libgnet.h  fixed FormatStruct initial value
+
+John Coyne
+o) added additional checks for NULL values
+./libsrc/libgobject/GObject.c
+./libsrc/libgobject/Vector.c
+
+o) fixed a typo in beam.c which caused calper to be calculated incorrectly for beams.
+
+./libsrc/libBeam/beam.c
+
+o) fixed a problem when saving a beam recipe after it was editted. Before this fix it
+was not possible to save an editted beam recipe.
+
+./libsrc/libBeam/beamRecipe.c
+
+====================================
+Changes in 1.1.12x        xx Sep 2006
+====================================
+John Coyne
+o) change made to remove the compiler warning:
+../../include/ibase/reg.h:398: warning: missing braces around initializer
+../../include/ibase/reg.h:398: warning: (near initialization for `gstab[0]')
+
+./include/ibase/reg.h
+
+o) added variables for separation between lta and sta, in seconds and
+separation between lta and sta, in number of samples for sta/lta detector
+
+./libsrc/libgstalta/stalta.c
+./include/libstalta.h
+
+
+====================================
+Changes in 1.1.13        20 Oct 2006
+====================================
+
+Changes in libcd received from
+Gerald Klinkl (Version 2.0.15 of libCD)
+
+o) Fix incorrect milliseconds computation in double2ascDateOut()
+
+o) Create new files if the protocol type has changed. A station
+   must not change its protocol type within one minute or only
+   a new binary file is created
+
+o) Change version string
+
+o) Fix bug in sender that prevents the sender from sending new arrived
+   frames first when sending in LIFO mode
+
+o) o) Change data type of start date, end date and clfDate to time_t
+
+o) Add doxygen annotations and clf file creation date to
+   clf file list structure
+
+o) Add defines for new application specific commands
+   and swap AC1<->AC4 and AC2<->AC5
+
+o) Add function for removing too old clf entries from clf file
+   list in stopped and unconnected state
+
+./libsrc/libcd/misc.c
+./libsrc/libcd/logfiles.c
+./libsrc/libcd/prepare.c
+./libsrc/libcd/cd_common.c
+./libsrc/libcd/command.c
+./libsrc/libcd/db_access.c
+./libsrc/libcd/schedule.c
+./include/CDtools/cd_common.h
+./include/CDtools/schedule.h
+./include/CDtools/command.h
+./include/CDtools/misc.h
+./include/CDtools/fileAPI.h
+
+====================================
+Changes in 1.1.12        8 Sep 2006
+====================================
+Changes in libcd received from
+Gerald Klinkl
+
+./libsrc/libcd/cd_common.c
+./libsrc/libcd/logfiles.c
+./libsrc/libcd/init_sender.c
+./libsrc/libcd/schedule.c
+./include/CDtools/cd_common.h
+./include/CDtools/fileAPI.h
+./include/CDtools/schedule.h
+
+
+====================================
+Changes in 1.1.11        24 Aug 2006
+====================================
+Changes received from Dmitry Bobrov
+
+o) Optimizing the loading into memory of
+   radial 2D hydro and infra travel time
+   tables for SASC files.
+
+include/ibase/libLP.h
+include/ibase/libaesir.h
+include/ibase/libloc.h
+include/ibase/locp.h
+include/ibase/reg.h
+include/ibase/tt_info.h
+libsrc/libLP/LP_trace_ray.c
+libsrc/libaesir/read.c
+libsrc/libloc/az_slow_corr.c
+libsrc/libloc/compute_hypo.c
+libsrc/libloc/locate_event.c
+libsrc/libloc/sssc.c
+libsrc/libloc/trv_time_default.c
+libsrc/libloc/trv_time_specific.c
+libsrc/libloc/tt_info.c
+
+
+
+Changes received from John Coyne
+
+o) added the function timeDateStringR()
+        libsrc/libtime/timeUtil.c
+        include/libtime.h
+
+o) added prototype for cssioReadSpectra()
+	   include/libcssio.h
+
+o) added FT related include files and prototypes
+  	 include/libgparse.h
+
+o) added FT related include files and prototypes
+  	 include/libgparseP.h
+
+o) changes to rtd code to use libcd directly
+  	 include/libgrtd.h
+         include/libgrtdP.h
+
+o) comments and corrections added by Frank Graeber.
+  	  libsrc/libFT/cepstrum.c
+
+o) FT functions have been divided in libFT and libFT2
+  	    include/libFT.h
+	    include/libFT2.h
+	    include/Makefile.am
+
+o) changes to rtd code to use libcd directly
+  	   libsrc/libgrtd/rtdata.c
+	   libsrc/libgrtd/RTDError.c
+
+    The files clf.c, history.c index.c and readFrame.c have
+    been removed from libsrc/libgrtd.
+
+
+Changes received from Ivan Henson
+==================================
+
+o) new functions: getIntProperty(), getDoubleProperty(), getBoolProperty()
+       include/gobject/properties.h
+
+o) prototype arg changed from new to New to avoid name clash in c++
+       include/ibase/libwfm.h
+
+o) prototype arg changed from delete to Delete to avoid name clash in c++
+       include/libBeam.h
+
+o) added a check for GEOTOOL_HOME in getStaticTable()
+       libsrc/libFFDB/FFDBStatic.c
+
+o) improved handlling of dnorth/deast and lat/lon
+       libsrc/libFK/FKCompute.c
+
+o) add check for invalid lat/lon
+       libsrc/libFK/FKGram.c
+
+o) fixed a typo, i counter should be j
+       libsrc/libgcss/css_input.c
+
+o) use asctime_r(gmtime_r()) instead of asctime(gmtime()) (_r is the thread safe version)
+       libsrc/libgdraw/DrawAxis.c
+
+o) removed a free which was not in the correct location.
+       libsrc/libgmethod/GMethod.c
+
+o) improved comments
+       libsrc/libgobject/CssTable.c
+
+o) new functions getIntProperty(), getDoubleProperty(), getBoolProperty()
+       libsrc/libgobject/properties.c
+
+o) addition initialization checks in Vector_arrayCopy()
+       libsrc/libgobject/Vector.c
+
+o) initialize dest string in stringcpy()
+       libsrc/libgobject/Vector.c
+
+o) use asctime_r(gmtime_r()) instead of asctime(gmtime())
+       libsrc/libtime/timeUtil.c
+
+o) added missing initialize
+       libsrc/libstring/string.c
+
+====================================
+Changes in 1.1.10        24 Jul 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+
+o) Check for new frames in current clf file when sending frames
+   to fulfill FIFO requirements (No new clf files are checked!)
+   (prepare.c)
+
+
+
+====================================
+Changes in 1.1.9         13 Jul 2006
+====================================
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) Bug fix: The function to parse and check a CD1.0 data frame tagged
+   a channel error as a warning. This caused a problem for cd2w-2.1.8.
+
+  (libsrc/libcd/frames.c)
+
+
+====================================
+Changes in 1.1.8         06 Jul 2006
+====================================
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) New table definitions and offsets for bg_analyze-1.0.1.
+
+   (cssObjects.c)
+
+
+====================================
+Changes in 1.1.7         30 Jun 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+
+o) Update comments and fix some typos (auth.c)
+
+o) Improve interrupt handling (EINTR) in writeWithTimeout() and
+   readWithTimeout(). Make sure that ECONNRESET not longer raises
+   a system error in the calling functions when reading or
+   writing to/from sockets. Some typos fixed (misc.c)
+
+o) Add function which checks for new certificates in LDAP
+   (cd_ldap.h, ldap.c)
+
+o) Add LDAP error message to syslog when ldap_bind()
+   fails (init.c)
+
+o) Check for for new certificates in LDAP (keychecker.c)
+
+
+====================================
+Changes in 1.1.6         14 Jun 2006
+====================================
+Idriz Smaili <smaili@swengLab.com>
+
+o) Improve the error message of generic queue by regarding the error message
+   generated by the generic list, on top of which the generic queue is
+   implemented (./include/libGenList.h ./libsrc/libgenlist/genQueue.c)
+
+
+====================================
+Changes in 1.1.5         31 May 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+
+o) Fix wrong frame signature check code in .txt files when the
+   frame is not signed (cd_common.c)
+
+o) Change W_SEQUENCE message from "unexpected sequence number" to
+   "sequence number seen before" (events.c)
+
+o) Add check if frame has been signed by a forward station (sender)
+   (readwrite.c)
+
+o) Add forwarder key cache to stationIP structure (cd_common.h)
+
+o) Add check if frame has been signed by a forward station to
+   checkFrameAuthentication() (cd_common.c)
+
+o) Modify check for CD-1.0 channel timestamps to be consistent with
+   the F&P definition (frames.c)
+
+o) Load new parameter `forward station` from station file (init.c)
+
+o) Update code for new key cache layout (monitor.c)
+
+
+====================================
+Changes in 1.1.4         10 May 2006
+====================================
+Idriz Smaili <smaili@swengLab.com>
+Gerald Klinkl <gerald.klinkl@siemens.com>
+
+o) DEBUG5 and DEBUG6 added (logging.h)
+
+o) Bug Fix: init "free" attribute to NULL (genList.c)
+
+o) Rewrite key cache. A key cache does not longer belong to one
+   station. Instead a list of key caches is managed and each key
+   cache is globally accessible A key cache can now be assigned
+   to more than one station/production line. This reduces the number
+   of needed key caches in the sender and solves the re-signer problem
+   in the receiver (readwrite.c, command.c,
+   cd_common.[ch], init.c, keychecker.c, monitor.c, auth.[ch], cd_ldap.[ch])
+
+o) Fix channel signature verification on little endian machines
+   when signed before compression (only s4 data type tested)
+   (cd_common.c, misc.h)
+
+====================================
+Changes in 1.1.3         26 Apr 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+
+o) New version number for libcd (to be compatible with new cdtools).
+
+   (cd_common.c)
+
+
+====================================
+Changes in 1.1.2         20 Apr 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+
+o) Improved comments (cd_common.c, frames.[ch])
+
+o) Fix wrong check of channel time stamp (frames.c)
+
+o) Fix core dump in file reader API when processing a CD1.1 frame
+   (fileAPI.c)
+
+o) Rename defines for event types to avoid inadvertently use of
+   E_INTERNAL (command.c, senderAPI.c, events.h)
+
+o) Fix typos and improve error handling (logfiles.c)
+
+o) Fix bug in catIdxDir() which causes that data providers, which
+   start with the same string as wanted data providers, are added
+   erroneously to the wrong clf file list (e.g. PPT is added to PPTMs clf
+   file list) (schedule.c)
+
+
+====================================
+Changes in 1.1.1         07 Apr 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+
+o) Debug messages improved (cd_common.h, command.c, schedule.c)
+
+o) Fix problem with missing HAVE_LIBODBC in gbase
+   (prepare.c, db_access.c, cd_common.c)
+
+o) Move checkParsingAndAuthentication() to libCD (readwrite.[ch])
+
+o) Finish work for Data Parsing Programming Interface. Add
+   function for reading a frame from a binary file and function
+   which makes it easy to parse a frame read from a binary file
+   (readwrite.[ch], fileAPI.[ch])
+
+o) Use standard setpar() function in readConfigurationFile() and
+   readSenderConfigParams() to support reading of environment
+   variables (cd_common.c, init_sender.c)
+
+o) Fix wrong parameter to writeFrame() in sender API example code
+   (sampleAPI.c)
+
+
+====================================
+Changes in 1.1.0         04 Apr 2006
+====================================
+John Coyne    <john.coyne@ctbto.org>
+Gerald Klinkl <gerald.klinkl@siemens.com>
+Idriz Smaili  <smaili@swengLab.com>
+
+
+Coyne changes :-
+
+o) added samprate to fsdisc
+   (fsdisc.h, cssObjects.h cssObjects.c)
+
+o) added prototype for cssioReadSpectra()
+   (libcssio.h)
+
+o) added FT related functions.
+   (libgparse.h, libgparseP.h, libFT.h, GParse.c, GParseInit.c, libgparse/Makefi
+le.am)
+   (new file: GParseFT.c)
+
+o) added cssioReadSpectra()
+   (cssio.c)
+
+o) added addition date format for radionuclide work (%02d:%02d:%04.1f)
+   (libtime.h, timeParse.c)
+
+summary of changed files:
+ChangeLog
+./include/libcssio.h
+./include/libFT.h
+./include/libgparse.h
+./include/libgparseP.h
+./include/libtime.h
+./include/gobject/cssObjects.h
+./libsrc/libcssio/cssio.c
+./libsrc/libgobject/cssObjects.c
+./libsrc/libgparse/GParse.c
+./libsrc/libgparse/GParseInit.c
+./libsrc/libgparse/Makefile.am
+./libsrc/libtime/timeParse.c
+
+new file:
+./libsrc/libgparse/GParseFT.c
+
+
+Klinkl changes :-
+
+o) Continue work for Data Parsing Programming Interface. Add
+   functions for creating a data consumer entry and a
+   production line (init_sender.[ch]). Add internal reference
+   list header to sender structure (schedule.[ch], move
+   init_sender.[ch], prepare.[ch], schedule.[ch) and db_access.[ch]
+   to libcd (configure.ac, cdlib/Makefile.am, cdsend/Makefile.am)
+   Create fileAPI.[ch]
+
+o) Improve error and debug messages (prepare.c)
+
+
+Smaili changes :-
+
+o) Generic Queue (FIFO order) added. This generic queue is thread safe.
+o) The 'automatic free functionality' added to the elements of the generic
+   linked list. In case an Element is another generic linked list, then
+   the free function will be automatically called, when the generic list
+   needs to be freed.
+
+   (.../include/libGenList.h .../libsrc/libgenlist/gen{Queue.c, List.c}
+   .../src/genList/testGenList.c)
+
+
+====================================
+Changes in 1.0.7         14 Mar 2006
+====================================
+Gordana Korolija <gordana.korolija@ctbto.org>
+
+o) In the Clf definition, replaced CSS_FLOAT with CSS_DOUBLE for the
+   field duration, and the corresponding format .3f with .3lf.
+
+   (cssObjects.c)
+
+
+====================================
+Changes in 1.0.6         13 Mar 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+John Coyne    <john.coyne@ctbto.org>
+
+o) Fix wrong conversion of float values in sender API (senderAPI.c,
+   sampleAPI.c)
+
+o) Add processing of seconds to ascDate2int() (misc.c)
+
+o) Fix reporting of channel string size errors and data size errors
+   to syslog(frames.h, events.c)
+
+o) Fix logging of channel description length in .txt logfile. Before an
+   invalid channel description length has been set to zero in the parsing
+   function (frames.c, logfiles.c)
+   CAUTION: Make sure that your application checks the channel parsing
+            code before desLength is used!
+
+o) Add checks for calibration factor and period and frame time
+   length (events.[ch], frames.[ch], logfiles.c)
+
+o) Corrected a problem where waveform data in GSE or IMS format could not
+   be read under linux. Now such waveforms can be read correctly under
+   linux.
+
+   (get_gse_waveform.c)
+
+
+
+====================================
+Changes in 1.0.5         28 Feb 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+
+o) Move hasExtension() to libCD (misc.[ch], auth.c, search.c)
+
+o) Start work for cdtools Data Parsing Programming Interface. Rework
+   catIdxDir() to become more independent from CDsender (cd_common.[ch])
+
+
+====================================
+Changes in 1.0.4         23 Feb 2006
+====================================
+Idriz Smaili <smaili@swengLab.com>
+
+o) Change the position of 'receivespan' within the clf table description.
+
+   (include/gobject/cssObjects.h, libsrc/libgobject/cssObjects.c)
+
+
+====================================
+Changes in 1.0.3         21 Feb 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) Removed -DCDRECEIVER from configure.ac
+
+   (configure.ac)
+
+
+o) Added man pages to libparidc.
+
+   (libsrc/libparidc/Makefile.am libpar.3 getpar.3 getarg.3)
+
+
+o) Rename CDtoolsVersion() to  CDlibVersion() and return the
+   version of libCD instead the gbase version .
+
+   (cd_common.[ch] command.c)
+
+
+o) Fix bug in double2ascDateOut() which causes wrong computation of
+   'day of the year'
+
+   (misc.c)
+
+
+o) Fix typos
+
+   (misc.c cd_common.c)
+
+
+o) Move sender specific code and configuration structure variables from
+   libCD to src/cdsend
+
+   (init.c cd_common.[ch])
+
+
+====================================
+Changes in 1.0.2         10 Feb 2006
+====================================
+Idriz Smaili <smaili@swengLab.com>
+
+o) Renamed 'fileproduct' to 'frameproduct'
+o) Added 'receivespan' to 'clf'
+
+   (include/gobject/cssObjects.h
+    libsrc/libgobject/cssObjects.c)
+
+
+====================================
+Changes in 1.0.1         08 Feb 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) Removed 'gstdarg.h' from gbase distribution. Replaced references to this
+   file with '#include <stdarg.h>'.
+
+   (include/Makefile.am
+    include/libFFDBP.h             include/libcssio.h
+    libsrc/libFFDB/FFDBError.c     libsrc/libcssio/cssio.c
+    libsrc/libparidc/getarg.c      libsrc/libparidc/getpar.c
+    libsrc/librtd/RTDError.c       libsrc/libgrtd/RTDError.c
+    libsrc/libgparse/GParseError.c)
+
+ o) Added functionality to retrieve libcd compile options.
+
+    libsrc/libcd/cd_common.c
+    libsrc/libcd/cd_common.h
+
+
+====================================
+Changes in 1.0           06 Feb 2006
+====================================
+Gerald Klinkl <gerald.klinkl@siemens.com>
+
+o) Add 'Receive span' time to clf file. This was a libCD
+   change (logfiles.c, cdclf.vim, diffclf)
+
+o) Fix bug which detains the sender from forwarding data after a
+   turn of the year. This was a libCD bug (misc.c)
+
+
+====================================
+Changes in 0.3.5         18 Jan 2006
+====================================
+John Coyne <john.coyne@ctbto.org>
+
+ HAVE_CDTOOLS is no longer needed, since it is contained in gbase
+ ./configure.ac
+
+ removed putProgramProperty("lastidTable"), since we don't want to save this in the dot file.
+ ./libsrc/libFK/timeSeries.c
+ ./libsrc/libgcss/get_id.c
+
+ added a missing call to SQLFreeHandle()
+ ./libsrc/libgODBC/ODBCGeneralQuery.c
+
+ now initializes gpe->num_arrival_colors and gpe->num_authors
+ ./libsrc/libgparse/GParseInit.c /vobs/states/utilities/gbase/libsrc/libgparse/GParseInit.c
+
+ stringMatch() now will match everything if it is given a wildcard '*'
+ ./libsrc/libstring/string.c /vobs/states/utilities/gbase/libsrc/libstring/string.c
+
+ added CssParrival, and changed most int's to long's (since that is how the values are stored in Oracle).
+        include/gobject/cssObjects.h
+
+ new arg (Vector parrivals) to asciiReadData
+        include/libascii.h
+        libsrc/libascii/ascii.c
+
+ new arg (Vector parrivals) to cssReadData
+        include/libgcss.h
+        libsrc/libgcss/css_input.c
+
+ new arg (Vector parrivals) to (*ReadDataFunc)
+        include/libgnet.h
+
+ new arg (Vector parrivals) to gseReadData
+        include/libgse.h
+        libsrc/libgse/gse.c
+
+ new arg (Vector parrivals) to sacReadData
+        include/libsac.h
+        libsrc/libsac/sac.c
+
+ new arg (Vector parrivals) to LoadAllTables(). still need to read parrivals.
+        libsrc/libgcss/load_tables.c
+
+added CssParrival, and changed most int's to long's (since that is how the values are stored in Oracle).
+        libsrc/libgobject/cssObjects.c
+
+  added the very beginning of a help system (just less's a file)
+        libsrc/libgparse/GParse.c
+
+====================================
+Changes in 0.3.4         19 Dec 2005
+====================================
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) Made changes to allow gbase to be compiled on non-odbc platform.
+
+   (src/gODBC/odbc_general3.c src/gODBC/odbc_insert.c)
+
+o) Merged changes from John Coyne. Removed an extra (redundant) free, which caused
+   a problem when you added an arrival and there was no
+   $GEOTOOL_HOME/tables/dynamic/global.lastid table.
+
+   (libsrc/libgcss/get_id.c)
+
+   Made some changes when compiling without ODBC, to reduce the number
+   of compiler warning messages, and to give a reasonable warning message
+   when run a test gODBC program when you did not compile with ODBC.
+   Changed files:
+
+   (include/libgODBC.h
+    src/gODBC/odbc_css_idc.c
+    src/gODBC/odbc_general2.c
+    src/gODBC/odbc_general2_idc.c
+    src/gODBC/odbc_general3.c
+    src/gODBC/odbc_general3_idc.c
+    src/gODBC/odbc_general.c
+    src/gODBC/odbc_insert.c
+    src/gODBC/odbc_insert_idc.c
+    src/gODBC/odbc_query.c
+    src/gODBC/odbc_query_idc.c
+    src/gODBC/odbc_requestIds.c
+    src/gODBC/odbc_requestIds_idc.c
+    src/gODBC/odbc_schema.c
+    src/gODBC/odbc_schema_idc.c
+    src/gODBC/odbc_update.c
+    src/gODBC/odbc_update_idc.c)
+
+
+====================================
+Changes in 0.3.3         16 Dec 2005
+====================================
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) Merged all changes from 0.3.2f into the clearCase devlan view (0.3.2.d).
+   This included making the following new elements:
+
+cleartool mkdir -nc /vobs/states/utilities/gbase/include/CDtools
+cleartool mkdir -nc /vobs/states/utilities/gbase/libsrc/libcd
+cleartool mkdir -nc /vobs/states/utilities/gbase/libsrc/libgerror
+cleartool mkdir -nc /vobs/states/utilities/gbase/libsrc/libidcsyslog
+
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CD/clf.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CD/index.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/logging.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libgrtd/clf.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libgrtd/index.c
+
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/Makefile.am
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/misc.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/cd_common.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/command.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/monitor.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/certificate.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/auth.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/events.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/senderAPI.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/inittables.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/frames.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/logfiles.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/init.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/readwrite.h
+cleartool mkelem -nc /vobs/states/utilities/gbase/include/CDtools/cd_ldap.h
+
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/Makefile.am
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/ldap.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/auth.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/command.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/logfiles.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/misc.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/senderAPI.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/cd_common.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/monitor.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/keychecker.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/events.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/readwrite.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/init.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/frames.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/inittables.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libcd/extend.c
+
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libgerror/logErrorMsg.c
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libgerror/Makefile.am
+
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libidcsyslog/Makefile.am
+cleartool mkelem -nc /vobs/states/utilities/gbase/libsrc/libidcsyslog/logging.c
+
+
+====================================
+ version 0.3.2f      15 Dec 2005
+====================================
+
+ John Coyne 15 Dec 2005
+
+ added the library libidcsyslog, which used to be in the CDtools package.
+
+
+====================================
+ version 0.3.2e      9 Dec 2005
+====================================
+
+ John Coyne 9 Dec 2005
+
+ Fixed the placement of an ifdef which was causing problems with reading GERES
+ data during the 2005 advanced training course.
+ /libsrc/libgrtd/readFrame.c
+
+ John Coyne 3 December 2005
+
+ changed logErrorMsg() to be logWrite() to be compatible with idcsyslog library.
+ many files were changed.
+
+ moved the position of the definition of logWrite(), relative to the #ifdef
+
+
+====================================
+Changes in 0.3.2d        02 Dec 2005
+====================================
+John Coyne 2 December 2005
+
+o) type length of wfid and commid was changed in the external representation
+   of  the wfdisc records. While this is technically correct (to be in sync
+   with the  oracle represetation), it causes a big problem with outisde users.
+   Consequently,  this change has been rolled back. In addition, corrections
+   were made for the  external representations of the outage and
+   infra_features tables.
+
+    ./libsrc/libgobject/cssObjects.c
+    ./libsrc/libcssio/readTables.c
+    ./include/css/infra_features.h
+
+
+====================================
+Changes in 0.3.2c        30 Nov 2005
+====================================
+John Coyne
+
+o) added missing include files for config.h to both files in libsrc/libcalib
+     libsrc/libcalib/calex.c
+     libsrc/libcalib/inpar.c
+
+o) moved the example program for the calibration into src/calibration
+   modified files:
+     configure.ac
+     src/Makefile.am
+
+  new files:
+     src/calibration
+     src/calibration/Makefile.am
+     src/calibration/main.c
+     src/calibration/README
+     src/calibration/ausg
+     src/calibration/calex5a.par
+     src/calibration/eing
+
+
+====================================
+Changes in 0.3.2b        25 Nov 2005
+====================================
+John Coyne and Ivan Henson
+
+o)  added libsrc/libcalib, for working with instrument calibration functions.  modified files
+   ./configure.ac
+   ./include/Makefile.am
+ new files
+   ./include/libcalib.h
+   ./libsrc/libcalib/calex.c
+   ./libsrc/libcalib/inpar.c
+   ./libsrc/libcalib/main.c
+   ./libsrc/libcalib/Makefile.am
+
+o) added additional output arrays for cepstrum
+    ./include/libFT.h
+    ./libsrc/libFT/cepstrum.c
+
+o) fixed a bug in peak determination
+ ./libsrc/libFK/FKCompute.c
+
+o) made changes to the way responses are read, so it is more forgiving when
+   entries in the response file are misplaced.  ./libsrc/libgresp/response.c
+
+o) added initializations
+ ./libsrc/libFT/tapers.c
+ ./libsrc/libgloc/locsat.c
+
+o) in CD-1.1 format, the dataFormat may be "s4", but the data may be compressed.
+   added a check for this case to handle it properly.  ./libsrc/libgrtd/rtdata.c
+
+o) Hydro travel times are binary files in Solaris format. Now these files are
+   read correctly under linux.
+ ./libsrc/libloc/tt_info.c
+
+
+o)  the "ifdef TEST" was added to surround the definition of logErrMsg(),  which is only needed if the TEST is defined.
+  ./libsrc/libtime/testTime.c
+
+o) now uses type_id rather than typeid to avoid conflict with C++
+   use floats for some fields in waveinterval  ./include/gobject/cssObjects.h  ./libsrc/libgobject/cssObjects.c
+
+o) removed the hard coded path to -lgrtd
+ ./src/rtd/Makefile.am
+
+o) added logErrorMsg() to testgODBC.c, since this is not defined in gbase  src/testgODBC/testgODBC.c
+
+o) output origin and origerr are now completely initialized based on the input origin and origerr  libsrc/libgloc/locsat.c
+
+
+====================================
+Changes in 0.3.21        24 Nov 2005
+====================================
+Idriz Smaili <smaili@swengLab.com>
+
+o) Bug Fixed: There is a change made in ODBCReqeustIds that calls directly
+   some sql driver's functions. Instead of calling directly these functions
+   for updating of lastid table, the ODBCUpdateTables functions shall be
+   called
+
+   (configure.ac ChangeLog ./libsrc/libgODBC/ODBCReqeustIds.c)
+
+
+====================================
+Changes in 0.3.2         16 Nov 2005
+====================================
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) No code changes. Just renumbered version to follow numbering convention.
+
+
+====================================
+Changes in 0.3.1c        11 Nov 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org, smaili@swengLab.com>
+
+o) Merged changes done by Ivan Henson into gbase 0.3.1a
+
+   libsrc/libFT/cepstrum.c - cleaned up a little
+   libsrc/libgresp/responseFiles.c  - GetResponse was the old version.
+   include/gobject/cssObjects.h  - changed typeid to type_id (typeid is a C++
+      keyword)
+   libsrc/libgobject/cssObjects.c (typeid to type_id)
+   include/response.h - declaration of GetResponse
+   libsrc/libFT/tapers.c - removed unnecessary include
+   libsrc/libFT/cefft.c - cleaned up.
+
+o) Merged changes done by Ivan Henson into gbase 0.3.1c
+   libsrc/libgODBC/ODBCQueryTable.c - replace white spaces with tabs
+
+
+====================================
+Changes in 0.3.1b        10 Nov 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org, smaili@swengLab.com>
+
+o) Merged changes done by John Coyne into gbase 0.3.1a
+
+   fixed some types of variables and functions to be consistent
+        libsrc/libshape/dbfopen.c
+        libsrc/libshape/shpopen.c
+
+   fixed a compiler warning in printMethodComment
+        ./src/cdoc/cdoc.c
+
+
+   added casts when using strtok_r(), to silence warnings from solaris cc compiler
+        ./libsrc/libgparse/GParseInit.c
+
+   fixed a compiler warning in GParseGetTable()
+        ./libsrc/libgparse/GParse.c
+
+   corrected the name for LIBFT
+        configure.ac
+
+   moved Taper_* functions to libFT.h
+        include/gobject/Taper.h
+
+   new file libsrc/libFT/tapers.c, which contains all of the Taper_* functions.
+
+   Taper_* functions moved to libFT.h
+        include/libFT.h
+
+   added #include <string.h>
+   and removed
+   #include "gobject/Taper.h"
+        libsrc/libFT/cepstrum.c
+
+   new file tapers.c added
+        libsrc/libFT/Makefile.am
+
+   file named tapers.c is renamed to taperMethods.c
+        libsrc/libgmethod/Makefile.am
+
+   changed include "gobject/Taper.h" to be
+   #include "libFT.h"
+        libsrc/libgqc/qc.c
+
+
+   added libFT
+        src/FFDB/Makefile.am
+        src/gobject/Makefile.am
+        src/gODBC/Makefile.am
+        src/gparse/Makefile.am
+        src/io/Makefile.am
+        src/rtd/Makefile.am
+        src/testgODBC/Makefile.am
+
+
+====================================
+Changes in 0.3.1a         9 Nov 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org, smaili@swengLab.com>
+
+o) Change Request: ./libsr/libver/version.c is changed
+
+o) Merged changes 0.1.14 into gbase 0.3.0.
+
+   The following new elements are added to clear Case
+   	./include/libFT.h
+        ./libsrc/libFT
+        ./libsrc/libFT/cefft.c
+        ./libsrc/libFT/cepstrum.c
+        ./libsrc/libFT/Makefile.am
+
+   The following manual merges were done:
+        include/Makefile.am
+   	include/Taper.h
+   	include/gobject/TimeSeries.h
+   	include/libFKP.h
+   	include/libgdraw.h
+   	libsrc/Makefile.am
+   	libsrc/libFK/FKCompute3C.c
+   	libsrc/libFK/FKCompute3C.c
+   	libsrc/libFK/FKCompute.c
+   	libsrc/libFK/FKGram.c
+   	libsrc/libgcss/css_input.c
+   	libsrc/libgcss/load_tables.c
+   	libsrc/libgdraw/DrawAxis.c
+   	libsrc/libgmethod/Convolve.c
+   	libsrc/libgmethod/tapers.c
+   	libsrc/libgobject/cssObjects.c
+   	libsrc/libgobject/TimeSeries.c
+   	libsrc/libgobject/tsCorrelate.c
+   	libsrc/libgODBC/ODBCGeneralQuery.c
+   	libsrc/libgODBC/ODBCQueryTable.c
+   	libsrc/libgparse/GParseInit.c
+   	libsrc/libgresp/get_response.c
+   	libsrc/libgresp/response.c
+   	libsrc/libmath/hilbert.c
+
+====================================
+Changes in 0.3.0         04 Nov 2005
+====================================
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) Merged changes from 0.1.9, 0.1.13 and 0.1.14 into gbase 0.2.8.
+   The following manual merges were done:
+      ChangeLog
+      configure.ac
+      libsrc/Makefile.am
+      libsrc/libgobject/cssObjects.c
+
+   The following files were imported directly from gbase-0.1.14:
+      include/CD/history.h
+      include/Makefile.am
+      include/gobject/AmpFactor.h
+      include/gobject/ApplyCalib.h
+      include/gobject/Array.h
+      include/gobject/Convolve.h
+      include/gobject/Copy.h
+      include/gobject/CssIO.h
+      include/gobject/CssTable.h
+      include/gobject/CssTableP.h
+      include/gobject/Cut.h
+      include/gobject/DataLoop.h
+      include/gobject/DataPoint.h
+      include/gobject/GMethod.h
+      include/gobject/GMethodP.h
+      include/gobject/GObject.h
+      include/gobject/GObjectP.h
+      include/gobject/GeoCore.h
+      include/gobject/Hashtable.h
+      include/gobject/IIR.h
+      include/gobject/Offset.h
+      include/gobject/Overlaps.h
+      include/gobject/Periods.h
+      include/gobject/QC.h
+      include/gobject/Rotate.h
+      include/gobject/Segment.h
+      include/gobject/Taper.h
+      include/gobject/TimeSeries.h
+      include/gobject/Vector.h
+      include/gobject/cssObjects.h
+      include/gobject/properties.h
+      include/gstdarg.h
+      include/ibase/db_wfdisc.h
+      include/ibase/locp.h
+      include/libBeam.h
+      include/libFFDB.h
+      include/libFK.h
+      include/libFKP.h
+      include/libascii.h
+      include/libcssio.h
+      include/libgCDF.h
+      include/libgODBC.h
+      include/libgcss.h
+      include/libgdraw.h
+      include/libgeo.h
+      include/libgloc.h
+      include/libgnet.h
+      include/libgparse.h
+      include/libgparseP.h
+      include/libgrtdP.h
+      include/libgse.h
+      include/libmath.h
+      include/libsac.h
+      include/libstring.h
+      include/libtime.h
+      include/logErrorMsg.h
+      include/response.h
+      include/shapefil.h
+      libsrc/libBeam/beam.c
+      libsrc/libBeam/beamRecipe.c
+      libsrc/libFFDB/FFDBError.c
+      libsrc/libFFDB/FFDBImport.c
+      libsrc/libFFDB/FFDBInsertTables.c
+      libsrc/libFFDB/FFDBOpen.c
+      libsrc/libFFDB/FFDBQueryTable.c
+      libsrc/libFFDB/FFDBRequestIds.c
+      libsrc/libFFDB/FFDBStatic.c
+      libsrc/libFFDB/FFDBUpdateTables.c
+      libsrc/libFK/FKCompute.c
+      libsrc/libFK/FKCompute3C.c
+      libsrc/libFK/FKGram.c
+      libsrc/libFK/FKGram3C.c
+      libsrc/libFK/Makefile.am
+      libsrc/libFK/fit2d.c
+      libsrc/libLP/LP_trace_ray.c
+      libsrc/libLP/geoc_distaz.c
+      libsrc/libLP/geoc_lat_lon.c
+      libsrc/libLP/non_Naperian.c
+      libsrc/libaesir/MilliTime.c
+      libsrc/libaesir/add_to_str.c
+      libsrc/libaesir/change_case.c
+      libsrc/libaesir/dbug.c
+      libsrc/libaesir/degain.c
+      libsrc/libaesir/dfxmsg.c
+      libsrc/libaesir/dyn_array.c
+      libsrc/libaesir/dyn_array_ext.c
+      libsrc/libaesir/fvec_funcs.c
+      libsrc/libaesir/mask.c
+      libsrc/libaesir/nap.c
+      libsrc/libaesir/read.c
+      libsrc/libaesir/select.c
+      libsrc/libaesir/space.c
+      libsrc/libaesir/stringcat.c
+      libsrc/libaesir/strtime.c
+      libsrc/libaesir/write.c
+      libsrc/libascii/ascii.c
+      libsrc/libcssio/cssio.c
+      libsrc/libcssio/dcpress.c
+      libsrc/libcssio/decomp.c
+      libsrc/libcssio/g2tofloat.c
+      libsrc/libcssio/readTables.c
+      libsrc/libcssio/read_dotw.c
+      libsrc/libcssio/s3s4.c
+      libsrc/libgCDF/gCDF.c
+      libsrc/libgODBC/ODBCConnect.c
+      libsrc/libgODBC/ODBCDescribeCols.c
+      libsrc/libgODBC/ODBCError.c
+      libsrc/libgODBC/ODBCGetResultCols.c
+      libsrc/libgODBC/ODBCGetSchema.c
+      libsrc/libgODBC/ODBCGetStruct.c
+      libsrc/libgODBC/ODBCGetTableCols.c
+      libsrc/libgODBC/ODBCInsertTables.c
+      libsrc/libgODBC/ODBCQueryTable.c
+      libsrc/libgODBC/ODBCRequestIds.c
+      libsrc/libgODBC/ODBCUpdateTables.c
+      libsrc/libgODBC/ODBCUtil.c
+      libsrc/libgamp/amp.c
+      libsrc/libgamp/avg_max.c
+      libsrc/libgamp/butterworth_response.c
+      libsrc/libgamp/find_peak_trough.c
+      libsrc/libgamp/first_motion.c
+      libsrc/libgamp/interp_period.c
+      libsrc/libgamp/max_peak_trough.c
+      libsrc/libgamp/max_stav.c
+      libsrc/libgamp/peak_trough.c
+      libsrc/libgamp/remove_filt_resp.c
+      libsrc/libgamp/smooth_peak_trough.c
+      libsrc/libgcss/css_input.c
+      libsrc/libgcss/get_id.c
+      libsrc/libgcss/undo.c
+      libsrc/libgdetect/avg.c
+      libsrc/libgdetect/calc_deltime.c
+      libsrc/libgdetect/detect_funcs.c
+      libsrc/libgdetect/ltav.c
+      libsrc/libgdetect/snr.c
+      libsrc/libgdetect/standard_snr.c
+      libsrc/libgdetect/state.c
+      libsrc/libgdetect/stav.c
+      libsrc/libgdetect/z_stat_snr.c
+      libsrc/libgdraw/DrawAxis.c
+      libsrc/libgdraw/DrawSubs.c
+      libsrc/libgdraw/drawps.c
+      libsrc/libgdraw/plotsym.c
+      libsrc/libgdraw/plotxd.c
+      libsrc/libgdraw/plotxy.c
+      libsrc/libgdraw/pltcon.c
+      libsrc/libgdraw/shadePS.c
+      libsrc/libgenlist/genList.c
+      libsrc/libgeog/area_of_interest.c
+      libsrc/libgeog/azimuth_cross_pt.c
+      libsrc/libgeog/dist_azimuth.c
+      libsrc/libgeog/ellip_dist.c
+      libsrc/libgeog/ellipticity_corr.c
+      libsrc/libgeog/in_polygon.c
+      libsrc/libgeog/lat_conv.c
+      libsrc/libgeog/lat_lon.c
+      libsrc/libgeog/reg.c
+      libsrc/libgeog/small_circle_cross_pts.c
+      libsrc/libgloc/locsat.c
+      libsrc/libgmethod/AmpFactor.c
+      libsrc/libgmethod/ApplyCalib.c
+      libsrc/libgmethod/Convolve.c
+      libsrc/libgmethod/Copy.c
+      libsrc/libgmethod/Cut.c
+      libsrc/libgmethod/GMethod.c
+      libsrc/libgmethod/Offset.c
+      libsrc/libgmethod/QC.c
+      libsrc/libgmethod/iir.c
+      libsrc/libgmethod/polarfilt.c
+      libsrc/libgmethod/reread.c
+      libsrc/libgmethod/rotate.c
+      libsrc/libgmethod/tapers.c
+      libsrc/libgnet/net.c
+      libsrc/libgnet/read_wf_data.c
+      libsrc/libgnet/stations.c
+      libsrc/libgobject/Array.c
+      libsrc/libgobject/CssIO.c
+      libsrc/libgobject/CssTable.c
+      libsrc/libgobject/DataLoop.c
+      libsrc/libgobject/DataPoint.c
+      libsrc/libgobject/GObject.c
+      libsrc/libgobject/GeoCore.c
+      libsrc/libgobject/Hashtable.c
+      libsrc/libgobject/Makefile.am
+      libsrc/libgobject/Overlaps.c
+      libsrc/libgobject/Periods.c
+      libsrc/libgobject/Segment.c
+      libsrc/libgobject/TimeSeries.c
+      libsrc/libgobject/Vector.c
+      libsrc/libgobject/properties.c
+      libsrc/libgobject/sitechan.c
+      libsrc/libgobject/sp.c
+      libsrc/libgparse/GParse.c
+      libsrc/libgparse/GParseDraw.c
+      libsrc/libgparse/GParseError.c
+      libsrc/libgparse/GParseIaspei.c
+      libsrc/libgparse/GParseInit.c
+      libsrc/libgparse/Makefile.am
+      libsrc/libgqc/percentile.c
+      libsrc/libgqc/points.c
+      libsrc/libgqc/qc.c
+      libsrc/libgqc/segments.c
+      libsrc/libgqc/sequences.c
+      libsrc/libgqc/spike.c
+      libsrc/libgresp/get_response.c
+      libsrc/libgresp/response.c
+      libsrc/libgresp/responseFiles.c
+      libsrc/libgrtd/RTDError.c
+      libsrc/libgrtd/history.c
+      libsrc/libgrtd/readFrame.c
+      libsrc/libgrtd/rtdata.c
+      libsrc/libgse/checksum.c
+      libsrc/libgse/dcomp.c
+      libsrc/libgse/get_gse_waveform.c
+      libsrc/libgse/gse.c
+      libsrc/libgse/gse2odbc.c
+      libsrc/libgse/return_data_type.c
+      libsrc/libinterp/bracket_vectors.c
+      libsrc/libinterp/interp_tbl_val.c
+      libsrc/libinterp/nrutil.c
+      libsrc/libinterp/ratint.c
+      libsrc/libinterp/splie2.c
+      libsrc/libinterp/splin2.c
+      libsrc/libinterp/spline.c
+      libsrc/libinterp/splint.c
+      libsrc/libinterp/splint_deriv.c
+      libsrc/libloc/az_slow_corr.c
+      libsrc/libloc/best_guess.c
+      libsrc/libloc/blk_subs.c
+      libsrc/libloc/compute_deltim.c
+      libsrc/libloc/compute_hypo.c
+      libsrc/libloc/daxpy.c
+      libsrc/libloc/ddot.c
+      libsrc/libloc/dnrm2.c
+      libsrc/libloc/drot.c
+      libsrc/libloc/drotg.c
+      libsrc/libloc/dscal.c
+      libsrc/libloc/dsvdc.c
+      libsrc/libloc/dswap.c
+      libsrc/libloc/ellips.c
+      libsrc/libloc/ellipticity_corr.c
+      libsrc/libloc/f_test.c
+      libsrc/libloc/last_leg.c
+      libsrc/libloc/loc_error_msg.c
+      libsrc/libloc/locate_event.c
+      libsrc/libloc/predsat.c
+      libsrc/libloc/print_loc_results.c
+      libsrc/libloc/read_tt_tables.c
+      libsrc/libloc/srst.c
+      libsrc/libloc/sssc.c
+      libsrc/libloc/trv_time_default.c
+      libsrc/libloc/trv_time_specific.c
+      libsrc/libloc/ts_corr.c
+      libsrc/libloc/tt_info.c
+      libsrc/libmath/Find.c
+      libsrc/libmath/LogData.c
+      libsrc/libmath/correlate.c
+      libsrc/libmath/covar.c
+      libsrc/libmath/crust.c
+      libsrc/libmath/deltaz.c
+      libsrc/libmath/euler.c
+      libsrc/libmath/fft.c
+      libsrc/libmath/ftoa.c
+      libsrc/libmath/geocentric.c
+      libsrc/libmath/get_regional.c
+      libsrc/libmath/hilbert.c
+      libsrc/libmath/jbsim.c
+      libsrc/libmath/nicex.c
+      libsrc/libmath/polint.c
+      libsrc/libmath/regional.c
+      libsrc/libmath/sortup.c
+      libsrc/libmath/sortupi.c
+      libsrc/libmath/spline.c
+      libsrc/libmath/toeplitz.c
+      libsrc/libmath/tql2.c
+      libsrc/libmath/tred2.c
+      libsrc/libmath/ttup.c
+      libsrc/libmath/validData.c
+      libsrc/libmath/xcorr_lag.c
+      libsrc/libparidc/buildarg.c
+      libsrc/libparidc/defpar.c
+      libsrc/libparidc/getarg.c
+      libsrc/libparidc/getpar.c
+      libsrc/libsac/readHdr.c
+      libsrc/libsac/sac.c
+      libsrc/libsac/sac2odbc.c
+      libsrc/libshape/dbfopen.c
+      libsrc/libshape/shpopen.c
+      libsrc/libshape/shptree.c
+      libsrc/libstring/checks.c
+      libsrc/libstring/mallocWarn.c
+      libsrc/libstring/parse_char.c
+      libsrc/libstring/quark.c
+      libsrc/libstring/string.c
+      libsrc/libstring/strtok_r.c
+      libsrc/libtau/emiasp91.c
+      libsrc/libtau/libtau.c
+      libsrc/libtau/tauint.c
+      libsrc/libtau/tauspl.c
+      libsrc/libtime/testLibTime.c
+      libsrc/libtime/testTime.c
+      libsrc/libtime/timeParse.c
+      libsrc/libtime/timeUtil.c
+      src/FFDB/Makefile.am
+      src/FFDB/ffdb_requestIds.c
+      src/FFDB/ffsql.c
+      src/cdoc/cdoc.c
+      src/genList/testGenList.c
+      src/gODBC/Makefile.am
+      src/gODBC/odbc_arr.c
+      src/gODBC/odbc_css.c
+      src/gODBC/odbc_css_idc.c
+      src/gODBC/odbc_general.c
+      src/gODBC/odbc_general2.c
+      src/gODBC/odbc_general2_idc.c
+      src/gODBC/odbc_general3.c
+      src/gODBC/odbc_general3_idc.c
+      src/gODBC/odbc_general_idc.c
+      src/gODBC/odbc_insert.c
+      src/gODBC/odbc_insert_idc.c
+      src/gODBC/odbc_query.c
+      src/gODBC/odbc_query_idc.c
+      src/gODBC/odbc_requestIds.c
+      src/gODBC/odbc_requestIds_idc.c
+      src/gODBC/odbc_schema.c
+      src/gODBC/odbc_schema_idc.c
+      src/gODBC/odbc_update.c
+      src/gODBC/odbc_update_idc.c
+      src/gobject/Makefile.am
+      src/gobject/describeCss.c
+      src/gobject/test_CssTable.c
+      src/gparse/Makefile.am
+      src/gparse/main.c
+      src/io/wave2odbc.c
+      src/rtd/Makefile.am
+      src/rtd/rtdtest.c
+      src/testgODBC/Makefile.am
+      src/testgODBC/parseTC.c
+      src/testgODBC/runTC.c
+      src/testgODBC/testgODBC.c
+      src/testgODBC/utils.c
+
+   The following new clearCase elements were created:
+      include/libstalta.h
+      libsrc/libFK/FKPeaks.c
+      libsrc/libFK/FKSignal.c
+      libsrc/libFK/FKio.c
+      libsrc/libFK/timeSeries.c
+      libsrc/libgobject/tsCorrelate.c
+      libsrc/libgparse/GParseBeam.c
+      libsrc/libgparse/GParseCorrelate.c
+      libsrc/libgparse/GParseDetect.c
+      libsrc/libgparse/GParseFK.c
+      src/gparse/README
+      libsrc/libgstalta
+      libsrc/libgstalta/stalta.c
+      libsrc/libgstalta/Makefile.am
+
+
+====================================
+Changes in 0.2.8         28 Oct 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org, smaili@swengLab.com>
+
+o) Bug Fix: The bug that resulted into a fatal error when one had tried to
+   insert records into the wfdisc table has been fixed. The problem was on
+   the new Css Type called ´CSS_LDDATE´, which is required as the type of
+   the ´lddate´ field. The generating python script CssTable.py has also
+   been changed.
+
+   (configure.ac ChangeLog ./libsrc/libgobject/cssObjects.c
+    ./tools/CssTable.py)
+
+
+====================================
+Changes in 0.2.7         24 Oct 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org, smaili@swengLab.com>
+
+o) Change request:  Adapt the CssDescription for the wfdisc object to the
+   database, i.e. the lenght of the fields wfid and commid was 8 in the
+   description but these fields in the database have the lenght equal to
+   10.
+
+   (configure.ac ChangeLog ./libsrc/libgobject/cssObjects.c)
+
+
+====================================
+Changes in 0.2.6         21 Jul 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org, smaili@swengLab.com>
+
+o) Change request:  Add a functionality to the library that returns
+   the current version of the gbase library.
+
+   (configure.ac ./include/libVersion.h ./libsrc/Makefile.am
+   ./libsrc/libver/Makefile.am ./libsrc/libver/version.c)
+
+
+====================================
+Changes in 0.2.5         21 Jul 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org>
+
+o) Bug Fix: There is a data structure of type BindColumn used to bind the
+   columns of a specified table. This data structure has an attribute
+   called indicator. This attribute is set by the functions of the odbc
+   driver and in case a column is of type CSS_STRING then this attribute
+   specifies the lenght of the string. Since, the odbc driver used under
+   Linux fails to set this attribute, we have to change the condition at
+   ODBCQueryTable.c:419 to ignore this attribute. In fact the quality of
+   the code is not impact if the check ignores this attribute, because
+   there additional checks below, which make sure that only expected number
+   of bytes are put in the string even in case c->bindTarget.sql_String[k]
+   is not null terminated.
+
+   (ODBCQueryTable.c)
+
+
+====================================
+Changes in 0.2.4         07 Jul 2005
+====================================
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) Fix linux compiler warning.
+
+   (libGenList.h)
+
+
+====================================
+Changes in 0.2.3         30 Jun 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org>
+
+o) Add ´removeListIt´ function which allows the user to remove elements from
+   the generic linked list within the loop using the iterator object.
+
+   (libGenList.h, genList.c, testGenList.c)
+
+
+====================================
+Changes in 0.2.2         10 Jun 2005
+====================================
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) Allow compilation on platforms without ODBC.
+
+   (GParse.c)
+
+Idriz Smaili <idriz.smaili@ctbto.org>
+
+o) Fix compiler warnings (gcc).
+
+   (libGenList.h, testGenList.c)
+
+
+====================================
+Changes in 0.2.1         09 Jun 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org>
+
+o) A sort functionality ('sortList') added to the generic linked list.
+
+   (genList.c, libGenList.h)
+
+
+====================================
+Changes in 0.2.0         19 May 2005
+====================================
+Gordana Korolija <gordana.korolija@ctbto.org>
+
+
+o) Changed number of digits used for days (from 5 to 4 for EPOCH_DAYS and
+   from 5 to 3 for EPOCH_DAYS2. This was needed to fix a problem with Squal.
+
+   (timeParse.c)
+
+
+====================================
+Changes in 0.1.14         19 Sept 2005
+====================================
+John Coyne <john.coyne@ctbto.org>
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!*** THIS VERSION WAS ONLY INTEGRATED INTO CLEARCASE ON 04/11/05 ***!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+o) changed the library libstalta.a to be named libgstalta.a
+        configure.ac
+        libsrc/Makefile.am
+        libsrc/libgstalta/Makefile.am
+        src/gparse/Makefile.am
+
+        libsrc/libstalta renamed to be libsrc/libgstalta
+
+o) renamed some filter parameters to use names consistent with the
+   butterworth filter code.
+        libsrc/libstalta/stalta.c
+        include/libstalta.h
+        libsrc/libgparse/GParseDetect.c
+
+o) dist_var_wgt is now CSS_BOOL instead of CSS_INT
+        libsrc/libgloc/locsat.c
+
+o) merged in Dima's latest changes for libloc
+        compute_hypo.c
+        sssc.c
+        srst.c
+        tt_info.c
+        ts_corr.c
+        trv_time_specific.c
+        trv_time_default.c
+        solve_via_svd.c
+        read_tt_tables.c
+        print_loc_results.c
+        predsat.c
+        locate_event.c
+        loc_error_msg.c
+        last_leg.c
+        f_test.c
+        ellipticity_corr.c
+        ellips.c
+        compute_deltim.c
+        blk_subs.c
+        best_guess.c
+        az_slow_corr.c
+        include/ibase/locp.h
+
+
+o) configure.ac
+         more info printed out after configure has run
+
+o) added missing ifdef's and changed some definitions for Solaris
+         ./libsrc/libgparse/GParse.c
+
+o) initialized some variables
+        ./libsrc/libFFDB/FFDBQueryTable.c
+        ./libsrc/libgresp/responseFiles.c
+
+ o) added elements to timeSeries->hashtable
+        ./include/libgnet.h
+        ./libsrc/libgcss/css_input.c
+        ./libsrc/libgobject/CssTable.c
+
+ o) fft is now a public function
+        ./include/libmath.h
+        ./libsrc/libmath/fft.c
+
+ o) added copyWfdisc function, and fixed Solaris compilation problems
+        ./libsrc/libgparse/GParse.c
+
+ o) changed args to protypes:
+        ./include/gobject/ApplyCalib.h
+        ./include/gobject/GMethod.h
+        ./include/gobject/IIR.h
+        ./include/gobject/Offset.h
+        ./include/gobject/QC.h
+        ./include/gobject/Taper.h
+        ./libsrc/libgmethod/ApplyCalib.c
+        ./libsrc/libgmethod/iir.c
+        ./libsrc/libgmethod/Offset.c
+        ./libsrc/libgmethod/QC.c
+        ./libsrc/libgmethod/tapers.c
+
+ o) added Deconvolve_methodCreate() prototype
+         ./include/gobject/Convolve.h
+         ./libsrc/libgmethod/Convolve.c
+
+ o) added GParseDeconvolve
+        ./include/libgparse.h
+
+ o) added base tables
+        ./include/libgparseP.h
+        ./libsrc/libgparse/GParseInit.c
+
+ o) added directory handling code
+        ./libsrc/libgparse/GParse.c
+
+====================================
+Changes in 0.1.13         2 Sept 2005
+====================================
+John Coyne <john.coyne@ctbto.org>
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!*** THIS VERSION WAS ONLY INTEGRATED INTO CLEARCASE ON 04/11/05 ***!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+o) added the new function FKAllocSignal(), which prevents a memory leak when
+     calling FKUpdateSignalMeasurements()
+
+o) added new params slowThreshold and slowSnrThreshold
+        ./include/libFK.h
+
+o) changes related to finding peaks in the FK trace
+        ./libsrc/libFK/FKPeaks.c
+
+o) removed trailing blanks from the ODBC connect string, and changes related
+   to the FK trace arrival reports
+        ./libsrc/libgparse/GParse.c
+
+o) now have the possibility to create arrivals from FK processing, and improved
+   parameter handling
+        ./libsrc/libgparse/GParseFK.c
+
+o) fixed some bugs in processing. this now seems to work well
+        ./libsrc/libstalta/stalta.c
+
+o) while using the compiler gcc (GCC) 3.4.2 20041017 (Red Hat 3.4.2-6.fc3),
+   an error was reported that the function index(0 had conflicting types. Turns
+out that
+   libtau.c had its own function named index. Renamed the function index to be m
+yindex, and
+   the error is no longer reported.
+        ./libsrc/libtau/libtau.c
+
+o) added #include <string.h> for strncmp()
+        ./libsrc/libgamp/remove_filt_resp.c
+
+o) added #include <time.h>
+        ./src/testgODBC/runTC.c
+
+o) removed offending #pragma ident
+        include/ibase/db_wfdisc.h
+
+o) removed unused variable fname
+        ./libsrc/libgqc/percentile.c
+
+o) moved definition of test_it() inside ifdef
+        ./libsrc/libtime/testLibTime.c
+
+o) added #include <stdlib.h> for free()
+        ./libsrc/libgqc/sequences.c
+
+o) removed unused variable
+        ./libsrc/libtau/tauspl.c
+
+o) variable initialization
+        ./src/testgODBC/testgODBC.c
+        ./src/gobject/test_CssTable.c
+
+o) added additional arg  bool coherent to BeamTimeSeries()
+        ./include/libBeam.h
+        ./libsrc/libBeam/beam.c
+        ./libsrc/libgparse/GParseBeam.c
+
+Ivan's changes
+o) magtitude related changes:
+        ./include/gobject/cssObjects.h
+        ./libsrc/libgobject/cssObjects.c
+
+o) added #include "css/cssAll.h"
+        ./include/libgcss.h
+
+o) changed definition for gnetGetSite() and added gnetGetSites()
+        ./include/libgnet.h
+        ./libsrc/libgnet/net.c
+        ./libsrc/libgnet/stations.c
+
+        ./libsrc/libgobject/CssTable.c
+        ./libsrc/libstring/string.c
+
+o) add row to lastid table if there is no entry for the requested key type
+        ./libsrc/libgODBC/ODBCRequestIds.c
+
+o) improved calib handling
+        ./libsrc/libgmethod/Convolve.c
+        ./libsrc/libgresp/responseFiles.c
+
+
+24 May 2005
+
+o) added the new function FKAllocSignal(), which prevents a memory leak when
+     calling FKUpdateSignalMeasurements()
+
+    (./include/libFK.h
+      ./libsrc/libFK/FKSignal.c
+     ./libsrc/libgparse/GParseFK.c)
+
+o) fixed some core dumps when starting gparse with an empty environment
+     (./libsrc/libgparse/GParseInit.c)
+
+
+
+====================================
+Changes in 0.1.9         20 May 2005
+====================================
+Ivan Henson <john.coyne@ctbto.org>
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!*** THIS VERSION WAS ONLY INTEGRATED INTO CLEARCASE ON 04/11/05 ***!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+o) added snr and detection fields tro FKPeak, and new functions for processing s
+ignals.
+
+   (include/libFK.h ./libsrc/libFK/Makefile.am libsrc/libFK/FKSignal.c)
+   (new file libsrc/libFK/FKPeaks.c)
+
+o) temporary new file for processing FK peaks. Files should be moved elsewhere.
+   (new temporary file, libsrc/libFK/timeSeries.)
+
+io) new gbase library stalta
+   (new files: libsrc/libstalta/stalta.c  include/stalta.h)
+
+o) fixed problems with saving origins produced from the locator (from Ivan)
+  (./libsrc/libgcss/css_input.c ./libsrc/libgobject/CssTable.c)
+
+
+o) changed the defualt path of the vmsf file from
+   $GEOTOOL_HOME/tables/data/TT/vmsf/ars.defs
+   to
+   $GEOTOOL_HOME/tables/data/TT/vmsf/iasp91_only.defs
+   (./libsrc/libgloc/locsat.c)
+
+o) fixes to satisfy the compiler (Idriz's Changes)
+    (libsrc/libgenlist/genList.c include/libGenList.h )
+
+o) added experimental code for comparing arrivals
+   (./libsrc/libgparse/GParse.c)
+
+o) added -lgeog so we could use sreg and greg
+   (./src/gparse/Makefile.am)
+
+====================================
+Changes in 0.1.8         06 May 2005
+====================================
+Ivan Henson <ihenson@clf.rr.com>
+
+
+Ivan - Please could you describe changes for the following files:
+
+./include/libstring.h
+./libsrc/libFFDB/FFDBInsertTables.c
+./libsrc/libgobject/CssTable.c
+./src/gobject/describeCss.c
+./src/gparse/main.c
+
+
+o) Changed char *moddate[18] to DateTime moddate in all of the bg_analyze
+   objects.
+
+   (cssObjects.h)
+
+o) Added three new protoypes CssTable_memberAddress, CssTable_memberType,
+   and CssTable_isMember.
+   (CssTable.h)
+
+o) Added prototype for FFDBInsertPrefixTable.
+
+   (libFFDB.h)
+
+o) Changed some floats to double.
+
+   (libgdraw.h)
+
+o) Bug fixes related to CSS_LDDATE.
+
+   (FFDBQueryTable.c)
+
+o) Lots of changes. Added routines to read free-formatted table members.
+
+   (libgparse.h libgparseP.h GParse.c GParseInit.c src/gparse/main.c)
+
+o) Changed argument from float to double.
+
+   (libmath.h Find.c)
+
+o) Added new functions.
+
+   (string.c)
+
+o) Fixed a few bugs.
+
+   (timeParse.c)
+
+o) Minor fixes.
+
+   (drawps.c pltcon.c shadePS.c)
+
+
+====================================
+Changes in 0.1.7         05 May 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org>
+
+o) Fixed compiler error.
+
+   (libGenList.h genList.c)
+
+
+====================================
+Changes in 0.1.6         27 Apr 2005
+====================================
+Idriz Smaili <idriz.smaili@ctbto.org>
+
+o) Fixed compiler warnings.
+
+   (libGenList.h testGenList.c)
+
+
+====================================
+Changes in 0.1.5         18 Apr 2005
+====================================
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) Integrated changes from John Coyne and Ivan Henson. See notes below
+   for details.
+
+
+====================================
+Changes in 0.1.4         08 Apr 2005
+====================================
+Stephen Lloyd <stephen.lloyd@ctbto.org>
+
+o) Added new table definitions for cd2w and bg_analyze.
+
+   (cssObjects.h cssObjects.c)
+
+
+o) Added new linked list library (Idriz Smaili).
+
+   (libGenList.h genList.c)
+
+
+o) Improved 'src/testgODBC' (Elena Tomuta).
+
+   (defs.h parseTC.c runTC.c testgODBC.c utils.c CSSTables/* TestCases/*)
+
+
+====================================
+Changes in 0.1.4         13-Mar-05
+====================================
+John Coyne <john.coyne@ctbto.org>
+
+1) path to libdataqc.h in include/gobject/QC.h was wrong,
+   still referenced ibase/libdataqc.h.
+   file changed:
+	include/gobject/QC.h
+
+2) missing #include <errno.h>
+   file changed:
+	./libsrc/libgparse/GParse.c
+
+
+5) Missing from Makefile.am:
+../libsrc/libtools/fk/X11/FK_MB_Parameters
+
+6)
+/home/coyne/geotool/geotool-complete-6.0.7/src/geotool/lib/libgmisc.a(toolBar.o)(.text+0xf2d):/home/coyne/geotool/geotool-complete-6.0.7/src/geotool/libsrc/libgmisc/toolBar.c:282: undefined reference to `_XmStrings'
+/home/coyne/geotool/geotool-complete-6.0.7/src/geotool/lib/libgmisc.a(toolBar.o)(.text+0xf3b):/home/coyne/geotool/geotool-complete-6.0.7/srcmake[4]: *** [geotool] Interrupt
+make[3]: *** [all-recursive] Interrupt
+make[2]: *** [all-recursive] Interrupt
+make[1]: *** [all-recursive] Interrupt
+make: *** [all] Interrupt
+
+
+real    0m21.493s
+user    0m13.221s
+sys     0m1.111s
+coyne@linux:~/geotool/geotool-complete-6.0.7> find /usr -name \*Xm\*so
+find: /usr/lib/man-db: Permission denied
+/usr/X11R6/lib/libXmuu.so
+/usr/X11R6/lib/libXm.so
+/usr/X11R6/lib/libXmu.so
+
+7) changed files to be consistent with pmcc tables (pmcc_features and pmcc_recipe).
+
+files changed:
+./libsrc/libgobject/cssObjects.c
+./libsrc/libcssio/readTables.c
+./include/css/pmcc_features.h
+./include/css/pmcc_recipe.h
+./include/gobject/cssObjects.h
+
+8) working on reading etopo2 and globe data. Work in progress.
+File changed:
+griddedData.c
+
+9) fixed a small typo, when compiling with odbc and no libz:
+file changed:
+gse2odbc.c
+
+
+====================================
+Changes in 0.1.4         10-Mar-05
+====================================
+John Coyne <john.coyne@ctbto.org>
+
+1) Added new libraries libgamp and libgdetect.
+   Added the file:
+	include/libdetect.h
+	libsrc/libaesir/fvec_funcs.c - this file came from
+   Modified the file:
+	include/libaesir.h - to reflect addition of fvec_funcs.c
+
+2) Under Linux, with Oracle 10 and the Open Source ODBC Oracle driver,
+   there where problems when passing a buffer length of 0 to SQLBindCol,
+   for a data type of SQL_INTEGER. To fix this, the buffer length of 0 was replaced with
+   sizeof(long).
+   In file: ODBCReqeustIds.c, line 345:
+        ret = SQLBindCol(hstmt, 1, SQL_INTEGER, (SQLPOINTER)&keyvalue, 0, &ind);
+   was replaced with
+        ret = SQLBindCol(hstmt, 1, SQL_INTEGER, (SQLPOINTER)&keyvalue, sizeof(long), &ind);
+
+   In file ODBCGetResultCols.c, lines 48 to 55:
+            case SQL_DOUBLE:
+                ret = SQLBindCol(hstmt, i+1, SQL_DOUBLE, &c->bindTarget,
+                                0, &c->indicator);
+                break;
+            case SQL_INTEGER:
+                ret = SQLBindCol(hstmt, i+1, SQL_INTEGER, &c->bindTarget,
+                                sizeof(long), &c->indicator);
+                break;
+            case SQL_SMALLINT:
+                ret = SQLBindCol(hstmt, i+1, SQL_SMALLINT, &c->bindTarget,
+                                0, &c->indicator);
+                break;
+   were replaced with:
+            case SQL_DOUBLE:
+                ret = SQLBindCol(hstmt, i+1, SQL_DOUBLE, &c->bindTarget,
+                                sizeof(double), &c->indicator);
+                break;
+            case SQL_INTEGER:
+                ret = SQLBindCol(hstmt, i+1, SQL_INTEGER, &c->bindTarget,
+                                sizeof(long), &c->indicator);
+                break;
+            case SQL_SMALLINT:
+                ret = SQLBindCol(hstmt, i+1, SQL_SMALLINT, &c->bindTarget,
+                                sizeof(int), &c->indicator);
+                break;
+
+   However, it appears that only the SQL_INTEGER was causing a problem.
+
+3) Added HAVE_LIBNETCDF ifdef's to the file:
+
+	include/libgCDF.h
+
+4) Add 2 additional types of tapers, welch and blackman
+
+include/gobject/Taper.h
+libsrc/libgmethod/tapers.c
+
+5) allow the type of taper applied to fk to be user specified:
+
+files changed:
+
+include/libFK.h
+/include/gobject/Taper.h
+
+libsrc/libFK/
+   FKCompute.c  FKCompute3C.c  FKGram.c  FKGram3C.c
+libsrc/libgmethod/tapers.c
+ <the implementation of the tapers in FKGram.c is NOT yet complete!>
+
+6) new library (moved from geotool)
+libsrc/libtau
+include/libisop.h
+
+7) moved the file
+include/ibase/libdataqc.h
+to
+include/libdataqc.h
+since it is needed from geotool
+
+
+====================================
+Changes in 0.1.3         25 Jan 2005
+====================================
+Ivan Henson <ihenson@clf.rr.com>
+
+1) Added new date type LDDATE to the css table definitions in cssObjects. Table
+   members of type LDDATE, are automatically set when the record is inserted
+   into the database or updated. Table members of type DATE are not
+   automatically set. DATE fields can changed with ODBCInsertTables and with
+   ODBCUpdateTables. It was necessary to modify file oracle_functions.c of
+   oracle_odbc_driver.0.5.2 to make date insertion using type SQL_DATE_STRUCT
+   work. Could not make it work with release oracle_odbc_driver.0.5.3.
+
+2) Changed all DATE and LDDATE members from char lddate[18] to DateTime lddate.
+
+3) To avoid compiler warnings, made the following two types of changes:
+	MallocWarn(&wavlist, sizeof(WaveformList *)); ->
+	    wavlist = (WaveformList **)mallocWarn(sizeof(WaveformList *));
+
+	getProgramResource("recipe_dir", &recipe_dir) ->
+	    recipe_dir = (char **)getProgramResource("recipe_dir")
+
+4) Changed library name libGCI to libgparse.
+
+5) Removed library libgeo, which contained code that was duplicated elsewhere.
+
+6) Added a new library: libgqc
+	This is the idc library libqc.a, without links to libwfm and libwav
+
+Deleted files:
+	src/rtd/simadata.c
+        include/libGCI.h
+        include/libGCIP.h
+        include/librtd.h
+        include/librtdP.h
+        libsrc/libgeo/nmrd_reg.c
+        libsrc/libgeo/reg.h
+        libsrc/libgeo/regonindex.h
+        libsrc/libgnet/reread.c
+        libsrc/libgnet/MallocWarn.c
+        libsrc/libstdtime/*
+
+Added files:
+        include/libgparse.h
+        include/libgparseP.h
+        include/libgrtd.h
+        include/libgrtdP.h
+        libsrc/libgmethod/reread.c
+        libsrc/libgparse/GParse.c
+        libsrc/libgparse/GParseError.c
+        libsrc/libgparse/GParseInit.c
+        libsrc/libgparse/rgbnames.h
+        libsrc/libstring/mallocWarn.c
+	libgqc/percentile.c
+	libgqc/qc.c
+	libgqc/sequences.c
+	libgqc/points.c
+	libgqc/segments.c
+	libgqc/spike.c
+	libgqc/libdataqcp.h
+
+

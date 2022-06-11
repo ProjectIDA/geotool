@@ -1,0 +1,55 @@
+Build at the IDC:
+-----------------
+
+  These instructions apply to building the package
+  /git/$USER/source/gbase
+
+  NOTE: Build and install cbase and libcd first
+
+  For all platforms:
+  ------------------
+    ./bootstrap
+    [platform specific configure, see below]
+    make
+    make check
+    make install
+
+ 
+    RHEL6 - Linux platform configure:
+  -------------------------
+    ./configure --prefix=/git/$USER/install/gbase \
+                CFLAGS="-g -DENVIRONMENT" \
+                CPPFLAGS="-I/usr/include -I/usr/include/gsl  -I/git/$USER/install/cbase/include -I/git/$USER/install/libcd/include/libCD" \
+                LDFLAGS="-L/usr/lib64 -lnetcdf -L/usr/lib64 -lgsl -L/usr/lib64 -lgslcblas  -L/git/$USER/install/cbase/lib -L/git/$USER/install/libcd/lib" \
+                --enable-idc \
+                --with-pic
+
+
+  RHEL5 - Linux platform configure:
+  -------------------------
+    ./configure --prefix=/git/$USER/install/gbase  \
+	        CFLAGS="-g -DENVIRONMENT" \
+                CPPFLAGS="-I/dvl/software/site/usr/include -I/git/$USER/install/cbase/include -I/git/$USER/install/libcd/include/libCD" \
+                LDFLAGS="-L/dvl/software/site/usr/lib64 -L/git/$USER/install/cbase/lib -L/git/$USER/install/libcd/lib" \
+                --enable-idc \
+                --with-pic
+
+
+
+Build outside the IDC:
+----------------------
+
+  In general:
+  -----------
+    ./configure CFLAGS="-g -fPIC -DENVIRONMENT"  CXXFLAGS="-g -fPIC" \
+                CPPFLAGS="-I/path/to/cbase/include -I/path/to/libcd/include/libCD" \
+                LDFLAGS="-L/path/to/cbase/lib -L/path/to/libcd/lib" \
+                --prefix=/where/to/install/gbase
+    make
+    make check
+    make install
+
+  After changing configure.ac or Makefile.am files:
+  -------------------------------------------------
+    ./bootstrap
+    [then as above]

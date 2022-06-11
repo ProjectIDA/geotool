@@ -1,0 +1,1475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+
+
+
+
+
+
+<head>
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <title>Example1</title>
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+
+
+<body style="color: rgb(0, 0, 0);" alink="#ee0000" link="#0000ee" vlink="#551a8b">
+
+
+
+
+
+
+
+<h2 style="text-align: center;">Example1: Using the Table Class</h2>
+
+
+
+
+
+
+
+The Example1 window is shown below. Its code is located in <span style="font-style: italic;">plugins/examples/example1</span>.
+To view this example in geotool, move or copy the shared library file <span style="font-style: italic;">libexample1.so.0.0.0</span> and it's links,
+which are found in the directory <span style="font-style: italic;">plugins/examples/example1</span>,
+to the directory <span style="font-style: italic;">~/.geotool++/plugins</span>
+(a sub-directory in your home directory). For example, to make and copy the shared library with its links, do:<br />
+<br />
+
+
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic;">cd top_srcdir/plugins/examples/example1<br />
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; make install<br />
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; cp *.so* ~/.geotool++/plugins/</span><br />
+
+
+
+
+
+
+
+<br />
+This example allows you to access&nbsp;waveforms from the main waveform
+window and display information about them in a table. The contents of
+the table can be saved in a file. Read some waveforms into the main
+window. Select some waveforms and click the Compute button in the
+Example1 window. The table will be filled with information about each
+of the selected waveforms. The code from the Example1 plug-in is
+explained below.<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<div style="text-align: center;"><img style="width: 608px; height: 334px;" alt="Example 1 Plug-in Window" src="example1.gif" /><br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<div style="text-align: left;">
+<hr style="width: 100%; height: 2px;" />
+<h3 style="text-align: center;">The Example1 Code</h3>
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<table style="width: 100%;" border="2" cellpadding="10">
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+      <td style="width: 40%; vertical-align: top;">
+      
+      
+      
+      
+      
+      
+      <div style="border-style: none; width: 400px;">
+      
+      
+      
+      
+      
+      
+      <p style="width: 400px;">The file Example1.h contains the declaration of
+the Example1 class members.</p>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <p style="width: 400px;">The five #define statements specify names: <small><br />
+
+
+
+
+
+
+
+      </small></p>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <ul>
+
+
+
+
+
+
+
+        <li><small>PLUGIN_NAME</small> will be the
+window title.</li>
+
+
+
+
+
+
+
+        <li><small>PLUGIN_STRING</small> must be the&nbsp;<small>PLUGIN_NAME </small>with quotes.</li>
+
+
+
+
+
+
+
+        <li><small>PLUGIN_CLASS</small> can be
+anything unique.</li>
+
+
+
+
+
+
+
+        <li><small>PLUGIN_DESCRIPTION</small>
+is&nbsp;displayed in geotool's File/Plugins window.</li>
+
+
+
+
+
+
+
+        <li><small>PLUGIN_BUTTON_NAME</small> will
+appear in the geotool Option menu.</li>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      </ul>
+
+
+
+
+
+
+
+      
+      
+
+
+      
+      
+
+
+      
+      
+      
+      
+      
+      
+      <p><br />
+
+
+
+
+This plug-in is a <a href="../html/classFrame.html">Frame</a> class, which is a window with a menu bar and a tool bar. It is also a subclass of <a href="../html/classDataReceiver.html">DataReceiver</a>.</p>
+      <br />
+      <br />
+      <p>The <a href="../html/classComponent.html#f9fd70453e10f35e1dde50cfe227b98e">actionPerformed</a>, <a href="../html/classGobject.html#f9431854681b9360a4177d6afa325dc7">parseInput</a>, and <a href="../html/classFormDialog.html#e5c88d5b6a1617de78d057c5054416fb">parseHelp </a>methods are standard to all
+plug-in windows.</p>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <p>The <a href="#example1_compute">compute</a> method access the waveforms and fills the table.</p>
+      <br />
+      <br />
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+Declaration of the interface graphical components: Buttons in the menu bar, Table class&nbsp;and a FileDialog class.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+The <a href="#example1_createInterface">createInterface</a> method creates puts the buttons in the pulldown menus and creates the Table object.
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+      <td valign="top" width="60%">
+      
+      
+      
+      
+      
+      
+      <div style="text-align: center;">
+      
+      
+      
+      
+      
+      
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+
+
+
+
+
+
+
+      <span style="font-weight: bold;">Example1.h</span>
+      </div>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <div class="fragment" style="border-style: ridge; background-color: rgb(232, 232, 255);">
+      
+      
+      
+      
+      
+      
+      <pre class="fragment"> #ifndef _<span style="font-weight: bold;">EXAMPLE_1_H</span><br /> #define _<span style="font-weight: bold;">EXAMPLE_1_H</span><br /><br /> #include "<a class="code" href="../html/MotifDecs_8h.html">motif++/MotifDecs.h</a>"<br /> #include "<a class="code" href="../html/Frame_8h.html">motif++/Frame.h</a>"<br /> #include "<a class="code" href="../html/DataReceiver_8h.html">DataReceiver.h</a>"<br /><br /> /* Change the following defines as desired. Make sure that they do not conflict <br />  * with another plug-in. PLUGIN_STRING must be "PLUGIN_NAME".<br />  */<br /> #define PLUGIN_NAME <span style="font-weight: bold;"> 		Example1</span><br /> #define PLUGIN_STRING 		"<span style="font-weight: bold;">Example1</span>"<br /> #define PLUGIN_CLASS <span style="font-weight: bold;"> 		Example1Plugin</span><br /> #define PLUGIN_DESCRIPTION 	"<span style="font-weight: bold;">Table Example</span> <span style="font-weight: bold;">Plug-in</span>"<br /> #define PLUGIN_BUTTON_NAME 	"<span style="font-weight: bold;">Example<span style="font-family: monospace;"> 1 (Table)</span></span>..."<br /><br /> class <a class="code" href="../html/classDataSource.html" title="A virtual interface for classes that support data I/O.">DataSource</a>;<br /> class <a href="../html/classTable.html">Table</a><span style="text-decoration: underline;"></span>;<br /><br /> class PLUGIN_NAME : public <a class="code" href="../html/classFrame.html" title="A subclass of TopWindow that provides a MenuBar, ToolBar and InfoArea.">Frame</a>, public <a class="code" href="../html/classDataReceiver.html" title="An interface for classes that receive data.">DataReceiver</a><br /> {<br />     public:<br />	PLUGIN_NAME(const char *, <a class="code" href="../html/classComponent.html" title="The base class for all libmotif++ graphical classes.">Component</a> *, <a class="code" href="../html/classDataSource.html" title="A virtual interface for classes that support data I/O.">DataSource</a> *);<br /> 	~PLUGIN_NAME(void);<br />	<br />	void actionPerformed(<a class="code" href="../html/classActionEvent.html" title="Event information for action callbacks.">ActionEvent</a> *action_event);<br />	<a class="code" href="../html/group__libgobject.html#gd90708cc1f6a7f568309d00f8a7b80b6" title="parseInput return code.">ParseRet</a> parseInput(const char *input, char *msg, int msg_len);<br /> 	void parseHelp(const char *prefix);<br /><br />&nbsp; 	void compute(void);<br />	void clear(void);<br />	void removeRow(void);<br />	void save(void);<br /><br />     protected:<br /> 	// File menu<br /> 	<a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a> *close_button, *output_button;<br /><br /> 	// Edit menu<br /> 	<a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a> *clear_button, *remove_row_button;<br /><br /> 	// Option menu<br />	<a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a> *compute_button;<br /><br /> 	// Help menu<br /> 	<a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a> *help_button;<br /><br />	<a href="../html/classTable.html">Table</a> *<span style="text-decoration: underline;"></span>table;<br />	<a href="../html/classFileDialog.html">FileDialog</a> *file_dialog;<br /><br /> 	void createInterface(void);<br /> };<br /><br /> #endif<br /></pre>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+The Example1.cpp file.<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<table style="width: 100%;" border="2" cellpadding="10">
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+      <td style="width: 40%; vertical-align: top;">
+      
+      
+      
+      
+      
+      
+      <div style="border-style: none; width: 400px;">
+      
+      
+      
+      
+      
+      
+      <p></p>
+
+
+
+
+      
+      
+      
+      
+      <p>The file Example1.cpp contains the definition of
+the Example1 class. Edit this file to change the compute method.</p>
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+The method <a href="../html/classComponent.html#85f07206865c5ce210c692654b48af4e">setSize</a>
+sets the size of the plug-in window. It is not required, but can be
+used to change the default size that is determined by the window
+children. Whether it is used or not, the user only needs to resize the
+window once, and the new window size will be remembered for subsequent
+program executions.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+The <a href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d">menu_bar</a>, <a href="../html/classFrame.html#661e91e6523ddc833fcb7c717142ea55">tool_bar</a> and <a href="../html/classFrame.html#ef20462327d312b8a2fc2ac8c27679e6">info_area</a> are optional children of the <a href="../html/classFrame.html">Frame</a>. They appear only if they are created as shown. Similarily, the <a href="../html/classFrame.html#4d8a09cc3fbaec8a96874d86ad77a435">file_menu</a>, <a href="../html/classFrame.html#a9d88e5021062e138f722c41a66faa6a">edit_menu</a>, <a href="../html/classFrame.html#66acfc3fa2035e5809fb4ba67a73d8da">option_menu</a>, and <a href="../html/classFrame.html#01ca061b10fb32c528ffbb49a7090215">help_menu</a> are optional children of the <a href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d">menu_bar</a> and appear only if created as show.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      Buttons are created as children of the menus. When they are clicked, the method <a href="#example1_actionPerformed">actionPerformed</a> below is called.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      Create a <a href="../html/classTable.html">Table</a> with six columns. &nbsp;This is the most general type a table class. There are two classes for displaying database tables, the <a href="../html/classCSSTable.html">CSSTable</a> class and the <a href="../html/classMultiTable.html">MultiTable</a> class.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      The file_dialog instance is initialized to NULL. It is created, if the user saves the table contents to a file.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+The <a href="../html/classComponent.html#f9fd70453e10f35e1dde50cfe227b98e">actionPerformed</a> method is called
+whenever a button, or toggle, etc. is activated. It determines the source of the action and calls the appropriate method. The <a href="../html/classActionEvent.html">ActionEvent</a> method <a href="../html/classActionEvent.html#ca70f765065be2c795d6ad4e20c26473">getActionCommand</a> returns the name of the component (Button) and the <a href="../html/classActionEvent.html#5e7781b0e9aaf3de26291716e7531988">getSource</a> method returns the Button object itself.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      The <a href="../html/classGobject.html#f9431854681b9360a4177d6afa325dc7">parseInput</a> method is called to process lines that are typed into the geotool's
+execution shell window. Only lines that begin with the PLUGIN_NAME,
+"example1." are passed to this method. The parseInput method is an
+implementation of the super class and is not strictly required, if you
+do want to process string commands. But, it can be very useful as it
+allows for automated testing and processing.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+The <a href="../html/classFormDialog.html#e5c88d5b6a1617de78d057c5054416fb">parseHelp</a> <a href="../html/classFormDialog.html#e5c88d5b6a1617de78d057c5054416fb"><code></code></a>method prints the string commands that are parsed by the parseInput
+method. It is not require, but should be included along with the parseInput <code></code>method.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+      <br />
+
+
+The compute() method is called by actionPerformed() <code></code>when the Compute button is clicked. It gets the selected
+waveforms from the main waveform window with the call to <a href="../html/classDataSource.html#d62f57e7ba3f49f8f950c58a4108d1c2">getSelectedWaveforms</a>.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+The <a href="../html/classCPlotDataClass.html">CPlotDataClass</a> objects returned in cd_list contain information about the waveforms and the waveform objects themselves.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+Loop over the number of selected waveforms and get some information from the <a href="../html/classCPlotDataClass.html">CPlotDataClass</a> objects.&nbsp;The cd_list[i]-&gt;ts object is a <a href="../html/classGTimeSeries.html">GTimeSeries</a> object that contains the waveform data values.<br />
+
+
+      <br />
+
+
+The timeEpochToString method formats the start time and end time of the waveforms for the table entries.<br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+The clear and removeRow methods call <a href="../html/classTable.html">Table</a> class methods to clear all the rows or the selected rows from the table.<br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <br />
+
+
+The save method creates a <a href="../html/classFileDialog.html">FileDialog</a> to get the file name for writing out the contents of the table.</div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+      <td valign="top" width="60%">
+      
+      
+      
+      
+      
+      
+      <div style="text-align: center;">
+      
+      
+      
+      
+      
+      
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+
+
+
+
+
+
+
+      <span style="font-weight: bold;">Example1.cpp</span>
+      </div>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <div class="fragment" style="border-style: ridge; background-color: rgb(232, 232, 255);">
+      
+      
+      
+      
+      
+      
+      <pre class="fragment"> #include "config.h"<br /> #include &lt;iostream&gt;<br /> #include &lt;math.h&gt;<br /> using namespace std;<br /><br /> #include "Example1.h" 			// For this class definition<br /> #include "<a class="code" href="../html/MotifClasses_8h.html">motif++/MotifClasses.h</a>"	// For MenuBar, Menu, Button, etc.<br /> #include "<a href="../html/Table_8h.html">Table.h</a>"	<span style="text-decoration: underline;"></span>		// For the Table class<br /> #include "<a href="../html/ConPlotClass_8h.html">CPlotDataClass.h</a>"		// For the CPlotDataClass<br /> #include "<a class="code" href="../html/DataSource_8h.html">DataSource.h</a>" 		// For the DataSource class<br /><br /> // Plug-in window constructor<br /> PLUGIN_NAME::PLUGIN_NAME(const char *name, <a class="code" href="../html/classComponent.html" title="The base class for all libmotif++ graphical classes.">Component</a> *parent, <a class="code" href="../html/classDataSource.html" title="A virtual interface for classes that support data I/O.">DataSource</a> *ds)<br /> 			: <a class="code" href="../html/classFrame.html" title="A subclass of TopWindow that provides a MenuBar, ToolBar and InfoArea.">Frame</a>(name, parent), <a class="code" href="../html/classDataReceiver.html" title="An interface for classes that receive data.">DataReceiver</a>(ds)<br /> {<br />     createInterface();<br /> }<br /><br /> <a name="example1_createInterface"></a>void PLUGIN_NAME::createInterface()<br /> {<br />     int n;<br />     Arg args[20];<br /><br />     // Set the initial width and height of the window.<br />     <a class="code" href="../html/classFormDialog.html#e7938a6aac821e99bfbb4459eb725bf4" title="Set the window size.">setSize</a>(600, 300);<br /><br />     // create a menu bar, tool bar, and info area (at the bottom)<br />     <a class="code" href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" title="The MenuBar child.">menu_bar</a> = new <a class="code" href="../html/classMenuBar.html" title="A menubar class that uses XmCreateMenuBar.">MenuBar</a>("menuBar", this);<br />     <a class="code" href="../html/classFrame.html#661e91e6523ddc833fcb7c717142ea55" title="The ToolBar child.">tool_bar</a> = new <a class="code" href="../html/classToolBar.html">ToolBar</a>("toolbar", this, <a class="code" href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" title="The MenuBar child.">menu_bar</a>);<br />     <a class="code" href="../html/classFrame.html#ef20462327d312b8a2fc2ac8c27679e6" title="The InfoArea child.">info_area</a> = new <a class="code" href="../html/classInfoArea.html" title="A class that contains two InfoClass components arranged horizontally.">InfoArea</a>("infoArea", this);<br /><br />     // create a File menu with two buttons<br />     <span style="text-decoration: underline;"></span><a class="code" href="../html/classFrame.html#4d8a09cc3fbaec8a96874d86ad77a435" title="The File Menu.">file_menu</a> = new <a class="code" href="../html/classMenu.html" title="A class for the XmPulldownMenu widget.">Menu</a>("File", <a class="code" href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" title="The MenuBar child.">menu_bar</a>);<br />     output_button = new <a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a>("Output...", <a class="code" href="../html/classFrame.html#4d8a09cc3fbaec8a96874d86ad77a435" title="The File Menu.">file_menu</a>, this);<br />     close_button = new <a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a>("Close", <a class="code" href="../html/classFrame.html#4d8a09cc3fbaec8a96874d86ad77a435" title="The File Menu.">file_menu</a>, this);<br /><br />     // create an Edit menu with two buttons<br />     <a class="code" href="../html/classFrame.html#a9d88e5021062e138f722c41a66faa6a" title="The Edit Menu.">edit_menu</a> = new <a class="code" href="../html/classMenu.html" title="A class for the XmPulldownMenu widget.">Menu</a>("Edit", <a class="code" href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" title="The MenuBar child.">menu_bar</a>);<br />     clear_button = new <a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a>("Clear", <a class="code" href="../html/classFrame.html#a9d88e5021062e138f722c41a66faa6a" title="The Edit Menu.">edit_menu</a>, this);<br />     remove_row_button = new <a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a>("Remove Row", <a class="code" href="../html/classFrame.html#a9d88e5021062e138f722c41a66faa6a" title="The Edit Menu.">edit_menu</a>, this);<br /><br />     // create an Option menu with one button<br />     <a class="code" href="../html/classFrame.html#66acfc3fa2035e5809fb4ba67a73d8da" title="The Option Menu.">option_menu</a> = new <a class="code" href="../html/classMenu.html" title="A class for the XmPulldownMenu widget.">Menu</a>("Option", <a class="code" href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" title="The MenuBar child.">menu_bar</a>);<br />     compute_button = new <a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a>("Compute", <a class="code" href="../html/classFrame.html#66acfc3fa2035e5809fb4ba67a73d8da" title="The Option Menu.">option_menu</a>, this);<br /><br />     // create a Help menu with one button<br />     <a class="code" href="../html/classFrame.html#01ca061b10fb32c528ffbb49a7090215" title="The Help Menu.">help_menu</a> = new <a class="code" href="../html/classMenu.html" title="A class for the XmPulldownMenu widget.">Menu</a>("Help", <a class="code" href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" title="The MenuBar child.">menu_bar</a>);<br />     <a class="code" href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" title="The MenuBar child.">menu_bar</a>-&gt;<a class="code" href="../html/classMenuBar.html#a2f5586db48faf909f040af4136e2e33" title="Set the help menu.">setHelpMenu</a>(<a class="code" href="../html/classFrame.html#01ca061b10fb32c528ffbb49a7090215" title="The Help Menu.">help_menu</a>);<br />     help_button = new <a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a>(PLUGIN_STRING, <a class="code" href="../html/classFrame.html#01ca061b10fb32c528ffbb49a7090215" title="The Help Menu.">help_menu</a>, this);<br /><br />     n = 0;<br />     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNbottomAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XtNtableTitle, "Waveform Info"); n++;<br />     XtSetArg(args[n], XtNvisibleRows, 10); n++;<br />     XtSetArg(args[n], XtNeditable, False); n++;<br />     XtSetArg(args[n], XtNselectable, True); n++;<br />     XtSetArg(args[n], XtNcolumns, 6); n++;<br />     const char *col_labels[] =<br />         {"sta", "chan", "time", "endtime", "nsamp", "segments"};<br />     XtSetArg(args[n], XtNcolumnLabels, col_labels); n++;<br /> <br />     // create a Table with 6 columns<br />     table = new <a href="../html/classTable.html">Table</a>("table", <a href="../html/classFrame.html#008c47748a58feb2ac3f6caa324bc772">frame_form</a>, info_area, args, n);<br /><br />     int alignment[6] = {LEFT_JUSTIFY, LEFT_JUSTIFY, RIGHT_JUSTIFY,<br />                         RIGHT_JUSTIFY, RIGHT_JUSTIFY, RIGHT_JUSTIFY};<br />     table-&gt;setAlignment(6, alignment);<br /><br />     file_dialog = NULL;<br /><br />     if(!<a class="code" href="../html/classFrame.html#661e91e6523ddc833fcb7c717142ea55" title="The ToolBar child.">tool_bar</a>-&gt;<a class="code" href="../html/classToolBar.html#738f86ca8e76241c1ad9633c4d74d6e4" title="Load the initial ToolBar contents from a program property.">loadDefaults</a>()) {<br /> 	// Add Close and Compute to the tool bar<br /> 	<a class="code" href="../html/classFrame.html#661e91e6523ddc833fcb7c717142ea55" title="The ToolBar child.">tool_bar</a>-&gt;<a class="code" href="../html/classToolBar.html#8ede433885f54f472496a2c5de44ee62" title="Add a Component to the ToolBar with name and position.">add</a>(close_button, "Close");<br /> 	<a class="code" href="../html/classFrame.html#661e91e6523ddc833fcb7c717142ea55" title="The ToolBar child.">tool_bar</a>-&gt;<a class="code" href="../html/classToolBar.html#8ede433885f54f472496a2c5de44ee62" title="Add a Component to the ToolBar with name and position.">add</a>(compute_button, "Compute");<br />     }<br /> }<br /><br /> /* Plug-in window destructor<br />  */<br /> PLUGIN_NAME::~PLUGIN_NAME(void)<br /> {<br /> }<br /><br /> /* Handle ActionEvents (From Button, Toggle, etc.)<br />  */<br /> <a name="example1_actionPerformed"></a>void PLUGIN_NAME::actionPerformed(<a class="code" href="../html/classActionEvent.html" title="Event information for action callbacks.">ActionEvent</a> *action_event)<br /> {<br />     const char *cmd = action_event-&gt;<a class="code" href="../html/classActionEvent.html#ca70f765065be2c795d6ad4e20c26473" title="Get the action command string.">getActionCommand</a>();<br />     <a class="code" href="../html/classComponent.html" title="The base class for all libmotif++ graphical classes.">Component</a> *comp = action_event-&gt;<a class="code" href="../html/classActionEvent.html#5e7781b0e9aaf3de26291716e7531988" title="Get the Component source.">getSource</a>();<br /><br />     if(!strcmp(cmd, "Close")) {<br /> 	<a class="code" href="../html/classFrame.html#460ed7445bc4668f86e27df4bcc8f4fb" title="Set the FormDialog visible with a position offset from the parent.">setVisible</a>(false);<br />     }<br />     else if(!strcmp(cmd, "Compute")) {<br /> 	compute();<br />     }<br />     else if(!strcmp(cmd, "Clear")) {<br /> 	clear();<br />     }<br />     else if(!strcmp(cmd, "Output Table...")) {<br /> 	save();<br />     }<br />     else if(!strcmp(cmd, "Remove Row")) {<br /> 	removeRow();<br />     }<br />     else if(comp == <a class="code" href="../html/classPLUGIN__NAME.html#b0aa3ae4141a371fe94c830f4af826bc">help_button</a>) {<br /> 	<a class="code" href="../html/classFormDialog.html#0ed2e1fe7dbd6062c95623f086327ee8" title="Display a MessageDialog window with the input message.">displayHelp</a>("Select one or more waveforms in the waveform window.\n\<br /> Click Compute to update the table.");<br />     }<br /> }<br /><br /> /* Handle string commands that are entered into the shell window.<br />  */<br /> <a class="code" href="../html/group__libgobject.html#gd90708cc1f6a7f568309d00f8a7b80b6" title="parseInput return code.">ParseRet</a> PLUGIN_NAME::parseInput(const char *input, char *err_msg, int msg_len)<br /> {<br />     char *c;<span style="text-decoration: underline;"></span><br /><br />     if(table-&gt;isTableCommand(input)) {<br />         return table-&gt;parseInput(input, err_msg, msg_len);<br />     }<br />     else if(!strcasecmp(input, "Clear")) {<br /> 	clear_button-&gt;<a class="code" href="../html/classButton.html#ba61b2ad1866dc3f3a4d308f823f72cb" title="Change the Button label.">activate</a>();<br />     }<br />     else if(!strcasecmp(input, "Compute")) {<br /> 	compute_button-&gt;<a class="code" href="../html/classButton.html#ba61b2ad1866dc3f3a4d308f823f72cb" title="Change the Button label.">activate</a>();<br />     }<br />     else if(!strcasecmp(input, "Remove Row")) {<br /> 	remove_row_button-&gt;<a class="code" href="../html/classButton.html#ba61b2ad1866dc3f3a4d308f823f72cb" title="Change the Button label.">activate</a>();<br />     }<br />     else if(stringArg(input, "Output Table", &amp;c)) {<br />        table-&gt;save(c);<br />     }<br />     else if(!strcasecmp(input, "Help")) {<br /> 	char prefix[200];<br /> 	<a class="code" href="../html/classFormDialog.html#586c47d3c889a922312e06f99df3d34f">getParsePrefix</a>(prefix, sizeof(prefix));<br /> 	parseHelp(prefix);<br />     }<br />     else {<br /> 	return this-&gt;<a class="code" href="../html/classFormDialog.html#13ba48576905ae14551cbd5763cbc0a9" title="Parse string commands.">FormDialog::parseInput</a>(input, err_msg, msg_len);<br />     }<br />     return COMMAND_PARSED;<br /> }<br /><br /> /* Print string commands.<br />  */<br /> void PLUGIN_NAME::parseHelp(const char *prefix)<br /> {<br />     printf("%sclear\n", prefix);<br />     printf("%scompute\n", prefix);<br />     printf("%sdelete\n", prefix);<br />     printf("%soutput table FILENAME\n", prefix);<br />     <a href="../html/classTable.html">Table</a>::<span class="code">parseHelp</span>(prefix);<br /> }<br /><br /> /* Copy and process waveforms<br />  */<br /> <a name="example1_compute"></a>void PLUGIN_NAME::compute(void)<br /> {<br />     const char *row[6];<br />     char beg_time[30], end_time[30], samples[20], nseg[20];<br />     int num_waveforms;<br />     <a href="../html/classCPlotDataClass.html">CPlotDataClass</a> **cd_list=NULL;<br /><br />     if( !data_source ) {<br />        <a href="../html/classComponent.html#694bc4d97923e8e8147c4392502c48f6">showWarning</a>("No DataSource.");<br />        return;<br />     }<br />     table-&gt;<a href="../html/classTable.html#ef8bee078e6234513cbe40449fc7aa5a">removeAllRows</a>();<br /><br />     if((num_waveforms = data_source-&gt;<a href="../html/classDataSource.html#a81b5b8d92608800264e8565c3832125">getSelectedWaveforms</a>(&amp;cd_list)) &lt;= 0) {<br />        <a href="../html/classComponent.html#694bc4d97923e8e8147c4392502c48f6">showWarning</a>("No waveforms selected.");<br />        Free(cd_list);<br />        return;<br />     }<br /><br />     for(int i = 0; i &lt; num_waveforms; i++)<br />     {<br />        row[0] = cd_list[i]-&gt;sta;<br />        row[1] = cd_list[i]-&gt;chan;<br />        timeEpochToString(cd_list[i]-&gt;ts-&gt;tbeg(), beg_time, sizeof(beg_time),<br />                                YMONDHMS);<br />        row[2] = beg_time;<br />        timeEpochToString(cd_list[i]-&gt;ts-&gt;tend(), end_time, sizeof(end_time),<br />                                YMONDHMS);<br />        row[3] = end_time;<br />        snprintf(samples, sizeof(samples), "%d", cd_list[i]-&gt;ts-&gt;length());<br />        row[4] = samples;<br />        snprintf(nseg, sizeof(nseg), "%d", cd_list[i]-&gt;ts-&gt;size());<br />        row[5] = nseg;<br /><br />        table-&gt;<a href="file:///home/ihenson/geotool/geotool++/doc/html/classTable.html#22b2a2ee4317dd0a05bbb75fe4a5de78">addRow</a>(row, false);<br />     }<br />     Free(cd_list);<br /><br />     table-&gt;<a href="../html/classTable.html#30e1c4f02a06cb9cfb06f3d40c8657cf">adjustColumns</a>();<br /><br /> }<br /><br /> /* Remove all table rows.<br />  */<br /> void PLUGIN_NAME::clear(void)<br /> {<br />     table-&gt;<a href="../html/classTable.html#ef8bee078e6234513cbe40449fc7aa5a">removeAllRows</a>();<br /> }<br /><br /> /* Remove selected table rows.<br />  */<br /> void PLUGIN_NAME::removeRow(void)<br /> {<br />     int num, *rows=NULL;<br /><br />     if((num = table-&gt;<a href="../html/classTable.html#faac7e38d2ae4b06cadf4ed0251f8797">getSelectedRows</a>(&amp;rows)) &lt;= 0) {<br />        showWarning("No rows selected.");<br />        return;<br />     }<br />     table-&gt;<a href="../html/classTable.html#21715a59dc88ccd81ec02ca695558b3d">removeRows</a>(rows, num);<br />     Free(rows);<br /> }<br /><br /> /* Save the table contents to a file.<br />  */<br /> void PLUGIN_NAME::save(void)<br /> {<br />     char *file;<br /><br />     if(file_dialog == NULL) {<br />        file_dialog = new <a href="../html/classFileDialog.html">FileDialog</a>("Save Table", this, FILE_ONLY, ".",<br />                                (char *)"*", "Save");<br />     }<br />     file_dialog-&gt;setVisible(true);<br /><br />     if((file = file_dialog-&gt;<a href="../html/classFileDialog.html#81d0927b2dbef9baeb0d8280304c8cb0">getFile</a>()) != NULL) {<br />        table-&gt;<a href="../html/classTable.html#ce0a7e9e9172e041fd9569663f3d5197">save</a>(file);<br />        XtFree(file);<br />     }<br />     file_dialog-&gt;setVisible(false);<br /> }<br /></pre>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+
+
+</html>

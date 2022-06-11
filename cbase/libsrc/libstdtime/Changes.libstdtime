@@ -1,0 +1,1274 @@
+@(#)SCCSID: Changes.libstdtime 82.1	-*- Indented-Text -*-
+@(#)SCCSID: Version Created: 08/27/98 12:26:15
+
+@(#)Changes.libstdtime	82.1 08/27/98
+
+13 August 1998 jim
+------------------
+
+Release notes for libstdtime 13 August 1998
+Jim Wang
+Daria Buonassisi
+
+The changes in this release address the some of the concerns Bonnie
+and I have expressed in previous discussions, including:
+
+a) Freeing malloc'd memory when possible.
+b) Verifying non-NULL returns from malloc's, UREALLOCs and STRALLOCs.
+c) Error checking for input values.
+d) Returning defined error values if a problem occurred in a routine.
+e) Some ifdef's added for portability to Solaris 2.
+f) Convenience routines have been added for conversion to ordinal
+   (formerly improperly called Julian) date, lddate, and localtime.
+g) Several files were mv'd to have the stdtime_ prefix.
+
+Because of short time scale, some of these features are implemented in
+a rudimentary fashion.  For example, the verification of input values
+when a character string is expected is limited to checking for a NULL
+pointer.  However, the error-checking hook is present for future
+improvements when they are possible.
+
+Specific details of these changes are described next, followed by
+file-specific changes.
+
+a) Freeing malloc'd memory.
+---------------------------
+All memory that is malloc's in libstdtime is matched with a free ()
+call, except when the newly-allocated memory is returned to the
+calling program.
+
+b) Verifying non-NULL returns from malloc's.
+--------------------------------------------
+Similarly, each time a malloc is done, the return values is checked
+for a NULL value before it is used.
+
+c) Error checking for input values.
+-----------------------------------
+A new file stdtime_check_value.c has been added that contains routines
+for verifying correct parameter values.  For epoch times, the
+check_epoch () routine simply checks if the submitted value is in the
+range 1900 to 2100.
+
+check_yyyydoy () has a similar acceptable range.
+
+The remaining routines check string values and currently do not
+attempt to parse their inputs.
+
+d) Returning defined error values.
+----------------------------------
+libstdtime has been augmented with these macros:
+
+#define	STDTIME_DOUBLE_ERR	-1.0
+#define	STDTIME_INT_ERR		-1
+#define	STDTIME_CHAR_ERR	(char *) NULL
+
+These are the values that a routine will return if an error occurs
+within it.  The error value returned is of the type that agrees with
+the return type.
+
+Since in rare cases, the error value may actually be a correct return
+values, then if the calling program receives such a value, the new
+global variable stdtime_errno must also be checked to verify that an
+error has indeed occurred.  If no error has occurred, then it will
+have value STDTIME_NOERR, otherwise it will contain a flag indicating
+the type of error.  These are listed in the defines:
+
+#define	STDTIME_NOERR		0
+#define	STDTIME_PARSE		-1 /* Couldn't parse the input. */
+#define STDTIME_INVALID		-2 /* Input invalid. */
+#define STDTIME_AMBIGUOUS	-3 /* Input ambiguous. */
+#define	STDTIME_MALLOC		-4 /* Routine couldn't malloc. */
+
+For example, suppose the calling program calls stdtime_format (),
+which returns a char *.  The code should look like:
+
+	xyz = stdtime_format (epoch, my_format);
+	if (xyz == STDTIME_CHAR_ERR && stdtime_errno != STDTIME_NOERR)
+	{
+		/* Handle the error. */
+	}
+	else
+	{
+		/* Do the right thing. */
+	}
+
+e) Ifdef's for Solaris.
+-----------------------
+This change should have no impact on ADSN.  However, some ifdef'd code
+using the __svr4__ define have been added so that Solaris 2 specific
+code could be included without impacting SunOS code or vice versa.
+These include: a) prototypes that are needed for SunOS, and b) use of
+%lf formats for Solaris.
+
+f) Convenience routines.
+------------------------
+A new file stdtime_yyyydoy_format.c has been added to contain
+convenience routines for stdtime_etoj () and stdtime_htoj () plus
+their Fortran entry points.
+
+The new file stdtime_localtime.c has been added for the convenience
+routine stdtime_localtime ().
+
+Similarly, the new file stdtime_get_lddate.c has been added for the
+convenience routine stdtime_get_lddate () to obtain the lddate.
+
+g) Filename changes.
+--------------------
+For consistency, the following files were changed in name:
+
+ctime.c			stdtime_ctime.c
+expr_time.y		stdtime_expr_time.y
+expr_time_lex.l		stdtime_expr_time_lex.l
+format_time.c		stdtime_format_time.c
+gmt_format.c		stdtime_gmt.c
+human_format.c		stdtime_human_format.c
+new_formats.c		stdtime_new_formats.c
+present_time.c		stdtime_present.c
+short_human_format.c	stdtime_short_human.c
+time_struct.c		stdtime_time_struct.c
+unformat_time.c		stdtime_unformat_time.c
+
+File changes:
+-------------
+
+Makefile:
+-----
+The new files stdtime_check_values.c, stdtime_localtime.c, and
+stdtime_yyyydoy_format.c have been added.
+
+libstdtimeP.h:
+-----
+Fixed prototype for time_unformat (), added prototypes.
+
+stdtime_expr_time.lex.l:
+-----
+Eliminated unused variables.
+
+stdtime_human_format.c:
+-----
+Added input value checking.  Changed this code:
+
+ 	char	format_a[3];
+ 	format_a[0] = '%';
+ 	format_a[1] = 'h';
+ 	format_a[2] = '\0';
+
+to:
+ 	char	*format_a = "%h";
+
+stdtime_new_formats.c:
+-----
+Error checking and many minor formatting changes.
+Extensive changes to tm_h ().
+The explicit references to 1900 have been changed to TM_YEAR_BASE.
+Solaris ifdefs have been added.
+
+stdtime_expr_time.y:
+-----
+NULL argument removed from the call to stdtime_fnow () to match the
+prototype and function.
+
+Added Joe Wehlen's fix for negative time.
+
+stdtime_unformat_time.c:
+-----
+Error-checking, and the argument to gmtime was changed to a
+zero-valued time_t value rather than a pointer to a double.
+
+17 August 1998 jim
+------------------
+Create this Changes.libstdtime file and prime it with the release
+notes for 13 August.
+
+Move the source for libstdtime.h to this directory.  Change Makefile
+so that "make install" will install it in ../../include.  Also have it
+install the Changes.libstdtime file in ../../doc/Changes.
+
+19 August 1998 jim
+------------------
+Added Fortran-callable functions
+
+stdtimeetosh_ (epoch, human)
+stdtimeshtoe_ (human, epoch)
+
+to stdtime_short_human.c.
+
+Release Notes - Joseph Wehlen - 19 August 1998
+----------------------------------------------
+
+libstdtimeP.h:
+----
+Added prototype definitions for the new formats "o" and "O".
+
+stdtime_asctime.c:
+----
+Added error checking to standardize error returns.
+
+stdtime_check_value.c:
+----
+Changed the EPOCH_MIN and EPOCH_MAX to match the LONG_MIN and LONG_MAX 
+defined in limits.h.
+
+Changed the function check_yyyydoy() to be more complete.  It now checks 
+both the year and the day, not just the value as a whole.
+
+stdtime_ctime.c:
+----
+Added error checking to standardize error returns.
+
+stdtime_format.c:
+----
+Removed ifdefs for the old/new changes. Only the new changes remain.
+Added an initialization for the stdtime_errno global variable.
+Changed the logic of the main function so that only a single return 
+	exists.
+Change the main algorith so that errors found in the tm_*() functions
+	are recognized and passed.
+
+Added two new functions to this file.
+	stdtime_sformat():
+		This function has the same inputs as stdtime_format() but it
+		will return a static character string.  No freeing of memory
+		is necessary.
+	stdtime_nformat():
+		This function adds two new inputs.  It requires a pre-allocated
+		character string and the (int) size of the string.
+		No freeing of memory is necessary.
+
+stdtime_get_lddate.c:
+----
+Added standard error checking and allowed it to recognize errors returned
+from stdtime_format().
+
+stdtime_gmt.c:
+----
+Changed :
+	char    format_a[3];
+	format_a[0] = '%';
+	format_a[1] = 'G';
+	format_a[2] = '\0';
+
+To:
+	char    *format_a = "%G";
+
+stdtime_localtime.c:
+----
+Added error checking to standardize error returns.
+
+stdtime_new_formats.c:
+----
+Removed ifdef's for the old code.
+
+Corrected tm_h() rounding.
+Changed tm_h() to allow passing of errors back to stdtime_format().
+
+Added new functions tm_o(), un_o(), tm_O() and un_O().
+
+stdtime_short_human.c:
+----
+Added error checking for return from STRALLOC and UREALLOC.
+Corrected error returns to match the standard returns from the library.
+
+Added the missing pieces fmr the checking of the format.
+
+stdtime_unformat_time.c:
+----
+Added a line to time_unformat() to set the stdtime_errno global variable.  
+This should allow the passing of errors through recursive calls of this 
+function.
+
+libstdtime.h:
+----
+Added the prototypes for the new functions:
+	stdtime_sformat()
+	stdtime_nformat()
+
+Added the new #define for STDTIME_STRING_ERR.
+
+stdtime_string.c:
+----
+New File.  Contains the functions stdtime_dstrtoe(), stdtime_etodstr(),
+and stdtime_etotstr().
+These are used to replace the timestr().
+
+24 August 1998 jim
+------------------
+SCCS create libstdtime_f77.h for declarations of Fortran entry points.
+Changed Makefile to install libstdtime.h in ../../include.
+Changed Makefile to install Changes.libstdtime in ../../doc/Changes.
+
+Added check_epoch_ptr () and check_lddate () to stdtime_check_value.c
+and libstdtimeP.h.  Changed stdtime_ctime () and stdtime_get_lddate ()
+to use them.
+
+Add check_tm () to check pointers to tm structures.
+
+Add error checking of input values in stdtime_gmt.c, stdtime_localtime.c,
+and stdtime_asctime.c.
+
+Added error checking to stdtime_string.c.  Added stdtime_string.c to
+the Makefile.
+
+Replaced incorrect sprintf (A, B) with strcpy (A, B) in several files.
+
+Include libstdtimeP.h instead of libstdtime.h for:
+stdtime_asctime.c
+stdtime_localtime.c
+stdtime_short_human.c
+stdtime_ctime.c
+stdtime_string.c
+
+24 August 1998 Daria
+--------------------
+Added db_na.h to libstdtime.h include list.
+Added path to ../../include/db3 to Makefile.
+Added Check for TIME_NA to short_human+format.c - stdtime_etosh.
+
+Merged in Joe Wehlen's changes to libstdtime with some mods.
+
+26 August 1998 jim
+------------------
+Fix %i conversion in un_i; sscanf and used wrong conversion character
+and wrong target type.
+
+%E format used to apply local time zone correction to epoch time
+before returning the string containing the epoch time.  Now the
+incoming epoch time is assumed to be GMT, and no time zone adjustment
+is applied.
+
+In stdtime_new_formats.c.
+
+Note: the SunOS strptime () routine does not handle years
+prior to 1969 correctly.  For example, the call:
+
+	ans = strptime ("1966 12:00:00", "%Y", &tm);
+
+returns a NULL on SunOS, but works on Solaris 2.6 (but NOT 2.5.5).
+The impact of this is that many un_? functions will not work for times
+prior to 1969.  For invalid years, a NULL is returned in lieu of a
+pointer to the remainder of the string.
+
+27 August 1998 jim
+------------------
+Allow characters -, +, and . to be interpreted in un_E so that
+negative epoch times can be accommodated.
+In stdtime_new_formats.c.
+
+sccs create stdtime_strtime.c, which contains replacement functions
+for libaesir/strtime.c.  Add stdtime_strtime.c to the Makefile.
+
+27 August 1998 Daria
+--------------------
+stdtime_gmt.c - format_a in stdtime_etogmt was not declared nor
+	initialized before being sent to stdtime_format. format_a
+	was declared and initialized to "%G".
+
+stdtime_asctime.c - This file was checked in with the following -
+	char (*) NULL which was modified to (char *) NULL so it 
+	would compile.
+
+stdtime_get_lddate.c - The stdtime_get_lddate functions error checking
+	was incorrect. strcpy was used to copy an error string into a
+	null pointer. The function was modified to return a char * 
+	which is the value of the lddate or the the error string.
+
+stdtime_unformat_time.c - Removed a check on *buf in unformat_time function
+	that was causing the function to exit prematurely. 
+
+	Discovered that strptime does not work properly for dates less
+	than the year 1969. See NOTE above.
+
+stdtime_new_formats.c - tm_O and tm_o were not handling negative numbers
+	properly. This was due to the modf function. The modf function 
+	will return the fraction and the (int) of the original value both 
+	with the sign of the original value. Thus, we were seeing fractions
+	of -0. To overcome this problem, the fabs of the fraction is taken.
+	Included db_na.h to include the NA value of the NULL time.
+
+libstdtimeP.h - an incorrect sccs header check was inserted, replaced this
+	check with the original check so it wouldn't interfere at compile
+	time with the same check in the .c files.
+
+libstdtime.h - added STDTIME_TIME_NONE "None" as a return value - mainly used
+	in the etosh function. Modified the prototype for stdtime_get_lddate
+	to return a char *.
+
+stdtime_short_human.c - Added check for NULL_TIME value of epoch time. If
+	found, then the function will return 'None" or STDTIME_TIME_NONE.
+
+stdtime_milliTime.c - new file brought over from ARS that houses millitime 
+	functions for time checking.
+
+2 September 1998 Daria
+----------------------
+stdtime_new_formats.c - added new function 'un_C' to mimic the strftime and
+ADSN's strptime %C format. The %C format returns the date and time in the
+locale's long-format date and time representation (same as date ()).
+Unfortunately, in Solaris 2.6, the %C format for strptime is defined to be 
+the century number [0, 99], and not the date format. For this reason, we
+needed to override the %C format.
+
+stdtime_unformat_time.c - added case 'C': to time_unformat.
+
+stdtime_check_formats - added new function check_C to check the
+	C format.
+
+9 September 1998 jim
+--------------------
+stdtime_expr_time.y - Added directive to include <sunmath.h> so that
+aint() will be properly typed; otherwise, expressions using "today" or
+"now" will be incorrect.
+
+stdtime_time_struct.c - Added the prototype for the timegm () patch so
+that it is correctly typed.
+
+libstdtime.pro3 - Many updates and format changes, include
+documentation on error returns and conditions and information on
+format and unformat commands that do not work correctly.
+
+10 September 1998 jim
+---------------------
+Fix bug in check_yyyydoy() in which check_year() was incorrectly
+applied, resulting in an invalid test.  In stdtime_check_value.c.
+
+Add isspace () check for compound formats in stdtime_unformat_time().
+This change is necessary to allow compounding of compound formats,
+e.g. %g.  In stdtime_unformat_time.c.
+
+Add prototype for un_C to libstdtimeP.h.
+Add prototype for check_C to libstdtimeP.h.
+Add #include <stdlib.h>, <ctype.h> and <time.h> to libstdtimeP.h;
+these are needed for some utilities like putenv, isspace, and
+strptime.
+
+17 September 1998 Daria
+----------------------
+stdtime_unformat_time.c AND stdtime_format_time.c : removed the calls to putenv and tzset. 
+					They aren't necessary and cause conflicts as they 
+					change the TZ env var. This then causes erroneous
+					results when trying to use the localtime or ctime
+					library functions.
+
+stdtime_get_lddate.c: Added new function that returns a lddate string either as UTC time or
+		localtime depending on the flag sent in.
+
+stdtime_localtime.c: Added new function stdtime_local_now that returns the current
+		localtime as a double.
+
+libstdtime.h: Added prototypes for stdtime_local_now and stdtime_gol_time.
+
+libstdtime.pro3: Added info for stdtime_local_now and stdtime_gol_time
+
+21 September 1998 Daria
+----------------------
+Modified the names of stdtime_localtime_now -> stdtime_local_now and
+stdtime_dfx_time -> stdtime_gol_time
+Updated the man page and libstdtime.h with these changes.
+
+Added new function stdtime_log_lddate in stdtime_log_date.c which
+returns the string - YYYYMMDDHHMMSS. The string is similar to the lddate
+%L without space or punctuations.
+
+Added new function stdtime_yyyymmdd that accepts an epoch and returns the
+format YYYYMMDD as a long.
+
+21 September 1998 jim
+---------------------
+Fix timegm() so that if mktime() encounters an error (i.e., returns
+-1) then an error value of -1 is returned rather than adding a time
+zone correction to the -1 value.  In stdtime_time_struct.c.
+
+Changed stdtime_htoe() be be the equivalent of stdtime_shtoe().  Human
+format includes epoch time so this change deletes the requirement to
+include the epoch time in the human format before converting it to
+epoch time.  In stdtime_human_format.c.
+
+Updated the man page to reflect these changes.
+
+22 September 1998 jim
+---------------------
+Add the function stdtime_jtoe() to convert an ordinal date to epoch
+time.
+
+In stdtime_human_format.c and libstdtime.h.
+
+23 September 1998 doug
+----------------------
+Added the function stdtime_etol() to convert an epoch time to a date/time
+string in %L format (YYYYMMDD HH:MM:SS).  This function is found in
+stdtime_get_lddate.c and libstdtime.h.
+
+24 September 1998 doug
+----------------------
+Added stdtime_strdtime() and stdtime_strtime() prototypes to libstdtime.h
+
+Added the function stdtime_local_double() to stdtime_localtime.c and
+libstdtime.h.  This function reads in an epoch time, and converts it
+to a local time in double format.
+
+25 September 1998 jim
+---------------------
+Changed stdtime_fnow() to use gettimeofday() instead of ftime().
+Although it is not likely to ever matter, gettimeofday() returns the
+present time to a precision of microseconds instead of milliseconds.
+In stdtime_present.c.
+
+28 September 1998 glines
+------------------------
+Added a function, stdtime_time() to stdtime_present.c. This function is
+a simple wrwpper around time() and returns time_t instead of a double.
+libstdtime.h and libstdtime.pro3 where also updated.
+
+07 October 1998 glines
+----------------------
+Made major changes. Added code to lexer/parser so that several date/time
+formats can be recognized inside the [] without a format specifier. There was
+a core flaw in the design of stdtime_unformat() that required re-writing it
+and stdtime_format(). Also, functions where made thread safe or thread safe
+versions where created.
+
+- Makefile
+  - Added stdtime_errno_func.c and stdtime_errno_var.c
+  - Changed OS_CPPFLAGS to USER_CPPFLAGS
+  - Changed so stdtime_expr_time.o does not get rebuild every time make is run.
+
+- libstdtime.h
+  - Changed value of MAX_FORMAT_SIZE from 128 to 256.
+  - Deleted P_STR define.
+  - Added stdtime_errno() macro.
+  - Removed prototype for time_format().
+  - Added *_r prototypes for all functions that returned a pointer to a static
+    char array.
+  - Added a special definition for stdtime_errno that is safe to use in both
+    mullti-threaded and non multi-threaded applications.
+
+- libstdtimeP.h
+  - Removed prototype for time_unformat().
+  - Removed replace_st definition.
+  - Added prototype for check_gse().
+  - Added prototype for __replace_expandable_formats()
+    and __find_special_format().
+  - Removed prototypes for all tm_* and un_* functions.
+
+- stdtime_asctime.c
+  - Added stdtime_asctime_r() thread safe funtion.
+
+- stdtime_ctime.c
+  - Added stdtime_ctime_r() thread safe funtion.
+
+- stdtime_errno.c
+  - Placed stdtime_errno here.
+  - Created function ___stdtime_errno(). This function is used in place of
+    the variable when applications define _REENTRANT before including
+    libstdtime.h
+
+- stdtime_expr_time.lex.l
+  - Added new lexical token so that the parser can recognize several human
+    date/time formats.
+
+
+- stdtime_expr_time.y
+  - Modified so that it can parse several different human time formats in []
+    without the need fo a format specification.
+  - Made stdtime_expr_time() thread safe.
+
+- stdtime_format.c
+  - Removed time_format() and replaced with stdtime_format_r() which
+    is thread safe.
+  - Re-wrote stdtime_format() to use stdtime_format_r().
+
+- stdtime_get_lddate.c
+  - Made stdtime_get_lddate() and stdtime_gol_time() thread safe.
+
+- stdtime_gmt.c
+  - Added thread safe stdtime_etogmt_r().
+
+- stdtime_gse.c
+  - Created functions stdtime_gsetoe(), stdtime_etogse() and the thread safe
+    stdtime_etogse_r().
+
+- stdtime_human_format.c
+  - Added thread safe functions stdtime_etoh_r() and stdtime_jtoh_r().
+  - Modified stdtimeetoh_() and stdtimejtoh_() to be thread safe.
+  - Simplified stdtime_jtoh().
+  - Re-write stdtime_jtoe() so that is is self contained. It is used by the
+    lexer code and needed to be self contained. The code used was obtained
+    from libtime.
+
+- stdtime_localtime.c
+  - Added thread safe stdtime_localtime_r().
+  - Simplified stdtime_local_now() and stdtime_local_double() and made
+    them thread safe.
+
+- stdtime_log_date.c
+  - Simplified stdtime_log_lddate().
+
+- stdtime_new_formats.c
+  - Added __replace_expandable_formats() and __find_special_format().
+  - Removed all tm_* and un_* functions.
+
+- stdtime_short_human.c
+  - Simplified stdtime_shtoe() and stdtime_sshtoe().
+  - Added thread safe stdtime_etosh_r() and stdtime_etossh_r().
+
+- stdtime_time_struct.c
+  - Made stdtime_build_struct() thread safe.
+
+- stdtime_unformat_time.c
+  - Re-wrote stdtime_unformat(), fixing serious logic flaw and making it
+    thread safe.
+
+- stdtime_yyyydoy_format.c
+  - Simplified stdtime_htoj() and stdtime_etoj() and made stdtime_etoj()
+    thread safe.
+  - Moved stdtime_errno to a seperate file stdtime_errno.c
+
+08 October 1998 glines
+----------------------
+Created new stdtime_gol_lddate_r()
+Files chaged: libstdtime.h and stdtime_get_lddate.c
+
+08 October 1998 glines
+----------------------
+Changed Makefile so that a shared library is build as well as
+the static version. The -KPIC opstion was added to the compiler flags
+so that the shared library could be built.
+
+19 October 1998 doug
+--------------------
+Added stdtime_etou() to stdtime_short_human.c.  This function converts
+an epoch time to a "universal" time string of the format %Y-%j:%H.%M.%S.%N
+
+23 October 1998 doug
+--------------------
+Added stdtime_etou_r(), a thread-safe version of stdtime_etou(), and
+stdtimeetou_(), a Fortran-callable verison of stdtime_etou(), to
+stdtime_short_human.c.
+
+29 October 1998 jim
+-------------------
+Disallow the formats %D, %x, and %y in stdtime_format() due to their
+(or strftime's) use of two-digit years.  These formats will return
+an error.  In stdtime_format_time.c, stdtime_new_formats.c, and
+libstdtime.3.
+
+11 November 1998 daria
+--------------------
+Added stdtime_gettimeofday () to stdtime_present.c. This is a wrapper
+function to gettimeofday.
+
+
+18 November 1998  
+----------------
+Clearcase baseline USNDC_1.1.0.
+
+
+29 December 1998 bonnie
+-----------------------
+Added yyyy-mm-dd format to stdtime_expr_time.lex.l for ISO standard format.
+Added hour, min, sec check to stdtime_expr_time.lex.l and day, mon, year range
+check to date2epoch() in stdtime_expr_time.y.   Added check_year_mon_day() to
+stdtime_check_value.c. 
+
+Rewrote libstdtime.3 adding new preferred functions and separating out
+deprecated functions. 
+
+Reorganized libstdtime.h and libstdtimeP.h for public and private defs. 
+  - Delineated preferred and non-preferred functions. 
+  - Added prototypes for new functions: stdtime_get_epoch(),
+    stdtime_rnd_epoch(), stdtime_etos(), stdtime_etosd(), stdtime_etost(),
+    and stdtime_etodir(). 
+  - Added ranges STDTIME_EPOCH_MIN, STDTIME_EPOCH_MAX, STDTIME_YEAR_MIN (1970),
+    and STDTIME_YEAR_MAX (2038).
+  - Added STDTIME_GMT_TIME and STDTIME_LOCAL_TIME defines.
+  - Added typedefs for epoch_t and jdate_t.
+  - Moved Fortran interface functions to libstdtimeP.h.
+  - Moved isleap() macro to libstdtimeP.h.  
+  - Added reentrant args to stdtime_etol() and stdtime_etogse() prototypes
+    (added args to functions as well but did not rewrite to use them).  
+  - Added buffer length args to prototypes for Fortran interface functions.
+  - Removed includes of extraneous headers.
+
+Fixed known problems in infrastructure functions:
+  - Replaced GMT_GMT_TIME with STDTIME_GMT_TIME and removed include of libgdi.h
+    in stdtime_get_lddate.c and stdtime_log_date.c.  
+  - Reset stdtime_errno in stdtime_gol_lddate(), stdtime_gol_lddate_r(), 
+    stdtime_convert_struct(), and stdtime_build_struct().
+  - Replaced usage of isleap() macro with stdtime_isleap().  Decided not to
+    have stdtime_isleap() call isleap() for now.  Is the system isleap()
+    correct on all OS's? 
+  - Used new epoch and year ranges in stdtime_check_value.c.
+
+
+30 December 1998 doug
+---------------------
+Continued to organize and streamline the libstdtime.h and libstdtimeP.h
+        header files.  Changes to these and other files with regards to
+        headers are as follows:
+ 
+libstdtimeP.h
+        - Added prototypes for stdtimeetosh_ and stdtimeshtoe_ Fortran
+          interface routines.  These Fortran interface function prototypes
+          also contain buffer length arguments.
+        - Removed time.h header - this header is present in libstdtime.h.
+        - Added prototypes for the lexer functions date2epoch() and
+          ldate2epoch(), which are defined in stdtime_expr_time.y.
+ 
+libstdtime.h
+        - Moved stdtime_strdtime() and stdtime_strtime() prototypes from
+          stdtime_strtime.c to stdtime_ctime.c listing.
+ 
+stdtime_asctime.c
+        Removed time.h header - this header is present in libstdtime.h.
+ 
+stdtime_check_value.c
+        Removed libstdtime.h header - this header is present in libstdtimeP.h.
+ 
+stdtime_ctime.c
+        - Moved stdtime_strdtime() and stdtime_strtime() from
+          stdtime_strtime.c to stdtime_ctime.c, since both functions call
+          stdtime_ctime to get the final date/time string format.
+        - Removed time.h header - this header is present in libstdtime.h.
+ 
+stdtime_expr_time.y
+        Removed stdlib.h and time.h headers - these headers are present
+        in libstdtimeP.h and libstdtime.h, respectively.
+ 
+stdtime_human_format.c
+        Removed stdio.h header - this header is present in libstdtimeP.h.
+ 
+stdtime_milliTime.c
+        - Removed stdio.h and sys/time.h headers - these headers are
+          present in libstdtimeP.h and libstdtime.h, respectively.
+        - Replaced libstdtime.h header with libstdtimeP.h.
+ 
+stdtime_new_formats.c
+        Removed ctype.h, stdio.h, and stdlib.h headers - these headers are
+        present in libstdtimeP.h.
+ 
+stdtime_present.c
+        Replaced libstdtime.h header with libstdtimeP.h.
+ 
+stdtime_strtime.c
+        Removed from directory via "ct rmname" command.
+
+
+04 January 1999 doug
+--------------------
+libstdtime.h
+        - Renamed stdtime_gtoe() to stdtime_gmttoe().
+        - Set STDTIME_YEAR_MIN to 1901 instead of 1970.
+ 
+libstdtime.3
+        - Renamed stdtime_gtoe() to stdtime_gmttoe().
+        - Set STDTIME_YEAR_MIN to 1901 instead of 1970.
+ 
+libstdtimeP.h
+        - Changed #ifdef separating Solaris 1 definitions from Solaris 2
+          definitions from __SDTC__ to __svr4__.
+        - Added EPOCH_YEAR_ZERO definition (1970).
+ 
+stdtime_check_value.c
+        - Modified check_year() so that both STDTIME_YEAR_MIN and
+          STDTIME_YEAR_MAX were allowable inputs (i.e., changed > and <
+          symbols to >= and <=).  Previous versions did not accept either
+          STDTIME_YEAR_MIN or STDTIME_YEAR_MAX as legitimate.
+ 
+stdtime_expr_time.y
+        - Defined stdtime_expr_time() to be an epoch_t type function
+          instead of a double type function.
+        - Initialized stdtime_errno = STDTIME_NOERR in stdtime_expr_time().
+ 
+stdtime_get_lddate.c
+        - Initialized stdtime_errno = STDTIME_NOERR in stdtime_etoyyyymmdd().
+        - Replaced stdtime_now() with stdtime_get_epoch() in
+          stdtime_get_lddate().
+        - Replaced stdtime_format() with stdtime_format_r() in
+          stdtime_etol().  Also removed the char* sh_a pointer from
+          stdtime_etol().
+ 
+stdtime_gmt.c
+        - Renamed stdtime_gtoe() to stdtime_gmttoe().
+        - Initialized stdtime_errno = STDTIME_NOERR in stdtime_gmttoe(),
+          stdtime_etogmt(), and stdtime_etogmt_r().
+        - Returned STDTIME_INVALID error code in the event of an error.
+ 
+stdtime_gse.c
+        - Initialized stdtime_errno = STDTIME_NOERR in stdtime_gsetoe(),
+          stdtime_etogse(), and stdtime_etogse_r().
+        - Replaced stdtime_format() with stdtime_format_r() in
+          stdtime_etogse().
+        - Rewrote error handling of the return value from stdtime_format_r().
+ 
+stdtime_human_format.c
+        - Modified stdtime_jtoe() to call check_yyyydoy() to see if an
+          ordinal date was valid.
+        - Modified stdtime_jtoe() to use EPOCH_YEAR_ZERO to help count the
+          number of days since 1970-01-01.
+        - Added check_human() error check to validate that the input string
+          is not NULL in stdtime_htoe().
+        - Defined stdtime_htoe() to be an epoch_t type function instead of
+          a double type function.
+ 
+stdtime_present.c
+        Initialized stdtime_errno = STDTIME_NOERR in stdtime_rnd_epoch().
+ 
+stdtime_short_human.c
+        Initialized stdtime_errno = STDTIME_NOERR in stdtime_etos(),
+        stdtime_etosd(), stdtime_etost(), and stdtime_etodir()
+ 
+stdtime_yyyydoy_format.c
+        - Initialized stdtime_errno = STDTIME_NOERR in stdtime_etoj().
+        - Added a range check of the input epoch time in stdtime_etoj().
+        - Defined stdtime_etoj() to be a jdate_t type function instead of
+          a long type function, and defined the input epoch time to be of
+          epoch_t type.
+        - Removed stdtime_errno definition after stdtime_format_r() is
+          called.  This function sets stdtime_errno.
+
+
+04 January 1999  bonnie
+-----------------------
+Renamed timegm() to stdtime_timegm().  Rewrote stdtime_timegm() to use
+stdtime_jtoe() to calculate epoch for the date rather than mktime().  mktime()
+was confusing and easy to misuse because it was inherently a local time
+function.  mktime() also did not support the full range of epoch values.
+
+libstdtimeP.h:
+	- Removed protos for date2epoch() and ldate2epoch().  They were already
+ 	  declared as static in stdtime_expr_time.y and they are only used by
+	  the parser.
+
+	- Added stdtime_dim[] array to contain days in each month.
+
+29 Dec 98 - nolten
+------------------
+Added stdtime_etos(), _etost(), _etosd() to stdtime_short_human.c .
+Copied double stdtime_fnow() to epoch_t stdtime_get_epoch() in stdtime_present.c
+Added stdtime_errno = STDTIME_NOERR to all fns in stdtime_present.c .
+
+30 Dec 98 - nolten
+------------------
+Added stdtime_etodir() to stdtime_short_human.c .
+Changed argument list on stdtimeshtoe_(), stdtimeetosh_(), and
+stdtimeetou_()
+
+31 Dec 98 - nolten
+------------------
+Added stdtime_rnd_epoch() to stdtime_present.c .
+Wrote and exercised test code to verify these new functions.
+
+05 January 1999 doug
+--------------------
+stdtime_format_time.c
+	- Changed stdtime_format_r() so that decimal values are truncated
+	  (as opposed to rounded) when using the %N format.
+	- Changed sprintf() command to use %ld format when generating the
+	  epoch time in %i format in stdtime_format_r().
+
+stdtime_get_lddate.c
+	Removed unused variables 'var2', 'time_str', 'buf', and 'format_a'
+	from stdtime_gol_lddate_r().
+
+stdtime_milliTime.c
+	Removed unused variable 'tz' from stdtime_getMilliTime().
+
+
+06 January 1999 bonnie
+----------------------
+Fixed a few inconsistancies spotted by Bernard.  Good eye!
+
+- libstdtime.h: Renamed MAX_FORMAT_SIZE to STDTIME_MAX_FORMAT_SIZE and
+  STD_TIME_SUCCESS to STDTIME_SUCCESS.  Removed STD_TIME_ERROR (STDTIME_INT_ERR
+  is used instead).  Only stdtime_format_r() returns STDTIME_SUCCESS so only
+  code that calls this function should be checking for STDTIME_SUCCESS.
+  Changed all .c's accordingingly. 
+
+- stdtime_format_time.c: Used STDTIME_MAX_FORMAT_SIZE instead of hardcoded 256.
+  Added check for human_len <= 0 to stdtime_format_r(). 
+
+- libstdtime.3: Noted max human_len is STDTIME_MAX_FORMAT_SIZE.
+
+
+08 January 1999 doug
+--------------------
+In Bernard's unit testing, he spotted several inconsistencies that have
+been corrected.
+
+libstdtime.3
+	- Added %J to the list of format characters that stdtime_etodir()
+	  will accept.
+	- Added stdtimeetoh(), stdtimeetosh(), stdtimehtoe(), and
+	  stdtimeshtoe() deprecated Fortran function prototypes.
+
+stdtime_short_human.c
+	- Added error checking of the number of decimal places passed in
+	  to stdtime_etos() and stdtime_etost().  Any decimal outside the
+	  range [0,6] will cause these functions to return an error.
+	- Removed %f and %R from the list of acceptable format characters
+	  that may be passed to stdtime_etodir().
+	- Added stdtimeetos_() Fortran interface routine.
+
+
+11 January 1999 bonnie
+----------------------
+Improved and fixed range checking.
+
+libstdtime.3
+	- Added date range to DIAGNOSTICS section.
+	- Added KNOWN BUGS sections and two bugs, 1) formatting of negative
+	  epoch times with fractional seconds, and 2) return value for
+	  stdtime_jtoe(1901347) which is less than min epoch time.
+
+stdtime_expr_time.y
+	- Added check on epoch range to final answer for stdtime_expr_time(). 
+
+stdtime_time_struct.c
+	- Added check on epoch range to final answer for stdtime_timegm().
+
+stdtime_unformat.c
+	- Added error check on return from stdtime_timegm().
+
+stdtime_check_value.c
+	- Fixed return values for check_year_mon_day().  It now returns
+	  STDTIME_INVALID, not STDTIME_DOUBLE_ERR.
+	- Added YYYYDOY_MIN and YYYYDOY_MAX ranges and range check to
+	  check_yyyydoy().  
+
+
+12 January 1999  bonnie
+-----------------------
+stdtime_format_time.c
+	- Fixed bug with formatting negative epoch times with seconds.  
+	- Changed algorithm for truncation of decimal seconds to 
+	  remove precision problem.  
+	  before: stdtime_etos(1.888,ndec=6)->1970-01-01 00:00:01.887999
+	  after:  stdtime_etos(1.888,ndec=6)->1970-01-01 00:00:01.888000
+
+
+14 January 1999 jenkins
+-----------------------
+Clearcase baselined using label "Y2K_BETA_1".
+
+
+2 February 1999  bonnie
+-----------------------
+Changed stdtime_etogse() to be similar to the stdtime_etos().  Added an
+argument to specify the number of digits for decimal seconds, ndec (0, 1, or
+3).  Also added stdtime_etogsed() and stdtime_etogset() functions to provide
+just the date and time portions of the GSE format. 
+
+     stdtime_gse.c
+     libstdtime.h
+     libstdtime.3
+     
+
+2 February 1999  bonnie
+-----------------------
+Clearcase baseline, Y2K_BETA_3 for CMR.
+
+
+15 February 1999 bonnie
+-----------------------
+stdtime_format_time.c
+	- Added check for NULL output buffer for stdtime_format_r().
+
+
+5 March 1999 bonnie
+-------------------
+1. Added stdtime_diff_epoch() to calculate the the difference between two epoch
+   times and format the result into a string "days hh:mm:ss[.n+]".  Added
+   a %K format to stdtime_format_r() to format number of days (0-999).
+
+   libstdtime.h:
+	- Added prototype for stdtime_diff_epoch().
+
+   libstdtimeP.h:
+	- Added "#define SECONDS_PER_DAY 86400".
+	- Added prototype for check_buffer().
+
+   stdtime_present.c:
+	- Added stdtime_diff_epoch() to calculate the difference between two
+	  epoch times and format the result as "days hh:mm:ss[.n+]".  This
+	  function was needed by stacap (as per David Salzberg, CMR). 
+
+   stdtime_format_time.c,
+   stdtime_new_formats.c:
+	- Added format %K to print number of days (0-999) for use by
+	  stdtime_diff_epoch(). 
+
+   stdtime_check_value.c:
+	- Added check_buffer().
+
+2. Changed stdtime_etol() to return a NULL pointer when the input epoch time is
+   TIME_NA to be consistant with other preferred functions.  Previously, it
+   returned a pointer to a static string "None" (not a pointer to the output
+   buffer) and nothing was placed in the output buffer.  The old behavior
+   appears to have been implemented so as to be consistant with stdtime_etosh()
+   as used by ARS.  But ARS does not use stdtime_etol() and stdtime_etosh() is
+   deprecated.  
+
+   stdtime_get_lddate.c:
+	- Changed stdtime_etol() to return a NULL pointer when epoch seconds is
+          equal to TIME_NA to be consistant with other preferred functions.
+
+3. Updated the man page with the changes and added documentation to the
+   preferred functions for handling of TIME_NA, use of "Err" by
+   stdtime_get_lddate(), use of the -D_REENTRANT compiler flag, and a reminder
+   to check for NULL pointers returned from functions before using them.
+
+   libstdtime.3:
+	- Added stdtime_diff_epoch() and a %K format for number of days to
+	  stdtime_format_r(). 
+	- Added documentation for stdtime_etos(), stdtime_etol(), and
+	  stdtime_etodir() error when epoch is equal to TIME_NA.
+	- Added documentation for stdtime_get_lddate() use of "Err". 
+	- Corrected description of %h, output has 1 digit (.n) of fractional
+	  seconds, not 3 (.nnn).
+	- Added description for %V, a standard strftime() format
+	- Corrected other descriptions of strftime() formats, i.e. range of %S,
+	  is (00-61, for leap seconds) not (00-59) 
+	- Added note about using the compiler flag -D_REENTRANT.
+	- Added note about checking for NULL returned pointers before using
+ 	  them.
+
+
+8 March 1999 bonnie
+-------------------
+Clearcase baseline, Y2K_BETA_6 for CMR.
+
+
+11 March 1999 bonnie
+--------------------
+Fixed stdtime_diff_epoch() bug where only one decimal was displayed for
+2 <= ndec <= 6.
+
+More clarification of TIME_NA handling for stdtime_etosh() and stdtime_etossh()
+was added to the man page.
+
+Backed out buggy truncation algorithm for %.[]N (from 12 Jan 1999).
+
+CC Baseline! PIDC_Y2K
+
+Merged /pidc_y2k to /main.
+
+Baseline PIDC_6.2.0.
+
+
+18 March 1999 bonnie
+--------------------
+On the pidc_y2k branch:
+
+1.  Put in code to round decimal epoch seconds to fifteen places before
+    calculating any dates so that numbers like 1.888, which can not be exactly
+    represented in a double foramt, will not get truncated to 1.887.  This also
+    helps with consistancy of formatting of database data which is translated
+    by the Oracle libraries from a non-IEEE database representation to a
+    double, but with slightly varying results depending on the version of
+    Oracle.  
+
+    stdtime_format_time.c:
+	- Added code to round decimal epoch seconds to fifteen places before
+	  converting to a date.
+
+2.  Changed format for stdtime_diff_epoch() to always produce 3 digits for
+    days.   
+
+    stdtime_format_time.c:
+    libstdtime.3:
+	- Changed %K to 3 digits, zero padded.
+
+3.  Made digits following decimal point in ss[.n+] optional so that times like
+    "00:15:02." may be parsed.
+
+    stdtime_expr_time.lex.l:
+	- changed definition of "time" to allow a decimal point without decimal
+	  digits.
+
+4.  Allow ndec=2 for stdtime_etogse() and stdtime_etogset().
+
+    stdtime_gse.c:
+	- allow ndec=(0-3).
+
+
+Merged /pidc_y2k to /main.
+
+Rebaseline PIDC_6.2.0.
+
+
+24 March 1999 bonnie
+--------------------
+On the pidc_y2k branch:
+
+1.  Added "month dd[,] yyyy [hh:[mm[:ss[.[n+]]]]]" to the dates that
+    stdtime_expr_time() recognizes.  Changed the parser so that a comma (,)
+    must be followed by a string containing a percent (%) format character to
+    be recognized by the "[date/time string, format]" rule.  
+
+    This format is needed by the Julian date functions described later.
+
+    libstdtime.3:
+	- Added "month dd[,] yyyy [hh:[mm[:ss[.[n+]]]]]" to the
+	  stdtime_expr_time() date formats.  
+
+    stdtime_expr_time.y:
+	- Added AMONTH_SYM DAY_SYM YEAR_SYM and AMONTH_SYM DAY_SYM YEAR_SYM
+	  TIME_SYM rules.
+	- Added AMONTH_SYM DAY_SYM TIME_SYM TIMEZONE_SYM YEAR_SYM rule so 
+	  that timezone may be specified without an ADAY_SYM.  This is to make
+	  the "[dayofweek] month dd hh[:mm[:ss[.n+]]] [timezone] year" format
+	  work as documented in the man page.
+
+    stdtime_expr_time.lex.l:
+	- Added "mon[th] dd[,] yyyy" to the date formats recognized in the
+	  <BRACKET> state.
+	- Changed the comma rule such that the string following a comma must
+	  contain a percent (%) character to be recognized as a "[date/time
+	  string, format]". 
+
+    ToDo:  The parser could be made MUCH simpler with some rewriting.  There
+           are too many states and special cases.  
+
+Merged /pidc_y2k to /main.
+
+Rebaseline PIDC_6.2.0.
+
+
+29 March 1999 bonnie
+--------------------
+on the main and pidc_y2k branches:
+
+stdtime_expr_time():
+
+	Fixed a bug where stdtime_expr_time() correctly calculated epoch from
+	the input "[n+]." (no digits after the decimal place) but the next call
+	to stdtime_expr_time() returned an error.  This was due to an incorrect
+	rule that left characters in the input buffer.
+
+	Fixed a bug where stdtime_expr_time() did not return the result for an 
+	expression starting with a "+" operator.
+
+	Fixed a bug requiring a space after the comma when parsing ["time
+	string, time format]".  The fix required that the lexer be changed so
+	as to only recognize the time format string if it begins with a %.
+	Before 	the time format string simply needed to contain a %.
+
+Rebaseline PIDC_6.2.0.
+
+
+11 May 1999 bonnie
+--------------------
+On the bonnie_devl branch:
+
+1.  Added calendar structure and Julian date functions for the libscheme
+    "human-time->julian-day" and "julian-day->human-time" functions where
+    "julian" is the number of days since year 0 and "human" is "month dd, yyyy
+    hh:mm:ss.nnn".   
+
+    Note, Julian date should not be confused with jdate (yyyydoy) which is
+    actually an ordinal date.
+
+    Makefile:
+	- Added stdtime_julian.c and stdtime_calendar.c.
+
+    libstdtime.3:
+	- Added special purpose Julian functions.
+
+    libstdtime.h:
+	- Added typedef long julian_t.
+	- Added typedef struct calendar_t (int year, int mon, int day, 
+		int hour, int min, double sec).
+	- Added prototypes for Julian functions.
+
+    stdtime_julian.c:
+	- New file containing stdtime_htojulian(), stdtime_juliantoc(), 
+	  stdtime_ctojulian(), stdtime_etojulian() and stdtime_juliantoe().
+
+    stdtime_calendar.c
+	- New file containing stdtime_etoc() and stdtime_ctoe() to convert
+	  between calendar_t and epoch_t. 
+
+    stdtime_expr_time.y:
+	- Added stdtime_expr_time_c(), a version of stdtime_expr_time() that  
+	  results in a calendar structure rather than epoch_t.    
+
+2.  stdtime_expr_time() parser changes.
+
+    stdtime_expr_time.c:
+	- Added dd.mm.yyyy, a common European format.
+	- Allowed any number of spaces before and after seperators (:,/,-,.) in
+	  date and time formats (i.e. "yyyy /mm / dd", "yyyy-   mm-dd", 
+	  "hh: m: s").
+
+3.  Updated stdtime_unformat() documentation and handling of partially
+    specified dates. 
+
+    libstdtime.3
+	- Removed text stating stdtime_unformat() assumes a minimal date if
+	  only a time is specified with a %T.  strptime() does NOT
+	  assume a date of Jan 1, 1970.
+	- Removed line stating %L does not work for stdtime_unformat(), it
+	  does. 
+	- Added %k, %l, and %V to the list of formats that are undefined for
+	  stdtime_unformat(). 
+	- Corrected description of %Z for stdtime_unformat().
+
+    stdtime_unformat.c
+	- Added initialization of the tm structure to stdtime_unformat() for
+	  better detection and handling of partially specified dates.
+
+Merged /bonnie_devl to /pidc6.2_patch
+Merged /pidc6.2_patch to /main
+
+Baseline PIDC_6.2.12 on /pidc6.2_patch
+
+
+19 May 1999 bonnie
+--------------------
+On the bonnie_devl branch:
+
+1. Fixed a bug in stdtime_ctojulian().
+
+   stdtime_julian.c:
+	- Removed a check on the value of a variable, julian, before it is
+	  initialized. 
+
+
+11 August 1999 bonnie
+---------------------
+On the bonnie_devl branch:
+
+1. Corrected description of a Julian Day in libstdtime.3.  A Julian Day is the
+   number of days since 4713 BC, not 0 AD.
+
+
+16 September 1999 bonnie
+------------------------
+On the pidc7.0_dev branch:
+
+Fixed Makefile so that libstdtime.a would not keep rebuilding.  The problem was
+the dependencies of the L_SRCS.
+
+Merged bonnie_devl and pidc7.0_dev to /main.
+5 November 1999  bonnie
+-----------------------
+On the pidc7.0_dev branch:
+
+Updated Makefile to use new shared obj rules in global.mk.
+
+Added stdtime_etocd() for the Continuous Data System (CDS) message protocol
+(yyyyjjj hh:mm:ss.n+).
+
+
+8 November 1999  bonnie
+------------------------
+Added range checking of hours, min, and seconds to stdtime_ctoe().
+
+Added test subdirectory.
+
+
+15 November 1999  bonnie
+------------------------
+Bumped lib version to 2.
+
+Baseline!  PIDC_7.0.0

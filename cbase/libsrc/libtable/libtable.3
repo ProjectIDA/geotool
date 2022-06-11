@@ -1,0 +1,40 @@
+.\"%W	%G
+.TH libtable 3  "August 1996"
+.SH NAME
+\fBlibtable\fP \- routines to manage the insertion, search,
+	traversal, and deletion of data of any user-
+	defined type.
+
+.SH DESCRIPTION
+This library provides routines to manage the insertion, search, traversal,
+and deletion of data.  The name promotes the notion of a generic data
+structure.  The library provides a consistent interface that is independent
+of the underlying data structure implementation. The data structure used may
+be specified to be either linear linked-lists, binary trees or hash tables.
+The data being managed may be any user defined type.
+
+This library includes the following functions:
+
+a_list.c,      list.c,      table.c,      tree.c,      hash.c,      variables.c 
+
+.SH NOTES
+(misc.)
+
+.SH FILES
+The following header files are maintained in the ./libtable directory:
+.LP
+	PRIVATE:     a_list.h,   hash.h
+.LP
+	PUBLIC:      table.h  
+
+.SH BUGS
+No known bugs.
+
+.SH "SEE ALSO"
+\fBtable(3)\fp
+
+.SH AUTHOR(S)
+Jeff Given
+
+.SH ORIGINATOR
+(other)

@@ -1,0 +1,185 @@
+.\" SccsId: @(#)dyn_array.3	109.1 07/08/97 SAIC
+.TH DYN_ARRAY 3 "@(#)dyn_array.3	109.1"
+.SH NAME
+\fBdyn_array, array_create, array_free, array_count, array_list, 
+array_add, array_delete, array_setrate, array_add, array_destroy, 
+array_copy, array_copy\fP \- Aray tools.
+.SH SUMMARY
+array_create \- create a new dynamic array
+.br
+array_free \- free a dynamic array
+.br
+array_count \- return the number of element in an array
+.br
+array_list \- return the user's array
+.br
+array_add \- add an element to the array
+.br
+array_delete \- remove and element from the array
+.br
+array_setrate \- set the number of elements allocated each time
+.br
+array_add_n \- add n elements to a dynamic array
+.br
+array_destroy \-  free the contents of a dynamic array and free the dynamic array
+.br
+array_copy \-  copy the contents of a dynamic array
+.br
+.SH FILE
+dyn_array.c(libaesir.a)
+.SH SYNOPSIS
+.nf
+\fB#include "dyn_array.h"\fP
+.sp
+Array
+array_create (size)
+int		size;		(i) size of each element
+.sp
+void
+array_free (array)
+Array		array;		(i) the dynamic array
+.sp
+int
+array_count (array)
+Array		array;		(i) the dynamic array
+.sp
+caddr_t
+array_list (array)
+Array		array;		(i) the dynamic array
+.sp
+caddr_t
+array_add (array, element)
+Array		array;		(i) the dynamic array
+caddr_t		element;	(i) address of element to add
+.sp
+caddr_t
+array_delete (array, element)
+Array		array;		(i) the dynamic array
+caddr_t		element;	(i) element to delete
+.sp
+void
+array_setrate (array, rate)
+Array		array;		(i) the dynamic array
+int		rate;		(i) how many elements to allocate
+.sp
+caddr_t
+array_add_n (array, elements,n)
+Array		array;		(i) the dynamic array
+caddr_t		elements;	(i) address of elements to add
+long		n;		(i) number of elements
+.sp
+void
+array_destroy (array)
+Array 	array;		(i) the dynamic array
+.sp
+Array
+array_copy (a)	
+Array 	a;  		(i) the dynamic array
+.fi
+.SH DESCRIPTION
+.LP
+The above functions implement dynamic arrays in the same manner
+that one would use malloc(3) and realloc(3) to keep adding
+elements to a list.  An arbitrary number of elements can be
+added to a list with each new element added to the end of the
+list.  When an element is deleted, the list is compacted.
+.LP
+.I array_create()
+is first called to initialize an \fIArray\fP structure.  The
+\fIArray\fP data type is opaque and should not be modified.
+The \fIsize\fP is the size of each element, typically as
+returned by sizeof (i.e. \fIsizeof (float)\fP).  After one is
+finished allocating elements, call \fIarray_free\fP to free
+the data associated with the dynamic array.  Note that this
+does not free up the array itself, just any internal space
+that the dynamic array package allocates.  One must call
+\fIfree(3)\fP on the list of data when finished.
+.LP
+.I array_count()
+returns the number of elements in the dynamic array.
+.LP
+.I array_add()
+adds an element onto the end of the list and returns a pointer
+to the first element of the list.  If unable to allocate memory,
+a NULL pointer is returned.  \fIarray\fP must be
+previously allocated by \fIarray_create()\fP.  \fIelement\fP
+is the \fBaddress\fP of the element to be added to the list.
+\fIsize\fP (as specified in \fIarray_create\fP) bytes is
+copied from the address to the end of the list.
+.LP
+.I array_delete()
+removes the specified \fIelement\fP from the list.  The list
+is then compacted by copying the rest of the list over the
+deleted element.  \fIsize\fP bytes (as specified in the call
+to \fIarray_create()\fP) are compared to find the element to
+delete.  If multiple copies of the element exist, then only
+the first one is deleted.  The address of the object to be
+compared must be passed, not the element itself.  The address
+of the first element of the list is returned.
+.LP
+.I array_setrate()
+specified the number of elements to pre-allocate.  By default,
+five  elements are allocated at a time.  Changing this could
+result in minor speed improvements.  If one knows the
+approximate number of elements is large, then setting this
+to a large value results in fewer calls to \fIrealloc(3)\fP.
+If space is a concern, the setting this to one results in
+\fIrealloc(3)\fP being called for each new element.
+.LP
+.I array_add_n()
+adds n elements onto the end of the list and returns a pointer
+to the first element of the list.  \fIarray\fP must be previously 
+allocated by \fIarray_create()\fP.  \fIelements\fP is the beginning 
+\fBaddress\fP of the elements to be added to the list.  Then, 
+\fIn * size\fP (as specified in \fIarray_create\fP) bytes are 
+copied from the address to the end of the list using \fIarray_add\fP.
+If the array is NULL, or if \fIelements\fP is NULL and \fIn\fP is
+greater than zero, or if \fIn\fP is less than or equal to zero,
+a warning is given, and a NULL ptr is returned.
+.LP
+.I array_destroy()
+frees the contents of the dynamic array using \fIfree(3)\fP and
+then frees the dynamic array using \fIarray_free\fP.  If the 
+dynamic array is NULL on input, no action is taken.
+.LP
+.I array_copy()
+creates a new dynamic array using \fIarray_create\fP, copies the 
+data of the input dynamic array into the new dynamic array, and 
+returns the new dynamic array.  Memory is allocated for the contents 
+of the new dynamic array using \fImalloc(3)\fP.  The contents of
+the input array are copied using \fImemcpy(3)\fP. If the input 
+dynamic array is NULL, or if a new dynamic array could not be created,
+a warning is given, and a NULL pointer is returned. If the memory 
+for the copy of the contents could not be allocated, an error is 
+reported, the dynamic array is freed, and a NULL pointer is returned.
+.SH EXAMPLE
+.LP
+The following example reads a list of floating point numbers
+from stdin and then prints out the list at the end:
+.nf
+float	float_val
+float	*list;
+int	i, count;
+Array	a;
+	a = array_create (sizeof (float));
+	while (scanf ("%f", &float_val) != NULL)
+	{
+		list = (float *) array_add (a, &float_val);
+	}
+	count = array_count (a);
+	array_free (a);
+	for (i = 0; i < count; i++)
+	{
+		printf ("%f\n", list[i]);
+	}
+	free ((char *) list)
+.fi
+.SH AUTHOR
+Pete Ware, Jeff Given, Shawn Wass, Darrin Wahl
+.SH BUGS
+It might be nice to be able to insert elements in arbitrary positions
+and delete elements at arbitrary positions.  For example, if
+one wanted to create dynamic strings, it would be nice to be
+able to always have a null terminated string by adding an
+element just before the end of the string.
+

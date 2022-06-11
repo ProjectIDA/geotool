@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# usage: gconvert in= out= [append=(true,false)] [tables=(true,false)] [format=(css,sac,ascii)]
+# execute geotool with the no-graphics '-i' option
+# pass geotool the arguments from this sh script: '$*'
+# redirect the standard input to read the geotool script commands
+
+%INSTALLATION_DIRECTORY%/bin/geotool -i $* <<%
+
+if( !defined(in) )
+    print "missing argument 'in='"
+    quit
+endif
+
+if( !defined(out) )
+    print "missing argument 'out='"
+    quit
+endif
+
+if( !defined(append) )
+    setb append=false
+endif
+
+if( !defined(format) )
+    set format="css"  # this is the output format
+endif
+
+if( !defined(tables) )
+    set tables=false
+endif
+
+read in
+select_all
+output file=out append=append output_tables=tables format=format
+quit

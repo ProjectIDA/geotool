@@ -1,0 +1,46 @@
+Ivan Henson	Scientific Computing	ihenson.sc@gmail.com
+John Coyne	CTBTO			john.coyne@ctbto.org
+Vera Miljanovic	CTBTO			vera.miljanovic@ctbto.org
+Petr Firbas	CTBTO			petr.firbas@ctbto.org
+Elena Tomuta	CTBTO			elena.tomuta@ctbto.org
+Frank Graeber	CTBTO
+
+Pete Ware	SAIC
+Brian Smithey	SAIC
+Shawn Wass	SAIC
+Jeff Given	SAIC
+Darrin Wahl	SAIC
+Walter Nagy	SAIC
+Jim Wang	SAIC
+Mari Mortell	SAIC
+Ethan Brown	SAIC
+Steve Bratt	SAIC
+Jeffrey A. Hanson SAIC
+Jerry Guern	SAIC
+J. Stevens	SAIC
+Doug Brumbaugh  SAIC
+K. McLaughlin	SAIC
+Hans Israelsson	SAIC
+
+Chris Lynnes	Teledyne Geotech
+Mary Ann Brennan Teledyne Geotech
+
+
+Packages:
+
+Dial Widget, Douglas A. Young
+
+LINPACK (www.netlib.org/linpack)
+	John Dongarra
+	G.W. Stewart, U. of Maryland, Argonne National Lab.
+
+Stanford Exploration Project FFT (package sep.stanford.edu)
+
+Numerical Recipes Software (www.nr.com)
+
+EISPACK Matrix Eigensystem Routines
+	B. T. Smith et. al (Springer-Verlag 1974)
+
+Shapelib Copyright (c) 1999, Frank Warmerdam warmerdam@pobox.com
+
+IASPEI Travel Time Computation Software, Ray Buland

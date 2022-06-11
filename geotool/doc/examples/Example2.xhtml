@@ -1,0 +1,1243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+
+
+
+
+
+<head>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type" />
+
+
+
+
+
+  
+  
+  
+  
+  
+  <title>Example2</title>
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+
+<body style="color: rgb(0, 0, 0);" alink="#ee0000" link="#0000ee" vlink="#551a8b">
+
+
+
+
+
+
+<h2 style="text-align: center;">Example2: Using the WaveformView Class</h2>
+
+
+
+
+
+
+The Example2 window is shown below. Its code is located in <span style="font-style: italic;">plugins/examples/example2</span>.
+To view this example in geotool, move or copy the shared library file <span style="font-style: italic;">libexample2.so.0.0.0</span> and its links, which are found in the directory <span style="font-style: italic;">plugins/examples/example2</span>,
+to the directory <span style="font-style: italic;">~/.geotool++/plugins</span>
+(a sub-directory in your home directory). For example, to make and copy the shared library with its links, do:<br />
+<br />
+
+
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic;">cd top_srcdir/plugins/examples/example2<br />
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; make install<br />
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; cp *.so* ~/.geotool++/plugins/</span><br />
+
+
+
+
+
+
+<br />
+This example allows you to copy some waveforms from the main waveform
+window and display them with their polarity reversed waveforms. Read
+some waveforms into the main window. Select some waveforms and click
+the Compute button in the Example2 window. The selected waveforms will
+be displayed in the Example2 window, with their data values multiplied
+by -1. The code from the Example2 plug-in is explained below.<br />
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+<div style="text-align: center;"><img style="width: 608px; height: 423px;" alt="Example 2 Window" src="example2.gif" /><br />
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+<div style="text-align: left;">
+<hr style="width: 100%; height: 2px;" />
+<h3 style="text-align: center;">The Example2 Code</h3>
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+<table style="width: 100%;" border="2" cellpadding="10">
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td style="width: 40%; vertical-align: top;">
+      
+      
+      
+      
+      
+      <div style="border-style: none; width: 400px;">
+      
+      
+      
+      
+      
+      <p style="width: 400px;">The file Example2.h contains the declaration of
+the Example2 class members.</p>
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      <p style="width: 400px;">The five #define statements specify names: <small><br />
+
+
+
+
+
+
+      </small></p>
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      <ul>
+
+
+
+
+
+
+        <li><small>PLUGIN_NAME</small> will be the
+window title.</li>
+
+
+
+
+
+
+        <li><small>PLUGIN_STRING</small> must be the&nbsp;<small>PLUGIN_NAME </small>with quotes.</li>
+
+
+
+
+
+
+        <li><small>PLUGIN_CLASS</small> can be
+anything unique.</li>
+
+
+
+
+
+
+        <li><small>PLUGIN_DESCRIPTION</small>
+is&nbsp;displayed in geotool's File/Plugins window.</li>
+
+
+
+
+
+
+        <li><small>PLUGIN_BUTTON_NAME</small> will
+appear in the geotool Option menu.</li>
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      </ul>
+
+
+
+
+
+
+      
+      
+
+
+      
+      
+
+
+      
+      
+      
+      
+      
+      <p><br />
+
+
+
+This plug-in is a <a href="../html/classFrame.html">Frame</a> class, which is a window with a menu bar and a tool bar. It is also a subclass of <a href="../html/classDataReceiver.html">DataReceiver</a>.</p>
+      <br />
+      <br />
+      <p>The <a href="../html/classComponent.html#f9fd70453e10f35e1dde50cfe227b98e">actionPerformed</a>, <a href="../html/classGobject.html#f9431854681b9360a4177d6afa325dc7">parseInput</a>, and <a href="../html/classFormDialog.html#e5c88d5b6a1617de78d057c5054416fb">parseHelp</a> methods are standard to all
+plug-in windows.</p>
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      <p>The <a href="#example1_compute">compute</a> method processes
+the waveforms.</p>
+      <br />
+      <br />
+
+
+
+      <br />
+
+
+
+Declaration of the interface graphical components: Buttons in the menu bar and a waveform display class, <a href="../html/classWaveformView.html">WaveformView</a>.<br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+The <a href="#example2_createInterface">createInterface</a> method creates puts the buttons in the pulldown menus and creates the WaveformView object.
+      </div>
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+      <td valign="top" width="60%">
+      
+      
+      
+      
+      
+      <div style="text-align: center;">
+      
+      
+      
+      
+      
+      <meta content="text/html;charset=UTF-8" http-equiv="Content-Type" />
+
+
+
+
+
+
+      <span style="font-weight: bold;">Example2.h</span>
+      </div>
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      <div style="border-style: ridge; background-color: rgb(232, 232, 255);" class="fragment">
+      
+      
+      
+      
+      
+      <pre class="fragment"> #ifndef _<span style="font-weight: bold;">EXAMPLE_2_H</span><br /> #define _<span style="font-weight: bold;">EXAMPLE_2_H</span><br /><br /> #include "<a href="../html/MotifDecs_8h.html" class="code">motif++/MotifDecs.h</a>"<br /> #include "<a href="../html/Frame_8h.html" class="code">motif++/Frame.h</a>"<br /> #include "<a href="../html/DataReceiver_8h.html" class="code">DataReceiver.h</a>"<br /><br /> /* Change the following defines as desired. Make sure that they do not conflict <br />  * with another plug-in. PLUGIN_STRING must be "PLUGIN_NAME".<br />  */<br /> #define PLUGIN_NAME <span style="font-weight: bold;"> 		Example2</span><br /> #define PLUGIN_STRING 		"<span style="font-weight: bold;">Example2</span>"<br /> #define PLUGIN_CLASS <span style="font-weight: bold;"> 		Example2Plugin</span><br /> #define PLUGIN_DESCRIPTION 	"<span style="font-weight: bold;">WaveformView Example</span> <span style="font-weight: bold;">Plug-in</span>"<br /> #define PLUGIN_BUTTON_NAME 	"<span style="font-weight: bold;">Example 2 (WaveformView)</span>..."<br /><br /> class <a title="A virtual interface for classes that support data I/O." href="../html/classDataSource.html" class="code">DataSource</a>;<br /> class <a href="../html/classWaveformView.html" class="code">WaveformView</a>;<br /><br /> PLUGIN_NAME : public <a title="A subclass of TopWindow that provides a MenuBar, ToolBar and InfoArea." href="../html/classFrame.html" class="code">Frame</a>, public <a title="An interface for classes that receive data." href="../html/classDataReceiver.html" class="code">DataReceiver</a><br /> {<br />     public:<br />	PLUGIN_NAME(const char *, <a title="The base class for all libmotif++ graphical classes." href="../html/classComponent.html" class="code">Component</a> *, <a title="A virtual interface for classes that support data I/O." href="../html/classDataSource.html" class="code">DataSource</a> *);<br /> 	~PLUGIN_NAME(void);<br />	<br />	void actionPerformed(<a title="Event information for action callbacks." href="../html/classActionEvent.html" class="code">ActionEvent</a> *action_event);<br />	<a title="parseInput return code." href="../html/group__libgobject.html#gd90708cc1f6a7f568309d00f8a7b80b6" class="code">ParseRet</a> parseInput(const char *input, char *msg, int msg_len);<br /> 	void parseHelp(const char *prefix);<br /><br />&nbsp; 	void compute(void);<br /><br />     protected:<br /> 	// File menu<br /> 	<a title="A class for the XmPushButton widget." href="../html/classButton.html" class="code">Button</a> *close_button, *output_button;<br /><br /> 	// Edit menu<br /> 	<a title="A class for the XmPushButton widget." href="../html/classButton.html" class="code">Button</a> *clear_button, *delete_button;<br /><br /> 	// Option menu<br />	<a title="A class for the XmPushButton widget." href="../html/classButton.html" class="code">Button</a> *compute_button;<br /><br /> 	// Help menu<br /> 	<a title="A class for the XmPushButton widget." href="../html/classButton.html" class="code">Button</a> *help_button;<br /><br />	<a href="../html/classWaveformView.html" class="code">WaveformView</a> *wplot;<br /><br /> 	void createInterface(void);<br /> };<br /><br /> #endif<br /></pre>
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+The Example2.cpp file.<br />
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+<table style="width: 100%;" border="2" cellpadding="10">
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td style="width: 40%; vertical-align: top;">
+      
+      
+      
+      
+      
+      <div style="border-style: none; width: 400px;">
+      
+      
+      
+      
+      
+      <p></p>
+
+
+
+      
+      
+      
+      <p>The file Example2.cpp contains the definition of
+the Example2 class. Edit this file to change the <small>compute&nbsp;</small>
+method.</p>
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+The method <a href="../html/classComponent.html#85f07206865c5ce210c692654b48af4e">setSize</a>
+sets the size of the plug-in window. It is not required, but can be
+used to change the default size that is determined by the window
+children. Whether it is used or not, the user only needs to resize the
+window once, and the new window size will be remembered for subsequent
+program executions.<br />
+
+
+
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+The <a href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d">menu_bar</a>, <a href="../html/classFrame.html#661e91e6523ddc833fcb7c717142ea55">tool_bar</a> and <a href="../html/classFrame.html#ef20462327d312b8a2fc2ac8c27679e6">info_area</a> are optional children of the <a href="../html/classFrame.html">Frame</a>. They appear only if they are created as shown. Similarily, the <a href="../html/classFrame.html#4d8a09cc3fbaec8a96874d86ad77a435">file_menu</a>, <a href="../html/classFrame.html#a9d88e5021062e138f722c41a66faa6a">edit_menu</a>, <a href="../html/classFrame.html#66acfc3fa2035e5809fb4ba67a73d8da">option_menu</a>, and <a href="../html/classFrame.html#01ca061b10fb32c528ffbb49a7090215">help_menu</a> are optional children of the <a href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d">menu_bar</a> and appear only if created as show.<br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      Buttons are created as children of the menus. When they are clicked, the method <a href="#example1_actionPerformed">actionPerformed</a> below is called.<br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      The <a href="../html/classWaveformView.html">WaveformView</a> class draws the waveforms. This is the same class
+that is used in the main waveform window. The args specify its position and title.<br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+      <br />
+
+
+
+The <a href="../html/classComponent.html#f9fd70453e10f35e1dde50cfe227b98e">actionPerformed</a> method is called
+whenever a button, or toggle, etc. is activated. It determines the source of the action and calls the appropriate method. The <a href="../html/classActionEvent.html">ActionEvent</a> method <a href="../html/classActionEvent.html#ca70f765065be2c795d6ad4e20c26473">getActionCommand</a> returns the name of the component (Button) and the <a href="../html/classActionEvent.html#5e7781b0e9aaf3de26291716e7531988">getSource</a> method returns the Button object itself.<br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      The <a href="../html/classGobject.html#f9431854681b9360a4177d6afa325dc7">parseInput</a> method is called to process lines that are typed into the geotool's
+execution shell window. Only lines that begin with the PLUGIN_NAME,
+"example2." are passed to this method. The parseInput method is an
+implementation of the super class and is not strictly required, if you
+do want to process string commands. But, it can be very useful as it
+allows for automated testing and processing.<br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      The <a href="../html/classFormDialog.html#e5c88d5b6a1617de78d057c5054416fb">parseHelp</a> m<a href="../html/classFormDialog.html#e5c88d5b6a1617de78d057c5054416fb"><code></code></a>ethod prints the string commands that are parsed by the parseInput
+method. It is not require, but should be included along with the parseInput <code></code>method.<br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+      The compute() method is called by actionPerformed()<code></code> when the Compute button is clicked. It gets the selected
+waveforms from the main waveform window with the call to <a href="../html/classDataSource.html#d62f57e7ba3f49f8f950c58a4108d1c2">copySelectedWaveforms</a>.<br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+All of the tables (arrival, origin, etc) are also copied to the
+Example2 window.<br />
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+The waveform data values are multiplied by -1. to illustrate accessing the data. The copied
+waveforms are then input into the <a href="../html/classWaveformView.html">WaveformView</a> object&nbsp;with the <small>addWaveform</small>
+call, which displays them in the Example2 window.<br />
+
+
+
+
+
+      <br />
+
+
+
+
+
+The <a href="../html/classGTimeSeries.html">GTimeSeries</a> objects are deleted, when no longer needed, by the <a href="../html/classWaveformView.html">WaveformView</a> object&nbsp;wplot.</div>
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+      <td valign="top" width="60%">
+      
+      
+      
+      
+      
+      <div style="text-align: center;">
+      
+      
+      
+      
+      
+      <meta content="text/html;charset=UTF-8" http-equiv="Content-Type" />
+
+
+
+
+
+
+      <span style="font-weight: bold;">Example2.cpp</span>
+      </div>
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      <meta content="text/html;charset=UTF-8" http-equiv="Content-Type" />
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      <div style="border-style: ridge; background-color: rgb(232, 232, 255);" class="fragment">
+      
+      
+      
+      
+      
+      <pre class="fragment"> #include "<span class="code">config.h</span>"<br /> #include &lt;iostream&gt;<br /> #include &lt;math.h&gt;<br /> using namespace std;<br /><br /> #include "Example2.h" 			// For this class definition<br /> #include "<a href="../html/MotifClasses_8h.html" class="code">motif++/MotifClasses.h</a>"	// For MenuBar, Menu, Button, etc.<br /> #include "<a href="../html/CPlotDataClass_8h.html" class="code">CPlotDataClass.h</a>" 		// For the CPlotDataClass<br /> #include "<a href="../html/DataSource_8h.html" class="code">DataSource.h</a>" 		// For the DataSource class<br /> #include "<a href="../html/WaveformView_8h.html" class="code">WaveformView.h</a>" 		// For the WaveformView class<br /><br /> // Plug-in window constructor<br /> class PLUGIN_NAME::PLUGIN_NAME(const char *name, <a title="The base class for all libmotif++ graphical classes." href="../html/classComponent.html" class="code">Component</a> *parent, <a title="A virtual interface for classes that support data I/O." href="../html/classDataSource.html" class="code">DataSource</a> *ds)<br /> 			: <a title="A subclass of TopWindow that provides a MenuBar, ToolBar and InfoArea." href="../html/classFrame.html" class="code">Frame</a>(name, parent), <a title="An interface for classes that receive data." href="../html/classDataReceiver.html" class="code">DataReceiver</a>(ds)<br /> {<br />     createInterface();<br /> }<br /><br /> <a name="example2_createInterface"></a>void PLUGIN_NAME::createInterface()<br /> {<br />     int n;<br />     Arg args[20];<br /><br />     // Set the initial width and height of the window.<br />     <a title="Set the window size." href="../html/classFormDialog.html#e7938a6aac821e99bfbb4459eb725bf4" class="code">setSize</a>(600, 300);<br /><br />     // create a menu bar, tool bar, and info area (at the bottom)<br />     <a title="The MenuBar child." href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" class="code">menu_bar</a> = new <a title="A menubar class that uses XmCreateMenuBar." href="../html/classMenuBar.html" class="code">MenuBar</a>("menuBar", this);<br />     <a title="The ToolBar child." href="../html/classFrame.html#661e91e6523ddc833fcb7c717142ea55" class="code">tool_bar</a> = new <a href="../html/classToolBar.html" class="code">ToolBar</a>("toolbar", this, <a title="The MenuBar child." href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" class="code">menu_bar</a>);<br />     <a title="The InfoArea child." href="../html/classFrame.html#ef20462327d312b8a2fc2ac8c27679e6" class="code">info_area</a> = new <a title="A class that contains two InfoClass components arranged horizontally." href="../html/classInfoArea.html" class="code">InfoArea</a>("infoArea", this);<br /><br />     // create a File menu with two buttons<br />     <span style="text-decoration: underline;"></span><a title="The File Menu." href="../html/classFrame.html#4d8a09cc3fbaec8a96874d86ad77a435" class="code">file_menu</a> = new <a title="A class for the XmPulldownMenu widget." href="../html/classMenu.html" class="code">Menu</a>("File", <a title="The MenuBar child." href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" class="code">menu_bar</a>);<br />     output_button = new <a title="A class for the XmPushButton widget." href="../html/classButton.html" class="code">Button</a>("Output...", <a title="The File Menu." href="../html/classFrame.html#4d8a09cc3fbaec8a96874d86ad77a435" class="code">file_menu</a>, this);<br />     close_button = new <a title="A class for the XmPushButton widget." href="../html/classButton.html" class="code">Button</a>("Close", <a title="The File Menu." href="../html/classFrame.html#4d8a09cc3fbaec8a96874d86ad77a435" class="code">file_menu</a>, this);<br /><br />     // create an Edit menu with two buttons<br />     <a title="The Edit Menu." href="../html/classFrame.html#a9d88e5021062e138f722c41a66faa6a" class="code">edit_menu</a> = new <a title="A class for the XmPulldownMenu widget." href="../html/classMenu.html" class="code">Menu</a>("Edit", <a title="The MenuBar child." href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" class="code">menu_bar</a>);<br />     clear_button = new <a title="A class for the XmPushButton widget." href="../html/classButton.html" class="code">Button</a>("Clear", <a title="The Edit Menu." href="../html/classFrame.html#a9d88e5021062e138f722c41a66faa6a" class="code">edit_menu</a>, this);<br />     delete_button = new <a title="A class for the XmPushButton widget." href="../html/classButton.html" class="code">Button</a>("Delete Selected", <a title="The Edit Menu." href="../html/classFrame.html#a9d88e5021062e138f722c41a66faa6a" class="code">edit_menu</a>, this);<br /><br />     // create an Option menu with one button<br /><br />     <a title="The Option Menu." href="../html/classFrame.html#66acfc3fa2035e5809fb4ba67a73d8da" class="code">option_menu</a> = new <a title="A class for the XmPulldownMenu widget." href="../html/classMenu.html" class="code">Menu</a>("Option", <a title="The MenuBar child." href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" class="code">menu_bar</a>);<br />     compute_button = new <a title="A class for the XmPushButton widget." href="../html/classButton.html" class="code">Button</a>("Compute", <a title="The Option Menu." href="../html/classFrame.html#66acfc3fa2035e5809fb4ba67a73d8da" class="code">option_menu</a>, this);<br /><br />     // create a Help menu with one button<br />     <a title="The Help Menu." href="../html/classFrame.html#01ca061b10fb32c528ffbb49a7090215" class="code">help_menu</a> = new <a title="A class for the XmPulldownMenu widget." href="../html/classMenu.html" class="code">Menu</a>("Help", <a title="The MenuBar child." href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" class="code">menu_bar</a>);<br />     <a title="The MenuBar child." href="../html/classFrame.html#b81773337b6e38a63421077ff68c898d" class="code">menu_bar</a>-&gt;<a title="Set the help menu." href="../html/classMenuBar.html#a2f5586db48faf909f040af4136e2e33" class="code">setHelpMenu</a>(<a title="The Help Menu." href="../html/classFrame.html#01ca061b10fb32c528ffbb49a7090215" class="code">help_menu</a>);<br />     help_button = new <a title="A class for the XmPushButton widget." href="../html/classButton.html" class="code">Button</a>(PLUGIN_STRING, <a title="The Help Menu." href="../html/classFrame.html#01ca061b10fb32c528ffbb49a7090215" class="code">help_menu</a>, this);<br /><br />     n = 0;<br />     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNbottomAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XtNtitle, "Processed Waveforms"); n++;<span class="code"></span><br /><br />     // create a WaveformView object.<br />     wplot = new <a href="../html/classWaveformView.html" class="code">WaveformView</a>("wplot", <a title="The frame Form child." href="../html/classFrame.html#008c47748a58feb2ac3f6caa324bc772" class="code">frame_form</a>, info_area, args, n);<br /><br />     if(!<a title="The ToolBar child." href="../html/classFrame.html#661e91e6523ddc833fcb7c717142ea55" class="code">tool_bar</a>-&gt;<a title="Load the initial ToolBar contents from a program property." href="../html/classToolBar.html#738f86ca8e76241c1ad9633c4d74d6e4" class="code">loadDefaults</a>()) {<br /> 	// Add Close and Compute to the tool bar<br /> 	<a title="The ToolBar child." href="../html/classFrame.html#661e91e6523ddc833fcb7c717142ea55" class="code">tool_bar</a>-&gt;<a title="Add a Component to the ToolBar with name and position." href="../html/classToolBar.html#8ede433885f54f472496a2c5de44ee62" class="code">add</a>(close_button, "Close");<br /> 	<a title="The ToolBar child." href="../html/classFrame.html#661e91e6523ddc833fcb7c717142ea55" class="code">tool_bar</a>-&gt;<a title="Add a Component to the ToolBar with name and position." href="../html/classToolBar.html#8ede433885f54f472496a2c5de44ee62" class="code">add</a>(compute_button, "Compute");<br />     }<br /> }<br /><br /> /* Plug-in window destructor<br />  */<br /> PLUGIN_NAME::~PLUGIN_NAME(void)<br /> {<br /> }<br /><br /> /* Handle ActionEvents (From Button, Toggle, etc.)<br />  */<br /> <a name="example1_actionPerformed"></a>void PLUGIN_NAME::actionPerformed(<a title="Event information for action callbacks." href="../html/classActionEvent.html" class="code">ActionEvent</a> *action_event)<br /> {<br />     const char *cmd = action_event-&gt;<a title="Get the action command string." href="../html/classActionEvent.html#ca70f765065be2c795d6ad4e20c26473" class="code">getActionCommand</a>();<br />     <a title="The base class for all libmotif++ graphical classes." href="../html/classComponent.html" class="code">Component</a> *comp = action_event-&gt;<a title="Get the Component source." href="../html/classActionEvent.html#5e7781b0e9aaf3de26291716e7531988" class="code">getSource</a>();<br /><br />     if(!strcmp(cmd, "Close")) {<br /> 	<a title="Set the FormDialog visible with a position offset from the parent." href="../html/classFrame.html#460ed7445bc4668f86e27df4bcc8f4fb" class="code">setVisible</a>(false);<br />     }<br />     else if(!strcmp(cmd, "Compute")) {<br /> 	compute();<br />     }<br />     else if(!strcmp(cmd, "Clear")) {<br /> 	wplot-&gt;<a href="../html/classWaveformPlot.html#7edbc746ad0910e007e1b9a55581f139" class="code">clear</a>();<br />     }<br />     else if(!strcmp(cmd, "Output...")) {<br /> 	wplot-&gt;<a href="../html/classWaveformPlot.html#19c89203b68d440f9a82e0d616841206" class="code">output</a>();<br />     }<br />     else if(!strcmp(cmd, "Delete Selected")) {<br /> 	wplot-&gt;<a href="../html/classWaveformPlot.html#26823fe690dbdadb030967539009c7d0" class="code">deleteData</a>();<br />     }<br />     else if(comp == <a href="../html/classPLUGIN__NAME.html#b0aa3ae4141a371fe94c830f4af826bc" class="code">help_button</a>) {<br /> 	<a title="Display a MessageDialog window with the input message." href="../html/classFormDialog.html#0ed2e1fe7dbd6062c95623f086327ee8" class="code">displayHelp</a>("Select one or more waveforms in the waveform window.\n\<br /> Click Compute to process the selected waveforms.");<br />     }<br /> }<br /><br /> /* Handle string commands that are entered into the shell window.<br />  */<br /> <a title="parseInput return code." href="../html/group__libgobject.html#gd90708cc1f6a7f568309d00f8a7b80b6" class="code">ParseRet</a> PLUGIN_NAME::parseInput(const char *input, char *err_msg, int msg_len)<br /> {<br />     <a title="parseInput return code." href="../html/group__libgobject.html#gd90708cc1f6a7f568309d00f8a7b80b6" class="code">ParseRet</a> ret = <a title="the command was parsed." href="../html/group__libgobject.html#ggd90708cc1f6a7f568309d00f8a7b80b60bd8588514db4314790534383f469195" class="code">COMMAND_PARSED</a>;<br /><br />     if(!strcasecmp(input, "Clear")) {<br /> 	clear_button-&gt;<a title="Change the Button label." href="../html/classButton.html#ba61b2ad1866dc3f3a4d308f823f72cb" class="code">activate</a>();<br />     }<br />     else if(!strcasecmp(input, "Compute")) {<br /> 	compute_button-&gt;<a title="Change the Button label." href="../html/classButton.html#ba61b2ad1866dc3f3a4d308f823f72cb" class="code">activate</a>();<br />     }<br />     else if(!strcasecmp(input, "Delete Selected")) {<br /> 	delete_button-&gt;<a title="Change the Button label." href="../html/classButton.html#ba61b2ad1866dc3f3a4d308f823f72cb" class="code">activate</a>();<br />     }<br />     else if(!strcasecmp(input, "Help")) {<br /> 	char prefix[200];<br /> 	<a href="../html/classFormDialog.html#586c47d3c889a922312e06f99df3d34f" class="code">getParsePrefix</a>(prefix, sizeof(prefix));<br /> 	parseHelp(prefix);<br />     }<br />     else if((ret = wplot-&gt;<a title="Parse string commands." href="../html/classWaveformView.html#a963770232ab11c7b5e99b3102c790b9" class="code">parseInput</a>(input, err_msg, msg_len))<br /> 			== <a title="the command name was not found." href="../html/group__libgobject.html#ggd90708cc1f6a7f568309d00f8a7b80b6c59a571921e526d7e962044f17418741" class="code">COMMAND_NOT_FOUND</a>)<br />     {<br /> 	return this-&gt;<a title="Parse string commands." href="../html/classFormDialog.html#13ba48576905ae14551cbd5763cbc0a9" class="code">FormDialog::parseInput</a>(input, err_msg, msg_len);<br />     }<br />     return ret;<br /> }<br /><br /> /* Print string commands.<br />  */<br /> void PLUGIN_NAME::parseHelp(const char *prefix)<br /> {<br />     printf("%sclear\n", prefix);<br />     printf("%scompute\n", prefix);<br />     printf("%sdelete selected\n", prefix);<br />     wplot-&gt;<a href="../html/classWaveformView.html#9da5cbe5afe409a0959636d699b2a635" class="code">parseHelp</a>(prefix);<br /> }<br /><br /> /* This example method simply copies the waveforms and multiplies the data<br />  * values by -1, thus flipping the polarity. The waveforms are then displayed<br />  * in the plug-in window.<br />  */<br /> <a name="example1_compute"></a>void PLUGIN_NAME::compute(void)<br /> {<br />     int num_waveforms;<br />     <a title="A class that holds waveform data as a sequence of data segments." href="../html/classGTimeSeries.html" class="code">GTimeSeries</a> **ts_list=NULL;<br /><br />     if( !<a href="../html/classDataReceiver.html#22041456bc8a1c6c5d8fcda613dd640c" class="code">data_source</a> ) {<br /> 	<a title="Display a warning message in a popup window." href="../html/classComponent.html#694bc4d97923e8e8147c4392502c48f6" class="code">showWarning</a>("No DataSource.");<br /> 	return;<br />     }<br />     wplot-&gt;<a href="../html/classWaveformPlot.html#7edbc746ad0910e007e1b9a55581f139" class="code">clear</a>();<br /><br />     if((num_waveforms = <a href="../html/classDataReceiver.html#22041456bc8a1c6c5d8fcda613dd640c" class="code">data_source</a>-&gt;<a title="Get cloned GTimeSeries objects for selected waveforms." href="../html/classDataSource.html#d62f57e7ba3f49f8f950c58a4108d1c2" class="code">copySelectedWaveforms</a>(&amp;ts_list)) &lt;= 0) {<br /> 	<a title="Display a warning message in a popup window." href="../html/classComponent.html#694bc4d97923e8e8147c4392502c48f6" class="code">showWarning</a>("No waveforms selected.");<br /> 	<a href="../html/Gobject_8h.html#1a511529c1b9f8b385f22e563844446f" class="code">Free</a>(ts_list);<br /> 	return;<br />     }<br />     wplot-&gt;<a href="../html/classCPlotClass.html#5d47d93ad3eb3704c1363759e9ddaab3" class="code">copyAllTables</a>(<a href="../html/classDataReceiver.html#22041456bc8a1c6c5d8fcda613dd640c" class="code">data_source</a>);<br /><br />     // Multiply the waveform data values by -1.<br />     for(int i = 0; i &lt; num_waveforms; i++)<br />     {<br />	// Loop over the segments of the waveform.<br />	for(int j = 0; j &lt; ts_list[i]-&gt;size); j++) {<br />	    int npts = ts_list[i]-&gt;segment(j)-&gt;length();<br />	    float *data = ts_list[i]-&gt;segment(j)-&gt;data;<br />	    // Loop over all data values in each segment.<br />	    for(int k = 0; k &lt; npts; k++) {<br />		data[k] *= -1.;<br />	    }<br />	}<br /> 	wplot-&gt;<a href="../html/classWaveformPlot.html#a2549c2ba2b27eda656b486a68218197" class="code">addWaveform</a>(ts_list[i], <a title="Get the Pixel value for a color." href="../html/classComponent.html#928a011f4ee5bea2b620bf3f010742c3" class="code">stringToPixel</a>("grey60"));<br />     }<br />     <a href="../html/Gobject_8h.html#1a511529c1b9f8b385f22e563844446f" class="code">Free</a>(ts_list);<br /> }</pre>
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+This example uses the <a href="../html/classWaveformView.html">WaveformView</a>
+class. This class has a popup menu with many of the menu items that are
+in the main waveform window's View menu. Use shift-right-mouse (hold
+the shift key and press the right mouse button) to access this popup
+menu in the Example2 window. The popup menu is show below.<br />
+
+
+
+
+
+<br />
+
+
+
+
+
+<div style="margin-left: 40px;"><img src="WaveformViewPopupMenu.gif" alt="WaveformView Popup Menu" style="width: 206px; height: 576px;" /><br />
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+
+</html>

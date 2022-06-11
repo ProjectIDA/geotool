@@ -1,0 +1,66 @@
+.\"%W	%G
+.TH libaesir 3  "January 1999"
+.SH NAME
+\fBlibaesir\fP \- general utility functions for developers
+
+.SH DESCRIPTION
+This library provides several general utility functions for developers.  
+They include: a public domain debugging package providing several levels
+of detail, a UNIX sleep(3) replacement providing microsecond precision,
+string-manipulation routines, and a
+ dynamic run-time array allocation package.
+
+This library includes the following functions:
+
+add_to_str.c,     
+change_case.c,     
+dyn_array.c,     
+dyn_array_ext.c,     
+error.c,     
+expand_log_keys.c,
+mask.c,     
+messages.c,     
+nap.c,     
+read.c,     
+select.c,     
+space.c,     
+stringcat.c,     
+version.c,     
+write.c
+
+.SH NOTES
+As of January 1999, the functions that were supplied by MilliTime.c and
+strtime.c have been moved to libstdtime.
+
+These changes were part of the Y2K-remediation effort.
+
+All dispatcher functions have been elided.
+
+.SH FILES
+The following header files are maintained in the ./libaesir directory:
+
+	aesir.h,     
+	dyn_array.h, 
+	error.h,     
+	libaesir.h,  
+	mask.h,          
+	sysdefs.h
+
+.SH BUGS
+No known bugs.
+
+.SH "SEE ALSO"
+.nf
+\fBerror(3)\fp,    
+\fBg2toint(3)\fp,     
+\fBdyn_array(3)\fp,    
+\fBarray_create(3)\fp,    
+\fBadd_to_str(3)\fp,    
+\fBnap(3)\fp,    
+\fBsleep(3)\fP
+.fi
+.SH AUTHOR(S)
+Jim Wang
+
+.SH ORIGINATOR
+(various)

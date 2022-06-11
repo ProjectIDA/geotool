@@ -1,0 +1,3748 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.0  (Linux)">
+	<META NAME="AUTHOR" CONTENT="Ivan Henson">
+	<META NAME="CREATED" CONTENT="20090127;20372200">
+	<META NAME="CHANGEDBY" CONTENT="Ivan Henson">
+	<META NAME="CHANGED" CONTENT="20090208;15095800">
+	<META NAME="Info 1" CONTENT="">
+	<META NAME="Info 2" CONTENT="">
+	<META NAME="Info 3" CONTENT="">
+	<META NAME="Info 4" CONTENT="">
+	<STYLE TYPE="text/css">
+	<!--
+		TD P.western { font-family: "Nimbus Sans L", sans-serif }
+		H1.western { font-family: "Nimbus Sans L", sans-serif; font-size: 14pt; font-weight: normal }
+		P.western { font-family: "Nimbus Sans L", sans-serif }
+<!		PRE.western { font-family: "Nimbus Sans L", sans-serif } >
+		PRE.western { }
+		H2.western { font-family: "Nimbus Sans L", sans-serif; font-size: 14pt; font-weight: normal }
+		DD.western { font-family: "Nimbus Sans L", sans-serif }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<H1 CLASS="western">Database Table Names and Members</H1>
+<DL>
+<P CLASS="western"><A NAME="affiliation"><B>affiliation</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">net[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">unique network identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="ampdescript"><B>ampdescript</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">amptype[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">amplitude measure descriptor</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">toff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">offset from theoretical or observed arrival time</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">tlen</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">duration of measurement window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gvlo</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">low group velocity for measurement window (km/sec)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gvhi</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">high group velocity for measurement window (km/sec)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mtype[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">measurement type: "peak", "stav", "rms", "peak2tr" or "1stpeak"</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">descr[256]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">description</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="amplitude"><B>amplitude</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ampid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">amplitude itentifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">arid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">arrival identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">parid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">predicted arrival identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel code</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">amp</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">amplitude (nm)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">per</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">period (s)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">snr</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">signal-to-noise ratio</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">amptime</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">time of amplitude measure</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">start_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">start time of measurement window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">duration</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">duration of measurement window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">bandw</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">bandwidth</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">amptype[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">amplitude measure descriptor</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">units[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">units</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">clip[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">clipping flag</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">inarrival[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">"y" or "n" flag indicating if amp is the same as the amp in arrival table</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auth[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">author</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="arrival"><B>arrival</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">epoch time</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">arid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">arrival id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">jdate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">julian date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">stassid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">stassoc id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chanid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">instrument id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">iphase[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">reported phase</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">stype[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">signal type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">deltim</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">delta time</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">azimuth</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">observed azimuth</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">delaz</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">delta azimuth</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">slow</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">observed slowness (s/deg)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">delslo</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">delta slowness</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ema</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">emergence angle</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">rect</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">rectilinearity</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">amp</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">amplitude, instrument corrected, nm</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">per</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">period</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">logat</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">log(amp/per)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">clip[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">clipped flag</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fm[3]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">first motion</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">snr</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">signal to noise</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">qual[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">signal onset quality</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auth[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">source/originator</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="assoc"><B>assoc</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">arid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">arrival id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">orid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">origin id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station code</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">phase[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">associated phase</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">belief</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">phase confidence</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">delta</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station to event distance</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">seaz</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station to event azimuth</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">esaz</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">event to station azimuth</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">timeres</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">time residual</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">timedef[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">time = defining,non-defining</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">azres</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">azimuth residual</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">azdef[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">azimuth = defining,non-defining</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">slores</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">slowness residual</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">slodef[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">slowness = defining,non-defining</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">emares</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">incidence angle residual</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">wgt</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">location weight</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">vmodel[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">velocity model</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="channame"><B>channame</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">station[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station name</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">stream[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">stream name</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">extern_sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">external station (site) name</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">extern_chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">external channel name</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">intern_sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">internal station (site) name</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">intern_chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">internal channel name</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">capability</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">value that specifies if the channel is considered capable or not</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">position</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">position of this channel in the channel mask (starting with 0)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">revision</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">revision of this channel mask (starting with revision 0)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">most recent update time</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="clf"><B>clf</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">frid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">frameproduct ID for this clf file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">frameid[39]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">frame ID</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">receipt time of the frame</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">timestamp</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">nominal time stamp of the frame</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">receivespan</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">foff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">file offset of the start of the frame in the file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">length</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">length of the frame in bytes</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">duration</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">frame duration</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">frametype[3]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">type of frame</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">verifstatus[5]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">verification status</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">pcode[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">parsing code (see cdrecv documentation)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mask[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel mask, e.g., '0011101' 1-channel chanel is present, 0 - channel is not present</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">revision</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">revision of the channel mask (id in the Chanxxx table)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">most recent update time</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="dervdisc"><B>dervdisc</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">jdate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">julian date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">epoch time of first sample in file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">tlen</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">overall time of spectrogram</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">net[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dervid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">pmcc id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">method[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">recid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">recipe id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">datatype[3]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">numeric storage</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dervtype[5]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">derived type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dir[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">directory</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dfile[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">data file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">foff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">byte ofspet</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="filter"><B>filter</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chanid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">arid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">arrival id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">wfid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">waveform id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">band[3]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">lp, hp, bp, or br</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ftype[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">'z': zero phase, 'c': causal</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">forder</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">filter order</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lofreq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">low cut frequency (Hz)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">hifreq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">high cut frequency (Hz)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">algo[31]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">filter algorithm</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">program[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">program which uses filter</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="fpdescription"><B>fpdescription</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">type_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">typeid ID for the product type descr</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">prodtype[13]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">name of the product</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">name[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">descriptive listing of the product name</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">msgdtype[17]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">type of data</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">msgdformat[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">descriptive listing of the product name</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">header_fpid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">fpid pointing to the header row for this product type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">most recent update time</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="frameproduct"><B>frameproduct</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">frid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">Frameproduct ID</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">type_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">type ID</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dir[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">directory</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dfile[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">data file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">foff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">file offset</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dsize</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">offset of the data format frame</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">start of the last processed frame</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">endtime</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">author[17]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">author</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">version</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">version</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">revision</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">reversion</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">obsolete</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">obsolete</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">most recent update time</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="fsave"><B>fsave</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">avtype[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">fs channel (ave, med, 95perct, etc)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fstype[5]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">Fourier spectrum type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">maxf</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">max frequency</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nf</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of frequency values</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nave</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of spcetra used in this average</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">afsid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">ave fs id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">noissd</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">std dev of log noise</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">datatype[3]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">numeric storage</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dir[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">directory</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dfile[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">data file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">foff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">byte offset</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="fsdisc"><B>fsdisc</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">jdate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">julian date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">epoch time of first sample in file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">tlen</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">time window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fstype[5]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">Fourier spectrum type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">arid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">arrival id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">maxf</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">max frequency</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nf</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of frequency values</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">samprate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">sampling rate in samples/second</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chanid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">wfid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">waveform id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fsrid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">fs recipe id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fsid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">fs id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">datatype[3]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">numeric storage</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dir[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">directory</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dfile[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">data file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">foff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">byte offset</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="fsrecipe"><B>fsrecipe</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fsrid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">fs recipe id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fsdesc[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">desc of fs, med/ave day/night, etc</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">taper[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">type of taper</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">taperstart</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">starting percent for cosine taper</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">taperend</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">ending percent for cosine taper</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">winlen</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of seconds in windows</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">overlap</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">percent of overlap between adjacent windows</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nfft</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in fft</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">smoothvalue</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">amount of smoothing (Hz)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">response[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">flag if corrected for instrument response</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="fstag"><B>fstag</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">afsid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">fs id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fsid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">fs id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_bg_energy_cal"><B>gards_bg_energy_cal</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">beta_coeff1</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">beta_coeff2</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">beta_coeff3</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gamma_coeff1</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gamma_coeff2</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gamma_coeff3</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_bg_isotope_concs"><B>gards_bg_isotope_concs</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nuclide_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">conc</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">conc_err</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mdc</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nid_flag</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lc</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ld</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_bg_proc_params"><B>gards_bg_proc_params</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lc_abscissa</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">method</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">det_bkgnd_used</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gas_bkgnd_used</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">beta_ecr_order</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gamma_ecr_order</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">max_qc_dev</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">qc_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">xe_in_air</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">det_bkgnd_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gas_bkgnd_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">qc_b_threshold</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">bin_rows</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">bin_min_count</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">bin_gamma_start</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">bin_beta_start</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">bin_max_vector_size</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_bg_proc_params_roi"><B>gards_bg_proc_params_roi</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">roi</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">halflife_sec</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">abundance</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nuclide_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_bg_qc_result"><B>gards_bg_qc_result</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">amplitude</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fwhm</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">centroid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">offset</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">slope</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_bg_roi_concs"><B>gards_bg_roi_concs</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">roi</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">conc</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">conc_err</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mdc</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nid_flag</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lc</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ld</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_bg_roi_counts"><B>gards_bg_roi_counts</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">roi</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gross</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gross_err</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gas_bkgnd_gross</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gas_bkgnd_count</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gas_bkgnd_count_err</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">det_bkgnd_count</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">det_bkgnd_count_err</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">net_count</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">net_count_err</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">critical_lev_samp</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">critical_lev_gas</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_bg_std_spectra_result"><B>gards_bg_std_spectra_result</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">std_spectra_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">beta_coeff1</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">beta_coeff2</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">beta_coeff3</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gamma_coeff1</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gamma_coeff2</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gamma_coeff3</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">estimate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">error</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_efficiency_pairs"><B>gards_efficiency_pairs</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">effic_energy</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">efficiency</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">effic_error</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_roi_channels"><B>gards_roi_channels</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">roi</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">b_chan_start</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">b_chan_stop</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">g_chan_start</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">g_chan_stop</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_roi_limits"><B>gards_roi_limits</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">roi</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">b_energy_start</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">b_energy_stop</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">g_energy_start</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">g_energy_stop</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_sample_data"><B>gards_sample_data</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">site_det_code[15]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">station_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">detector_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">input_file_name[256]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_type[1]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">data_type[1]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">geometry[17]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">spectral_qualifier[5]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">transmit_dtg</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">collect_start</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">collect_stop</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">acquisition_start</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">acquisition_stop</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">acquisition_real_sec</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">acquisition_live_sec</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">quantity</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="gards_sample_status"><B>gards_sample_status</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sample_id</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">entry_date[18]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">cnf_begin_date[18]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">cnf_end_date[18]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">review_date[18]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">review_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">analyst[30]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">status[1]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">category</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auto_category</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">release_date[18]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">moddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="history"><B>history</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dir[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">directory</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dfile[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">data file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">binfoff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">bin file offset</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">clffoff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">clf file offset</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">foffdff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">offset of the data format frame</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">start of the last processed frame</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">pid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">process id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">host[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">machine where process runs</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">most recent update time</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="hydroFeatures"><B>hydroFeatures</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">arid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">arrival id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">peak_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">peak_level</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">total_energy</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mean_arrival_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time_spread</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">onset_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">termination_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">total_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">num_cross</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ave_noise</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">skewness</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">kurtosis</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">cep_var_signal</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">cep_delay_time_signal</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">cep_peak_std_signal</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">cep_var_trend</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">cep_delay_time_trend</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">cep_peak_std_trend</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">low_cut</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">high_cut</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ford</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ftype[3]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fzp</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">prob_weight_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sigma_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="infraFeatures"><B>infraFeatures</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">arid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">arrival id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">eng_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">eng_dur</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">eng_deldur</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">coh_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">coh_dur</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">coh_deldur</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">coinc_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">coinc_dur</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">coinc_deldur</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ford</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">int</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">zrcr_freq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">zrcr_delfreq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">crnr_freq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">crnr_delfreq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">coh_per</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">coh_snr</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">total_energy</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auth[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="instrument"><B>instrument</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">inid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">instrument id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">insname[51]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">instrument name</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">instype[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">instrument type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">band[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">frequency band</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">digital[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">(d,a) analog</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">samprate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">sampling rate in samples/second</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ncalib</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">nominal calibration</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ncalper</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">nominal calibration period</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dir[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">directory</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dfile[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">data file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">rsptype[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">response type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="lastid"><B>lastid</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">keyname[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">id name (arid, orid, etc.)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">keyvalue</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">last value used for that id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="md5_digest"><B>md5_digest</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dir[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">directory</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dfile[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">data file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">inode</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">inode</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">digest[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">most recent update time</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="netmag"><B>netmag</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">magid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">magnitude id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">net[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">network identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">orid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">origin id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">evid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">event id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">magtype[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">magnitude type (mb)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nsta</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of stations used</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">magnitude</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">magnitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">uncertainty</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">magnitude uncertainty</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auth[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">author</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="origaux"><B>origaux</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">event[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">unique event identification (string)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">otfixf[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">flag designating that an origin time is fixed</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">epfixf[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">flag designating that an epicenter is fixed</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nsta</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of defining stations</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">gap</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">gap in azimuthal coverage (0<=gap<=360)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ident[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">unique ident (string)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mindist</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">distance to closest station (degrees)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">maxdist</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">distance to farthest station (degrees)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">antype[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">analysis type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">evid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">event identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">orid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">origin idenfitier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="origerr"><B>origerr</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">orid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">origerr id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sxx</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">covariance matrix element</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">syy</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">covariance matrix element</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">szz</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">covariance matrix element</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">stt</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">covariance matrix element</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sxy</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">covariance matrix element</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sxz</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">covariance matrix element</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">syz</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">covariance matrix element</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">stx</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">covariance matrix element</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sty</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">covariance matrix element</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">stz</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">covariance matrix element</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sdobs</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">std err of obs</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">smajax</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">semi-major axis of error</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sminax</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">semi-minor axis of error</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">strike</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">strike of semi-major axis</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sdepth</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">depth error</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">stime</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">origin time error</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">conf</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">confidence</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="origin"><B>origin</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lat</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">estimated latitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lon</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">estimated longitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">depth</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">estimated depth</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">epoch time</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">orid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">origin id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">evid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">event id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">jdate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">julian date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nass</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of associated phases</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ndef</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of locating phases</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ndp</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of depth phases</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">grn</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">geographic region number</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">srn</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">seismic region number</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">etype[8]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">event type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">depdp</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">estimated depth from depth phases</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dtype[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">depth method used</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mb</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">body wave magnitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mbid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">mb magid</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ms</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">surface wave magnitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">msid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">ms magid</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ml</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">local magnitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mlid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">ml magid</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">algorithm[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">location algorithm used</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auth[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">source/originator</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="outage"><B>outage</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">otgid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auxid[5]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">endtime</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">status[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auth[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">available[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="parrival"><B>parrival</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">parid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">predicted arrival identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">orid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">origin identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">evid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">event identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station code</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">time of amplitude measure</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">azimuth</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">observed azimuth</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">slow</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">observed slowness (s/deg)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">phase[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">associated phase</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">delta</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station-to-event dist</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">vmodel[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">velocity model</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="pick"><B>pick</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chanid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channed id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">epoch time of measurement</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">arid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">arrival id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">amptype[4]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">pp, zp or rms</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">amp</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">amplitude in counts</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">per</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">period</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">calib</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">calibration factor at calper</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">calper</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">calibration period</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ampcalib</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">calibration at per</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ampmin</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">min data value(cnts) for pp measurement</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="pmcc_features"><B>pmcc_features</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">arid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">arrival id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">intial_time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">duration</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">consistency</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">correlation</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">famsize</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">minfreq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">maxfreq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">cfreq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sigmafreq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">rmsamp</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auth[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="pmcc_recipe"><B>pmcc_recipe</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">pmccrecid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">pmcc recipe id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">deflt</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">default</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">fGroup</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">filter group</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">winlen</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">wingap</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">threshCons</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">threshNsens</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">qFactor</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">pmcc3D</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sound_speed</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">elevation_angle</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">threshFamLen</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">threshFamMin</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">threshFamMax</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">speedTransition</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">timeTol</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">freqTol</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">speedTol1</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">speedTol2</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">azTol1</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">azTol2</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auth[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="sensor"><B>sensor</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station code</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel code</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">epoch time of start of recording period</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">endtime</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">epoch time of end of recording period</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">inid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">instrument id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chanid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">jdate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">julian date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">calratio</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">calibration</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">calper</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">calibration period</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">tshift</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">correction of data processing time</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">instant[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">(y,n) discrete/continuing snapshot</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="site"><B>site</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ondate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">Julian start date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">offdate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">Julian off date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lat</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">latitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lon</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">longitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">elev</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">elevation</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">staname[51]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station description</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">statype[5]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station type: single station, virt array, etc.</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">refsta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">reference station for array members</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dnorth</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">offset from array reference (km)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">deast</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">offset from array reference (km)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="sitechan"><B>sitechan</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ondate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">Julian start date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chanid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">offdate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">Julian off date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ctype[5]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">edepth</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">emplacement depth</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">hang</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">horizontal angle</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">vang</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">vertical angle</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">descrip[51]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel description</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="spdisc"><B>spdisc</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">jdate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">julian date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">epoch time of first sample in file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">tlen</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">overall time of spectrogram</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">winpts</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">int</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of points in window</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">overlap</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">int</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">percent of overlap between adjacent windows</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nwin</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">int</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of windows</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lofreq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">lo frequency</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">hifreq</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">hi frequency</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nf</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of frequency values</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">spid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">sp id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">datatype[3]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">numeric storage</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dir[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">directory</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dfile[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">data file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">foff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">byte ofspet</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="staconf"><B>staconf</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">staname[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station code</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">statype[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station type:  h-hydro, h-tphase, i-array, s-3c, s-array</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">refsite[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">reference station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">refchan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">reference channel</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">threecsite[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">three component site</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">threecband[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">3-c channel prefix: "B", "s", etc.</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lpsite[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">long period site</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lpband[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">long period channel prefix</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="stamag"><B>stamag</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">magid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">magnitude id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ampid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">amplitude id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">arid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">arrival id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">orid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">origin id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">evid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">event id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">phase[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">associated phase</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">delta</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station-to-event dist</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">magtype[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">magnitude type (mb)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">magnitude</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">magnitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">uncertainty</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">magnitude uncertainty</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">magres</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">magnitude residual</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">magdef[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">flag if mag is defining</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mmodel[15]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">magnitude model</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auth[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">author</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="stanet"><B>stanet</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">net[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">unique network identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station identifier</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="stassoc"><B>stassoc</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">stassid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">stassoc id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station code</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">etype[8]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">event type</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">location[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">apparent location description</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dist</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">estimated distance</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">azimuth</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">observed azimuth</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lat</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">estimated latitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lon</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">estimated longitude</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">depth</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">estimated depth</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">estimated origin time</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">imb</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">initial estimated mb</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">ims</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">initial estimated ms</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">iml</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">initial estimated ml</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">auth[16]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">source/originator</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="waveinterval"><B>waveinterval</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">wintid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">unique ID  for this table</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">station[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station name</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">start of the interval</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">endtime</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">end time of the interval</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">percentdata</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">float</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">percent of data available for a</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">given</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">/*</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station for a given interval</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">percentchans</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">float</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">percent of channels available for a</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">given</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">/*</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station for a given interval</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">percentusable</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">float</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">percent of usable data</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">percenttimely</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">float</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">percent of data received within 5 minutes</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">status[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">initialized to "new" by cd2w</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">mask[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">"or" of all masks in clf entries</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">createdate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">create date of this record</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">last update time for this record</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="wfdisc"><B>wfdisc</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">sta[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">station</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chan[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">time</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">epoch time of first sample in file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">wfid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">waveform id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">chanid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">channel operation id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">jdate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">julian date</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">endtime</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">time + (nsamp-1)/samprate</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">nsamp</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">number of samples</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">samprate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">sampling rate in samples/second</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">calib</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">nominal calibration</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">calper</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">double</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">nominal calibration period</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">instype[7]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">instrument code</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">segtype[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">indexing method</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">datatype[3]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">numeric storage</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">clip[2]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">clipped flag</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dir[65]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">directory</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dfile[33]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">data file</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">foff</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">byte offset</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">commid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">comment id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="wftag"><B>wftag</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">tagname[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">key (arid, orid, etc.)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">tagid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">tagname value</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">wfid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">waveform id</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+<P CLASS="western"><A NAME="xtag"><B>xtag</B></P>
+<DL>
+    <TABLE WIDTH=90% BORDER=0 CELLPADDING=0 CELLSPACING=0>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">thisid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">thatid</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">long</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">-</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">thisname[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">key (arid, orid, etc.)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">thatname[9]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">key (arid, orid, etc.)</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">dbname[26]</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">char</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">dbname or [S|C]/sta/stadate</P></TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD WIDTH=20%> <P CLASS="western">lddate</P></TD>
+	<TD WIDTH=15%> <P CLASS="western">DateTime</P></TD>
+	<TD WIDTH=65%> <P CLASS="western">load date</P></TD>
+    </TR>
+    </TABLE>
+</DL>
+
+</DL>
+</BODY>
+</HTML>

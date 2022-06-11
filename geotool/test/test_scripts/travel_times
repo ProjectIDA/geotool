@@ -1,0 +1,55 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/travel.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file
+
+set phases="PcP,PcS,ScP,ScS,PKiKP,SKiKP,PKKPdf,PKKSdf,SKKPdf,SKKSdf,P'P'df,\
+S'S'df,P'P'ab,P,S,PP,SS,SPn,PnS,P'P'bc,SKSac,SKKSac,S'S'ac,PKKPbc,SKKPbc,\
+PKKSbc,PS,SP,Pdiff,Sdiff,SKSdf,PKKPab,SKPdf,PKSdf,PKPdf,PKSbc,SKPbc,SKPab,\
+PKSab,PKKSab,SKKPab,PKPbc,PKPab,pPn,sPn,pPb,sPb,sSb,pPKiKP,sPKiKP,pP,sP,sS,\
+pS,pSKSac,sSKSac,pPdiff,sPdiff,pSdiff,sSdiff,pSKSdf,sSKSdf,pPKPdf,sPKPdf,\
+pPKPbc,sPKPbc,pPKPab,sPKPab,LR,LQ,Lg,T,I,Rg"
+
+set tt=700.8,1288.1,1040.8,1247.4,1840.4,2054.3,2046.4,2259.9,2341.9,3196.6,\
+685.7,1251.0,850.1,1535.6,1282.7,1293.8,1285.0,1285.5,3209.5,1858.0,1062.1,\
+1070.3,705.6,714.1,1285.4,1275.5,1312.6,1321.4,2731.9,2561.2,5519.0,25611.7,\
+733.1,1348.3,1052.3,1259.4,1829.3,2043.8,2035.7,2249.8,2328.5,3184.5,727.1,\
+1331.1,912.0,1646.9,1376.5,1387.1,1338.4,1341.6,3193.1,1841.9,2048.5,2060.3,\
+1073.7,1081.9,747.3,755.8,1366.1,1356.6,1366.3,1374.9,3005.0,2817.2,6070.7,\
+28172.0,640.4,882.7,874.0,1175.6,1021.7,1227.5,1866.4,2081.9,2073.1,2288.7,\
+2366.9,3217.9,2388.4,592.8,1075.0,724.5,1312.3,1085.6,2375.5,1043.1,1051.3,\
+612.0,620.6,1108.4,1097.2,2192.2,2055.2,4428.7,20551.9,693.5,1274.4,1038.2,\
+1244.7,1842.9,2056.6,2048.8,2262.0,2345.0,3199.2,675.6,1231.5,835.5,1509.7,\
+1260.4,1271.6,1272.2,1272.5,3213.1,1059.6,1067.7,695.3,703.9,1265.8,1255.8,\
+1299.8,1308.6,2669.0,2502.2,5391.8,25021.6
+
+setb ok=true
+set last_net=" "
+i = 1
+foreach(wave, w)
+    if(w.net != last_net)
+	set last_net = w.net
+	foreach(phases)
+	    t = travelTime(phases, origin[1], w)
+	    if(t > 0.)
+		sprint s t(%8.1f)
+		if(s != tt[i])
+		    setb ok = false
+		    break
+		endif
+		i = i + 1
+	    endif
+	endfor
+	if( !ok )
+	    break;
+	endif
+    endif
+endfor
+
+if( ok ); print "travel_times test 1 OK"
+else; print "travel_times test 1 failed"; endif

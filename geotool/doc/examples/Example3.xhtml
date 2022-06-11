@@ -1,0 +1,1582 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+
+
+
+
+
+
+<head>
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <title>Example3</title>
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+
+
+<body style="color: rgb(0, 0, 0);" alink="#ee0000" link="#0000ee" vlink="#551a8b">
+
+
+
+
+
+
+
+<h2 style="text-align: center;">Example3: Using the DataMethod Class</h2>
+
+
+
+
+
+
+
+The Example3 window is shown below. Its code is located in <span style="font-style: italic;">plugins/examples/example3</span>.
+To view this example in geotool, move or copy the shared library file <span style="font-style: italic;">libexample3.so.0.0.0</span> and its links, which are found in the directory <span style="font-style: italic;">plugins/examples/example3</span>,
+to the directory <span style="font-style: italic;">~/.geotool++/plugins</span>
+(a sub-directory in your home directory). For example, to make and copy the shared library with its links, do:<br />
+<br />
+
+
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-style: italic;">cd top_srcdir/plugins/examples/example3<br />
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; make install<br />
+
+
+
+
+
+&nbsp;&nbsp;&nbsp; cp *.so* ~/.geotool++/plugins/<br />
+
+
+
+
+
+</span><br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+This example allows you to access&nbsp;waveforms from the main waveform
+window, hilbert transform and redisplay them in the main waveform window. This example introduces the <a href="../html/classDataMethod.html">DataMethod</a>
+class. Read some waveforms into the main window. Select some waveforms
+and click the Apply button in the Example3 window. The selected
+waveforms will be hilbert tranformed and redrawn in the main window. To
+remove the hilbert transform, select the Unfilter button and the
+waveforms will be redrawn without the hilbert tranform (as they
+appeared before the Apply button was clicked). The code from the
+Example3 plug-in is explained below.<br />
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<div style="text-align: center;"><img style="width: 245px; height: 118px;" alt="Example 3 Plug-in Window" src="example3.gif" /><br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<div style="text-align: left;">
+<hr style="width: 100%; height: 2px;" />
+<h3 style="text-align: center;">The Example3 Code</h3>
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<table style="width: 100%;" border="2" cellpadding="10">
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+      <td style="width: 40%; vertical-align: top;">
+      
+      
+      
+      
+      
+      
+      <div style="border-style: none; width: 400px;">
+      
+      
+      
+      
+      
+      
+      <p style="width: 400px;">The file Example3.h contains the declaration of
+the Example3 class members.</p>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <p style="width: 400px;">The five #define statements specify names: <small><br />
+
+
+
+
+
+
+
+      </small></p>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <ul>
+
+
+
+
+
+
+
+        <li><small>PLUGIN_NAME</small> will be the
+window title.</li>
+
+
+
+
+
+
+
+        <li><small>PLUGIN_STRING</small> must be the&nbsp;<small>PLUGIN_NAME </small>with quotes.</li>
+
+
+
+
+
+
+
+        <li><small>PLUGIN_CLASS</small> can be
+anything unique.</li>
+
+
+
+
+
+
+
+        <li><small>PLUGIN_DESCRIPTION</small>
+is&nbsp;displayed in geotool's File/Plugins window.</li>
+
+
+
+
+
+
+
+        <li><small>PLUGIN_BUTTON_NAME</small> will
+appear in the geotool Option menu.</li>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      </ul>
+
+
+
+
+
+
+
+      
+      
+
+
+      
+      
+
+
+      
+      
+      
+      
+      
+      
+      <p><br />
+
+
+
+
+This plug-in is a <a href="../html/classFormDialog.html">FormDialog</a> class, which is a plain window (no menu bar, nor tool bar). It is also a subclass of <a href="../html/classDataReceiver.html">DataReceiver</a>.</p>
+
+
+
+
+      
+      
+      
+      
+
+
+
+      
+      
+      
+      
+      <p>The <a href="../html/classComponent.html#f9fd70453e10f35e1dde50cfe227b98e">actionPerformed</a>, <a href="../html/classGobject.html#f9431854681b9360a4177d6afa325dc7">parseInput</a>, and <a href="../html/classFormDialog.html#e5c88d5b6a1617de78d057c5054416fb">parseHelp </a>methods are standard to all
+plug-in windows.</p>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <p>The <a href="#example3_apply">apply</a> method applies a hilbert transform to the selected waveforms in the main waveform window. The <a href="#example3_unfilter">unfilter</a> method remove the hilbert transforms and returns the waveforms to their previous state.</p>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <p>Declaration of the interface graphical components: <a href="../html/classRowColumn.html">RowColumn</a>, <a href="../html/classButton.html">Button</a>, etc.<br />
+      </p>
+
+
+
+
+
+
+
+      The <a href="#example2_createInterface">createInterface</a> method creates the window shown above.
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+      <td valign="top" width="60%">
+      
+      
+      
+      
+      
+      
+      <div style="text-align: center;">
+      
+      
+      
+      
+      
+      
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+
+
+
+
+
+
+
+      <span style="font-weight: bold;">Example3.h</span>
+      </div>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <div class="fragment" style="border-style: ridge; background-color: rgb(232, 232, 255);">
+      
+      
+      
+      
+      
+      
+      <pre class="fragment"> #ifndef _<span style="font-weight: bold;">EXAMPLE_3_H</span><br /> #define _<span style="font-weight: bold;">EXAMPLE_3_H</span><br /><br /> #include "<a class="code" href="../html/MotifDecs_8h.html">motif++/MotifDecs.h</a>"<br /> #include "<a class="code" href="../html/FormDialog_8h.html">motif++/FormDialog.h</a>"<br /> #include "<a class="code" href="../html/DataReceiver_8h.html">DataReceiver.h</a>"<br /><br /> /* Change the following defines as desired. Make sure that they do not conflict <br />  * with another plug-in. PLUGIN_STRING must be "PLUGIN_NAME".<br />  */<br /> #define PLUGIN_NAME <span style="font-weight: bold;"> 		Example<span style="font-family: monospace;">3</span></span><br /> #define PLUGIN_STRING 		"<span style="font-weight: bold;">Example<span style="font-family: monospace;">3</span></span>"<br /> #define PLUGIN_CLASS <span style="font-weight: bold;"> 		Example3Plugin</span><br /> #define PLUGIN_DESCRIPTION 	"<span style="font-weight: bold;">Hilbert Transform Example</span> <span style="font-weight: bold;">Plug-in</span>"<br /> #define PLUGIN_BUTTON_NAME 	"<span style="font-weight: bold;">Example <span style="font-family: monospace;">3 (Hilbert Transform)</span></span>..."<br /><br /> class <a class="code" href="../html/classDataSource.html" title="A virtual interface for classes that support data I/O.">DataSource</a>;<br /><br /> class PLUGIN_NAME : public <a href="../html/classFormDialog.html">FormDialog</a>, public <a class="code" href="../html/classDataReceiver.html" title="An interface for classes that receive data.">DataReceiver</a><br /> {<br />     public:<br />	PLUGIN_NAME(const char *, <a class="code" href="../html/classComponent.html" title="The base class for all libmotif++ graphical classes.">Component</a> *, <a class="code" href="../html/classDataSource.html" title="A virtual interface for classes that support data I/O.">DataSource</a> *);<br /> 	~PLUGIN_NAME(void);<br />	<br />	void actionPerformed(<a class="code" href="../html/classActionEvent.html" title="Event information for action callbacks.">ActionEvent</a> *action_event);<br />	<a class="code" href="../html/group__libgobject.html#gd90708cc1f6a7f568309d00f8a7b80b6" title="parseInput return code.">ParseRet</a> parseInput(const char *input, char *msg, int msg_len);<br /> 	void parseHelp(const char *prefix);<br /><br />&nbsp; 	void apply(void);<br />	void unfilter(void);<br /><br />     protected:<br /> 	<a href="../html/classRowColumn.html">RowColumn</a> *controls, *rc;<br /> 	<a class="code" href="../html/classButton.html" title="A class for the XmPushButton widget.">Button</a> *close_button, *apply_button, *unfilter_button, *help_button;<br />	<a href="../html/classSeparator.html">Separator</a> *sep;<br />	<a href="../html/classLabel.html">Label</a> *label;<br />	<a href="../html/classRadioBox.html">RadioBox</a> *input_rb;<br />	<a href="../html/classToggle.html">Toggle</a> *all_toggle, *selected_toggle;<br /><br /> 	void createInterface(void);<br /> };<br /><br /> #endif<br /></pre>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+The Example3.cpp file.<br />
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<table style="width: 100%;" border="2" cellpadding="10">
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+      <td style="width: 40%; vertical-align: top;">
+      
+      
+      
+      
+      
+      
+      <div style="border-style: none; width: 400px;">
+      
+      
+      
+      
+      
+      
+      <p></p>
+
+
+
+
+      
+      
+      
+      
+      <p>The file Example3.cpp contains the definition of
+the Example3 class.</p>
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      This plug-in is a subclass of <a href="../html/classFormDialog.html">FormDialog</a>, which is a simpler window class than the <a href="../html/classFrame.html">Frame</a>. It does not have the menu bar, tool bar or info area.<br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+      <br />
+      <br />
+      <br />
+Note that the <a href="../html/classComponent.html#85f07206865c5ce210c692654b48af4e">setSize</a>
+method is not called in this plug-in. This is because the there is no
+drawing class, such as WaveformView, and the plug-in size that
+is&nbsp;automatically determined from its children is adequate.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      The <a href="../html/classRowColumn.html">RowColumn</a> class
+is used to hold the buttons and toggles in the desired arrangement.
+This window contains to RowColumns. The top one holds the "Input" label
+and the "All" or "Selected" toggle choice. The bottom RowColumn
+contains the four buttons, Close, Apply, Unfilter, and Help.<br />
+      <br />
+The second argument in the Button and Toggle constructors (controls,
+input_rb) is the parent. The third argument (this) is the "listener" <a href="../html/classComponent.html">Component</a> whose <a href="../html/classComponent.html#f9fd70453e10f35e1dde50cfe227b98e">actionPerformed</a> method is called when the Button or Toggle is activated.
+The Buttons and Toggles created here all have "this" as the listener,
+so when they are activated, the actionPerformed method of this
+Component (below) is called.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+      <br />
+
+
+
+
+The <a href="../html/classComponent.html#f9fd70453e10f35e1dde50cfe227b98e">actionPerformed</a> method is called
+whenever a Button, or Toggle, etc. is activated. It determines the source of the action and calls the appropriate method. The <a href="../html/classActionEvent.html">ActionEvent</a> method <a href="../html/classActionEvent.html#ca70f765065be2c795d6ad4e20c26473">getActionCommand</a> returns the name of the component (Button or Toggle).<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      The <a href="../html/classFormDialog.html#0ed2e1fe7dbd6062c95623f086327ee8">displayHelp</a>
+method displays the input text in a popup window. You can also call a
+browser to display a local html file or a url. If the input text begins
+with "file:", then the text afer the ':' is used as an html-file path,
+relative to the geotool installation directory. If the input text
+begins with "http:", it is given to a browser as a url.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      The <a href="../html/classGobject.html#f9431854681b9360a4177d6afa325dc7">parseInput</a>
+method is called to process lines that are typed into the geotool's
+execution shell window. Only lines that begin with the PLUGIN_NAME,
+"example3." are passed to this method. For example, to apply a hilbert
+transform to all waveforms, you could input the following strings:<br />
+      <br />
+      <div style="margin-left: 40px;"><span style="font-style: italic;">example3.input all</span><br style="font-style: italic;" />
+      <span style="font-style: italic;">example3.apply</span></div>
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      The <a href="../html/classFormDialog.html#e5c88d5b6a1617de78d057c5054416fb">parseHelp</a> <a href="../html/classFormDialog.html#e5c88d5b6a1617de78d057c5054416fb"><code></code></a>method prints the string commands that are parsed by the parseInput
+method. It is not require, but should be included along with the <code>parseInput</code> method.<br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+
+
+
+
+
+
+
+      <br />
+      <br />
+      <br />
+The apply method is called by actionPerformed<code></code> when the Appy button is clicked. It checks the state of the all_toggle component and either gets all the waveforms (with <a href="../html/classDataSource.html#d449273f8cdd82e7fc57ba8701f99572">getWaveforms</a>) or the selected
+waveforms (with <a href="../html/classDataSource.html#a81b5b8d92608800264e8565c3832125">getSelectedWaveforms</a>) from the main waveform window.<br />
+
+
+
+
+
+
+
+      <br />
+      <br />
+      <br />
+The <a href="../html/classComponent.html#84404ff63da01b846cad2d60ec64b41f">setCursor</a> method changes the window cursor while the computation is performed.<br />
+      <br />
+The <a href="../html/classDataMethod.html">DataMethod</a> class is used to record the processing methods that have been applied to a waveform. In this case a <a href="../html/classDataMethod.html">Hilbert</a> DataMethod subclass is applied to the waveforms.&nbsp;The waveform remembers all of the <a href="../html/classDataMethod.html">DataMethod</a> objects that have been applied. A <a href="../html/classDataMethod.html">DataMethod</a>
+object can&nbsp;be changed or removed. The changeMethod either
+exchanges the input object with one of the same type, or adds the input
+object if another of the same type is not found.<br />
+      <br />
+Because the <a href="../html/classDataMethod.html#7d36141fe7d56d6707e98f871dfc2a86">changeMethod</a> is used here, the Hilbert method can only be applied once to a waveform.<br />
+      <br />
+The <a href="../html/classDataSource.html#4c085198d7687e104a90b7ac0be6cf2c">modifyWaveforms</a>
+method re-reads the waveform data, applies all of the DataMethod
+objects that is contained in its processing history and redraws the
+waveform.<br />
+      <br />
+The <a href="../html/classDataMethod.html#22bdf16460c84f0e0cacfe31427bf30a">removeMethod</a>
+removes an instance of the input type of DataMethod and returns true if
+one was found. If one was not found, the waveform does not need to be
+redrawn.<br />
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+      <td valign="top" width="60%">
+      
+      
+      
+      
+      
+      
+      <div style="text-align: center;">
+      
+      
+      
+      
+      
+      
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+
+
+
+
+
+
+
+      <span style="font-weight: bold;">Example3.cpp</span>
+      </div>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <div class="fragment" style="border-style: ridge; background-color: rgb(232, 232, 255);">
+      
+      
+      
+      
+      
+      
+      <pre class="fragment"> #include "<span class="code">config.h</span>"<br /> #include &lt;iostream&gt;<br /> using namespace std;<br /><br /> #include "Example2.h" 			// For this class definition<br /> #include "Hilbert.h"			// For the Hilbert DataMethod<br /> #include "<a class="code" href="../html/MotifClasses_8h.html">motif++/MotifClasses.h</a>"	// For MenuBar, Menu, Button, etc.<br /> #include "<a class="code" href="../html/CPlotDataClass_8h.html">CPlotDataClass.h</a>" 		// For the CPlotDataClass<br /> #include "<a href="../html/GTimeSeries_8h.html">gobject++/GTimeSeries.h</a>"	// For the GTimeSeries class<br /> #include "<a class="code" href="../html/DataSource_8h.html">DataSource.h</a>" 		// For the DataSource class<br /><br /><br /> // Plug-in window constructor<br /> PLUGIN_NAME::PLUGIN_NAME(const char *name, <a class="code" href="../html/classComponent.html" title="The base class for all libmotif++ graphical classes.">Component</a> *parent, <a class="code" href="../html/classDataSource.html" title="A virtual interface for classes that support data I/O.">DataSource</a> *ds)<br /> 			: <a href="../html/classFormDialog.html">FormDialog</a>(name, parent), <a class="code" href="../html/classDataReceiver.html" title="An interface for classes that receive data.">DataReceiver</a>(ds)<br /> {<br />     createInterface();<br /> }<br /><br /> <a name="example2_createInterface"></a>void PLUGIN_NAME::createInterface()<br /> {<br />     int n;<br />     Arg args[20];<br /><br />     n = 0;<br />     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNleftOffset, 5); n++;<br />     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNbottomAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNbottomOffset, 5); n++;<br />     XtSetArg(args[n], XtNorientation, XmHORIZONTAL); n++;<br />     controls = new <a href="../html/classRowColumn.html">RowColumn</a>("controls", this, args, n);<br /><br />     close_button = new <a href="../html/classButton.html">Button</a>("Close", controls, this);<br />     apply_button = new <a href="../html/classButton.html">Button</a>("Apply", controls, this);<br />     unfilter_button = new <a href="../html/classButton.html">Button</a>("Unfilter", controls, this);<br />     help_button = new <a href="../html/classButton.html">Button</a>("Help", controls, this);<br />     controls-&gt;setHelp(help_button);<br /><br />     n = 0;<br />     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;<br />     XtSetArg(args[n], XmNbottomWidget, controls-&gt;baseWidget()); n++;<br />     sep = new <a href="../html/classSeparator.html">Separator</a>("sep", this, args, n);<br /><br />     n = 0;<br />     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNtopOffset, 5); n++;<br />     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNleftOffset, 5); n++;<br />     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;<br />     XtSetArg(args[n], XmNrightOffset, 5); n++;<br />     XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;<br />     XtSetArg(args[n], XmNbottomWidget, sep-&gt;baseWidget()); n++;<br />     XtSetArg(args[n], XtNorientation, XmHORIZONTAL); n++;<br />     XtSetArg(args[n], XmNspacing, 20); n++;<br />     rc = new <a href="../html/classRowColumn.html">RowColumn</a>("rc", this, args, n);<br /><br />     label = new <a href="../html/classLabel.html">Label</a>("Input", rc);<br />     n = 0;<br />     XtSetArg(args[n], XmNborderWidth, 1); n++;<br />     XtSetArg(args[n], XtNorientation, XmHORIZONTAL); n++;<br />     input_rb = new <a href="../html/classRadioBox.html">RadioBox</a>("input_rb", rc, args, n);<br /><br />     n = 0;<br />     XtSetArg(args[n], XmNshadowThickness, 0); n++;<br />     XtSetArg(args[n], XmNset, False); n++;<br />     all_toggle = new <a href="../html/classToggle.html">Toggle</a>("All", input_rb, this, args, n);<br /><br />     n = 0;<br />     XtSetArg(args[n], XmNshadowThickness, 0); n++;<br />     XtSetArg(args[n], XmNset, True); n++;<br />     selected_toggle = new <a href="../html/classToggle.html">Toggle</a>("Selected", input_rb, this, args, n);<br /> }<br /><br /> /* Plug-in window destructor<br />  */<br /> PLUGIN_NAME::~PLUGIN_NAME(void)<br /> {<br /> }<br /><br /> /* Handle ActionEvents (From Button, Toggle, etc.)<br />  */<br /> <a name="example1_actionPerformed"></a>void PLUGIN_NAME::actionPerformed(<a class="code" href="../html/classActionEvent.html" title="Event information for action callbacks.">ActionEvent</a> *action_event)<br /> {<br />     const char *cmd = action_event-&gt;<a class="code" href="../html/classActionEvent.html#ca70f765065be2c795d6ad4e20c26473" title="Get the action command string.">getActionCommand</a>();<br /><br />     if(!strcmp(cmd, "Close")) {<br /> 	<a class="code" href="../html/classFrame.html#460ed7445bc4668f86e27df4bcc8f4fb" title="Set the FormDialog visible with a position offset from the parent.">setVisible</a>(false);<br />     }<br />     else if(!strcmp(cmd, "Apply")) {<br /> 	apply();<br />     }<br />     else if(!strcmp(cmd, "Unfilter")) {<br /> 	unfilter();<br />     }<br />     else if(!strcmp(cmd, "Help")) {<br /> 	<a class="code" href="../html/classFormDialog.html#0ed2e1fe7dbd6062c95623f086327ee8" title="Display a MessageDialog window with the input message.">displayHelp</a>("Select one or more waveforms in the waveform window.\n\<br /> Click Apply to Hilbter Transform the selected waveforms.");<br />     }<br /> }<br /><br /> /* Handle string commands that are entered into the shell window.<br />  */<br /> <a class="code" href="../html/group__libgobject.html#gd90708cc1f6a7f568309d00f8a7b80b6" title="parseInput return code.">ParseRet</a> PLUGIN_NAME::parseInput(const char *input, char *err_msg, int msg_len)<br /> {<br />     <a class="code" href="../html/group__libgobject.html#gd90708cc1f6a7f568309d00f8a7b80b6" title="parseInput return code.">ParseRet</a> ret = <a class="code" href="../html/group__libgobject.html#ggd90708cc1f6a7f568309d00f8a7b80b60bd8588514db4314790534383f469195" title="the command was parsed.">COMMAND_PARSED</a>;<br /><br />     if(!strcasecmp(input, "apply")) {<br /> 	apply_button-&gt;<a class="code" href="../html/classButton.html#ba61b2ad1866dc3f3a4d308f823f72cb" title="Change the Button label.">activate</a>();<br />     }<br />     else if(!strcasecmp(input, "unfilter")) {<br /> 	unfilter_button-&gt;<a class="code" href="../html/classButton.html#ba61b2ad1866dc3f3a4d308f823f72cb" title="Change the Button label.">activate</a>();<br />     }<br />     else if(!strcasecmp(input, "Input All")) {<br />	all_toggle-&gt;<a href="../html/classToggle.html#fb2aecd6e6042fa435e4508565d829d1">set</a>(true, true);<br />     }<br />     else if(!strcasecmp(input, "Input Selected")) {<br /> 	selected_toggle-&gt;<a href="../html/classToggle.html#fb2aecd6e6042fa435e4508565d829d1">set</a>(true, true);<br />     }<br />     else if(!strcasecmp(input, "Help")) {<br /> 	char prefix[200];<br /> 	<a class="code" href="../html/classFormDialog.html#586c47d3c889a922312e06f99df3d34f">getParsePrefix</a>(prefix, sizeof(prefix));<br /> 	parseHelp(prefix);<br />     }<br />     else {<br /> 	return this-&gt;<a class="code" href="../html/classFormDialog.html#13ba48576905ae14551cbd5763cbc0a9" title="Parse string commands.">FormDialog::parseInput</a>(input, err_msg, msg_len);<br />     }<br />     return COMMAND_PARSED;<br /> }<br /><br /> /* Print string commands.<br />  */<br /> void PLUGIN_NAME::parseHelp(const char *prefix)<br /> {<br />     printf("%sapply\n", prefix);<br />     printf("%sunfilter\n", prefix);<br />     printf("%sinput all\n", prefix);<br />     printf("%sinput selected\n", prefix);<br /> }<br /><br /> /* Copy and process waveforms<br />  */<br /> <a name="example3_apply"></a>void PLUGIN_NAME::apply(void)<br /> {<br />     int i, num_waveforms;<br />     <a href="../html/classCPlotDataClass.html">CPlotDataClass</a> **cd_list = NULL;<br /><br />     if( !data_source ) {<br />        <a href="../html/classComponent.html#694bc4d97923e8e8147c4392502c48f6">showWarning</a>("No DataSource.");<br />        return;<br />     }<br /><br />     if(all_toggle-&gt;<a href="../html/classToggle.html#0218faa13241fa11ed93281525c204fb">state</a>()) {<br />        num_waveforms = data_source-&gt;<a href="../html/classDataSource.html#d449273f8cdd82e7fc57ba8701f99572">getWaveforms</a>(&amp;cd_list);<br />     }<br />     else if((num_waveforms = data_source-&gt;<a href="../html/classDataSource.html#a81b5b8d92608800264e8565c3832125">getSelectedWaveforms</a>(&amp;cd_list)) &lt;= 0)<br />     {<br />        <a href="../html/classComponent.html#694bc4d97923e8e8147c4392502c48f6">showWarning</a>("No waveforms selected.");<br />        return;<br />     }<br />     <a href="../html/classComponent.html#84404ff63da01b846cad2d60ec64b41f">setCursor</a>("hourglass");<br /><br />     for(i = 0; i &lt; num_waveforms; i++) {<br />        <a href="../html/classDataMethod.html">DataMethod</a> *dm = new <a href="../html/classDataMethod.html">Hilbert</a>();<br />        cd_list[i]-&gt;<a href="../html/classDataMethod.html#7d36141fe7d56d6707e98f871dfc2a86">changeMethod</a>(dm);<br />     }<br />     data_source-&gt;<a href="../html/classDataSource.html#4c085198d7687e104a90b7ac0be6cf2c">modifyWaveforms</a>(num_waveforms, cd_list);<br />     Free(cd_list);<br /><br />     <a href="../html/classComponent.html#84404ff63da01b846cad2d60ec64b41f">setCursor</a>("default");<br /> }<br /><br /> <a name="example3_unfilter"></a>void PLUGIN_NAME::unfilter(void)<br /> {<br />     int i, n, num_waveforms;<br />     <a href="../html/classCPlotDataClass.html">CPlotDataClass</a> **cd_list = NULL;<br /><br />     if( !data_source ) {<br />        <a href="../html/classComponent.html#694bc4d97923e8e8147c4392502c48f6">showWarning</a>("No DataSource.");<br />        return;<br />     }<br />     if(all_toggle-&gt;<a href="../html/classToggle.html#0218faa13241fa11ed93281525c204fb">state</a>()) {<br />        num_waveforms = data_source-&gt;<a href="../html/classDataSource.html#d449273f8cdd82e7fc57ba8701f99572">getWaveforms</a>(&amp;cd_list);<br />     }<br />     else {<br />        num_waveforms = data_source-&gt;<a href="../html/classDataSource.html#a81b5b8d92608800264e8565c3832125">getSelectedWaveforms</a>(&amp;cd_list);<br />     }<br /><br />     <a href="../html/classComponent.html#84404ff63da01b846cad2d60ec64b41f">setCursor</a>("hourglass");<br /><br />     n = 0;<br />     for(i = n = 0; i &lt; num_waveforms; i++) {<br />        if(cd_list[i]-&gt;<a href="../html/classDataMethod.html#22bdf16460c84f0e0cacfe31427bf30a">removeMethod</a>("Hilbert")) {<br />            cd_list[n++] = cd_list[i];<br />        }<br />     }<br />     data_source-&gt;<a href="../html/classDataSource.html#4c085198d7687e104a90b7ac0be6cf2c">modifyWaveforms</a>(n, cd_list);<br />     Free(cd_list);<br /><br />     <a href="../html/classComponent.html#84404ff63da01b846cad2d60ec64b41f">setCursor</a>("default");<br /> }<br />&nbsp;</pre>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+<br />
+<br />
+
+
+
+
+
+
+
+<hr style="width: 100%; height: 2px;" /><br />
+<a name="Hilbert_DataMethod"></a>This example plug-in uses a DataMethod
+subclass called Hilbert. This class is defined in the two files
+Hilbert.h and Hilbert.cpp, which are shown below.<br />
+<h3 style="text-align: center;">The Hilbert DataMethod subclass</h3>
+
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<table style="width: 100%;" border="2" cellpadding="10">
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+      <td style="width: 40%; vertical-align: top;">
+      
+      
+      
+      
+      
+      
+      <div style="border-style: none; width: 400px;">
+      
+      
+      
+      
+      
+      
+      <p style="width: 400px;"></p>
+      <br />
+      <br />
+      <p style="width: 400px;">The file Hilbert.h contains the declaration of the Hilbert class members. The Hilbert class is a subclass of the virtual <a href="../html/classDataMethod.html">DataMethod</a> class. The three methods <a href="../html/classDataMethod.html#064b1850530bc577abb7af39f6bef1de">clone</a>, <a href="../html/classDataMethod.html#cd04303f996be365a5a4c6d5bbe64e00">toString</a> and <a href="../html/classDataMethod.html#210403607b53e4499966882079dbeb95">applyMethod</a> are required methods.</p>
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+      <td valign="top" width="60%">
+      
+      
+      
+      
+      
+      
+      <div style="text-align: center;">
+      
+      
+      
+      
+      
+      
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+ <span style="font-weight: bold;">Hilbert.h</span>
+      </div>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <div class="fragment" style="border-style: ridge; background-color: rgb(232, 232, 255);">
+      
+      
+      
+      
+      
+      
+      <pre class="fragment"><span style="font-weight: bold;"></span><span style="font-weight: bold;"></span> #ifndef _HILBERT_H_<br /> #define _HILBERT_H_<br /><br /> #include "<a href="../html/DataMethod_8h.html">DataMethod.h</a>"<br /><br /> class <a href="../html/classGTimeSeries.html">GTimeSeries</a>;<br /> class <a href="../html/classGSegment.html">GSegment</a>;<br /><br /> class Hilbert : public <a href="../html/classDataMethod.html">DataMethod</a><br /> {<br />     public:<br />        Hilbert(void);<br />        ~Hilbert(void);<br /><br />        Gobject *<a href="../html/classDataMethod.html#064b1850530bc577abb7af39f6bef1de">clone</a>();<br />        const char *<a href="../html/classDataMethod.html#cd04303f996be365a5a4c6d5bbe64e00">toString</a>(void);<br />        bool <a href="../html/classDataMethod.html#210403607b53e4499966882079dbeb95">applyMethod</a>(int num_waveforms, <a href="../html/classGTimeSeries.html">GTimeSeries</a> **ts);<br /><br />     protected:<br />        static void applySegment(<a href="../html/classGSegment.html">GSegment</a> *s);<br /> };<br /><br /> #endif<br /></pre>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+<br />
+<br />
+The Hilbert.cpp file.<br />
+
+
+
+
+
+
+<br />
+
+
+
+
+
+
+
+<table style="width: 100%;" border="2" cellpadding="10">
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+      <td style="width: 40%; vertical-align: top;">
+      
+      
+      
+      
+      
+      
+      <div style="border-style: none; width: 400px;">
+      
+      
+      
+      
+      
+      
+      <p style="width: 400px;">The file Hilbert.cpp contains the definition of the Hilbert class. It is a subclass of the virtual class <a href="../html/classDataMethod.html">DataMethod</a>.</p>
+      <br />
+      <br />
+      <p style="width: 400px;">The Hilbert class is a simple example of a <a href="../html/classDataMethod.html">DataMethod</a>,
+because&nbsp;no parameters are needed to apply the method. Normally,
+parameters would be arguments to the constructor and would be saved in
+the class object to be used whenever the applyMethod is called.</p>
+The clone method is required by the virtual <a href="../html/classDataMethod.html">DataMethod</a> class.<br />
+      <br />
+The applyMethod method is also required. It applies the processing method to the input <a href="../html/classGTimeSeries.html">GTimeSeries</a> objects. In this case, a hilbert transform is applied to each segment (<a href="../html/classGSegment.html">GSegment</a>) of the waveform.<br />
+      <br />
+      <br />
+      <br />
+The function Hilbert_data is in the gbase libmath library. It applies a
+hilbert transform to the input float array s-&gt;data of length
+s-&gt;length().<br />
+      <br />
+      <br />
+The toString method returns a string representation of the method. If
+there are parameters, they would be contained in the string, so that
+the string representation could be used to recreate the <a href="../html/classDataMethod.html">DataMethod</a> object.<br />
+
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+      <td valign="top" width="60%">
+      
+      
+      
+      
+      
+      
+      <div style="text-align: center;">
+      
+      
+      
+      
+      
+      
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+&nbsp;<span style="font-weight: bold;">Hilbert.cpp</span>
+      </div>
+
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <div class="fragment" style="border-style: ridge; background-color: rgb(232, 232, 255);">
+      
+      
+      
+      
+      
+      
+      <pre class="fragment"> #include "config.h"<br /> #include &lt;iostream&gt;<br /> #include "Hilbert.h"<br /> #include "<a href="../html/GTimeSeries_8h.html">gobject++/GTimeSeries.h</a>"<br /> extern "C" {<br /> #include "libmath.h"<br /> }<br /><br /> Hilbert::Hilbert(void) : <a href="../html/classDataMethod.html">DataMethod</a>("Hilbert")<br /> {<br /> }<br /><br /> Hilbert::~Hilbert(void)<br /> {<br /> }<br /><br /> Gobject * Hilbert::clone()<br /> {<br />     return (Gobject *) new Hilbert();<br /> }<br /><br /> bool Hilbert::applyMethod(int num_waveforms, <a href="../html/classGTimeSeries.html">GTimeSeries</a> **ts)<br /> {<br />     if(ts == NULL) {<br />        logErrorMsg(LOG_WARNING, "Hilbert.apply: ts=NULL");<br />        return false;<br />     }<br />     for(int i = 0; i &lt; num_waveforms; i++)<br />     {<br />        for(int j = 0; j &lt; ts[i]-&gt;<a href="../html/classGTimeSeries.html#45cb1c46f2588163fa166681291affd7">size</a>(); j++) {<br />            applySegment(ts[i]-&gt;<a href="../html/classGTimeSeries.html#b8dddf8e7f62264b9110af174f9017b0">segment</a>(j));<br />        }<br />     }<br />     return true;<br /> }<br /><br /> // static<br /> void Hilbert::applySegment(<a href="../html/classGSegment.html">GSegment</a> *s)<br /> {<br />     Hilbert_data(s-&gt;<a href="../html/classGSegment.html#b0b40ddc93f62d0c2ea94b4d57d8119d">length</a>(), s-&gt;<a href="../html/classGSegment.html#52c74f3deaccd2477a5742e992f1a360">data</a>);<br /> }<br /><br /> const char * Hilbert::toString(void)<br /> {<br />     snprintf(string_rep, sizeof(string_rep), "Hilbert transform.");<br />     return string_rep;<br /> }<br /></pre>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+<br />
+<br />
+Text.<br />
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+
+
+</html>

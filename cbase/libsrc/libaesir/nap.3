@@ -1,0 +1,50 @@
+.ig
+% ptroff -man nap.3
+..
+.ig
+@(#)nap.3	109.1	07/08/97
+..
+.TH NAP 3 "21 May 1990"
+.UC 4
+.SH NAME
+nap \- fractional second sleep
+.SH SYNOPSIS
+void
+.br
+.B nap
+(seconds, microseconds)
+.br
+int		seconds;
+.br
+int		microseconds;
+.sp
+.LP
+.SH DESCRIPTION
+.LP
+.I nap()
+uses the \fIselect(2)\fP system call to provide a sub-second sleep
+capability that \fIsleep(3)\fP does not (\fInap()\fP can also sleep
+for more than one second, too).
+However, the actual granularity of the time delay is that of the
+system (probably 1/60th of a second), not microseconds as implied by
+the arguments.
+.I nap()
+is most useful in user interface event loops, where a 100-millisecond
+or so nap will free the CPU for a lot of other tasks with an
+imperceptible decrease in responsiveness.
+.SH BUGS
+.LP
+Negative sleep times are ignored, and cannot be used to speed up your
+program. 
+.SH AUTHOR
+Jim Wang
+.SH "FILES"
+.LP
+libaesir.a
+.SH "SEE ALSO"
+.LP
+select(2), sleep(3)
+.sp 0.5i
+.ps -1
+@(#)nap.3	109.1 07/08/97
+.ps

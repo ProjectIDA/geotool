@@ -1,0 +1,25 @@
+libcancomp Release Notes
+
+Software Unit:          ./data_services/libsrc/libcancomp
+
+Date:                   01/24/2000
+CC_Label:               PIDC_7.0.0
+Type of Release:        Major
+Author:                 Warren Fox
+
+
+Introduction and Overview
+=========================
+No changes since last release.
+
+Installation Notes
+==================
+none
+
+User Changes
+============
+none
+
+Known Problems
+==============
+none

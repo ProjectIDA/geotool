@@ -1,0 +1,302 @@
+#
+# help keys
+#
+# format: key = {type, msg}
+#
+#	type: 'text', 'file', or 'url'
+#	msg: the help text, or a file name, or a url. A file is relative to
+#		the installation directory.
+#
+#	The 'key = (type' must be on one line. The msg can be on multiple lines.
+#
+#
+Documentation={file, doc/index.html}
+
+Tutorial={file, doc/GT_032013.pdf}
+
+Users Manual={file, doc/manual/index.html}
+
+Programmers Manual={file, doc/html/index.html}
+
+Axes Labels={text, }
+
+Amplitude Help={text, 
+To review an amplitude measurement, select one or more rows from the
+amplitude record table and then click the Review button. The corresponding
+waveforms will be displayed in the graph below the table.  If the amplitude
+measurement was made from a beam, then that beam will be displayed.
+
+An amplitude-period box will be displayed at the time of the amplitude
+measurement. The amplitude-period box can be stretched horizontally and/or
+vertical to adjust the amplitude and period measurement. The box can be moved
+to adjust the start_time by dragging the center vertical line.
+
+The Cancel button or the Close button will cancel any adjustments to the
+amplitude-period box. The Save button will save all adjustments to the
+corresponding amplitude file.}
+
+Arrival Parameters Help={text, }
+
+Amplitude Parameters Help={text,
+threshold2:
+    Try to identify a peak/trough backwards and a peak/trough forwards,
+    if any more are in the window. Test whether the peaks have substantial
+    amplitude compared to the central peak/trough pair.
+    Must have:
+        (peak or trough amp) > (threshold2 / 100.0) * maxamp
+
+threshold3:
+    Percentage of (0.0 to Nyquist frequency) band used by the digitizer.
+
+    min_half_period_threshold = 1.0 / (amp_threshold3 / 100.0)
+    max_half_period_threshold = ((float)nsamples_in_window - 5.0) / 5.0
+
+    Must have:
+        max_half_period_threshold > min_half_period_threshold &&
+        max_half_period_threshold >= 1.0 / (locut_freq_amp / allowed_lp_ratio)
+
+threshold4:
+    Maximum ratio between found half periods allowed before the hypothesis
+    of missed peak/trough pair prevails and interefrence effects may be seen.
+
+    If the max_half_period/min_half_period ratio is greater than threshold4
+    then expect that max_half_period may be wrong, e.g. some peak/trough pair
+    was deleted and now max_half_period is overestimating the true value;
+    interference effects may play also important role ...  To select the one
+    which might be used as a reference, compare which one is more out from the
+    selected filter band. If both are within the band then delete the larger one.
+
+threshold5:
+    The maximum allowed mean value of the signal in the window compared
+    to the found peak-trough difference Maxamp, expressed in percent.
+    fabs(signal_mean) / Maxamp must be <  threshold5/100.
+
+threshold6:
+    For signals which have several similar amplitude swings, it may mean
+    that the peak_to_trough_amplitude found is somewhere close to the end
+    of the window. In such a case, there might be a very similar amplitude
+    just around the pick that is only slighty smaller.  To avoid this,
+    select the first peak-trough pair closes from the beginning of window
+    whose amplitude is greater than threshold6 % of the maximum amplitude.
+}
+
+TableQuery Help={text, }
+
+Color Selection Help={text, }
+
+Create Beam Help={text, }
+
+Table Files Help={text, }
+
+TableViewer Help={text, }
+
+Waveforms Help={text, }
+
+Preferences Help={text,
+Waveform Info Popup:
+    Display the Waveform Information Popup when the mouse cursor is inside the
+    waveform label.
+
+Arrival Info Popup:
+    Display the Arrival Information Popup when the mouse cursor is inside the
+    arrival label.
+
+Vertical Scrollbar: Position the Waveform Window vertical scrollbar.
+
+When data is read from flat files, there are three settings that control which
+origin records are input along with the waveforms and listed in the Origins
+window.
+
+Load Origins within Time Limits:
+    Load all origins whose times satisfies:
+        waveform_beginning - 4 hours < origin_time < waveform_end
+
+Load Associated Origin Only:
+    Load only origins that are associated through Assoc records to Arrivals that
+    are displayed on the waveforms.
+
+Load All Origins:
+    Load all origins that are found in the PREFIX.origin file.
+}
+
+Print Options Help={text, }
+
+Table Attributes Help={text, }
+
+Arrivals Help={text,
+To add an arrival, select from the phase list, position
+the phase line, select the waveforms and activate the Add
+button. Selected waveforms can be aligned at the phase
+line with the Align button. An Arrival can be deleted by
+selecting the arrival with a left mouse button click on
+the arrival label and then activating the Delete button.
+An amplitude/phase measurement can be made with a
+right-button click on the waveform cycle. Any side of the
+measuring box can be stretched by positioning the cursor
+just inside the box and doing a right mouse button drag.
+}
+
+Measure Amp Per Help={text,
+To add an amplitude and period, move the mouse cursor near
+the waveform, and press the right mouse button while
+pressing the shift key.  This will draw the Amplitude and
+Period box on the waveform.
+
+Size the measurement box with a the left mouse button drag near
+the sides of the box. The box can be translated with a left mouse
+button drag near the vertical line in the middle of the box.}
+
+Stassocs Help={text, }
+
+Beam Group Help={text, }
+
+Beam Help={text, }
+
+Slowness Help={text, }
+
+Calibration Help={text, }
+
+Calibration Parameter={text, }
+
+Cepstrum Parameters={text, }
+
+Cepstrum Help={text, }
+
+Correlation Help={text, }
+
+Minimum Correlation Overlap={text, }
+
+QC Help={text, }
+
+RMS Help={text, }
+
+FK-3D Help={text,
+The arrow keys (up, down, left, right) rotate the image.
+
+The following keys translate the image by small steps in the direction show.
+    h:   right
+    l:    left
+    j:    up
+    k:   down
+    i:    zoom-in
+    o:   zoom-out
+
+The following keys change the scale of the image along the indicated axis.
+    a:    increase X
+    s:    decrease X
+    d:    increase Y
+    f:    decrease Y
+    w:   increase Z
+    e:    decrease Z
+
+The following mouse button actions are available.
+    left-button drag and release:  translate image
+
+    right-button click:              draw X-Y plane slice
+    middle-butotn click:           remove X-Y plane slice
+}
+
+FK Help={text, }
+
+FK Parameters={text, }
+
+FK Signal Help={text, }
+
+FT Help={text, }
+
+Hilbert Transform Help={text, }
+
+Polarization Filter Help={text, }
+
+Locate Help={text, }
+
+Map Cursor Help={text, }
+
+Map Measure Help={text,
+Mouse buttons:
+   right click:  add a distance circle and azimuth arc to the nearest
+                       station, source or crosshair.
+   left drag:         move nearest circle or azimuth (or both).
+   cntl right click:  delete the nearest circle or azimuth.}
+
+Map Overlay Help={text, }
+
+Map Themes Help={text, }
+
+Map Help={text, Mouse buttons:
+    left click:         select station or source
+    left drag:          move nearest crosshair
+    middle drag:        zoom
+    middle click:       unzoom
+    shift middle click: repeat zoom
+    cntl middle click:  rotate
+
+ Type 'c' to create a crosshair.}
+
+Multi Channel Cross Correlation Help={text, }
+
+Origins Help={text, }
+
+Pmcc Help={text, }
+
+Particle Motion Help={text, }
+
+Polarization Help={text, }
+
+Polarization Parameters Help={text, }
+
+Rotation Help={text, }
+
+Instrument Response Help={text,
+Instrument records for all waveforms are listed in the Instruments table.
+Select an Instrument record with the left mouse button to display all the
+responses for that instrument. Select in the Responses table to plot the
+response(s).
+
+Instrument responses can be deconvolved and convolved with the waveforms.
+Under the Option menu, there are Convolve and Deconvolve menus. Each has a
+sub-menu with Replace and Add. Select replace to replace all convolution
+operators with the current operation (convolution or deconvolution). Select
+Add to append the current operation to any existing convolution operators.
+All convolution operators are applied before any other operation, such as
+filtering, cutting, etc. (See the Processing History table. Main-window/
+Option/History.)
+
+The Return To Original option removes all convolution and deconvolution
+operators.}
+
+All Instrument Responses Help={text,
+All available Instrument records are listed in the Instruments table.
+Select an Instrument record with the left mouse button to display all the
+responses for that instrument. Select in the Responses table to plot the
+response(s).
+
+Instrument responses can be deconvolved and convolved with selected waveforms
+in the main window. Under the Option menu, there are Convolve and Deconvolve
+menus. Each has a sub-menu with Replace and Add. Select replace to replace
+all convolution operators with the current operation (convolution or
+deconvolution). Select Add to append the current operation to any existing
+convolution operators. All convolution operators are applied before any other
+operation, such as filtering, cutting, etc. (See the Processing History
+table. Main-window/Option/History.)
+
+The Return To Original option removes all convolution and deconvolution
+operators.}
+
+Response Tapers Help={text,
+In the Data Taper field enter the length of a cosine taper that will be
+applied to both ends of the waveform before the convolution or deconvolution
+operator is applied. After the convolution/deconvolution operation, the
+amplitude spectrum will be tapered with a cosine taper from zero frequency
+to the Low Pass setting and from the High Pass setting to nyquist. Enter
+0.0 in the Low Pass and/or High Pass fields to turn off amplitude tapering.}
+
+RTD Configuration Help={text, }
+
+Spectrogram Help={text, }
+
+Spectrogram Parameters Help={text, }
+
+StaLta Help={text, }
+
+Travel Times Help={text, }

@@ -1,0 +1,551 @@
+
+14 October 1997 nagy
+--------------------
+First official version of new GSO magnitude library, libmagnitude, that
+exploits upgraded amplitude schema enhancements supported by the IDC.
+A critical element of this work was the development of a new magnitude
+object construct whereby standard database table and control information
+is evaluated, interpreted and stored in a single convienent structure.
+The function, build_mag_obj(), located in file, build_mag_obj.c, is
+employed to facilitate this capability.  Each array element of this object
+represent a single magnitude type (magtype) for which a magnitude 
+determination is to be attempted.  The primary network magnitude interface 
+is provided by the function, calc_mags(), located in file, calc_mags.c.  
+
+An additional strategy adopted here is that fundamental information is
+stored and manipulated as general transmission loss information.  This
+transmission loss information may take the form of magnitude corrections,
+general attenuation, hydroacoustic transmission loss and others.  The
+only form currently employed is that for magnitude corrections.  This
+general transmission loss information is read by function, read_tlsf().
+A Transmission Loss Specification File (TLSF) is employed to define the
+various regionalized TL models desired.  Magnitude-specific tables and 
+support facilities are read via function, read_mdf(), as specified by the 
+Magnitude Description File (MDF).  All other high-level magnitude support 
+facilities are contained within file, mag_access.c.  The function,
+mag_error_msg(), will return a character string detailing any magnitude-
+related error encountered.  Most transmission loss-specific functionality
+is located within file, TL_manipulation.c.
+
+The following list of source code and include files is included with this 
+initial version of libmagnitude:
+
+libmagnitude.h
+magp.h
+mag_descrip.h 
+mag_defs.h
+mag_params.h
+mag_defs.h
+tl_table.h
+tl_defs.h
+
+build_mag_obj.c
+calc_mags.c
+mag_access.c
+mag_error_msg.c 
+mag_params.c
+mag_utils.c
+read_mdf.c
+network_mag.c
+mag_boot_strap.c
+mag_max_lik.c
+only_bound_amps.c
+TL_manipulation.c
+TL_error_msg.c
+read_tl_table.c
+
+15 October 1997 nagy
+--------------------
+First official baseline of libmagnitude (version 2.1) for PIDC release 6.0.0.
+
+ 7 January 1998 nagy
+--------------------
+Added functionality to build_mag_obj.c (4.3) so that new stamag records
+can only be constructed if the distance and depth range if valid for its
+associated TL table.  To accomplish this goal a new function,
+valid_range_for_TLtable(), has been added to file, TL_manipulation.c (4.3).
+This function is employed with all necessary dependencies on station, phase
+type, chan and TLtype, to determine the valid distance/depth range for the
+appropriate TL table.  This effectively prevents N/A stamag records from
+being produced in the early build_mag_obj() level of processing.  N/A stamag
+records should not be written to database nor displayed in applications
+like ARS.  This enhancement short-circuits the need for tests later in the
+calling application.  If no TL table entry exists, then no station magnitude
+can be computed.  Hence, it need not be preserved to compute a network
+magnitude.  The prototype for this new function has been added to the include
+file, libmagnitude.h (4.2).
+
+ 9 February 1998 nagy
+---------------------
+Discovered a situation, whereby the screening of a station(s) via description
+of a sub-network tied to affiliation, resulted in N/A-valued output stamag
+records.  This has been remedied by updates to files, build_mag_obj.c (4.4)
+and calc_mags.c (4.4).  This should only affect applications, EvLoc and ARS.
+Now distance is explicitly re-computed (as opposed to being extracted from
+assoc.delta), so that if the station does not exist and N/A value is
+returned.  This prevents any output stamag records from being written.
+
+19 February 1998 nagy
+---------------------
+In previous libmagnitude it was possible to apply both the distance-dependent
+modeling error AND potentially an additional contribution based on the upper
+and lower sigma limits typically desired for MLE computations.  These two
+values could end up being summed as an RMS measure which is double-dipping.
+This could happen, if and only if, sglim1 and sglim2 for a given magtype were
+identical.  This is often desired when an upper-bound magnitude calculation
+is desired.  With the change advocated and implemented here a clear 
+precedence is established.  The distance-depedent modeling error will be used
+for weighting unless both the upper- and lower-bound a priori stardard 
+deviations (i.e., sglim1 and sglim2) are identical.  In this latter case,
+then only the a priori bound setting will be employed.  This has been remedied 
+by updating files, calc_mags.c (4.5) and network_mag.c (4.2).
+
+ 6 March 1998 nagy
+------------------
+Noted a problem whereby magnitude correction tables with only a single depth
+element, like ML, would not initially build a stamag records if one did not
+already exist on input.  In practice this should not be a big problem, but
+could become a problem with pipeline process different from what is currently
+employed at the CMR.  File, TL_manipulation.c (4.4), was updated to include
+this fix.  Limited testing performed by running EvLoc mimicing this specific
+condition.  Everything tested out as expected.
+
+ 6 March 1998 nagy
+------------------
+All X_Astruct definitions have been moved out of the public include files,
+libmagnitude.h (4.3) and mag_descrip.h (4.2), and into the private files,
+mag_access.c (4.2), calc_mags.c (4.6) and build_mag_obj.c (4.5).  This 
+prevents unnecessary access to static structures defined within the Astruct 
+descriptions from being included in source code file not requiring these 
+structures to do their job.  At the very least this minimizes the space
+needed to store this information.
+
+24 July 1998 nagy
+-----------------
+Henceforth, bootstrap resampling will automatically be suppressed when fewer
+than 2 detection-based amplitudes exist.  Since only detection-based amplitudes
+can be randomly sampled as part of the bootstrap process, the non-existence
+of detection-based measures makes no sense and can cause magnitude structures
+to be potentially filled incorrectly.  This behavior was noted in CMR SMR-410,
+and the enhancement documented here is the remedy for this SMR.  Furthermore, 
+when only a single detection-based amplitude exists, then randomly sampling it 
+over and over again doesn't make much sense.  In either of these cases, simply 
+falling back on the MLE determination without bootstrapping is sufficient.  
+This adjustment was accomplished by enhancing file, calc_mags.c (4.8).
+
+22 January 1999 doug
+--------------------
+Y2K assessment performed on software - no Y2K issues or problems found.
+Only change made to code: Increased lddate size from 17 to 18 in sm_info
+structure in mag_descrip.h (4.3).
+
+12 March 1999 doug
+------------------
+All pidc6.1_patch and pidc_y2k branches were merged back to /main preporatory
+to the PIDC_6.2.0 release.  This included merges for the following files:
+	calc_mags.c		Merged from pidc6.1_patch branch to /main
+	mag_descrip.h		Merged from pidc_y2k branch to /main
+	Changes.libmagnitude	Merged from pidc_y2k branch to pidc6.1_patch
+					branch to /main
+
+All files were baselined with the PIDC_6.2.0 label.
+
+30 August 1999 doug
+-------------------
+Corrected the asymptotic function used in place of the error function
+expression when computing the contribution to the standard deviation
+of the MLE magnitude for clipped amplitudes.  This change was made only
+in mag_max_lik.c.
+
+Incorrect formulation:	sigma1 += sigma2*z;
+Correct formulation:	sigma1 += sigma2*z*z;
+
+31 August 1999 doug
+-------------------
+Corrected the denominator for the standard deviation of the MLE magnitude
+in mag_max_lik.c.  Originally, after each iteration, the sum of the
+contributions to the standard deviation of the MLE magnitude from the
+meas_signal, clipped, and non_detect amplitudes was divided by num_amps.
+However, to be consistent with the statistical standard, this denominator
+was changed to num_amps-1.
+
+03 September 1999 doug
+----------------------
+Corrected the definition of the standard deviation of the mean (sdav)
+in network_mag.c.  Originally, the sdav was being computed as the standard
+deviation divided by the square root of the number of degrees of freedom
+(namps - 1).  This was changed so that the divisor is now the square root
+of the number of amplitudes (namps), which agrees with general and typical
+definitions of the standard deviation of the mean.
+
+Note that all future netmag.uncertainty values will be slightly smaller
+due to this change (i.e., previous netmag.uncertainly values will not be
+reproducable).
+
+09 September 1999 doug
+----------------------
+Rewrote the portion of network_mag.c that calculates the network
+standard deviation.  Standard deviations of network magnitudes are now
+computed using the station weights.  For example, the
+standard deviation of the mean (sdav) was computed in PIDC_6.2 as:
+	sdav = sqrt (sum((Mi - mb)^2) / n*(n-1))
+Starting with the PIDC_7.0 release, the sdav will be computed as:
+	sdav = sqrt (sum(Wi(Mi - mb)^2) / n*(n-1))
+where Wi = (Mi/si) / sum(1/si), Mi the stamag.magnitudes, si the
+station weights, mb the weighted average network magnitude, 
+and n the number of defining stations.  Note that the si terms are
+the variances of the sum of the squares of the modelling errors, measurement
+errors (defined to be 0.0 at this time), and bulk station correction
+errors.  If the station weights are all the same (i.e., 0.35), then
+the standard deviations are simple network standard deviations.
+
+Also "cleaned up" the network magnitude computation portion of network_mag.c
+by removing the following variables whose values were not subsequently used
+in the code or returned to the calling program: stdevw[], smag
+
+10 September 1999 doug
+----------------------
+Enhanced software so that station standard deviations (or equivalently
+stamag.uncertainty) could also include the uncertainty in station bulk
+correction.  The uncertainty in station bulk correction will be read from
+the 4th column of the MDF file containing the station/
+TLtype correction information.  If the station and TLType being processed
+match with a line in the MDF, then the uncertainty in the station
+bulk correction will be applied to the station weight (stamag.uncertainty)
+in a root-mean-square sense as long as weighted magnitudes are being
+computed.
+
+The function get_bulk_sta_corr_error() in mag_access.c extracts the
+station bulk correction uncertainty.
+
+If a line does not exist for a given station and TLtype in the MDF file,
+then the bulk station correction uncertainty defaults to 0.0.
+
+Note that the model error factor column in the MDF was replaced
+by the station bulk correction uncertainty.  Similarly, the me_factor
+member of the Mag_Sta_TLType and SM_Info structures was replaced by
+bulk_sta_corr_error.
+
+Files Affected
+mag_access.c	- Added function get_bulk_sta_corr_error() and computed
+		  station standard deviation using station bulk
+		  correction uncertainties.
+read_mdf.c	- Reads bulk_sta_corr_error from 4th column of station/TLtype
+		  information instead of me_factor in MDF file.
+mag_descrip.h	- Replaced me_factor with bulk_sta_corr_error in
+		  Mag_Sta_TLType and SM_Info structures.
+libmagnitude.h	- Added prototype for get_bulk_sta_corr_error()
+
+Old station/TLtype-dependent bulk station correction information
+----------------------------------------------------------------
+# Sta                   Station Mdl Err
+# Name  TLType           Corr   Factor  Comments
+# ----- ---------       ------- ------- ---------------------
+ARCES   mb               -0.1     1.0
+
+New station/TLtype-dependent bulk station correction information
+----------------------------------------------------------------
+# Sta                   Station Station Comments
+# Name  TLType            Cor   Cor Err (# of data used to get station corr)
+# ----- ---------       ------- ------- ---------------------
+ABKT    mb1             -0.114  0.267   348
+
+01 October 1999 doug
+--------------------
+For the case when MLE magnitudes and standard deviations are calculated
+using clipped or non-detected amplitudes (in mag_max_lik.c), I changed
+the definition of z (the normalized residual) as per Keith McLaughlin's
+request to be the difference between the average magnitude at each
+iteration and the measured magnitude at station i, divided by the weight
+at station i.
+
+Added a column to the MDF file that defines a baseline, or default, value
+for the standard deviation of the magnitude calculation.  This baseline
+value will be reported as the netmag.uncertainty when only one amplitude
+measurement is available for a particular network.
+
+Files Affected:
+read_mdf.c	- Reads sgbase from 10th column of MDF file.
+mag_access.c	- Added sgbase to mag_cntrl structure in
+		  get_magtype_features().
+network_mag.c	- Modified the algorithm for the case when only one
+mag_max_lik.c	  measured magnitude exists for a given data type.  In
+		  this case, the reported standard deviation (and
+		  netmag.uncertainty) is now sgbase.  Originally, it
+		  was either 0.0 or NaN.
+mag_descrip.h	- Added sgbase as a member to the Mag_Descrip and Mag_Cntrl
+		  structures.
+
+In conjunction with this change, I also consolidated some of the arguments
+to several of the magnitude calculation functions.  Specifically, the
+Mag_Cntrl structure mcntrl is now passed in to the functions network_mag(),
+mag_boot_strap(), mag_max_lik(), and only_bound_amps().  Previous versions
+passed in the sglim1, sglim2, and algo_code members of the Mag_Cntrl
+structure as separate arguments.
+
+Files Affected:
+network_mag.c
+mag_boot_strap.c
+mag_max_lik.c
+only_bound_amps.c
+
+07 October 1999 doug
+--------------------
+Changed the default value of the TL modelling error from 1.0 to 0.0 in
+TL_manipulation.c.  By so doing, when mag_dist_var_wgt is specified, the
+contribution to the station weight from the distance-dependent modelling
+errors will be zero if these errors are not specified in the TL file.
+
+Added a warning message for the case when mag_dist_var_wgt is specified,
+but because no modelling errors or station correction uncertainties were
+found, the station weights are 0.0.  This warning was added in calc_mags.c
+
+Constrained the network standard deviation by the upper and lower stdev
+bounds given in the MDF file when the upper and lower bounds are not equal
+to one another.  Also set the a priori standard deviation equal to sgbase
+when the lower bound equals the upper bound.  This work was done in
+network_mag.c.
+
+15 October 1999 doug
+--------------------
+Random numbers were not being generated properly in mag_boot_strap.c.  As
+a result, the same magnitudes were being used each time to compute the
+bootstrap MLE average.  This problem was repaired by setting the seed to
+be the epoch time (long type) returned from the libstdtime call
+stdtime_get_epoch().  Note that libstdtime.h had to be added as a header
+file in mag_descrip.h.
+
+Also, added the "Wgt ave" column to the MDF file.  This column effectively
+replaces the mag_dist_var_wgt parameter (which is now obsolete).  This
+column specifies whether or not weighted averages should be calculated
+on a magtype basis.  The integer (0 or 1) contained in this column is
+placed in the apply_wgt member of several structures.
+
+Files Affected:
+mag_descrip.h	- Added apply_wgt member to Mag_Descrip and Mag_Cntrl
+		  structures.
+read_mdf.c	- Reads apply_wgt from the 11th column of the MDF file.
+mag_access.c	- Added apply_wgt to mag_cntrl structure in
+		  get_magtype_features().
+calc_mags.c	- Replaced mag_params->dist_var_wgt with mcntrl->apply_wgt.
+mag_params.h	- Removed dist_var_wgt parameter from mag_params structure.
+mag_params.c	- Removed dist_var_wgt parameter.
+
+Baselined the libmagnitude directory with the PRE_70_MAGNITUDE label.
+
+Old magtype-specific arguments
+------------------------------
+# Mag           detect   event  Algo Dist. Range SDlimits
+# Type  TLType  amptype amptype Code min   max    LB  UB  Comments
+#-----  ------- ------- ------- ---- ----- ----- -------- ------
+mb      mb      A5/2    -         0  20.0  100.0 .35 .35 Net Avg mb
+
+New magtype-specific arguments
+# Mag           detect   event  Algo Dist. Range   SDlimits   Wgt
+# Type  TLType  amptype amptype Code min   max    LB  UB  BL  ave Comments
+#-----  ------- ------- ------- ---- ----- ----- ------------ --- --------
+mb      mb      A5/2    -         0  20.0  100.0 0.0 2.0 .35   0  Net Avg mb
+
+25 October 1999 doug
+--------------------
+Added error checking to read_mdf.c that checks the number of arguments
+read from each line of the MDF file.  The program will exit if the number
+of arguments read does not match with the number of arguments expected.
+
+05 November 1999 doug
+---------------------
+TLtypes for which weighted averages are to be computed must now have
+a default value for the station correction and station correction error
+listed in the MDF file.  The default values must be entered in the
+station correction portion of the MDF file with "DFAULT" as the
+station name.  If a TLtype for which weighted averages are computed does
+not have default station corrections and errors, then the program is
+terminated.
+
+Files Affected:
+mag_descrip.h	Added def_sta_corr and def_sta_corr_error as members
+		to the Mag_Descrip structure.  These members contain
+		the default station corrections and errors for each
+		unique TLtype.
+libmagnitude.h	Removed get_bulk_sta_corr_error() function prototype.
+read_mdf.c	- Each TLtype that has a weighted average being computed
+		  now must have a default station correction and error in
+		  the MDF file with station name DFAULT.  If this default
+		  information does not exist, then the program will exit
+		  with an error message.
+		- The default station corrections and errors are used
+		  to compute station weights if specific station
+		  corrections and errors are not given in the MDF file
+		  for the TLtype of interest.
+		- Added a close() statement to close the MDF file before
+		  exiting when the MDF file is formatted incorrectly.
+mag_access.c	- Removed get_bulk_sta_corr_error() function.
+		- When station corrections are not available for a 
+		  certain station, but weighted averages are being
+		  computed, then the default station corrections and
+		  errors are applied for that station.
+
+Modified calc_mags.c so that an error code is passed back to the calling
+program when calculating a weighted average but a given station does not
+have a station weight (modelling error or station correction error).
+The previous version of calc_mags.c simply printed an error message when
+this situation arose.
+
+Sample default station/TLtype-dependent bulk station correction information
+---------------------------------------------------------------------------
+# Sta                   Station Station Comments
+# Name  TLType            Cor   Cor Err (# of data used to get station corr)
+# ----- ---------       ------- ------- ---------------------
+DFAULT  ml               0.000  0.000   Default value of station corr. error
+DFAULT  mb1              0.000  0.350   Default value of station corr. error
+
+16 December 1999 doug
+---------------------
+1)  Added an error check of the LB, UB, and BL values in the MDF to read_mdf.c.
+This error check verifies that LB <= BL <= UB (or equivalently, that
+sglim1 <= sgbase <= sglim2) for each magtype in the MDF.  If this constraint
+fails, then an error message is generated and the program terminates.
+
+2)  Jin Wang (at CMR) noticed an error that occurred only when weighted averages
+were desired.  In rare cases, a non-defining phase with a delta < min_dist
+or delta > max_dist (min_dist and max_dist are defined in the MDF for each
+magtype) would have a station weight of 0.0 (due to both the modelling
+and station correction errors being 0.0).  This would cause the calling
+program to exit with an error.  While it is true that the program should
+exit when a station weight is 0.0 when computing a weighted average, it
+should not exit if the arrival is non-defining.  This problem was fixed
+by adding a few lines of code to calc_mags.c.
+
+3)  Set the default value of the modelling error to be equal to the baseline
+standard deviation (sgbase member of the Mag_Descrip structure, or
+equivalently BL in the MDF) for the appropriate magtype when a modelling
+error is not present in the transmission loss file.  The modelling error
+default value used to be 0.0 (see 07 October 1999 entry).
+
+Files Affected:
+mag_defs.h		Added the symbolic constant NA_MODEL_ERROR,
+			which basically serves as a flag identifying
+			when the baseline stdev should be used as the
+			modelling error.
+TL_manipulation.c	Changed the default modelling error from 0.0
+			to the NA_MODEL_ERROR constant in get_tl_model_error().
+			NA_MODEL_ERROR is returned if no modelling error
+			is present in the transmission loss file for the
+			input depth and distance.
+mag_access.c		The modelling error defaults to the baseline standard
+			deviation in the MDF for the current magtype if
+			the get_tl_model_error() function returns
+			NA_MODEL_ERROR.
+
+4)  Added RNOTES and MAN3 targets to Makefile.
+
+17 December 1999 doug
+---------------------
+Created libmagnitude.3 man page.
+
+In preparation for the PIDC_7.0.0 release, merged the following files from
+the pidc7.0_dev branch to /main/LATEST:
+	Changes.libmagnitude
+	Makefile
+	Rnotes.libmagnitude
+	TL_manipulation.c
+	calc_mags.c
+	libmagnitude.3
+	mag_access.c
+	mag_boot_strap.c
+	mag_defs.h
+	mag_descrip.h
+	mag_max_lik.c
+	mag_params.c
+	mag_params.h
+	magp.h
+	network_mag.c
+	only_bound_amps.c
+	read_mdf.c
+
+Also merged build_mag_obj.c from the pidc6.2_patch branch to /main/LATEST.
+
+Baselined /vobs/src/common/libsrc/libmagnitude with the PIDC_7.0.0 label.
+
+18 December 1999 doug
+---------------------
+Added the functions reset_sd_baseline(), reset_wgt_ave_flag(),
+revert_sd_baseline(), and revert_wgt_ave_flag() to mag_access.c.  The
+reset functions allow a calling application to reset the baseline
+standard deviation and the weighted average flag which were originally
+set in the MDF for a given magtype.  The revert functions revert the
+setting of the baseline standard deviation and weighted average flag
+to the values established in the MDF.
+
+Files Affected:
+libmagnitude.h		Added prototypes for the 4 new functions.
+libmagnitude.3		Added prototypes for the 4 new functions to the
+			SYNOPSIS section of the man page.
+mag_access.c		Inserted the 4 new functions into this file.
+
+Also updated some of the error messages in mag_error_msg.c (i.e., replaced
+MMSF reference with MDF).
+
+Merged these four files, along with this Changes file, from the pidc7.0_dev
+branch to /main/LATEST, and relabeled the new version on /main/LATEST
+with the PIDC_7.0.0 label.
+
+ 7 February 2000 nagy
+---------------------
+Added two new user control functions, mag_set_compute_upper_bounds() and 
+mag_get_compute_upper_bounds(), that provide external (global) access for
+setting and retrieving the user's desire to compute magnitudes based
+purely on defining event-based amplitude information.  At the IDC the 
+current operational desire is to ignore upper-bound magnitudes altogether
+until such a time as they can be more comprehensively handled (ideally
+via the MDF/TLSF structure).  Suffice it say for now that the default
+state of this control should be FALSE (i.e., to suppress such magnitudes).
+The calling application may explicitly call the set function,
+mag_set_compute_upper_bounds(), although it will automatically default
+to FALSE even if not invoked directly.  OTOH, if the calling application
+desires to employ and save these magnitudes, then this set function must
+be called with its argument set to TRUE.
+
+The get function, mag_get_compute_upper_bounds(), is managed at the library
+level within libmagnitude.  This function simply retrieves the state set
+by the user (or by default).  The get function is employed within function,
+calc_mags(), contained in file, calc_mags.c.  If no defining detection-based
+amplitude measures are available and the calling application has requested
+that upper-bound magnitude determination be suppressed, then no netmag or
+stamag records will be produced.  Specifically, the magn->mag_computed
+attribute will be made FALSE.  It is worth noting that only this variable
+need be evaluated during the database writes to ensure that the proper 
+behavior is achieved.
+
+Finally, prototype definitions have been added to the public include file,
+libmagntiude.h, for the new functions, mag_set_compute_upper_bounds() and
+mag_get_compute_upper_bounds().
+
+18 February 2000 doug
+---------------------
+Populated the netmag.net field with the network name in calc_mags.c.
+
+23 February 2000 nagy
+---------------------
+Per an ammended agreement with IDC personnel, namely Jan Wuester, we will
+now also write ALL magnitudes possessing detection-based measures to the
+the output database via core DB tables, netmag and stamag, regardless of
+their state.  In practice this means we will also permit N/A-valued 
+netmag.magnitude and netmag.uncertainity records to be written to the
+database without regard as to whether any detection-based measures are 
+magnitude defining or non-defining.  Previously such netmag/stamag record
+could only true be written to the database for network-averaged computations. 
+Now this rule applies to MLE determinations as well.  Only file, calc_mags.c,
+needed to be modified.  An additional initialization of the mag_write 
+attribute of the magnitude object in file, build_mag_obj.c, to FALSE was 
+added for consistency sake.  This initialization is redundant to the one 
+done in file, calc_mags.c, and only included for completeness.  The lack of 
+this initialization did not result in any problems.
+
+24 February 2000 doug
+---------------------
+Previous versions of libmagnitude would combine non-defining and defining
+station magnitudes in the list of defining magnitudes written to the output
+file when verbose=2.  A portion of calc_mags.c was revised so that the
+non-defining and defining station magnitudes are printed in distinctly
+separate tables in the output log file.

@@ -1,0 +1,104 @@
+.\"%W	%G
+.TH libpar 3  "25 June 2001"
+.SH NAME
+libnewpar \- provides functions to retrieve parameters
+.SH DESCRIPTION
+This library provides functions to (1) Retrieve runtime parameters from the
+environment, command line, and input files in a uniform way, and (2) Extract
+parameters from arbitrary strings.  The first provides a mechanism for sharing
+system-wide configuration information, and the second is convenient for
+interpreting IPC messages. 
+
+This differs from the old libpar in that there are new functions to allow
+multiple, independent parameter tables.  However, the old API is still
+supported.
+
+The components include:
+
+.TP 15
+.B setpar_r:
+Parses the the environment, command line, and any files that are designated on
+the command line, i.e.
+.I par=filename,
+and builds an internal table of parameter names
+and values.  Takes as input a 
+.I par_rec**
+(defined in
+.I libnewpar.h),
+and the parameter table is associated with that 
+.I par_rec.
+.TP 15
+.B setpar:
+The same as
+.I setpar_r,
+except that no 
+.I par_rec**
+is passed in, as the parameter table is global.  This function is 
+provided for backwards compatibility and behaves the same as the
+.I setpar
+function in 
+.BR libpar (3).
+.TP 15
+.B getpar_r:
+Retrieves from the internal parameter table the value of a named parameter
+interpreted according to an specified format.  Takes as input a
+.I par_rec*
+and retrieves parameter values from the table associated with that
+.I par_rec.
+.TP 15 
+.B getpar:
+The same as
+.I getpar_r,
+except that no
+.I par_rec*
+is passed in, as the parameter table is global.  This function is 
+provided for backwards compatibility and behaves the same as the 
+.I getpar
+function in
+.BR libpar (3).
+.TP 15
+.B mstpar_r:
+Retrieves from the internal parameter table the value of a named parameter
+interpreted according to an specified format.  If the parameter is missing, the
+functions calls exit(), terminating the program.  Takes as input a
+.I par_rec*,
+and retrieves parameter values from the table associated with that
+.I par_rec.
+.TP 15 
+.B mstpar:
+The same as
+.I mstpar_r,
+except that no
+.I par_rec*
+is passed in, as the parameter table is global.  This function is
+provided for backwards compatibility and behaves the same as the
+.I mstpar
+function in
+.BR libpar (3).
+.TP 15
+.B endpar_r:
+Takes as input a 
+.I par_rec**
+and cleans up memory associated with that
+.I par_rec
+variable's internal parameter tables.  
+.TP 15
+.B endpar:
+The same as
+.I endpar_r,
+except that no
+.I par_rec**
+is passed in.  The memory associated with the global
+.I par_rec
+is deallocated.  This function is provided for backwards compatibility and
+behaves the same as the
+.I endpar
+function in
+.BR libpar (3).
+
+.PP
+.SH "SEE ALSO"
+.BR getopt (3C),
+.BR getpar (3),
+.BR libpar (3)
+

@@ -1,0 +1,33 @@
+This directory contains example geotool scripts. There are several methods
+to execute the scripts.
+
+Graphical, Interactive:
+	geotool parse=fbands
+or
+	geotool
+	geotool> parse fbands
+	geotool> more commands
+	...
+
+Non-graphical, Non-interactive: This method does not display the graphics. To
+make the program exit after the script is interpreted, append the "quit"
+command to the script file.
+
+	geotool -i << fbands
+
+Non-graphical, Interactive: This method does not display the graphics, but
+continues to accept input commands from the terminal. After the commands in
+the script are executed, the "geotool>" is displayed and commands are
+interpreted from the terminal until a "quit" command is input.
+
+	geotool -i parse=fbands
+or
+	geotool -i
+	geotool> parse fbands
+	geotool> more commands
+	...
+
+----------------------------------------------------------------------------
+
+All script files in the subdirectory init/ are automatically interpreted each
+time geotool is executed.

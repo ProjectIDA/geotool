@@ -1,0 +1,128 @@
+if( sel_wave.size() == 0 )
+    showWarning "No waveforms selected."
+    return
+endif
+
+alias fk=fk_multi_band
+
+# assign the frequency band limits
+set lo=0.5,1.5,2.0,2.5,3.0,3.5,4.0,5.0
+set hi=2.0,2.5,3.0,3.5,4.0,4.5,5.0,6.0
+
+# set the frequency band limits of the first FK window
+fk.flo1=lo[1]; fk.fhi1=hi[1]
+fk.flo2=lo[2]; fk.fhi2=hi[2]
+fk.flo3=lo[3]; fk.fhi3=hi[3]
+fk.flo4=lo[4]; fk.fhi4=hi[4]
+
+# set the parameter values for the first FK window
+fk.parameters.window_length=5.    # 5 second time window for each FK
+fk.parameters.window_overlap=3.   # 3 second window overlap
+fk.parameters.stav_length=1.      # 1 second short-term-average window
+fk.parameters.ltav_length=60.     # 60 second long-term-average window
+fk.auto_compute                   # compute the FK's for frequency bands 1-4
+
+# set the frequency band limits of the second FK window
+fk.2.flo1=lo[5]; fk.2.fhi1=hi[5]
+fk.2.flo2=lo[6]; fk.2.fhi2=hi[6]
+fk.2.flo3=lo[7]; fk.2.fhi3=hi[7]
+fk.2.flo4=lo[8]; fk.2.fhi4=hi[8]
+
+# set the parameter values for the second FK window
+fk.2.parameters.window_length=5.
+fk.2.parameters.window_overlap=3.
+fk.2.parameters.stav_length=1.
+fk.2.parameters.ltav_length=60.
+fk.2.auto_compute                 # compute the FK's for frequency bands 5-8
+
+detections.open
+detections.table.remove_all_rows
+
+max_detections = 10   # the maximum number of detections allowed
+min_snr = 3.0         # the low SNR cutoff
+num = 0
+n = fk.sig[1].snr.size() - 2
+
+foreach(3, n, i)      # loop over the SNR values
+    kmax = 0
+    snr_max = 0
+    foreach(1, 4, k)  # loop over the frequency bands of the first FK window
+        alias s=fk.sig
+        m = s[k].snr[i]
+        if(m > min_snr && m > s[k].snr[i-2] && m > s[k].snr[i-1] \
+		&& m > s[k].snr[i+1] && m > s[k].snr[i+2])
+            if(m > snr_max)
+                snr_max = m
+                kmax = k
+                azimuth = s[k].azimuth[i]
+                slowness = s[k].slowness[i]
+		time = s[k].time[i]
+            endif
+        endif
+    endfor
+
+    foreach(1, 4, k)  # loop over the frequency bands of the second FK window
+        alias s=fk.2.sig
+        m = s[k].snr[i]
+        if(m > min_snr && m > s[k].snr[i-2] && m > s[k].snr[i-1] \
+		&& m > s[k].snr[i+1] && m > s[k].snr[i+2])
+            if(m > snr_max)
+                snr_max = m
+                kmax = 4+k
+                azimuth = s[k].azimuth[i]
+                slowness = s[k].slowness[i]
+		time = s[k].time[i]
+            endif
+        endif
+    endfor
+
+    # if a local snr maximum was found, add it to the detection table
+    if(kmax > 0)
+	num = num + 1
+	detections.table.add_row num i kmax lo[kmax] hi[kmax] snr_max(%.2f)\
+		 azimuth(%.2f) slowness(%.2f) time(%t)
+    endif
+endfor
+
+n = max_detections
+if(n > detections.table.num_rows)
+    n = detections.table.num_rows
+else
+    # sort the detection table and take the top "n" SNR values
+    detections.table.sort_down column="snr"
+endif
+
+2.clear
+2.tag_contents.set tag="text input,filter(low high)"
+
+foreach(1, n, j)
+    k = detections.table.row[j].kmax
+    i = detections.table.row[j].window
+    s = detections.table.row[j].snr
+    azimuth = detections.table.row[j].azimuth
+    slowness = detections.table.row[j].slowness
+
+    if(k <= 4)
+        fk.display window=i       # display the i'th FK and beam
+        m = 2*(k-1) + 1           # odd traces are beams, even are ftraces
+        copy fk.beam_plot.wave[m] # copy the beam to the paste buffer
+	time = fk.sig[k].time[i]
+    else
+        fk.2.display window=i
+        m = 2*(k-4-1) + 1
+        copy fk.2.beam_plot.wave[m]
+	time = fk.2.sig[k-4].time[i]
+    endif
+    2.paste  # copy the beam to the second waveform window
+
+    # set the waveform label
+    sprint label azimuth(%.1f) slowness(%.1f)
+    2.tag_contents.set text=label
+    2.update_tag 2.wave[j]
+
+    # create an arrival record. it is written to disk or database
+    2.add_arrival 2.wave[j] phase=j time=time
+endfor
+
+2.arrivals_on_one_channel
+2.open

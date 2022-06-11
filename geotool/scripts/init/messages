@@ -1,0 +1,6 @@
+# file scripts/init/messages
+# process IPC messages
+
+add_message_handler msg_id="ARSspectro" callback="parse ../spectro"
+add_message_handler msg_id="ARSft" callback="parse ../spectro"
+add_message_handler msg_id="ARSfk" callback="parse ../fk"

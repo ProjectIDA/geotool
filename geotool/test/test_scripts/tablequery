@@ -1,0 +1,30 @@
+clear
+
+alias tq = tablequery
+
+connect data_source="ORACLE" user="reb" password="reb"
+query "origin" "select * from origin where orid between 2316200 and 2316300"
+tq.origin.select_row orid=2316236
+tq.review_origins
+
+if( wave.size() == 2 ); print "tablequery test 1 OK"
+else; print "tablequery test 1 failed"; endif
+
+if( arrival.size() == 3 ); print "tablequery test 2 OK"
+else; print "tablequery test 2 failed"; endif
+
+clear
+
+tq.display_arrivals
+
+if( arrival.size() == 10 ); print "tablequery test 3 OK"
+else; print "tablequery test 3 failed"; endif
+
+if( wave[3].sta ~= "FINES" && wave[3].chan ~= "FI_42" )
+    print "tablequery test 4 OK"
+else; print "tablequery test 4 failed"; endif
+
+display_waveform wave[3]
+
+if( wave[3].length == 12001 ); print "tablequery test 5 OK"
+else; print "tablequery test 5 failed"; endif

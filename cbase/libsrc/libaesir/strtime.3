@@ -1,0 +1,63 @@
+.\" SccsId: @(#)strtime.3	109.1 07/08/97 SAIC
+.TH STRTIME 3 "@(#)strtime.3	109.1"
+.SH NAME
+strtime, strdtime, strgmtime, gmdate, etosh \- date/time functions
+.SH SUMMARY
+strtime \- return the local time as a date string.
+.br
+strdtime \- return a double precision epoch time to a local date.
+.br
+strgmtime \- return the current Greenwich meantime as a string.
+.br
+gmdate \- return a double precisions epoch time as a gm date.
+.br
+etosh \- epoch to short human time interpreted as a local time
+.SH FILE
+strtime.c(libaesir.a)
+.SH SYNOPSIS
+.nf
+char *
+strtime ()
+
+char *
+strdtime (epoch)
+double	epoch;			\fI(i) seconds since start of 1/1/1970\fP
+
+char *
+strgmtime ()
+
+char *
+gmdate (epoch)
+double	epoch;			(i) seconds since start of 1/1/1970
+
+char *
+etosh (epoch)
+double epoch;			(i) seconds since start of 1/1/1970
+.nf
+.SH DESCRITPION
+.LP
+\fIstrtime\fP () returns the current time as a NULL terminated
+string in the same format as date(1) prints but without the newline.
+.LP
+\fIstrdtime\fP () returns the same formated string as \fIstrtime\fP ()
+except one passes in the epochal time.
+.LP
+\fIstrgmtime\fP () returns the current time at Greenwich as a string.
+.LP
+\fIgmdate\fP () returns an  epochal time interpreted as Greenwich time.
+.LP
+\fIetosh\fP () returns an epochal time in short human format.  Short
+human format is "mm/dd/yy hh:mm:ss.sss" and always is 21 characters long
+(+ one for EOS).
+.SH AUTHOR
+Pete Ware
+.SH BUGS
+All routines use \fIasctime\fP (3) to format the string
+and delete the newline.  The string is stored in a  static buffer
+and is overwritten with each call.
+.LP
+\fIstrdtime\fP and \fIgmdate\fP are accurate only to a second.
+Fractions of a second are truncated.
+.LP
+\fIgmdate\fP is so named for compatability with previous
+usage.

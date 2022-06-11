@@ -1,0 +1,178 @@
+# file scripts/spectro
+# process spectrogram and ft messages
+# Use the script command add_message_handler to parse this file. See
+# the script scripts/init/messages
+#
+# Required message parameters:
+# 	datasource, user, password and arid or time. If time is specified,
+# 	then sta or net must also be specified.
+#
+# Optional message parameters:
+#	lead and lag specify the time window as
+#	arrival.time - lead to arrival.time + lag
+# or	time - lead to time + lag
+#
+#	lead defaults to 60 seconds and lag defaults to 120. seconds
+#
+# example message:
+#	msg_id: ARSspectro
+#	msg: datasource=ORACLE user=sel3 password=sel3 arid=15833652
+
+# if the odbc arguments are specified
+if( !defined(datasource) )
+    showWarning "missing message argument 'datasource'"
+    return
+endif
+if( !defined(user) )
+    showWarning "missing message argument 'user'"
+    return
+endif
+if( !defined(password) )
+    showWarning "missing message argument 'password'"
+    return
+endif
+
+# make the odbc connection
+connect data_source=datasource user=user password=password
+
+if( defined(arrival_table) )
+    mapping arrival=arrival_table
+endif
+
+if( defined(assoc_table) )
+    mapping assoc=assoc_table
+endif
+
+mapping affiliation="static.affiliation"
+
+if( !defined(lead) )
+    lead = 60
+endif
+if( !defined(lag) )
+    lag = 120
+endif
+
+alias tq = tablequery
+alias tqcon = tablequery.connection
+
+clear	# clear waveform window
+
+if( defined(arid) )  # if the 'arid=' argument is used
+
+    # use the Database Connection arrival tab interface which
+    # will automatically form the queries based on an arid
+
+    tqcon.arrival.arrival_id=arid
+
+    # read in at least 3 minutes of data, even if the time window is shorter
+    if( lead < 60. )
+	tqcon.arrival.time_before=60.
+    else
+	tqcon.arrival.time_before=lead
+    endif
+
+    if( lag < 120. )
+	tqcon.arrival.time_after=120.
+    else
+	tqcon.arrival.time_after=lag
+    endif
+
+    tqcon.arrival.stations=""
+    tqcon.arrival.channels=""
+
+    if( defined(sta) )
+	tqcon.arrival.stations=sta
+    endif
+    if( defined(chan) )
+	tqcon.arrival.channels=chan
+    endif
+
+    tqcon.arrival.return_origins=true
+
+    # for the spectrogram and ft, read the 
+    tqcon.arrival.return_wfdiscs=false
+    tqcon.arrival.run_query
+    tq.select_tab="arrival"
+    tq.select_row arid=arid
+
+    if(tq.arrival.num_sel_rows != 1)
+	print "Cannot get arrival record for arid=" arid
+	return
+    endif
+
+    tq.display_arrivals
+    display_waveform wave[1]
+
+    time_window arid=arid lead=lead lag=lag
+
+else if( defined(time) )  # if 'time=' argument is used
+
+    # use the Database Connection time tab interface which
+    # will automatically form the queries based on time
+
+    # must specify sta or net
+    if( !defined(sta) && !defined(net) )
+	showWarning "missing sta or net"
+	return
+    endif
+
+    time = epoch(time)
+
+    if( lead < 60. )
+	tqcon.time.start_time=time-60.
+    else
+	tqcon.time.start_time=time-lead
+    endif
+    if( lag < 120. )
+	tqcon.time.end_time=time+120.
+    else
+	tqcon.time.end_time=time+lag
+    endif
+
+    tqcon.time.stations=""
+    tqcon.time.channels=""
+    tqcon.time.network=""
+
+    if( defined(sta) )
+	tqcon.time.stations=sta
+    endif
+    if( defined(chan) )
+	tqcon.time.channels=chan
+    endif
+    if( defined(net) )
+	tqcon.time.network=net
+    endif
+
+    tqcon.time.return_origins=true
+    tqcon.time.return_arrivals=true
+    tqcon.time.return_wfdiscs=true
+
+    tqcon.time.run_query
+
+    tq.select_tab="wfdisc"
+    tq.select_all
+
+    if( defined(exclude) )
+	set s = '{' exclude '}'
+	tq.deselect_row sta=s
+    endif
+
+    tq.display_waveforms
+
+    # position the time-window cursor in the waveform window
+    position_time_window xmin=time-lead xmax=time+lag
+else
+    showWarning "missing message argument 'arid' or 'time'"
+    return
+endif
+
+select 1
+
+if(msg_id ~= "ARSspectro")
+    spectrogram.compute
+else if(msg_id ~= "ARSft")
+    ft.compute
+else
+    showWarning "unknown message id"
+    return
+endif

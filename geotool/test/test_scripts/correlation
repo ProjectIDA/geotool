@@ -1,0 +1,48 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/ASAR.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+read file=data_file query="select * from wfdisc where sta like 'AS' and chan='SHZ'"
+
+set i=145,342,625,844,1042,1324,1562,1633,1835
+set d=3.4595,2.91375,3.57975,2.22925,3.7185,4.54175,4.50475,1.11925,7.50175
+setb ok=true
+foreach(i)
+    if(wave[1].seg[1].data[i] != d[for_index]); setb ok=false; endif
+endfor
+if( !ok ); print "correlation input data has changed"; return; endif
+
+select_all
+filter low=0.5 high=3.0
+select 1
+time_window tbeg=1160358367 tend=1160358367+10
+deselect_all
+select 1
+correlation.set_reference
+time_window tbeg=1160358367-30 tend=1160358367+50
+select_all
+correlation.correlate
+
+set s="AS01,AS02,AS03,AS04,AS05,AS06,AS07,AS08,AS09,AS10,AS11,AS12,AS13,AS14,AS15,AS16,AS17,AS18,AS19"
+set c=0.49,0.24,0.22,0.30,0.33,0.28,0.24,0.20,0.27,0.35,0.25,0.25,0.32,0.33,0.28,0.26,0.25,0.23,0.27
+set l=.000,30.000,27.500,0.050,0.200,-23.900,20.950,-23.700,7.000,5.600,5.750,-7.200,39.100,0.150,-0.850,-27.350,-15.650,-0.350,-26.700
+
+set sta=correlation.table.column[1]
+set coef=correlation.table.column[3]
+set lag=correlation.table.column[5]
+
+n = sta.size()
+setb ok=true
+foreach(1, n, i)
+    if(sta[i] != s[i] || coef[i] != c[i] || lag[i] != l[i])
+	setb ok=false
+	break
+    endif
+endfor
+
+if( ok ); print "correlation test OK"
+else; print "correlation test failed"; endif

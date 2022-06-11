@@ -1,0 +1,57 @@
+create name="Table Example" type="FormDialog"	               # create a popup window
+table_example.create name="controls" type="RowColumn" args={   # create a container for buttons
+        leftAttachment:ATTACH_FORM
+        rightAttachment:ATTACH_FORM
+        bottomAttachment:ATTACH_FORM
+        orientation:HORIZONTAL
+        borderWidth: 1
+}
+
+table_example.controls.create name="Close" type="Button"	     # create a button that will
+table_example.controls.Close.activateCallback="table_example.close"  # close the popup window
+
+table_example.create name="table" type="Table" args={    # create a Table Component
+        topAttachment:ATTACH_FORM
+        topOffset:5
+        bottomAttachment:ATTACH_WIDGET
+        bottomWidget:controls
+	bottomOffset: 5
+        leftAttachment:ATTACH_FORM
+        leftOffset:5
+        rightAttachment:ATTACH_FORM
+        columns:3
+        singleSelect:True
+        visibleRows:10
+        columnLabels:sta,chan,mean
+        tableTitle:Table Example
+        width:220
+}
+
+# each time a row of the table is selected, this script is interpreted
+table_example.table.selectRowCallback {
+    if(table_example.table.num_sel_rows > 0)       # if the number of selected rows > 0
+        i = table_example.table.sel_row[1].index   # the row index is the same as the waveform index
+        zoom_on_waveform wave[i]                   # zoom in to display the ith waveform
+    endif
+}
+
+Option.create name="Example1" type="Button"  # create a button in the Option menu
+
+# each time the Option/Example1 is selected, this script will be interpreted
+Option.Example1.activateCallback={
+    table_example.table.remove_all_rows   # remove all rows from the table
+    foreach(wave, w)                      # loop over all waveforms
+        table_example.table.add_row w.sta w.chan w.mean(%.3g)  # add a row for each waveform
+    endfor
+    table_example.open       # display the popup window
+}
+
+# this callback is interpreted whenever there is a change to any waveform,
+# ie. when waveforms are read, or deleted, or modified.
+# It updates the contents of the table in the popup window.
+dataChangeCallback={
+    table_example.table.remove_all_rows   # this is the same script as the previous one
+    foreach(wave, w)
+        table_example.table.add_row w.sta w.chan w.mean(%.3g)
+    endfor
+}

@@ -1,0 +1,189 @@
+# file scripts/init/cmdline
+# process command line arguments
+
+alias tq = tablequery
+
+if( defined(prefix) )                   # if the prefix argument is used
+    connect prefix=prefix
+    get_all_tables                      # read all of the prefix.table files
+    tq.select_tab="wfdisc"
+    if( defined(sta) && defined(chan) ) # if both sta and chan are used
+	foreach(tq.wfdisc.row, r) # loop over wfdiscs and select for sta and chan
+	    i = for_index
+	    foreach(sta)
+		foreach(chan)
+		    if(r.sta ~= sta && r.chan ~= chan)
+			tq.select_row i   # select this wfdisc is sta and chan match
+		    endif
+		endfor
+	    endfor
+	endfor
+    else if( defined(sta) )        # if only sta is specified
+	foreach(tq.wfdisc.row, r)  # loop over wfdiscs
+	    i = for_index
+	    foreach(sta)
+		if(r.sta ~= sta)
+		    tq.select_row i  # select this wfdisc is sta matches
+		endif
+	    endfor
+	endfor
+    else if( defined(chan) )       # if only chan is specified
+	foreach(tq.wfdisc.row, r)  # loop over wfdiscs
+	    i = for_index
+	    foreach(chan)
+		if(r.chan ~= chan)
+		    tq.select_row i  # select this wfdisc is chan matches
+		endif
+	    endfor
+	endfor
+    else
+	tq.select_all  # neither sta nor chan are specified, select all wfdiscs
+    endif
+    tq.display_waveforms  # read the waveforms into the waveform window
+
+    if( defined(window) && wave.size() > 0)
+	select_all        # if the 'window=' argument is used, select all waveforms
+	set cmd = window ".compute"  # if window=ft, this will be 'ft.compute'
+	parse_string cmd  # and compute
+    endif 
+
+    return  # all done if prefix argument was used
+
+# if the odbc arguments are specified
+else if( defined(odbc_source) || defined(odbc_user) || defined(odbc_password) )
+
+    # check for missing arguments
+    if( !defined(odbc_source) )
+	showWarning "missing command line argument 'odbc_source'"
+	return
+    else if( !defined(odbc_user) )
+	showWarning "missing command line argument 'odbc_user'"
+	return
+    else if( !defined(odbc_password) )
+	showWarning "missing command line argument 'odbc_password'"
+	return
+    endif
+
+    # make the odbc connection
+    connect data_source=odbc_source user=odbc_user password=odbc_password
+else
+    return  # no 'prefix' nor odbc arguments
+endif
+
+
+alias tqcon = tablequery.connection
+
+if( !defined(lead) )
+    lead = 5         # default lead
+endif
+if( !defined(lag) )
+    lag = 10         # default lag
+endif
+
+if( defined(arid) )  # if the 'arid=' argument is used
+
+    # use the Database Connection arrival tab interface which
+    # will automatically form the queries based on an arid
+    tqcon.arrival.arrival_id=arid
+
+    if( lead < 60. )
+	tqcon.arrival.time_before=60.
+    else
+	tqcon.arrival.time_before=lead
+    endif
+
+    if( lag < 120. )
+	tqcon.arrival.time_after=120.
+    else
+	tqcon.arrival.time_after=lag
+    endif
+
+    tqcon.arrival.stations=""
+    tqcon.arrival.channels=""
+
+    if( defined(sta) )
+	tqcon.arrival.stations=sta
+    endif
+    if( defined(chan) )
+	tqcon.arrival.channels=chan
+    endif
+
+    tqcon.arrival.return_origins=true
+    tqcon.arrival.return_wfdiscs=true
+    tqcon.arrival.run_query
+    tq.select_tab="wfdisc"
+    tq.select_all
+
+    if( defined(exclude) )
+	set s = '{' exclude '}'
+	tablequery.deselect_row sta=s
+    endif
+
+    tq.display_waveforms
+
+    foreach(arrival, a)  # loop over arrival to find the arid
+	if(a.arid == arid)
+	    # position the time-window cursor in the waveform window
+	    position_time_window xmin=a.time-lead xmax=a.time+lag
+	    break
+	endif
+    endfor
+
+else if( defined(time) )  # if 'time=' argument is used
+    time = epoch(time)
+
+    # use the Database Connection time tab interface which
+    # will automatically form the queries based on time
+    if( lead < 60. )
+	tqcon.time.start_time=time-60.
+    else
+	tqcon.time.start_time=time-lead
+    endif
+    if( lag < 120. )
+	tqcon.time.end_time=time+120.
+    else
+	tqcon.time.end_time=time+lag
+    endif
+
+    tqcon.time.stations=""
+    tqcon.time.channels=""
+    tqcon.time.network=""
+
+    if( defined(sta) )
+	tqcon.time.stations=sta
+    endif
+    if( defined(chan) )
+	tqcon.time.channels=chan
+    endif
+    if( defined(net) )
+	tqcon.time.network=net
+    endif
+
+    tqcon.time.return_origins=true
+    tqcon.time.return_arrivals=true
+    tqcon.time.return_wfdiscs=true
+
+    tqcon.time.run_query
+
+    tq.select_tab="wfdisc"
+    tq.select_all
+
+    if( defined(exclude) )
+	set s = '{' exclude '}'
+	tq.deselect_row sta=s
+    endif
+
+    tq.display_waveforms
+
+    # position the time-window cursor in the waveform window
+    position_time_window xmin=time-lead xmax=time+lag
+
+else
+    return
+endif
+
+if( defined(window) && wave.size() > 0)
+    select_all
+    set cmd = window ".compute"
+    parse_string cmd
+endif 

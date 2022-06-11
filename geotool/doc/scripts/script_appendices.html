@@ -1,0 +1,721 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+        <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+        <TITLE>The Geotool Scripting Language Appendices</TITLE>
+        <META NAME="AUTHOR" CONTENT="Ivan Henson">
+        <STYLE TYPE="text/css">
+        <!--
+                TD P.western { font-family: "Nimbus Sans L", sans-serif }
+                H1.western { font-family: "Nimbus Sans L", sans-serif; font-size: 14pt; font-weight: normal }
+                P.western { font-family: "Nimbus Sans L", sans-serif }
+<!              PRE.western { font-family: "Nimbus Sans L", sans-serif } >
+                PRE.western { }
+                H2.western { font-family: "Nimbus Sans L", sans-serif; font-size: 14pt; font-weight: normal }
+                DD.western { font-family: "Nimbus Sans L", sans-serif }
+        -->
+        </STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<H1 CLASS="western" ALIGN=CENTER>The Geotool Scripting Language Appendices</H1>
+    <DD><B>Table of Contents</B></DD>
+<DL>
+    <DD><A HREF="#Appendix A">Appendix A: Graphical Components</A></DD>
+    <DD><A HREF="#Appendix B">Appendix B: Graphical Callbacks</A></DD>
+    <DD><A HREF="#Appendix C">Appendix C: Time Formats Recognized by the epoch Function</A></DD>
+    <DL>
+</DL>
+<H1 CLASS="western"><A NAME="Appendix A"></A>Appendix A: Graphical Components</H1>
+<DL>
+<P CLASS="western">
+The graphical components that can be created with the <A HREF="scripts.html#create">create</A> command are listed below.</P>
+    <TABLE WIDTH=95% BORDER=2 BORDERCOLOR="#000000" CELLPADDING=3 CELLSPACING=0 FRAME=VOID RULES=ROWS>
+    <TR VALIGN=TOP>
+	<TD WIDTH=15%>
+	    <P CLASS="western"><B>Component</B></P>
+	</TD>
+	<TD WIDTH=85%>
+	    <P CLASS="western"><B>Description</B></P>
+	</TD>
+    </TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>ArrowButton</B></TD>
+<TD><P CLASS="western">A Motif XmArrowButton widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>Button</B></TD>
+<TD><P CLASS="western">A Motif XmPushButton widget</P>
+<P CLASS="western">Synopsis: [PARENT].create name=NAME type="Button" [position=POS]</P>
+<P CLASS="western">
+The optional position is the position of the button in a menu list. A value of -1 positions the
+button alphabetically. A value of 0 appends the button to the end of the menu list. Any other
+value will position the button at that location.</P>
+</TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>Choice</B></TD>
+<TD><P CLASS="western">An option menu created with XmCreatePulldownMenu and XmCreateOptionMenu.</P>
+<P CLASS="western">Synopsis: [PARENT].create name=NAME type="Choice" choices=LIST</P>
+<P CLASS="western">The command "value" returns the choice.
+For example:
+<PRE CLASS="western">
+...
+align_popup.create name="choice" type="Choice" choices="observed,predicted"
+...
+if(align_popup.choice.value == "observed")
+...
+</PRE>
+</TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>CPlotClass</B></TD>
+<TD><P CLASS="western">A general plotting widget. See the example in Frame below.</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><A NAME="A_CSSTable"><B>CSSTable</B></TD>
+<TD><P CLASS="western">A subclass of the Table component for displaying table objects.</P>
+<P CLASS="western">
+The following script
+<PRE CLASS="western">
+create name="dprk" type="FormDialog"
+dprk.create name="table" type="CSSTable" args={
+    topAttachment:ATTACH_FORM
+    bottomAttachment:ATTACH_FORM
+    leftAttachment:ATTACH_FORM
+    rightAttachment:ATTACH_FORM
+    visibleRows:10
+    width:400
+}
+read file="../../data/tutorial/DPRK_reduced.wfdisc"
+foreach(arrival, a)
+    dprk.table.add_record a
+endfor
+dprk.open
+</PRE>
+<P CLASS="western">creates the window</P>
+	<P><IMG SRC="CSSTable.gif" NAME="CSSTable" ALT="CSSTable Window" ALIGN=BOTTOM WIDTH=408 HEIGHT=239 BORDER=0></P>
+</TD></TR>
+<TR><TD><P CLASS="western"><B>Form</B></TD>
+<TD><P CLASS="western">A Motif XmForm widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>FileChoice</B></TD>
+<TD><P CLASS="western">A subclass of the Choice component whose last choice is "(choose file)", which is selected
+opens a FileDialog. The file selected with the FileDialog becomes the current choice of the FileChoice component.
+If the optional argument choose_file is false, the FileDialog will list only directories.</P>
+<P CLASS="western">Synopsis: [PARENT].create name=NAME type="FileChoice" [choices=LIST] [choose_file=(true,false)]</P>
+<PRE CLASS="western">
+...
+form.create name="file_choice" type="FileChoice" choices="tmp.wfdisc"
+...
+file = file_choice.value
+</PRE>
+</TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>FileDialog</B></TD>
+<TD><P CLASS="western">A FormDialog containing a modified Motif FileSelectionBox.</P>
+<P CLASS="western">Synopsis: [PARENT].create name=NAME type="FileDialog" [file_type=FILE_TYPE] [dir=INITIAL_DIR]
+	[file_suffixes=SUFFIXES]</P>
+	<P CLASS="western">The optional argument file_type can be one of EXISTING_FILE_OR_DIR, EXISTING_FILE, EXISTING_DIR,
+FILE_OR_DIR, FILE_ONLY, DIR_ONLY, or WRITE_FILE. The optional argument file_suffixes is a list of file suffixes to display.
+The command getSelection returns the selection when the Open button is selected. The commands
+<PRE CLASS="western">
+create name="Open File" type="FileDialog" file_type="EXISTING_FILE" dir="/usr/lib" file_suffixes="so,a"
+open_file.open
+file = open_file.getSelection
+</PRE>
+	<P CLASS="western">create the window shown below.</P>
+	<P><IMG SRC="open_file.gif" NAME="Open File" ALT="Open File" ALIGN=BOTTOM WIDTH=427 HEIGHT=437 BORDER=0></P>
+</TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>FormDialog</B></TD>
+<TD><P CLASS="western">A popup window created with XtCreatePopupShell(..,vendorShellWidgetClass,..). The
+window is initially empty.</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>Frame</B></TD>
+<TD><P CLASS="western">A FormDialog that contains a MenuBar, a ToolBar, a MainWindow and an InfoArea.</P>
+<P CLASS="western">
+The commands
+<PRE CLASS="western">
+create name="frame" type="Frame"
+frame.open
+</PRE>
+	<P CLASS="western">create the window shown below.</P>
+	<P><IMG SRC="frame.gif" NAME="Frame" ALT="Frame" ALIGN=BOTTOM WIDTH=280 HEIGHT=222 BORDER=0></P>
+<P CLASS="western">
+Use the listChildren command to see the hierarchy of children.
+<PRE CLASS="western">
+geotool&gt; frame.listChildren
+mainWindow
+menuBar
+toolbar
+infoArea
+geotool&gt; frame.menuBar.listChildren
+File
+Edit
+View
+Option
+Help
+geotool&gt; frame.mainWindow.listChildren
+workArea
+geotool&gt; frame.mainWindow.workArea.listChildren
+frameForm
+separator
+</PRE>
+<P CLASS="western">
+Add Buttons, Toggles, Menus, etc to the frame.menuBar.File, frame.menuBar.Edit, etc. Add components to
+the frameForm. For example, the script below
+<PRE CLASS="western">
+create name="frame" type="Frame"
+frame.mainWindow.workArea.frameForm.create name="plot1" type="CPlotClass" args={
+    topAttachment:ATTACH_FORM
+    leftAttachment:ATTACH_FORM
+    rightAttachment:ATTACH_FORM
+    height:200
+}
+frame.mainWindow.workArea.frameForm.create name="plot2" type="CPlotClass" args={
+    topAttachment:ATTACH_WIDGET
+    topWidget:plot1
+    leftAttachment:ATTACH_FORM
+    rightAttachment:ATTACH_FORM
+    bottomAttachment:ATTACH_FORM
+    height:200
+}
+frame.open
+</PRE>
+	<P CLASS="western">creates the window shown below.</P>
+	<P><IMG SRC="frame_cplot.gif" NAME="Frame Table" ALT="Frame Table" ALIGN=BOTTOM WIDTH=561 HEIGHT=502 BORDER=0></P>
+</TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>FrameTable</B></TD>
+<TD><P CLASS="western">A Frame that contains a Table</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>InfoArea</B></TD>
+<TD><P CLASS="western">A widget for displaying a single line of text at the bottom of Frames</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>Label</B></TD>
+<TD><P CLASS="western">A Motif XmLabel widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>List</B></TD>
+<TD><P CLASS="western">A Motif XmList widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>MainWindow</B></TD>
+<TD><P CLASS="western">A Motif XmMainWindow widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>Map</B></TD>
+<TD><P CLASS="western">A Map widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>MenuBar</B></TD>
+<TD><P CLASS="western">A Motif XmCreateMenuBar widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>Menu</B></TD>
+<TD><P CLASS="western">A Motif XmCreatePulldownMenu widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>MultiTable</B></TD>
+<TD><P CLASS="western">A subclass of the Table component for displaying two CSS table types per row</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>Pane</B></TD>
+<TD><P CLASS="western">A Motif XmPanedWindow widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>PopupMenu</B></TD>
+<TD><P CLASS="western">A Motif XmCreatePopupMenu widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>RadioBox</B></TD>
+<TD><P CLASS="western">A Motif XmCreateRadioBox widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>RowColumn</B></TD>
+<TD><P CLASS="western">A Motif XmRowColumn widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>Scale</B></TD>
+<TD><P CLASS="western">A Motif XmScale widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>ScrollBar</B></TD>
+<TD><P CLASS="western">A Motif XmScrollBar widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>ScrolledPane</B></TD>
+<TD><P CLASS="western">A widget that is like a combination of the scrolledWindow and the pane</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>ScrolledWindow</B></TD>
+<TD><P CLASS="western">A XmScrolledWindow widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>Separator</B></TD>
+<TD><P CLASS="western">A Motif XmSeparator widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>TabClass</B></TD>
+<TD><P CLASS="western">A widget that creates a tab for each child</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><A NAME="A_Table"></A><B>Table</B></TD>
+<TD><P CLASS="western">A Table component for displays any tabular data. For example, the following script</P>
+<PRE CLASS="western">
+create name="frame" type="Frame"
+frame.mainWindow.workArea.frameForm.create name="table" type="Table" args={
+    topAttachment:ATTACH_FORM
+    bottomAttachment:ATTACH_FORM
+    leftAttachment:ATTACH_FORM
+    rightAttachment:ATTACH_FORM
+    columns:4
+    visibleRows:10
+    columnLabels:sta,chan,time,samprate
+    tableTitle:Table Example
+}
+alias tb=frame.mainWindow.workArea.frameForm.table
+tb.add_row "DAVOX" "HHZ" "2006Oct09 01:46:22.750" "120.0000000"
+tb.add_row "FITZ"  "BHZ" "2006Oct09 01:44:30.012" "40.0000000"
+tb.add_row "INK"   "BHZ" "2006Oct09 01:44:00.000" "40.0000000"
+tb.add_row "JKA"   "BHZ" "2006Oct09 01:36:58.000" "20.0000000"
+tb.add_row "JNU"   "BHZ" "2006Oct09 01:36:30.100" "20.0000000"
+frame.open
+</PRE>
+	<P CLASS="western">creates the window shown below.</P>
+	<P><IMG SRC="frame_table.gif" NAME="Frame Table" ALT="Frame Table" ALIGN=BOTTOM WIDTH=408 HEIGHT=226 BORDER=0></P>
+</TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>TableQuery</B></TD>
+<TD><P CLASS="western">A TableViewer subclass that has a database connection.</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>TableViewer</B></TD>
+<TD><P CLASS="western">A Frame component with tabs for CSSTable components. This is the TableViewer that is created by the
+geotool waveform window File/TableViewer option.</P>
+</TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>TextDialog</B></TD>
+<TD><P CLASS="western">A FormDialog with a TextField child</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>TextField</B></TD>
+<TD><P CLASS="western">A Motif XmText widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>Toggle</B></TD>
+<TD><P CLASS="western">A Motif XmToggleButton widget</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>ToolBar</B></TD>
+<TD><P CLASS="western">A RowColumn subclass for displaying buttons below the MenuBar.</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>WaveformView</B></TD>
+<TD><P CLASS="western">A Component for displaying waveforms.</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>WaveformWindow</B></TD>
+<TD><P CLASS="western">A Frame window with a WaveformView child and all processing options. This is the
+main geotool waveform window.</P></TD></TR>
+<TR><TD VALIGN=TOP><P CLASS="western"><B>XFrame</B></TD>
+<TD><P CLASS="western">Motif XmFrame widget</P></TD></TR>
+    </TABLE>
+</DL>
+<H1 CLASS="western"><A NAME="Appendix B"></A>Appendix B: Graphical Callbacks</H1>
+<DL>
+<P CLASS="western">
+The callback types are listed for all Components that have callbacks. Callback scripts are defined by the command</P>
+<PRE CLASS="western">componentName.callbackType={
+... script ...
+}
+</PRE>
+<P CLASS="western">where componentName is the name of the Component. For the first waveform window, the componentName
+is not needed, so all callback assignments start with the callbackType. For other windows, the componentName is needed.
+For example, to assign a callback script to the crosshair of the first plot in the FK Multi-Band window, use:</P>
+<PRE CLASS="western">
+fk_multi_band.plot1.crosshairCallback={
+    print fk_multi_band.plot1.crosshair[cursor_index].x(%.2f) fk_multi_band.plot1.crosshair[cursor_index].y(%.2f)
+}</PRE>
+    <TABLE WIDTH=95% BORDER=2 BORDERCOLOR="#000000" CELLPADDING=3 CELLSPACING=0 FRAME=VOID RULES=ROWS>
+    <TR VALIGN=TOP>
+	<TD WIDTH=15%>
+	    <P CLASS="western"><B>Component</B></P>
+	</TD>
+	<TD WIDTH=85%>
+	    <P CLASS="western"><B>Component Callbacks</B></P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME="ArrowButton"></A><B>ArrowButton</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>activateCallback</B> Called when the ArrowButton is selected.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME="Button"></A><B>Button</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>activateCallback</B> Called when the Button is selected.</P>
+	    <PRE CLASS="western">
+Option.create name="F24" type="button"         # Create a button in the Option menu.
+# Specify the commands that will be executed when the button is selected
+Option.F24.activateCallback={
+    foreach(sel_wave, w)                          # Loop over all selected waveforms
+        filter w low=2. high=4. order=3 type="BP" # Filter each selected waveform
+    endfor
+}</PRE>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME="Component"></A><B>Component</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>setSensitiveCallback</B> Called when the sensitivity of the Component is changed.
+	    All graphical components are subclasses of the Component class, so this callback
+	    is enabled for all components.</P>
+	    <P CLASS="western"><B>setVisibleCallback</B> Called when the visibility of the Component is changed.
+	    All graphical components are subclasses of the Component class, so this callback
+	    is enabled for all components.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME="FileDialog"></A><B>FileDialog</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>activateCallback</B> Called when a file is selected.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME="FormDialog"></A><B>FormDialog</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>popdownCallback</B> Called when a FormDialog popup window is closed.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME="List"></A><B>List</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>defaultActionCallback</B> Called when an item is double clicked.</P>
+	    <P CLASS="western"><B>browseSelectionCallback</B> Called when an item is selected in the browse selection mode.</P>
+	    <P CLASS="western"><B>extendedSelectionCallback</B> Called when items are selected using the extended selection mode.</P>
+	    <P CLASS="western"><B>multipleSelectionCallback</B> Called when an item is selected in multiple selection mode.</P>
+	    <P CLASS="western"><B>singleSelectionCallback</B> Called when an item is selected in single selection mode.</P>
+	    <PRE CLASS="western">
+align_popup.create name="list" type="List" args={
+    topAttachment:ATTACH_WIDGET
+    topWidget:choice
+    topOffset:5
+    bottomAttachment:ATTACH_WIDGET
+    bottomWidget:sep
+    leftAttachment:ATTACH_FORM
+    leftOffset:5
+    rightAttachment:ATTACH_FORM
+    selectionPolicy:SINGLE_SELECT
+    visibleItemCount:7
+    itemCount:7
+    items:FirstP,P,Pn,Pg,S,Sn,Lg
+}
+
+# The callback for the List component. This script is interpreted
+# when a phase is selected from the List.
+align_popup.list.singleSelectionCallback {
+    align_on_phase align_popup.list.get_selected
+}</PRE>
+
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME="Map"></A><B>Map</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>selectStationCallback</B> Called when a station symbol is selected or deselected.</P>
+	    <P CLASS="western"><B>dragStationCallback</B> Called as a station symbol is dragged to a new location.</P>
+	    <P CLASS="western"><B>selectSourceCallback</B> Called when a source symbol is selected or deselected.</P>
+	    <P CLASS="western"><B>dragSourceCallback</B> Called as a source symbol is dragged to a new location.</P>
+	    <P CLASS="western"><B>mapMeasureCallback</B> Called when the measurement circle or azimuth is moved.</P>
+	    <P CLASS="western"><B>selectArcCallback</B> Called when an arc is selected or deselected.</P>
+	    <P CLASS="western"><B>selectCircleCallback</B> Called when a circle is selected or deselected.</P>
+	    <P CLASS="western"><B>cursorMotionCallback</B> Called as the cursor is moved over the map.</P>
+	    <P CLASS="western"><B>shapeSelectCallback</B> Called when a shape is selected or deselected.</P>
+	    <P CLASS="western"><B>symbolSelectCallback</B> Called when a symbol is selected or deselected.</P>
+	    <P CLASS="western"><B>symbolInfoCallback</B> Called when the cursor moves over a symbol.</P>
+	    <P CLASS="western"><B>utmCallback</B> Called when a UTM map cell is selected.</P>
+	    <P CLASS="western"><B>polarSelectCallback</B> Called when a selection is made on the Polar projection.
+	    <P CLASS="western"><B>selectBarCallback</B> Called when the color bar is selected.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME="Menu"></A><B>Menu</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>cascadingCallback</B> Called before a pulldown menu is displayed. This callback can be used
+		to make adjustments to the Menu children (hide or display them, change labels, change sensitivity, etc.)</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME=Scale"></A><B>Scale</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>valueChangedCallback</B>  Called when the value of the slider has changed.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME="ScrollBar"></A><B>ScrollBar</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>dragCallback</B> Called on each incremental change of position when the
+		slider is being dragged.</P>
+	    <P CLASS="western"><B>incrementCallback</B> Called when the user takes an action that moves
+		the ScrollBar by one increment and the value increases.</P>
+	    <P CLASS="western"><B>decrementCallback</B> Called when the user takes an action that moves
+		the ScrollBar by one increment and the value decreases.</P>
+	    <P CLASS="western"><B>pageIncrementCallback</B> Called when the user takes an action that moves
+		the ScrollBar by one page increment and the value increases.</P>
+	    <P CLASS="western"><B>pageDecrementCallback</B> Called when the user takes an action that moves
+		the ScrollBar by one page increment and the value decreases.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME=ScrolledPane"></A><B>ScrolledPane</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>resizeCallback</B> Called when the ScrolledPane resizes.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME=TabClass"></A><B>TabClass</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>tabCallback</B> Called when the ScrolledPane resizes.</P>
+	    <P CLASS="western"><B>insensitiveTabCallback</B> Called when the ScrolledPane resizes.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME=Table"></A><B>Table</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>selectRowCallback</B> Called after a row is selected or deselected.</P>
+	    <P CLASS="western"><B>selectColumnCallback</B> Called after a column is selected or deselected.</P>
+	    <P CLASS="western"><B>columnMovedCallback</B> Called after a column is moved.</P>
+	    <P CLASS="western"><B>valueChangedCallback</B> Called after text is deleted from or inserted into a cell.</P>
+	    <P CLASS="western"><B>choiceChangedCallback</B> Called after a cell choice is changed.</P>
+	    <P CLASS="western"><B>cellSelectCallback</B> Called after a cell is selected or deselected.</P>
+	    <P CLASS="western"><B>rowChangeCallback</B> Called after a row is added or removed.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME=Table"></A><B>TableQuery</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>XtNdataChangeCallback</B> Called when there is a change to the tables.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME=Table"></A><B>TableViewer:</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>XtNdataChangeCallback</B> Called when there is a change to the tables.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME=TextField"></A><B>TextField</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>activateCallback</B> Called when the user invokes an event that calls the activate() action.</P>
+	    <P CLASS="western"><B>valueChangedCallback</B> Called after text is deleted from or inserted into the TextField.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME=Toggle"></A><B>Toggle</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western"><B>valueChangedCallback</B> Called when the Toggle value is changed.</P>
+	</TD>
+    </TR>
+    <TR VALIGN=TOP>
+	<TD>
+	    <P CLASS="western"><A NAME=WaveformView"></A><B>WaveformView</B></P>
+	</TD>
+	<TD>
+	    <P CLASS="western">
+	    All of the callbacks below are available for any window that displays waveforms or a new window that is
+	    created with type "WaveformView" or "WaveformWindow".</P>
+	    <P CLASS="western"><B>singleSelectDataCallback</B> Called after waveform selection is made and only one
+		waveform remains selected. For example:</P>
+	    <PRE CLASS="western">
+singleSelectDataCallback={
+    print sel_wave[1].sta sel_wave[1].chan
+}</PRE>
+	    <P CLASS="western"><B>positionCallback</B> Called after one or more waveforms are repositioned. The variable
+                wpw is an array of the indices of the wave objects that were repositioned. For example:</P>
+	    <PRE CLASS="western">
+positionCallback={
+    foreach(wpw)
+	print wave[wpw].sta wave[wpw].chan wave[wpw].xpos wave[wpw].ypos
+    endfor
+}</PRE>
+	    <P CLASS="western"><B>selectArrivalCallback</B> Called when an arrival is selected or deselected. The
+		variable wpa is the index of the arrival that was selected or deselected. For example:</P>
+	    <PRE CLASS="western">
+selectArrivalCallback={
+    print arrival[wpa].sta arrival[wpa].phase arrival[wpa].selected
+}</PRE>
+	    <P CLASS="western"><B>retimeCallback</B> Called after an arrival is retimed. The
+		variable wpa is the index of the arrival that was retimed. For example:</P>
+	    <PRE CLASS="western">
+retimeCallback={
+    print arrival[wpa].sta arrival[wpa].phase arrival[wpa].time
+}</PRE>
+	    <P CLASS="western"><B>waveformInfoCallback</B> Called when the mouse cursor moves over the waveform label,
+		before the waveform information popup is displayed. The variable wpw is the index
+		of the wave object. For example:</P>
+	    <PRE CLASS="western">
+waveformInfoCallback={
+    print wave[wpw].sta wave[wpw].chan wave[wpw].time
+}</PRE>
+	    <P CLASS="western"><B>arrivalInfoCallback</B> Called when the mouse cursor moves over an arrival label, before
+	the arrival information popup is displayed. The variable wpa is the index of the arrival.
+	The variable wpw is the index of the wave object. For example:</P>
+	    <PRE CLASS="western">
+arrivalInfoCallback={
+    print arrival[wpa].sta arrival[wpa].chan arrival[wpa].phase wave[wpw].chan
+}</PRE>
+	    <P CLASS="western"><B>modifyWaveformCallback</B> Called when a waveform is modified. The variable
+		wpw is an array of the indices of the wave objects that were modified. For example:</P>
+	    <PRE CLASS="western">
+modifyWaveformCallback={
+    foreach(wpw)
+	print wave[wpw].sta wave[wpw].chan wave[wpw].tbeg
+    endfor
+}</PRE>
+	    <P CLASS="western"><B>addArrivalCallback</B> Called just before an arrival is created. The variable wpw is
+		the index of the wave object. The arrival time is the variable new_arrival_time. For example:</P>
+	    <PRE CLASS="western">
+addArrivalCallback={
+    print wave[wpw].sta wave[wpw].chan new_arrival_time(%t)
+}</PRE>
+	    <P CLASS="western"><B>dataChangeCallback</B> Called when any waveform is added, deleted, modified, or selected.</P>
+	    <P CLASS="western"><B>alignCallback</B> Called when the waveform alignment is changed.</P>
+	    <P CLASS="western"><B>measureArrivalCallback</B> Called just before measurements are made to create an arrival.
+		The variable ma_net returns the network, the variable ma_sta returns the station, the variable ma_chan
+		returns the channel, and the variable ma_phase returns the phase. This callback can be used to set station
+		and phase dependent measurement parameters in the Arrival Parameters table. For example:</P>
+	    <PRE CLASS="western">
+measureArrivalCallback={
+    arrival_parameters.defaults
+    if( ma_net ~= 'JKA' )
+	arrival_parameters stav_len=2. min_snr=3.0 ...
+    else if( ma_net ~= 'GERES' )
+	arrival_parameters fk_lead=5.0 fk_lag=7.0 ...
+    else if(...
+}</PRE>
+	    <P CLASS="western"><B>measureAmplitudeCallback</B> Called just before an amplitude measurement is made for an
+		arrival. The variable ma_net returns the network, the variable ma_sta returns the station, the variable
+		ma_chan returns the channel, and the variable ma_phase returns the phase. This callback can be used to
+		set station and phase dependent measurement parameters in the Amplitude Parameters table. For example:</P>
+	    <PRE CLASS="western">
+measureAmplitudeCallback={
+    amplitude_parameters.defaults
+    if( ma_net ~= 'JKA' )
+	amplitude_parameters mb_filter_lo_cut=1.0 ml_sta_length=1.5 ...
+    else if( ma_net ~= 'GERES' )
+	amplitude_parameters ml_filter_locut=1.5 ml_depth_max=35. ...
+    else if(...
+}</PRE>
+	    <P CLASS="western"><B>crosshairCallback</B> Called after a crosshair cursor is repositioned. The variable
+		cursor_index is the index of the crosshair that has been moved. For example:</P>
+	    <PRE CLASS="western">
+crosshairCallback={
+    print crosshair[cursor_index].x(%.2f) crosshair[cursor_index].y(%.2f)
+}</PRE>
+	    <P CLASS="western"><B>crosshairDragCallback</B> Called as the crosshair cursor is repositioned. The variable
+                cursor_index is the index of the crosshair that is moving.</P>
+	    <P CLASS="western"><B>lineCallback</B> Called after a line cursor is repositioned. The variable
+                cursor_index is the index of the crosshair that has been moved. For example:</P>
+	    <PRE CLASS="western">
+lineCallback={
+    print line_cursor[cursor_index].label line_cursor[cursor_index].x(%.2f)
+}</PRE>
+	    <P CLASS="western"><B>lineDragCallback</B> Called as the line cursor is repositioned. The variable
+                cursor_index is the index of the line that is moving.<</P>
+	    <P CLASS="western"><B>doubleLineCallback</B> Called after time-window cursor is repositioned. The variable
+                cursor_index is the index of the time-line that has been moved. For example:</P>
+	    <PRE CLASS="western">
+doubleLineCallback={
+    print time_window[cursor_index].tmin time_window[cursor_index].tmax time_window[cursor_index].duration
+}</PRE>
+	    <P CLASS="western"><B>doubleLineDragCallback</B> Called as the time-window cursor is repositioned. The variable
+                cursor_index is the index of the time-window that is moving.</P>
+	    <P CLASS="western"><B>doubleLineScaleCallback</B> Called as the time-window cursor duration is changing. The
+		variable cursor_index is the index of the time-window that is changing. For example:</P>
+	    <PRE CLASS="western">
+doubleLineScaleCallback={
+    print time_window[cursor_index].duration
+}</PRE>
+	    <P CLASS="western"><B>limitsCallback</B> Called when the plot limits are changed. For example:</P>
+	    <PRE CLASS="western">
+limitsCallback={
+    print plot_xmin plot_xmax plot_ymin(%.2f) plot_ymax(%.2f)
+}</PRE>
+	    <P CLASS="western"><B>horizontalScrollCallback</B> Called when the plot scrolls horizontally.</P>
+	    <PRE CLASS="western">
+horizontalScrollCallback={
+    print plot_xmin plot_xmax
+}</PRE>
+	    <P CLASS="western"><B>phaseLineCallback</B> Called after the phase-line cursor is repositioned. The variable
+                cursor_index is the index of the phase-line that has been moved. For example:</P>
+	    <PRE CLASS="western">
+phaseLineCallback={
+    print phase_line[cursor_index].label phase_line[cursor_index].x(%.2f)
+}</PRE>
+	    <P CLASS="western"><B>phaseLineDragCallback</B> Called as the phase-line cursor is repositioned. The variable
+                cursor_index is the index of the phase-line that is moving.</P>
+	</TD>
+    </TR>
+    </TABLE>
+</DL>
+<H1 CLASS="western"><A NAME="Appendix C"></A>Appendix C: Time Formats Recognized by the epoch Function</H1>
+<DL>
+<DD CLASS="western">
+	<DD CLASS="western">03Jan25hh:mm:ss</DD>
+	<DD CLASS="western">03Jan25hhmmss</DD>
+	<DD CLASS="western">03-Jan-25hh:mm:ss</DD>
+	<DD CLASS="western">03-Jan-25hhmmss</DD>
+	<DD CLASS="western">03/Jan/25hh:mm:ss</DD>
+	<DD CLASS="western">03/Jan/25hhmmss</DD>
+	<DD CLASS="western">2003Jan25hh:mm:ss</DD>
+	<DD CLASS="western">2003Jan25hhmmss</DD>
+	<DD CLASS="western">2003-Jan-25hh:mm:ss</DD>
+	<DD CLASS="western">2003-Jan-25hhmmss</DD>
+	<DD CLASS="western">2003/Jan/25hh:mm:ss</DD>
+	<DD CLASS="western">2003/Jan/25hhmmss</DD>
+	<DD CLASS="western">2003-01-25hh:mm:ss</DD>
+	<DD CLASS="western">2003-01-25hhmmss</DD>
+	<DD CLASS="western">2003/01/25hh:mm:ss</DD>
+	<DD CLASS="western">2003/01/25hhmmss</DD>
+	<DD CLASS="western">20030125hh:mm:ss</DD>
+	<DD CLASS="western">03-01-25hh:mm:ss</DD>
+	<DD CLASS="western">03-01-25hhmmss</DD>
+	<DD CLASS="western">03/01/25hh:mm:ss</DD>
+	<DD CLASS="western">03/01/25hhmmss</DD>
+	<BR>
+	<DD CLASS="western">03Jan25hh:mm</DD>
+	<DD CLASS="western">03Jan25hhmm</DD>
+	<DD CLASS="western">03-Jan-25hh:mm</DD>
+	<DD CLASS="western">03-Jan-25hhmm</DD>
+	<DD CLASS="western">03/Jan/25hh:mm</DD>
+	<DD CLASS="western">03/Jan/25hhmm</DD>
+	<DD CLASS="western">2003Jan25hh:mm</DD>
+	<DD CLASS="western">2003Jan25hhmm</DD>
+	<DD CLASS="western">2003-Jan-25hh:mm</DD>
+	<DD CLASS="western">2003-Jan-25hhmm</DD>
+	<DD CLASS="western">2003/Jan/25hh:mm</DD>
+	<DD CLASS="western">2003/Jan/25hhmm</DD>
+	<DD CLASS="western">2003-01-25hh:mm</DD>
+	<DD CLASS="western">2003-01-25hhmm</DD>
+	<DD CLASS="western">2003/01/25hh:mm</DD>
+	<DD CLASS="western">2003/01/25hhmm</DD>
+	<DD CLASS="western">03-01-25hh:mm</DD>
+	<DD CLASS="western">03-01-25hhmm</DD>
+	<DD CLASS="western">03/01/25hh:mm</DD>
+	<DD CLASS="western">03/01/25hhmm</DD>
+	<BR>
+	<DD CLASS="western">03Jan25hh</DD>
+	<DD CLASS="western">03-Jan-25hh</DD>
+	<DD CLASS="western">03/Jan/25hh</DD>
+	<DD CLASS="western">2003Jan25hh</DD>
+	<DD CLASS="western">2003-Jan-25hh</DD>
+	<DD CLASS="western">2003/Jan/25hh</DD>
+	<DD CLASS="western">2003-01-25hh</DD>
+	<DD CLASS="western">2003/01/25hh</DD>
+	<DD CLASS="western">03-01-25hh</DD>
+	<DD CLASS="western">03/01/25hh</DD>
+	<BR>
+	<DD CLASS="western">03Jan25</DD>
+	<DD CLASS="western">25-Jan-2003</DD>
+	<DD CLASS="western">03-Jan-25</DD>
+	<DD CLASS="western">03/Jan/25</DD>
+	<DD CLASS="western">2003Jan25</DD>
+	<DD CLASS="western">2003-Jan-25</DD>
+	<DD CLASS="western">2003/Jan/25</DD>
+	<DD CLASS="western">2003-01-25</DD>
+	<DD CLASS="western">2003/01/25</DD>
+	<DD CLASS="western">03-01-25</DD>
+	<DD CLASS="western">03/01/25</DD>
+	<BR>
+	<DD CLASS="western">03Jan</DD>
+	<DD CLASS="western">03-Jan</DD>
+	<DD CLASS="western">03/Jan</DD>
+	<DD CLASS="western">2003Jan</DD>
+	<DD CLASS="western">2003-Jan</DD>
+	<DD CLASS="western">2003/Jan</DD>
+	<BR>
+	<DD CLASS="western">2003/123hh:mm:ss</DD>
+	<DD CLASS="western">2003/123hhmmss</DD>
+	<DD CLASS="western">2003/123hh:mm</DD>
+	<DD CLASS="western">2003/123hhmm</DD>
+	<DD CLASS="western">2003/123hh</DD>
+	<DD CLASS="western">2003/123</DD>
+</DL>
+</BODY>
+</HTML>
+
+
+</BODY>
+</HTML>

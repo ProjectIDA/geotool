@@ -1,0 +1,24 @@
+# add a button to the arrival popup menu
+arrival_menu.create type="button" name="View" position=0
+
+arrival_menu.view.activateCallback={  # the button's callback script
+
+# get the index of the detection recipe for this arrival
+set indices = detection_beams.table.find_indices("net", edit_arrival.sta, "name", edit_arrival.chan)
+
+  if(indices.size() > 0) # if a detection recipe index was found
+    copy edit_wave       # edit_wave is the waveform that has the arrival tag
+    2.clear              # that displayed the arrival menu
+    2.paste		 # copy the waveform to the second waveform window
+    j = indices[1]	 # set j = to the first index. normally there is only one index.
+
+    alias r = detection_beams.table.row
+    filter 2.wave[1] low=r[j].flo high=r[j].fhi  # filter with the detection recipe frequencies
+
+    2.zoom_on_waveform 2.wave[1]      # zoom-in vertically to the waveform
+
+    tmin = edit_arrival.time - 10.
+    tmax = edit_arrival.time + 10.
+    2.time_zoom beg=tmin end=tmax     # zoom-in horizontally to the arrival
+  endif
+}

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -x
+
+# We don't use autoreconf here because that script does not handle the
+# '--add-missing' option, which we want
+
+aclocal --force \
+&& libtoolize --force \
+&& autoheader --force \
+&& automake --add-missing --force-missing \
+&& autoconf --force

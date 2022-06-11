@@ -1,0 +1,45 @@
+#ifndef _MOTIF_CLASSES_H
+#define _MOTIF_CLASSES_H
+
+#include "Xm/XmAll.h"
+
+#include "motif++/ActionEvent.h"
+#include "motif++/Application.h"
+#include "motif++/ArrowButton.h"
+#include "motif++/Button.h"
+#include "motif++/Choice.h"
+#include "motif++/Component.h"
+#include "motif++/FileChoice.h"
+#include "motif++/FileDialog.h"
+#include "motif++/FormDialog.h"
+#include "motif++/Frame.h"
+#include "motif++/InfoArea.h"
+#include "motif++/List.h"
+#include "motif++/MenuBar.h"
+#include "motif++/Menu.h"
+#include "motif++/MotifComp.h"
+#include "motif++/ParamDialog.h"
+#include "motif++/Parse.h"
+#include "motif++/PlugIn.h"
+#include "motif++/PlugInManager.h"
+#include "motif++/Question.h"
+#include "motif++/RowColumn.h"
+#include "motif++/Scale.h"
+#include "motif++/ScrollBar.h"
+#include "motif++/ScrolledPane.h"
+#include "motif++/StatusDialog.h"
+#include "motif++/TextDialog.h"
+#include "motif++/TextField.h"
+#include "motif++/TextQuestion.h"
+#include "motif++/Toggle.h"
+#include "motif++/ToolBar.h"
+#include "motif++/TopWindow.h"
+#include "motif++/UndoAction.h"
+#include "motif++/UndoButton.h"
+#include "motif++/UndoManager.h"
+#include "motif++/Warn.h"
+#include "motif++/Warnings.h"
+
+using namespace Parse;
+
+#endif

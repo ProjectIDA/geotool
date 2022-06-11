@@ -1,0 +1,52 @@
+if( defined(data_dir) )
+    set data_file=data_dir+"/DPRK_test.wfdisc"
+else
+    print "data_dir is not defined"
+    return
+endif
+
+clear
+
+read file=data_file query="select * from wfdisc"
+locate_event.reload
+
+if(locate_event.arrival_data.size() != 6)
+    print "locate_event input data has changed"
+    return
+endif
+
+locate_event.origins.select_row orid=3875968
+locate_event.locate
+if(locate_event.status != 0)
+    print "locate_event test 1 failed"
+else
+    n = locate_event.origin.size()
+    set s = locate_event.origins.row[n]
+    if(s[2] == 41.39 && s[3] == 129.0803 && s[4]==0.0 && s[5] == 1160357728.241)
+	print "locate_event test 1 OK"
+    else
+	print "locate_event test 1 failed"
+    endif
+endif
+
+clear
+
+connect prefix=data_file
+alias tl=tablequery.locate_event
+tablequery.get_all_tables
+tablequery.origin.select_row orid=3875968
+tl.reload
+tl.origins.select_row 1
+tl.locate
+
+if(tl.status != 0)
+    print "locate_event test 2 failed"
+else
+    n = tl.origin.size()
+    set s = tl.origins.row[n]
+    if(s[2] == 41.3092 && s[3] == 129.0274 && s[4]==11.8339 && s[5] == 1160357729.48)
+	print "locate_event test 2 OK"
+    else
+	print "locate_event test 2 failed"
+    endif
+endif

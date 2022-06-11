@@ -1,0 +1,198 @@
+#Display the arrivals
+
+# Version 2013/02/14 by Remmy Phiri IDC/CBT, CTBTO
+
+# since this script is originally loaded by geotool, it should be exited below if there is no origin
+if (origin.size() <= 0)
+	return
+endif
+sprint minDist 999
+NA = -999.0
+sprint maxDist 0
+nsta = 0
+sprint str ''
+sprint fstr ' '
+sprint sp ' '
+sprint und_scr '_'
+# The place-holders below will be added when the origaux table is enabled in Geotool
+#place-holder for fixed time flag
+sprintf otfix fstr
+#place-holder for fixed epicenter flag
+sprintf epfix fstr
+#place-holder for Analysis Qaulity - Analysis type
+sprintf AQ 'm'
+#place-holder for Location Quality - Location Method 
+sprintf LQ 'i'							
+#place-holder for Magnitude indicator - < or > 
+sprintf mag_ind ' '
+
+bulletin.tableContainer.origins.setInsensitive
+foreach (assoc, s)
+	if (s.orid == orid)
+		foreach (arrival, a)
+			if (a.arid == s.arid)
+				# Take care of the arrivals that do not have calculated slowness (-1)
+				if (a.slow == -1)
+					sprintf slow ' '
+				else
+					sprintf slow a.slow(%6.1f)
+				endif
+				#take care of the NA values for residuals
+				if (s.timeres <= NA) 
+					sprintf timeres ' '
+				else 
+					sprintf timeres  s.timeres(%5.1f)
+				endif
+				if (s.azres <= NA) 
+					sprintf azres ' '
+				else 
+					sprintf azres s.azres(%5.1f)
+				endif
+				if (s.slores <= NA) 
+					sprintf slores ' '
+				else 
+					sprintf slores  s.slores(%6.1f)
+				endif
+				# take care of the defined time, azimuth and Slowness.
+				if (s.timedef == 'd')
+					sprintf tdef 'T'
+				else 
+					sprintf tdef und_scr
+				endif 
+				if (s.azdef == 'd')
+					sprintf adef 'A'
+				else 
+					sprintf adef und_scr
+				endif 
+				if (s.slodef == 'd')
+					sprintf sdef 'S'
+				else 
+					sprintf sdef und_scr
+				endif 
+				sprintf def tdef adef sdef
+				foreach (amplitude, am)
+					if (am.arid == a.arid)
+						perd = am.per
+						ampd = am.amp
+						if (am.per <= NA) 
+							sprintf perd ' '
+							sprintf ampd ' '
+						else
+							sprintf perd am.per(%5.2f)
+							sprintf ampd am.amp(%10.1f)
+						endif
+					endif
+				endfor
+				# if amplitude table is not available
+				if (!(defined(perd)))
+					sprintf perd ' '
+				endif
+				if (!(defined(ampd)))
+					sprintf ampd ' '
+				endif
+
+				# check where to find Qual values
+				# for now, use the following place-holder
+				sprint qual 'm__'
+				#station magnitude
+				setb present_mag_flag = false
+				foreach (stamag, smg)
+					if (smg.arid == a.arid)
+						sprintf magnitude smg.magnitude(%4.1f)
+						sprint magtype smg.magtype 
+						setb present_mag_flag = true
+						if (magtype == 'ml')
+							sprint magtype 'ML'
+						endif
+					endif
+				endfor
+				if (present_mag_flag == false)
+					sprintf magtype ' '
+					sprintf magnitude ' '
+				endif
+				if (azres < -100)
+					a = azres - 0.5
+					b = int(a)
+					sprintf azres b "."
+				endif								
+				#Magnitude parameters gathered together, and time as well :-)
+				sprintf mag magtype(%-4s) mag_ind(%1s) magnitude(%5s) 
+				# the sprintf/substring below is to force a variable to be made a string type 
+				# by concatenating it with an initial string
+				sprintf tm "X"a.time(%4t)
+				sprintf time substr(tm,12,21)
+				
+				# 'if' conditional here is to avoid stations that are not yet configured in the IDC Tables
+				if (s.delta > 0) 
+					bulletin.tableContainer.arrivals.add_row s.sta(%-6s) s.delta(%6.2f) s.esaz(%6.1f) s.phase(%8s) time timeres(%5s) \
+					s.seaz(%6.1f) azres(%6s) slow(%7s) slores(%7s) def(%3s) a.snr(%6.1f) ampd(%10s) perd(%6s) qual(%-3s) mag a.arid(%9s)
+
+					#set the mDist,Mdist
+					if (minDist > s.delta)
+						minDist = s.delta
+					endif
+					if (maxDist < s.delta)
+						maxDist = s.delta
+					endif
+				endif
+			endif
+		endfor
+	endif
+endfor
+# Gap analysis
+bulletin.tableContainer.arrivals.sort_up column="evAz"
+last = bulletin.tableContainer.arrivals.num_rows
+tmp_az = 0
+max_az_dif = 0
+foreach (bulletin.tableContainer.arrivals.row, ar)
+	if (tmp_az == 0)
+		tmp_az = ar.evAz
+		first_az_dif = ar.evAz
+		set az_dif = 0
+	elseif (tmp_az >= 0)
+		az_dif = ar.evAz - tmp_az	
+	else
+		set az_dif = 0
+	endif
+	if (max_az_dif < az_dif)
+		max_az_dif = az_dif
+	endif
+	tmp_az = ar.evAz
+endfor
+az_dif = 360 - tmp_az + first_az_dif
+if (az_dif > max_az_dif)
+	max_az_dif = az_dif
+endif	
+bulletin.tableContainer.arrivals.sort_up column="Dist,Time"
+if (defined(bulletin.tableContainer.origins.sel_row[1].index))
+	#count the number of stations, nsta, used
+	set stn = 'XXX'
+	end = assoc.size()
+	nsta = 0
+	setb dup_sta_flag = false
+	foreach (1, end, x)
+		e = stn.size()
+		if (assoc[x].orid == orid)
+			foreach (1, e, i)
+				if (stn[i] == assoc[x].sta)
+					setb dup_sta_flag = true
+				endif
+			endfor
+			if (dup_sta_flag == false) 
+				nsta = nsta + 1
+				sprintf stn assoc[x].sta ',' stn
+			else 
+				setb dup_sta_flag = false			
+			endif
+		endif
+	endfor
+	#update the origin info
+	i = bulletin.tableContainer.origins.sel_row[1].index
+	bulletin.tableContainer.origins.set_cell row=i column='minDist' value=minDist
+	bulletin.tableContainer.origins.set_cell row=i column='maxDist' value=maxDist
+	bulletin.tableContainer.origins.set_cell row=i column='nsta' value=nsta
+	bulletin.tableContainer.origins.set_cell row=i column='gap' value=max_az_dif
+endif
+bulletin.tableContainer.origins.setSensitive
+# this line ensures that when you deselect the origin, the 'arrivals' and magnitudes in the bulletin window are deleted
+set orid = 0
