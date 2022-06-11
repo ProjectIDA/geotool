@@ -1,8 +1,8 @@
 #!/bin/csh -f
-gtar xzf cbase.tar.gz
-gtar xzf gbase.tar.gz
-gtar xzf geotool.tar.gz
-gtar xzf gsl-1.16.tar.gz
+#gtar xzf cbase.tar.gz
+#gtar xzf gbase.tar.gz
+#gtar xzf geotool.tar.gz
+#gtar xzf gsl-1.16.tar.gz
 
 set install_dir = /usr/local/geotool
 
