@@ -2872,7 +2872,7 @@ FtPlotMouseDownSelect(FtPlotWidget w, XEvent *event, const char **params,
     else {
 	ft->select_entry = WhichEntry(w, cursor_x, cursor_y);
 	if(ft->select_entry && !ft->select_entry->selectable) {
-	    ft->select_entry = false;
+	    ft->select_entry = NULL;
 	    return;
 	}
 	mouseDownSelect(w, ft->select_entry);

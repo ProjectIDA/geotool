@@ -17,7 +17,7 @@
 #define HAVE_ASM_POLL_H 1
 
 /* */
-#define HAVE_AUTHENTICATION 1
+/* #undef HAVE_AUTHENTICATION */
 
 /* */
 /* #undef HAVE_CTIME_R_3 */
@@ -51,16 +51,16 @@
 #define HAVE_INTTYPES_H 1
 
 /* */
-#define HAVE_LDAP 1
+/* #undef HAVE_LDAP */
 
 /* Define to 1 if you have the <ldap.h> header file. */
-#define HAVE_LDAP_H 1
+/* #undef HAVE_LDAP_H */
 
 /* Define to 1 if you have the `m' library (-lm). */
 #define HAVE_LIBM 1
 
 /* Define to 1 if you have the `nsl' library (-lnsl). */
-#define HAVE_LIBNSL 1
+/* #undef HAVE_LIBNSL */
 
 /* */
 /* #undef HAVE_LIBODBC */
@@ -233,8 +233,7 @@
    slash. */
 #define LSTAT_FOLLOWS_SLASHED_SYMLINK 1
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
 
 /* Name of package */
@@ -251,6 +250,9 @@
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "gbase-libs"
+
+/* Define to the home page for this package. */
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "2.0.15"

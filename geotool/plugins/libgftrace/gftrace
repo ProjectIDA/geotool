@@ -1,0 +1,3 @@
+#! /bin/sh -f
+
+/usr/local/geotool/bin/geotool++ window=Ftrace $@

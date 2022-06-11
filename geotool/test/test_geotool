@@ -1,0 +1,16 @@
+#!/bin/sh
+# this script executes geotool from the test/test_scripts directory for each
+# test script in that directory
+
+cd /usr/local/geotool/test/test_scripts
+
+for script in `ls`
+do
+    if [ $script != Make* ]; then
+	/usr/local/geotool/bin/geotool -i data_dir=../test_data parse=$script parse="quit"
+    fi
+    if [ $? -ne 0 ]
+    then
+	echo parse $script failed
+    fi
+done

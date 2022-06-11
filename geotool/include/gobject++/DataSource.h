@@ -571,7 +571,7 @@ class DataSource
 	 *  @returns the origerr object or NULL.
 	 */
 	virtual CssOrigerrClass * addOrigerr(CssOriginClass *origin) { 
-		DataSource_warn("addOrigerr"); return false; }
+		DataSource_warn("addOrigerr"); return NULL; }
 	/** Create an origin.
 	 *  @param[in] origin the origin object.
 	 *  @param[in] origerr the origerr object.

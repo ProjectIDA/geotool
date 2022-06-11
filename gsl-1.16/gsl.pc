@@ -1,0 +1,11 @@
+prefix=/usr/local/geotool
+exec_prefix=/usr/local/geotool
+libdir=/usr/local/geotool/lib
+includedir=/usr/local/geotool/include
+GSL_CBLAS_LIB=-lgslcblas
+
+Name: GSL
+Description: GNU Scientific Library
+Version: 1.16
+Libs: -L/usr/local/geotool/lib -lgsl ${GSL_CBLAS_LIB} -lm -lm 
+Cflags: -I/usr/local/geotool/include

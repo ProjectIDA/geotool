@@ -36,7 +36,7 @@
     { \
 	fprintf(stderr, "ResponseFile malloc error.\n"); \
 	GError::setMessage("ResponseFile malloc error."); \
-	return false; \
+	return NULL; \
     }
 
 #define LINE_ERR \
